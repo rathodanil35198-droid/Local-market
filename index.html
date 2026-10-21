@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local Express Courier & Delivery App</title>
+    <title>Local Express - Delivery & Courier Network</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -14,16 +14,16 @@
 </head>
 <body class="bg-gray-100 font-sans">
 
-    <!-- Navigation Header -->
+    <!-- Top Navigation Header -->
     <header class="bg-indigo-700 text-white p-4 shadow-lg sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-xl font-bold flex items-center gap-2">
                 <i class="fa-solid fa-truck-fast"></i> local Express
             </h1>
-            <div class="flex gap-2">
-                <button onclick="switchRole('customer')" id="btn-customer" class="role-btn bg-indigo-900 px-3 py-1 rounded text-sm font-semibold">Customer</button>
-                <button onclick="switchRole('driver')" id="btn-driver" class="role-btn bg-indigo-600 hover:bg-indigo-900 px-3 py-1 rounded text-sm font-semibold">Delivery Boy</button>
-                <button onclick="switchRole('admin')" id="btn-admin" class="role-btn bg-indigo-600 hover:bg-indigo-900 px-3 py-1 rounded text-sm font-semibold">Admin</button>
+            <div class="flex gap-1 sm:gap-2">
+                <button onclick="switchRole('customer')" id="btn-customer" class="role-btn bg-indigo-900 px-3 py-1.5 rounded text-xs sm:text-sm font-semibold">Customer</button>
+                <button onclick="switchRole('driver')" id="btn-driver" class="role-btn bg-indigo-600 hover:bg-indigo-900 px-3 py-1.5 rounded text-xs sm:text-sm font-semibold">Delivery Boy</button>
+                <button onclick="switchRole('admin')" id="btn-admin" class="role-btn bg-indigo-600 hover:bg-indigo-900 px-3 py-1.5 rounded text-xs sm:text-sm font-semibold">Admin</button>
             </div>
         </div>
     </header>
@@ -32,31 +32,33 @@
 
         <!-- ================= 1. CUSTOMER PANEL ================= -->
         <div id="panel-customer" class="role-panel space-y-4">
-            <div class="bg-white p-6 rounded-xl shadow-md">
-                <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">📦 ಹೊಸ ಡೆಲಿವರಿ ಬುಕ್ ಮಾಡಿ (Book Courier)</h2>
+            <div class="bg-white p-5 rounded-xl shadow-md border border-gray-100">
+                <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2 flex items-center gap-2">
+                    📦 ಹೊಸ ಡೆಲಿವರಿ ಬುಕ್ ಮಾಡಿ (Book Courier)
+                </h2>
                 
-                <form id="booking-form" onsubmit="handleBooking(event)" class="space-y-3">
+                <form id="booking-form" onsubmit="handleBooking(event)" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 uppercase">ಗ್ರಾಹಕರ ಹೆಸರು & ಫೋನ್ (Name & Phone)</label>
-                        <input type="text" id="cust-name" placeholder="ನಿಮ್ಮ ಹೆಸರು" required class="w-full p-2 border rounded mt-1">
-                        <input type="tel" id="cust-phone" placeholder="ಮೊಬೈಲ್ ಸಂಖ್ಯೆ (10-digits)" required class="w-full p-2 border rounded mt-1">
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">ಗ್ರಾಹಕರ ಹೆಸರು & ಫೋನ್ (Name & Phone)</label>
+                        <input type="text" id="cust-name" placeholder="ನಿಮ್ಮ ಹೆಸರು" required class="w-full p-2.5 border rounded-lg mb-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                        <input type="tel" id="cust-phone" placeholder="ಮೊಬೈಲ್ ಸಂಖ್ಯೆ (10-digits)" pattern="[0-9]{10}" required class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 uppercase">ಪಿಕ್-ಅಪ್ ವಿಳಾಸ (Pick-up Address)</label>
-                            <textarea id="pickup-addr" placeholder="ಎಲ್ಲಿಂದ ಪಾರ್ಸಲ್ ಎತ್ತಬೇಕು?" required class="w-full p-2 border rounded mt-1" rows="2"></textarea>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">ಪಿಕ್-ಅಪ್ ವಿಳಾಸ (Pick-up Address)</label>
+                            <textarea id="pickup-addr" placeholder="ಎಲ್ಲಿಂದ ಪಾರ್ಸಲ್ ಎತ್ತಬೇಕು?" required class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" rows="2"></textarea>
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 uppercase">ಡ್ರಾಪ್ ವಿಳಾಸ (Drop Address)</label>
-                            <textarea id="drop-addr" placeholder="ಎಲ್ಲಿಗೆ ತಲುಪಿಸಬೇಕು?" required class="w-full p-2 border rounded mt-1" rows="2"></textarea>
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">ಡ್ರಾಪ್ ವಿಳಾಸ (Drop Address)</label>
+                            <textarea id="drop-addr" placeholder="ಎಲ್ಲಿಗೆ ತಲುಪಿಸಬೇಕು?" required class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" rows="2"></textarea>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 uppercase">ವಸ್ತುವಿನ ಪ್ರಕಾರ (Item Type)</label>
-                            <select id="item-type" class="w-full p-2 border rounded mt-1">
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">ವಸ್ತುವಿನ ಪ್ರಕಾರ (Item Type)</label>
+                            <select id="item-type" class="w-full p-2.5 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
                                 <option>ದಾಖಲೆಗಳು (Documents)</option>
                                 <option>ಪಾರ್ಸಲ್ / ಬಾಕ್ಸ್ (Parcel Box)</option>
                                 <option>ದಿನಸಿ / ಆಹಾರ (Grocery / Food)</option>
@@ -64,28 +66,30 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 uppercase">ಅಂದಾಜು ದೂರ (Distance in KM)</label>
-                            <input type="number" id="distance-km" placeholder="ಉದಾ: 5" min="1" required oninput="calculateFare()" class="w-full p-2 border rounded mt-1">
+                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">ಅಂದಾಜು ದೂರ (Distance in KM)</label>
+                            <input type="number" id="distance-km" placeholder="ಉದಾ: 5" min="1" step="0.5" required oninput="calculateFare()" class="w-full p-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                         </div>
                     </div>
 
-                    <!-- Fare Estimate -->
-                    <div class="bg-indigo-50 p-3 rounded-lg flex justify-between items-center border border-indigo-100">
-                        <span class="text-gray-700 font-medium">ಅಂದಾಜು ಡೆಲಿವರಿ ಚಾರ್ಜ್:</span>
-                        <span id="fare-amount" class="text-xl font-bold text-indigo-700">₹30</span>
+                    <!-- Live Fare Estimate -->
+                    <div class="bg-indigo-50 p-3 rounded-lg flex justify-between items-center border border-indigo-200">
+                        <span class="text-gray-700 text-sm font-semibold">ಅಂದಾಜು ಡೆಲಿವರಿ ದರ:</span>
+                        <span id="fare-amount" class="text-xl font-extrabold text-indigo-700">₹30</span>
                     </div>
 
-                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg shadow transition">
-                        🚀 ಡೆಲಿವರಿ ಬುಕ್ ಮಾಡಿ (Confirm Booking)
+                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg shadow-md transition flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> ಡೆಲಿವರಿ ಬುಕ್ ಮಾಡಿ (Confirm Order)
                     </button>
                 </form>
             </div>
 
-            <!-- Customer Active Orders -->
-            <div class="bg-white p-6 rounded-xl shadow-md">
-                <h3 class="text-md font-bold text-gray-800 mb-3">📋 ನಿಮ್ಮ ಆಕ್ಟಿವ್ ಬುಕಿಂಗ್‌ಗಳು (Your Orders)</h3>
+            <!-- Customer Orders Tracking -->
+            <div class="bg-white p-5 rounded-xl shadow-md border border-gray-100">
+                <h3 class="text-md font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    📋 ನಿಮ್ಮ ಆಕ್ಟಿವ್ ಬುಕಿಂಗ್‌ಗಳು (Live Order Status)
+                </h3>
                 <div id="customer-orders-list" class="space-y-3">
-                    <p class="text-sm text-gray-500">ಯಾವುದೇ ಸಕ್ರಿಯ ಆಕ್ಟಿವ್ ಬುಕಿಂಗ್ ಇಲ್ಲ.</p>
+                    <p class="text-xs text-gray-500">ಲೋಡ್ ಆಗುತ್ತಿದೆ...</p>
                 </div>
             </div>
         </div>
@@ -94,10 +98,10 @@
         <!-- ================= 2. DELIVERY BOY PANEL ================= -->
         <div id="panel-driver" class="role-panel hidden space-y-4">
             <!-- Driver Status Toggle -->
-            <div class="bg-white p-4 rounded-xl shadow-md flex justify-between items-center">
+            <div class="bg-white p-4 rounded-xl shadow-md border border-gray-100 flex justify-between items-center">
                 <div>
-                    <h2 class="font-bold text-gray-800">🛵 ಡೆಲಿವರಿ ಪಾರ್ಟ್ನರ್ ಪೋರ್ಟಲ್</h2>
-                    <p id="driver-status-text" class="text-xs text-green-600 font-semibold">Status: Online (ಆನ್‌ಲೈನ್)</p>
+                    <h2 class="font-bold text-gray-800 text-sm sm:text-base">🛵 ಡೆಲಿವರಿ ಪಾರ್ಟ್ನರ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</h2>
+                    <p id="driver-status-text" class="text-xs text-green-600 font-semibold mt-0.5">Status: Online (ಆನ್‌ಲೈನ್)</p>
                 </div>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" id="driver-toggle" checked onchange="toggleDriverDuty()" class="sr-only peer">
@@ -105,19 +109,23 @@
                 </label>
             </div>
 
-            <!-- Orders Available for Delivery -->
-            <div class="bg-white p-6 rounded-xl shadow-md">
-                <h3 class="text-md font-bold text-gray-800 mb-3">🔔 ಹೊಸ ಆರ್ಡರ್‌ಗಳು (Available Delivery Requests)</h3>
+            <!-- Available Orders -->
+            <div class="bg-white p-5 rounded-xl shadow-md border border-gray-100">
+                <h3 class="text-md font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    🔔 ಹೊಸ ಆರ್ಡರ್‌ಗಳು (Available Jobs)
+                </h3>
                 <div id="driver-available-orders" class="space-y-3">
-                    <p class="text-sm text-gray-500">ಯಾವುದೇ ಹೊಸ ಆರ್ಡರ್‌ಗಳು ಬಂದಿಲ್ಲ...</p>
+                    <p class="text-xs text-gray-500">ಯಾವುದೇ ಹೊಸ ಆರ್ಡರ್‌ಗಳು ಇಲ್ಲ...</p>
                 </div>
             </div>
 
-            <!-- Accepted / Active Deliveries -->
-            <div class="bg-white p-6 rounded-xl shadow-md">
-                <h3 class="text-md font-bold text-gray-800 mb-3">📦 ನಿಮ್ಮ ಚಾಲ್ತಿಯಲ್ಲಿರುವ ಡೆಲಿವರಿ (Your Active Job)</h3>
+            <!-- Active Accepted Job -->
+            <div class="bg-white p-5 rounded-xl shadow-md border border-gray-100">
+                <h3 class="text-md font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    📦 ಚಾಲ್ತಿಯಲ್ಲಿರುವ ಡೆಲಿವರಿ (Your Active Delivery)
+                </h3>
                 <div id="driver-active-orders" class="space-y-3">
-                    <p class="text-sm text-gray-500">ಪ್ರಸ್ತುತ ಯಾವುದೇ ಆಕ್ಟಿವ್ ಡೆಲಿವರಿ ಇಲ್ಲ.</p>
+                    <p class="text-xs text-gray-500">ಪ್ರಸ್ತುತ ಯಾವುದೇ ಆಕ್ಟಿವ್ ಡೆಲಿವರಿ ಇಲ್ಲ.</p>
                 </div>
             </div>
         </div>
@@ -125,37 +133,38 @@
 
         <!-- ================= 3. ADMIN PANEL ================= -->
         <div id="panel-admin" class="role-panel hidden space-y-4">
-            <div class="grid grid-cols-3 gap-3">
-                <div class="bg-white p-4 rounded-xl shadow-md border-l-4 border-indigo-500">
-                    <p class="text-xs text-gray-500 font-bold uppercase">ಒಟ್ಟು ಆರ್ಡರ್</p>
-                    <p id="stat-total-orders" class="text-2xl font-extrabold text-gray-800">0</p>
+            <!-- Analytics Cards -->
+            <div class="grid grid-cols-3 gap-2 sm:gap-4">
+                <div class="bg-white p-3 sm:p-4 rounded-xl shadow-md border-l-4 border-indigo-500">
+                    <p class="text-[10px] sm:text-xs text-gray-500 font-bold uppercase">ಒಟ್ಟು ಆರ್ಡರ್</p>
+                    <p id="stat-total-orders" class="text-lg sm:text-2xl font-black text-gray-800">0</p>
                 </div>
-                <div class="bg-white p-4 rounded-xl shadow-md border-l-4 border-green-500">
-                    <p class="text-xs text-gray-500 font-bold uppercase">ಒಟ್ಟು ಆದಾಯ</p>
-                    <p id="stat-total-revenue" class="text-2xl font-extrabold text-green-600">₹0</p>
+                <div class="bg-white p-3 sm:p-4 rounded-xl shadow-md border-l-4 border-green-500">
+                    <p class="text-[10px] sm:text-xs text-gray-500 font-bold uppercase">ಒಟ್ಟು ಹಣ</p>
+                    <p id="stat-total-revenue" class="text-lg sm:text-2xl font-black text-green-600">₹0</p>
                 </div>
-                <div class="bg-white p-4 rounded-xl shadow-md border-l-4 border-amber-500">
-                    <p class="text-xs text-gray-500 font-bold uppercase">ಚಾಲ್ತಿಯಲ್ಲಿರುವವು</p>
-                    <p id="stat-pending-orders" class="text-2xl font-extrabold text-amber-600">0</p>
+                <div class="bg-white p-3 sm:p-4 rounded-xl shadow-md border-l-4 border-amber-500">
+                    <p class="text-[10px] sm:text-xs text-gray-500 font-bold uppercase">ಬಾಕಿ ಆರ್ಡರ್</p>
+                    <p id="stat-pending-orders" class="text-lg sm:text-2xl font-black text-amber-600">0</p>
                 </div>
             </div>
 
-            <!-- All System Orders List -->
-            <div class="bg-white p-6 rounded-xl shadow-md">
-                <h3 class="text-md font-bold text-gray-800 mb-3">📊 ಎಲ್ಲಾ ಆರ್ಡರ್‌ಗಳ ಪಟ್ಟಿ (All Orders Control)</h3>
+            <!-- Order Management Table -->
+            <div class="bg-white p-5 rounded-xl shadow-md border border-gray-100">
+                <h3 class="text-md font-bold text-gray-800 mb-3">📊 ಎಲ್ಲಾ ಆರ್ಡರ್‌ಗಳ ನಿಯಂತ್ರಣ (Live Control Table)</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
-                            <tr class="bg-gray-100 border-b">
+                            <tr class="bg-gray-100 border-b text-gray-600 uppercase">
                                 <th class="p-2">ID/OTP</th>
                                 <th class="p-2">ಗ್ರಾಹಕ</th>
-                                <th class="p-2">ಪಿಕ್-ಅಪ್ / ಡ್ರಾಪ್</th>
+                                <th class="p-2">ವಿಳಾಸ</th>
                                 <th class="p-2">ಮೊತ್ತ</th>
                                 <th class="p-2">ಸ್ಟೇಟಸ್</th>
                             </tr>
                         </thead>
                         <tbody id="admin-orders-table">
-                            <!-- Dynamic Content -->
+                            <!-- Dynamic Admin Data -->
                         </tbody>
                     </table>
                 </div>
@@ -164,24 +173,20 @@
 
     </div>
 
-    <!-- JavaScript Application Logic -->
+    <!-- Application JavaScript Engine -->
     <script>
-        // 1. Firebase Configuration Initialize
-        // (Note: Demo Database endpoint configured for working state)
+        // Real-time Database Configured
         const firebaseConfig = {
             databaseURL: "https://ar-taxi-booking-default-rtdb.firebaseio.com/"
         };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // App Variables
-        let currentRole = 'customer';
-        let baseFare = 30; // Base charge
-        let perKmFare = 8; // Per KM charge
+        let baseFare = 30; 
+        let perKmFare = 8; 
 
-        // Switch Roles (Customer / Driver / Admin)
+        // Role Switcher
         function switchRole(role) {
-            currentRole = role;
             document.querySelectorAll('.role-panel').forEach(p => p.classList.add('hidden'));
             document.querySelectorAll('.role-btn').forEach(b => b.classList.replace('bg-indigo-900', 'bg-indigo-600'));
             
@@ -189,18 +194,17 @@
             document.getElementById(`btn-${role}`).classList.replace('bg-indigo-600', 'bg-indigo-900');
         }
 
-        // Calculate Fare Rate
+        // Fare Calculation Engine
         function calculateFare() {
-            const distance = parseFloat(document.getElementById('distance-km').value) || 0;
+            const dist = parseFloat(document.getElementById('distance-km').value) || 0;
             let total = baseFare;
-            if (distance > 2) {
-                total += (distance - 2) * perKmFare;
+            if (dist > 2) {
+                total += (dist - 2) * perKmFare;
             }
             document.getElementById('fare-amount').innerText = `₹${Math.round(total)}`;
             return Math.round(total);
         }
 
-        // Generate 4-Digit Delivery OTP
         function generateOTP() {
             return Math.floor(1000 + Math.random() * 9000).toString();
         }
@@ -209,38 +213,37 @@
         function handleBooking(e) {
             e.preventDefault();
 
-            const orderId = 'ORD-' + Date.now().toString().slice(-6);
+            const orderId = 'ORD' + Math.floor(100000 + Math.random() * 900000);
             const otp = generateOTP();
             const fare = calculateFare();
+            const phone = document.getElementById('cust-phone').value;
 
             const orderData = {
                 id: orderId,
                 custName: document.getElementById('cust-name').value,
-                custPhone: document.getElementById('cust-phone').value,
+                custPhone: phone,
                 pickup: document.getElementById('pickup-addr').value,
                 drop: document.getElementById('drop-addr').value,
                 item: document.getElementById('item-type').value,
                 distance: document.getElementById('distance-km').value,
                 fare: fare,
                 otp: otp,
-                status: 'PENDING', // PENDING, ACCEPTED, COMPLETED
-                driverId: null,
+                status: 'PENDING',
                 timestamp: Date.now()
             };
 
-            // Push to Firebase Realtime Database
             database.ref('delivery_orders/' + orderId).set(orderData, (error) => {
-                if (error) {
-                    alert('Error placing order: ' + error.message);
-                } else {
-                    alert(`✅ ಬುಕಿಂಗ್ ಯಶಸ್ವಿಯಾಗಿದೆ!\nನಿಮ್ಮ Delivery OTP: ${otp}`);
+                if (!error) {
+                    alert(`✅ ಬುಕಿಂಗ್ ಸ್ವೀಕರಿಸಲಾಗಿದೆ!\n\nಆರ್ಡರ್ ID: ${orderId}\nನಿಮ್ಮ Delivery OTP: ${otp}`);
                     document.getElementById('booking-form').reset();
                     calculateFare();
+                } else {
+                    alert('Error: ' + error.message);
                 }
             });
         }
 
-        // Driver Duty Status Toggle
+        // Driver Toggle Switch
         function toggleDriverDuty() {
             const isOnline = document.getElementById('driver-toggle').checked;
             const text = document.getElementById('driver-status-text');
@@ -253,120 +256,130 @@
             }
         }
 
-        // Accept Delivery Order (Driver)
+        // Accept Order Logic
         function acceptOrder(orderId) {
             database.ref('delivery_orders/' + orderId).update({
-                status: 'ACCEPTED',
-                driverPhone: '8105010768' // Assigned driver
+                status: 'ACCEPTED'
             });
         }
 
-        // Complete Delivery Order via OTP Verification
+        // Complete Delivery with OTP Gate
         function completeOrder(orderId, correctOtp) {
-            const inputOtp = prompt("ಗ್ರಾಹಕರಿಗೆ ಬಂದಿರುವ 4-ಅಂಕಿಯ OTP ನಮೂದಿಸಿ:");
-            if (inputOtp === correctOtp) {
+            const enteredOtp = prompt("ಗ್ರಾಹಕರಿಗೆ ತಲುಪಿರುವ 4-ಅಂಕಿಯ OTP ನಮೂದಿಸಿ:");
+            if (enteredOtp === correctOtp) {
                 database.ref('delivery_orders/' + orderId).update({
-                    status: 'COMPLETED'
+                    status: 'DELIVERED'
                 }, () => {
-                    alert("🎉 ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿ ಮುಗಿದಿದೆ! (Delivery Completed)");
+                    alert("🎉 ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿ ಪೂರ್ಣಗೊಂಡಿದೆ!");
                 });
-            } else {
-                alert("❌ ತಪ್ಪು OTP! ದಯವಿಟ್ಟು ಸರಿಯಾದ OTP ನಮೂದಿಸಿ.");
+            } else if (enteredOtp !== null) {
+                alert("❌ ತಪ್ಪು OTP! ದಯವಿಟ್ಟು ಗ್ರಾಹಕರಿಂದ ಸರಿಯಾದ OTP ಪಡೆಯಿರಿ.");
             }
         }
 
-        // Realtime Data Sync from Firebase
+        // Send WhatsApp Message Engine
+        function sendWhatsApp(phone, orderId, otp) {
+            const msg = `ನಮಸ್ಕಾರ! ನಿಮ್ಮ ಡೆಲಿವರಿ ಆರ್ಡರ್ #${orderId} ಕನ್ಫರ್ಮ್ ಆಗಿದೆ. Delivery OTP: ${otp}. ಧನ್ಯವಾದಗಳು!`;
+            window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // Open Google Maps Route
+        function openMap(address) {
+            window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`, '_blank');
+        }
+
+        // Realtime Firebase Listener Engine
         database.ref('delivery_orders').on('value', (snapshot) => {
             const data = snapshot.val() || {};
             const orders = Object.values(data).sort((a, b) => b.timestamp - a.timestamp);
 
-            renderCustomerOrders(orders);
-            renderDriverOrders(orders);
-            renderAdminDashboard(orders);
+            renderCustomerView(orders);
+            renderDriverView(orders);
+            renderAdminView(orders);
         });
 
-        // 1. Render Customer View
-        function renderCustomerOrders(orders) {
-            const container = document.getElementById('customer-orders-list');
-            container.innerHTML = '';
+        // 1. Render Customer Screen
+        function renderCustomerView(orders) {
+            const list = document.getElementById('customer-orders-list');
+            list.innerHTML = '';
 
             if (orders.length === 0) {
-                container.innerHTML = `<p class="text-sm text-gray-500">ಯಾವುದೇ ಆಕ್ಟಿವ್ ಬುಕಿಂಗ್ ಇಲ್ಲ.</p>`;
+                list.innerHTML = `<p class="text-xs text-gray-500">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>`;
                 return;
             }
 
-            orders.forEach(ord => {
-                const badgeColor = ord.status === 'PENDING' ? 'bg-amber-100 text-amber-800' : 
-                                  ord.status === 'ACCEPTED' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800';
+            orders.forEach(o => {
+                const badge = o.status === 'PENDING' ? 'bg-amber-100 text-amber-800' :
+                              o.status === 'ACCEPTED' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800';
                 
-                container.innerHTML += `
-                    <div class="border rounded-lg p-3 bg-gray-50 flex justify-between items-center">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="font-bold text-indigo-700">#${ord.id}</span>
-                                <span class="text-xs px-2 py-0.5 rounded ${badgeColor} font-bold">${ord.status}</span>
-                            </div>
-                            <p class="text-xs text-gray-600 mt-1">📍 <b>Pick:</b> ${ord.pickup} ➔ <b>Drop:</b> ${ord.drop}</p>
-                            <p class="text-xs text-indigo-900 font-semibold mt-1">🔑 Delivery OTP: <span class="bg-yellow-200 px-1 rounded">${ord.otp}</span></p>
+                list.innerHTML += `
+                    <div class="border rounded-lg p-3 bg-gray-50 space-y-1.5">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xs text-indigo-700">#${o.id} - ${o.item}</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded font-bold ${badge}">${o.status}</span>
                         </div>
-                        <div class="text-right">
-                            <span class="text-lg font-bold text-gray-800">₹${ord.fare}</span>
+                        <p class="text-xs text-gray-600"><b>📍 Pickup:</b> ${o.pickup}</p>
+                        <p class="text-xs text-gray-600"><b>🏁 Drop:</b> ${o.drop}</p>
+                        <div class="flex justify-between items-center pt-1 border-t">
+                            <span class="text-xs font-bold text-gray-800">OTP: <mark class="bg-yellow-200 px-1 rounded">${o.otp}</mark></span>
+                            <span class="text-sm font-extrabold text-indigo-800">₹${o.fare}</span>
                         </div>
                     </div>
                 `;
             });
         }
 
-        // 2. Render Driver View
-        function renderDriverOrders(orders) {
-            const availableContainer = document.getElementById('driver-available-orders');
-            const activeContainer = document.getElementById('driver-active-orders');
+        // 2. Render Delivery Boy Screen
+        function renderDriverView(orders) {
+            const avail = document.getElementById('driver-available-orders');
+            const active = document.getElementById('driver-active-orders');
             
-            availableContainer.innerHTML = '';
-            activeContainer.innerHTML = '';
+            avail.innerHTML = '';
+            active.innerHTML = '';
 
             const pending = orders.filter(o => o.status === 'PENDING');
-            const active = orders.filter(o => o.status === 'ACCEPTED');
+            const accepted = orders.filter(o => o.status === 'ACCEPTED');
 
-            // Pending Orders
             if (pending.length === 0) {
-                availableContainer.innerHTML = `<p class="text-sm text-gray-500">ಯಾವುದೇ ಹೊಸ ಡೆಲಿವರಿ ಆಫರ್‌ಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>`;
+                avail.innerHTML = `<p class="text-xs text-gray-500">ಯಾವುದೇ ಹೊಸ ಆರ್ಡರ್‌ಗಳು ಕಾಯುತ್ತಿಲ್ಲ.</p>`;
             } else {
-                pending.forEach(ord => {
-                    availableContainer.innerHTML += `
-                        <div class="border border-green-200 bg-green-50 rounded-lg p-3 flex justify-between items-center">
-                            <div>
-                                <p class="text-xs font-bold text-green-800">📦 ${ord.item} (${ord.distance} KM)</p>
-                                <p class="text-xs text-gray-700"><b>📍 ಪಿಕ್:</b> ${ord.pickup}</p>
-                                <p class="text-xs text-gray-700"><b>🏁 ಡ್ರಾಪ್:</b> ${ord.drop}</p>
-                                <p class="text-xs font-semibold text-indigo-700 mt-1">ಗಳಿಕೆ: ₹${ord.fare}</p>
+                pending.forEach(o => {
+                    avail.innerHTML += `
+                        <div class="border border-green-200 bg-green-50 rounded-lg p-3 space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-xs text-green-900">📦 ${o.item} (${o.distance} KM)</span>
+                                <span class="text-sm font-bold text-green-700">₹${o.fare}</span>
                             </div>
-                            <button onclick="acceptOrder('${ord.id}')" class="bg-green-600 text-white text-xs px-3 py-2 rounded-lg font-bold shadow hover:bg-green-700">
-                                Accept 🚀
+                            <p class="text-xs text-gray-700"><b>📍 ಪಿಕ್:</b> ${o.pickup}</p>
+                            <p class="text-xs text-gray-700"><b>🏁 ಡ್ರಾಪ್:</b> ${o.drop}</p>
+                            <button onclick="acceptOrder('${o.id}')" class="w-full bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2 rounded shadow transition">
+                                Accept Delivery 🚀
                             </button>
                         </div>
                     `;
                 });
             }
 
-            // Active Orders
-            if (active.length === 0) {
-                activeContainer.innerHTML = `<p class="text-sm text-gray-500">ಪ್ರಸ್ತುತ ಕೈಯಲ್ಲಿ ಯಾವುದೇ ಡೆಲಿವರಿ ಇಲ್ಲ.</p>`;
+            if (accepted.length === 0) {
+                active.innerHTML = `<p class="text-xs text-gray-500">ಪ್ರಸ್ತುತ ಯಾವುದೇ ಆಕ್ಟಿವ್ ಡೆಲಿವರಿ ಇಲ್ಲ.</p>`;
             } else {
-                active.forEach(ord => {
-                    activeContainer.innerHTML += `
+                accepted.forEach(o => {
+                    active.innerHTML += `
                         <div class="border border-blue-200 bg-blue-50 rounded-lg p-3 space-y-2">
-                            <div class="flex justify-between items-center border-b pb-2">
-                                <span class="font-bold text-xs text-blue-900">#${ord.id} - ${ord.item}</span>
-                                <a href="tel:${ord.custPhone}" class="bg-indigo-600 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
-                                    <i class="fa-solid fa-phone"></i> Call Customer
+                            <div class="flex justify-between items-center border-b pb-1">
+                                <span class="font-bold text-xs text-blue-900">#${o.id} - ${o.custName}</span>
+                                <a href="tel:${o.custPhone}" class="bg-indigo-600 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+                                    <i class="fa-solid fa-phone"></i> Call
                                 </a>
                             </div>
-                            <p class="text-xs text-gray-700"><b>👤 ಗ್ರಾಹಕ:</b> ${ord.custName} (${ord.custPhone})</p>
-                            <p class="text-xs text-gray-700"><b>📍 ಪಿಕ್-ಅಪ್:</b> ${ord.pickup}</p>
-                            <p class="text-xs text-gray-700"><b>🏁 ಡ್ರಾಪ್:</b> ${ord.drop}</p>
-                            
-                            <button onclick="completeOrder('${ord.id}', '${ord.otp}')" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded shadow">
+                            <div class="flex justify-between items-center text-xs">
+                                <button onclick="openMap('${o.pickup}')" class="text-indigo-600 underline font-semibold"><i class="fa-solid fa-map-pin"></i> Pickup Location</button>
+                                <button onclick="openMap('${o.drop}')" class="text-indigo-600 underline font-semibold"><i class="fa-solid fa-location-dot"></i> Drop Location</button>
+                            </div>
+                            <button onclick="sendWhatsApp('${o.custPhone}', '${o.id}', '${o.otp}')" class="w-full bg-emerald-600 text-white text-xs py-1.5 rounded font-bold flex items-center justify-center gap-1">
+                                <i class="fa-brands fa-whatsapp"></i> Send OTP on WhatsApp
+                            </button>
+                            <button onclick="completeOrder('${o.id}', '${o.otp}')" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded shadow">
                                 ✅ Enter OTP & Complete Delivery
                             </button>
                         </div>
@@ -375,27 +388,27 @@
             }
         }
 
-        // 3. Render Admin Dashboard
-        function renderAdminDashboard(orders) {
+        // 3. Render Admin Control Screen
+        function renderAdminView(orders) {
             document.getElementById('stat-total-orders').innerText = orders.length;
             
-            const totalRevenue = orders.filter(o => o.status === 'COMPLETED').reduce((acc, curr) => acc + curr.fare, 0);
-            document.getElementById('stat-total-revenue').innerText = `₹${totalRevenue}`;
+            const totalRev = orders.filter(o => o.status === 'DELIVERED').reduce((sum, o) => sum + o.fare, 0);
+            document.getElementById('stat-total-revenue').innerText = `₹${totalRev}`;
             
-            const pending = orders.filter(o => o.status !== 'COMPLETED').length;
-            document.getElementById('stat-pending-orders').innerText = pending;
+            const pendingCount = orders.filter(o => o.status !== 'DELIVERED').length;
+            document.getElementById('stat-pending-orders').innerText = pendingCount;
 
-            const tableBody = document.getElementById('admin-orders-table');
-            tableBody.innerHTML = '';
+            const tbody = document.getElementById('admin-orders-table');
+            tbody.innerHTML = '';
 
-            orders.forEach(ord => {
-                tableBody.innerHTML += `
+            orders.forEach(o => {
+                tbody.innerHTML += `
                     <tr class="border-b hover:bg-gray-50">
-                        <td class="p-2 font-mono font-bold">${ord.id}<br><span class="text-xs text-amber-600">OTP: ${ord.otp}</span></td>
-                        <td class="p-2">${ord.custName}<br><span class="text-gray-400">${ord.custPhone}</span></td>
-                        <td class="p-2">From: ${ord.pickup}<br>To: ${ord.drop}</td>
-                        <td class="p-2 font-bold text-green-600">₹${ord.fare}</td>
-                        <td class="p-2"><span class="px-2 py-0.5 rounded text-xs font-bold ${ord.status === 'COMPLETED' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'}">${ord.status}</span></td>
+                        <td class="p-2 font-mono font-bold">${o.id}<br><span class="text-[10px] text-amber-600">OTP: ${o.otp}</span></td>
+                        <td class="p-2">${o.custName}<br><span class="text-gray-400">${o.custPhone}</span></td>
+                        <td class="p-2">From: ${o.pickup}<br>To: ${o.drop}</td>
+                        <td class="p-2 font-bold text-green-600">₹${o.fare}</td>
+                        <td class="p-2"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === 'DELIVERED' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'}">${o.status}</span></td>
                     </tr>
                 `;
             });

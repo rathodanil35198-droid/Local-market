@@ -177,16 +177,59 @@
     </div>
   </div>
 
+  <!-- RETURN MODAL SCREEN -->
+  <div id="returnScreen" class="screen">
+    <div class="screen-header">
+      <span class="back-btn" onclick="closeScreen('returnScreen')">←</span>
+      <span>ಪ್ರಾಡಕ್ಟ್ ರಿಟರ್ನ್ ಮಾಡಿ</span>
+    </div>
+    <div style="padding: 15px;">
+      <p style="font-size:0.9rem; font-weight:bold; color:#d32f2f; margin-bottom:10px;">ಯಾವ ರೂ. 50 ಚಾರ್ಜ್ ಇಲ್ಲ (ಉಚಿತ ರಿಟರ್ನ್).</p>
+      <p style="font-size:0.85rem; margin-bottom:15px;" id="returnOrderInfo"></p>
+      
+      <div style="margin-bottom: 15px;">
+        <label style="font-size:0.85rem; font-weight:bold; display:block; margin-bottom:5px;">ಸ್ಕ್ಯಾನರ್ / ಪ್ರಾಡಕ್ಟ್ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಮಾಡಿ:</label>
+        <input type="file" id="returnScannerPhoto" accept="image/*" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
+      </div>
+
+      <button onclick="submitReturnRequest()" style="background:#2874f0; color:#fff; border:none; padding:12px; width:100%; border-radius:6px; font-weight:bold; cursor:pointer;">ರಿಟರ್ನ್ ವಿನಂತಿ ಕಳುಹಿಸಿ</button>
+    </div>
+  </div>
+
   <script>
     let allProducts = [];
     let selectedProduct = null;
     let selectedSize = "9 - 10 Years";
     let userGPSLocation = "";
+    let activeReturnOrderId = null;
 
     window.addEventListener('DOMContentLoaded', () => {
       startRealtimeProducts();
       startRealtimeOrders();
+
+      // Handle Mobile Back Button (Browser History State)
+      window.history.pushState({ page: 'home' }, '', '');
+      window.addEventListener('popstate', (event) => {
+        const screens = ['productDetailScreen', 'checkoutScreen', 'myOrdersScreen', 'returnScreen'];
+        let isOpenFound = false;
+        screens.forEach(id => {
+          const el = document.getElementById(id);
+          if (el.style.display === 'block') {
+            el.style.display = 'none';
+            isOpenFound = true;
+          }
+        });
+        if (!isOpenFound) {
+          // If already on home page, allow default exit or stay
+        } else {
+          window.history.pushState({ page: 'home' }, '', '');
+        }
+      });
     });
+
+    function pushScreenState() {
+      window.history.pushState({ page: 'subpage' }, '', '');
+    }
 
     function startRealtimeProducts() {
       window.onSnapshot(window.collection(window.db, "products"), (snap) => {
@@ -221,6 +264,7 @@
       document.getElementById('detailShopName').innerText = "ಅಂಗಡಿ: " + (selectedProduct.shopName || "ನಮ್ಮ ಶಾಪುರ್ ಸ್ಟೋರ್");
       document.getElementById('detailPrice').innerText = "₹" + selectedProduct.price;
       document.getElementById('productDetailScreen').style.display = 'block';
+      pushScreenState();
     }
 
     function selectSize(btn) {
@@ -234,6 +278,7 @@
       document.getElementById('checkoutTitle').innerText = selectedProduct.name;
       document.getElementById('checkoutPrice').innerText = "₹" + selectedProduct.price;
       document.getElementById('checkoutScreen').style.display = 'block';
+      pushScreenState();
 
       // Auto capture GPS Location
       if (navigator.geolocation) {
@@ -272,7 +317,7 @@
           productPhoto: selectedProduct.photo,
           totalPrice: selectedProduct.price,
           selectedSize: selectedSize,
-          shopId: selectedProduct.shopId,
+          shopId: selectedProduct.shopId || "default_shop",
           deliveryPin: deliveryPin,
           customer: {
             name: name,
@@ -283,7 +328,8 @@
             pincode: pincode,
             gps: userGPSLocation
           },
-          status: 'STEP_1', // STEP_1: ಆರ್ಡರ್ ಆಗಿದೆ (2 ದಿನದಲ್ಲಿ ಬರುತ್ತದೆ)
+          status: 'STEP_1', 
+          isReturned: false,
           timestamp: window.serverTimestamp()
         };
 
@@ -328,20 +374,17 @@
           statusMsg = "2. ಪ್ಯಾಕಿಂಗ್ ಆಗಿದೆ, ಡೆಲಿವರಿಗೆ ಕಳಿಸಲಾಗಿದೆ.";
         } else if (o.status === 'PICKED_UP' || o.status === 'STEP_3') {
           s2 = "active"; s3 = "active";
-          statusMsg = "3. ನಿಮ್ಮ ಡೆಲಿವರಿ 2:00 ರಿಂದ 3:00 ಗಂಟೆಯೊಳಗೆ ತಲುಪುತ್ತದೆ.";
+          statusMsg = "3. ನಿಮ್ಮ ಡೆಲಿವರಿ 4:00 ರಿಂದ 5:00 ಗಂಟೆಯೊಳಗೆ ಪಾವತಿ / ತಲುಪುತ್ತದೆ.";
         } else if (o.status === 'DELIVERED' || o.status === 'STEP_4') {
           s2 = "active"; s3 = "active"; s4 = "active";
           statusMsg = "4. ಡೆಲಿವರಿ ಸಕ್ಸೆಸ್‌ಫುಲ್ ಆಗಿದೆ!";
+        } else if (o.status === 'RETURNED' || o.isReturned) {
+          statusMsg = "🔄 ನಿಮ್ಮ ರಿಟರ್ನ್ ಎಸ್ ಎಸಿಸಿದ ಡೆಲಿವರಿ ಗೆಳಸಲಾಗಿದೆ ಮತ್ತು ಅಂಗಡಿಗೆ ತಲುಪಿಸಲಾಗಿದೆ.";
         }
 
-        // Return button eligibility logic (Within 2 Days)
         let showReturnBtn = false;
-        if (o.status === 'DELIVERED' && o.timestamp) {
-          const orderTime = o.timestamp.toMillis ? o.timestamp.toMillis() : Date.now();
-          const twoDaysInMs = 2 * 24 * 60 * 60 * 1000;
-          if (Date.now() - orderTime <= twoDaysInMs) {
-            showReturnBtn = true;
-          }
+        if (o.status === 'DELIVERED' && !o.isReturned) {
+          showReturnBtn = true;
         }
 
         return `
@@ -366,7 +409,7 @@
             </div>
 
             ${showReturnBtn ? `
-              <button onclick="requestReturn('${o.docId}')" style="background:#fff; border:1px solid #fb8c00; color:#fb8c00; padding:6px; border-radius:4px; font-size:0.75rem; font-weight:bold; cursor:pointer; width:100%;">
+              <button onclick="openReturnScreen('${o.docId}', '${o.productName}')" style="background:#fff; border:1px solid #fb8c00; color:#fb8c00; padding:6px; border-radius:4px; font-size:0.75rem; font-weight:bold; cursor:pointer; width:100%;">
                 🔄 ರಿಟರ್ನ್ ಮಾಡಿ (Return Item)
               </button>
             ` : ''}
@@ -375,14 +418,38 @@
       }).join('');
     }
 
-    function requestReturn(docId) {
-      if (confirm("⚠️ ಗಮನಿಸಿ: ಈ ವಸ್ತುವನ್ನು ರಿಟರ್ನ್ ಮಾಡಿದರೆ ₹50 ಚಾರ್ಜ್ ಅನ್ವಯಿಸುತ್ತದೆ.\n\nನಿಮಗೆ ರಿಟರ್ನ್ ಮಾಡಲು ಖಚಿತವೇ?")) {
-        alert("ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಸ್ವೀಕರಿಸಲಾಗಿದೆ. ಡೆಲಿವರಿ ಬಾಯ್ ಬಂದು ಪಿಕ್-ಅಪ್ ಮಾಡಿಕೊಳ್ಳುತ್ತಾರೆ.");
+    function openReturnScreen(docId, prodName) {
+      activeReturnOrderId = docId;
+      document.getElementById('returnOrderInfo').innerText = "ಪ್ರಾಡಕ್ಟ್: " + prodName;
+      document.getElementById('returnScreen').style.display = 'block';
+      pushScreenState();
+    }
+
+    async function submitReturnRequest() {
+      if (!activeReturnOrderId) return;
+      const fileInput = document.getElementById('returnScannerPhoto');
+      
+      try {
+        await window.updateDoc(window.doc(window.db, "orders", activeReturnOrderId), {
+          status: 'RETURNED',
+          isReturned: true,
+          returnRequestedAt: window.serverTimestamp()
+        });
+        alert("ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಹಾಗೂ ಸ್ಕ್ಯಾನರ್ ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಮತ್ತು ಡೆಲಿವರಿ ಬಾಯ್ ಬಳಿಗೆ ತಲುಪಿಸಲಾಗಿದೆ. ಯಾವುದೇ ರೂ. 50 ಚಾರ್ಜ್ ಇಲ್ಲ.");
+        closeScreen('returnScreen');
+      } catch (e) {
+        alert("ದೋಷ: " + e.message);
       }
     }
 
-    function openMyOrdersScreen() { document.getElementById('myOrdersScreen').style.display = 'block'; }
-    function closeScreen(id) { document.getElementById(id).style.display = 'none'; }
+    function openMyOrdersScreen() { 
+      document.getElementById('myOrdersScreen').style.display = 'block'; 
+      pushScreenState();
+    }
+
+    function closeScreen(id) { 
+      document.getElementById(id).style.display = 'none'; 
+    }
   </script>
 </body>
 </html>

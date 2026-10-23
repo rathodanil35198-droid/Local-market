@@ -70,13 +70,11 @@
 
     .order-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
     
-    /* Progress Tracker Styles */
     .tracker-box { background: #e8f5e9; padding: 10px; border-radius: 8px; margin: 8px 0; border: 1px solid #c8e6c9; }
     .progress-steps { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; position: relative; }
     .step-item { display: flex; flex-direction: column; align-items: center; font-size: 0.68rem; font-weight: bold; color: #777; flex: 1; text-align: center; }
     .step-circle { width: 24px; height: 24px; border-radius: 50%; background: #b0bec5; color: white; display: flex; justify-content: center; align-items: center; font-size: 0.75rem; margin-bottom: 4px; transition: background 0.3s; }
     
-    /* Green Checked Active State */
     .step-item.active .step-circle { background: var(--success); }
     .step-item.active { color: var(--success); }
 
@@ -129,7 +127,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 2: CHECKOUT & ADDRESS SCREEN -->
+  <!-- SCREEN 2: CHECKOUT SCREEN -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="closeScreen('checkoutScreen')">←</span>
@@ -313,7 +311,7 @@
           selectedSize: selectedSize,
           shopId: selectedProduct.shopId || "default_shop",
           deliveryPin: deliveryPin,
-          deliveryBoyPhone: "709004343", // Default Delivery Boy Phone
+          deliveryBoyPhone: "709004343",
           customer: {
             name: name,
             phone: phone,
@@ -336,7 +334,7 @@
           closeScreen('productDetailScreen');
           openMyOrdersScreen();
         } catch (e) {
-          alert("Error: " + e.message);
+          alert("ದೋಷ: " + e.message);
         }
       }
     }
@@ -363,7 +361,6 @@
         let isReturnedMode = (o.isReturned || o.status === 'RETURNED' || o.returnStatus);
 
         if (!isReturnedMode) {
-          // Delivery Tracker Normal Flow
           let statusMsg = "";
           let s1 = "", s2 = "", s3 = "", s4 = "";
 
@@ -390,7 +387,7 @@
                 <div>
                   <h4 style="font-size:0.85rem;">${o.productName}</h4>
                   <div style="font-weight:bold; font-size:0.9rem; margin-top:2px;">₹${o.totalPrice}</div>
-                  ${o.status === 'DELIVERED' || o.status === 'STEP_4' ? '' : `<p style="font-size:0.75rem; color:#d32f2f; font-weight:bold; margin-top:2px;">ನಿಮ್ಮ ಡೆಲಿವರಿ OTP: ${o.deliveryPin || '1234'}</p>`}
+                  ${o.status === 'DELIVERED' || o.status === 'STEP_4' ? '' : `<p style="font-size:0.8rem; color:#d32f2f; font-weight:bold; margin-top:4px;">🔒 ನಿಮ್ಮ ಡೆಲಿವರಿ OTP: <span style="font-size:0.95rem; background:#ffebee; padding:2px 6px; border-radius:4px;">${o.deliveryPin || '1234'}</span></p>`}
                 </div>
               </div>
 
@@ -416,7 +413,6 @@
             </div>
           `;
         } else {
-          // Return Tracker Flow
           let retMsg = "";
           let rs1 = "active", rs2 = "", rs3 = "", rs4 = "";
 
@@ -496,7 +492,7 @@
           returnUpiId: upiId || 'N/A',
           returnRequestedAt: window.serverTimestamp()
         });
-        alert("ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಯಶಸ್ವಿಯಾಗಿ ಕಳುಹಿಸಲಾಗಿದೆ. ಡೆಲಿವರಿ ಬಾಯ್ ಶೀಘ್ರದಲ್ಲೇ ಆಗಮಿಸಲಿದ್ದಾರೆ.");
+        alert("ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಯಶಸ್ವಿಯಾಗಿ ಕಳುಹಿಸಲಾಗಿದೆ.");
         closeScreen('returnScreen');
         openMyOrdersScreen();
       } catch (e) {

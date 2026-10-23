@@ -69,9 +69,14 @@
     .btn-continue { background: #fb641b; color: #fff; }
 
     .order-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
-    .tracker-box { background: #e3f2fd; padding: 8px; border-radius: 6px; margin: 8px 0; font-size: 0.75rem; }
-    .tracker-step { font-weight: bold; color: #555; }
-    .tracker-step.active { color: #2e7d32; }
+    
+    /* Progress Tracker Styles (Flipkart Style Green Check) */
+    .tracker-box { background: #e8f5e9; padding: 10px; border-radius: 8px; margin: 8px 0; border: 1px solid #c8e6c9; }
+    .progress-steps { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; position: relative; }
+    .step-item { display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: bold; color: #777; z-index: 2; }
+    .step-circle { width: 22px; height: 22px; border-radius: 50%; background: #ccc; color: white; display: flex; justify-content: center; align-items: center; font-size: 0.65rem; margin-bottom: 3px; }
+    .step-item.active .step-circle { background: var(--success); }
+    .step-item.active { color: var(--success); }
 
     .gps-text { font-size: 0.7rem; color: #388e3c; margin-top: 4px; font-weight: bold; }
   </style>
@@ -183,9 +188,7 @@
       <span class="back-btn" onclick="closeScreen('returnScreen')">←</span>
       <span>ಪ್ರಾಡಕ್ಟ್ ರಿಟರ್ನ್ ಮಾಡಿ</span>
     </div>
-    <div style="padding: 15px;" id="returnContentBox">
-      <!-- Dynamic Return Form with QR Code / UPI & Payment Status -->
-    </div>
+    <div style="padding: 15px;" id="returnContentBox"></div>
   </div>
 
   <script>
@@ -199,7 +202,6 @@
       startRealtimeProducts();
       startRealtimeOrders();
 
-      // Handle Mobile Back Button (Browser History State)
       window.history.pushState({ page: 'home' }, '', '');
       window.addEventListener('popstate', (event) => {
         const screens = ['productDetailScreen', 'checkoutScreen', 'myOrdersScreen', 'returnScreen'];
@@ -211,9 +213,7 @@
             isOpenFound = true;
           }
         });
-        if (!isOpenFound) {
-          // If already on home page, allow default exit or stay
-        } else {
+        if (isOpenFound) {
           window.history.pushState({ page: 'home' }, '', '');
         }
       });
@@ -272,7 +272,6 @@
       document.getElementById('checkoutScreen').style.display = 'block';
       pushScreenState();
 
-      // Auto capture GPS Location
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (pos) => {
@@ -322,8 +321,7 @@
           },
           status: 'STEP_1', 
           isReturned: false,
-          returnStatus: 'NONE', // NONE, RETURN_REQUESTED, PICKED_UP_BY_DBOY, DELIVERED_TO_SHOP, PAYMENT_SUCCESS
-          paymentStatus: 'PENDING', // PENDING, SUCCESS
+          paymentStatus: 'PENDING',
           timestamp: window.serverTimestamp()
         };
 
@@ -359,31 +357,25 @@
 
       container.innerHTML = orders.map(o => {
         let statusMsg = "";
-        let s1="active", s2="", s3="", s4="";
+        let s1 = "", s2 = "", s3 = "", s4 = "";
 
-        if (o.status === 'STEP_1' || o.status === 'NEW') {
+        if (o.status === 'STEP_1' || o.status === 'NEW' || !o.status) {
+          s1 = "active";
           statusMsg = "1. ನಿಮ್ಮ ಆರ್ಡರ್ ಆಗಿದೆ, 2 ದಿನಗಳಿಗೆ ಬರುತ್ತದೆ.";
         } else if (o.status === 'CONFIRMED' || o.status === 'PACKING' || o.status === 'STEP_2') {
-          s2 = "active";
+          s1 = "active"; s2 = "active";
           statusMsg = "2. ಪ್ಯಾಕಿಂಗ್ ಆಗಿದೆ, ಡೆಲಿವರಿಗೆ ಕಳಿಸಲಾಗಿದೆ.";
         } else if (o.status === 'PICKED_UP' || o.status === 'STEP_3') {
-          s2 = "active"; s3 = "active";
-          statusMsg = "3. ನಿಮ್ಮ ಡೆಲಿವರಿ 4:00 ರಿಂದ 5:00 ಗಂಟೆಯೊಳಗೆ ಪಾವತಿ / ತಲುಪುತ್ತದೆ.";
+          s1 = "active"; s2 = "active"; s3 = "active";
+          statusMsg = "3. ನಿಮ್ಮ ಡೆಲಿವರಿ ಮಾರ್ಗ ಮಧ್ಯೆಯಲ್ಲಿದೆ.";
         } else if (o.status === 'DELIVERED' || o.status === 'STEP_4') {
-          s2 = "active"; s3 = "active"; s4 = "active";
+          s1 = "active"; s2 = "active"; s3 = "active"; s4 = "active";
           statusMsg = "4. ಡೆಲಿವರಿ ಸಕ್ಸೆಸ್‌ಫುಲ್ ಆಗಿದೆ!";
         } else if (o.status === 'RETURNED' || o.isReturned) {
-          if (o.paymentStatus === 'SUCCESS') {
-            statusMsg = "🔄 ರಿಟರ್ನ್ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ. ನಿಮ್ಮ ಅಕೌಂಟ್‌ನಲ್ಲಿ ಪಾವತಿ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗಿದೆ.";
-          } else {
-            statusMsg = "🔄 ರಿಟರ್ನ್ ಆರ್ಡರ್ ಅಂಗಡಿಗೆ ತಲುಪಿದೆ. ಪಾವತಿ ಪ್ರೆಂಡಿಂಗ್‌ನಲ್ಲಿದೆ.";
-          }
+          statusMsg = "🔄 ರಿಟರ್ನ್ ಆರ್ಡರ್ ಅಂಗಡಿಗೆ ತಲುಪಿದೆ.";
         }
 
-        let showReturnBtn = false;
-        if (o.status === 'DELIVERED' && !o.isReturned) {
-          showReturnBtn = true;
-        }
+        let showReturnBtn = (o.status === 'DELIVERED' && !o.isReturned);
 
         return `
           <div class="order-card">
@@ -392,17 +384,17 @@
               <div>
                 <h4 style="font-size:0.85rem;">${o.productName}</h4>
                 <div style="font-weight:bold; font-size:0.9rem; margin-top:2px;">₹${o.totalPrice}</div>
-                ${o.status === 'STEP_4' || o.status === 'DELIVERED' ? '' : `<p style="font-size:0.75rem; color:#d32f2f; font-weight:bold; margin-top:2px;">ಡೆಲಿವರಿ PIN: ${o.deliveryPin}</p>`}
+                ${o.status === 'DELIVERED' || o.status === 'STEP_4' ? '' : `<p style="font-size:0.75rem; color:#d32f2f; font-weight:bold; margin-top:2px;">ನಿಮ್ಮ ಡೆಲಿವರಿ OTP: ${o.deliveryPin || '1234'}</p>`}
               </div>
             </div>
 
             <div class="tracker-box">
-              <p style="color:#2e7d32; font-weight:bold; margin-bottom:4px;">${statusMsg}</p>
-              <div style="display:flex; justify-content:space-between; font-size:0.7rem;">
-                <span class="${s1}">1. ಆರ್ಡರ್</span> >
-                <span class="${s2}">2. ಪ್ಯಾಕಿಂಗ್</span> >
-                <span class="${s3}">3. ಮಾರ್ಗ ಮಧ್ಯೆ</span> >
-                <span class="${s4}">4. ತಲುಪಿದೆ</span>
+              <p style="color:#2e7d32; font-weight:bold; font-size:0.8rem; margin-bottom:4px;">${statusMsg}</p>
+              <div class="progress-steps">
+                <div class="step-item ${s1}"><div class="step-circle">✓</div>ಆರ್ಡರ್</div>
+                <div class="step-item ${s2}"><div class="step-circle">✓</div>ಪ್ಯಾಕಿಂಗ್</div>
+                <div class="step-item ${s3}"><div class="step-circle">✓</div>ಮಾರ್ಗ ಮಧ್ಯೆ</div>
+                <div class="step-item ${s4}"><div class="step-circle">✓</div>ತಲುಪಿದೆ</div>
               </div>
             </div>
 
@@ -431,10 +423,8 @@
         <p style="font-size:0.85rem; margin-bottom:15px;">ಪ್ರಾಡಕ್ಟ್: ${prodName} (₹${price})</p>
         
         <div style="background:#f8f9fa; border:1px solid #ddd; padding:12px; border-radius:8px; margin-bottom:15px; text-align:center;">
-          <p style="font-size:0.85rem; font-weight:bold; margin-bottom:6px;">ನಿಮ್ಮ ಪಾವತಿ ಮಾಡಲು ಕ್ಯೂಆರ್ ಕೋಡ್ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಅಥವಾ ಯುಪಿಐ ಬಳಸಿ:</p>
+          <p style="font-size:0.85rem; font-weight:bold; margin-bottom:6px;">ಪಾವತಿ ಪಡೆಯಲು ಕ್ಯೂಆರ್ ಕೋಡ್ ಅಥವಾ ಯುಪಿಐ ಬಳಸಿ:</p>
           <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=merchant@upi&pn=NamahShapur&am=${price}&cu=INR" alt="QR Code" style="width:140px; height:140px; margin-bottom:10px; border:1px solid #ccc; border-radius:6px;">
-          <p style="font-size:0.8rem; margin-bottom:8px; font-weight:bold;">ಯುಪಿಐ ಐಡಿ / ಫೋನ್‌ಪೇ / ಗೂಗಲ್ ಪೇ:</p>
-          <a href="upi://pay?pa=merchant@upi&pn=NamahShapur&am=${price}&cu=INR" style="display:inline-block; background:#2874f0; color:#fff; padding:8px 16px; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:bold;">ಫೋನ್‌ಪೇ / ಗೂಗಲ್ ಪೇ ಮುಖಾಂತರ ಪಾವತಿಸಿ (Pay Now)</a>
         </div>
 
         <div style="margin-bottom: 15px;">
@@ -451,7 +441,6 @@
 
     async function submitReturnRequest() {
       if (!activeReturnOrderId) return;
-      
       try {
         await window.updateDoc(window.doc(window.db, "orders", activeReturnOrderId), {
           status: 'RETURNED',
@@ -459,7 +448,7 @@
           returnStatus: 'RETURN_REQUESTED',
           returnRequestedAt: window.serverTimestamp()
         });
-        alert("ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಮತ್ತು ಕ್ಯೂಆರ್ ಕೋಡ್/ಪಾವತಿ ವಿವರಗಳು ಮಾಸ್ಟರ್ ಐಡಿ ಪ್ಯಾನೆಲ್ ಹಾಗೂ ಡೆಲಿವರಿ ಬಾಯ್ ಪ್ಯಾನಲ್‌ಗೆ ಯಶಸ್ವಿಯಾಗಿ ತಲುಪಿಸಲಾಗಿದೆ.");
+        alert("ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಯಶಸ್ವಿಯಾಗಿ ಕಳುಹಿಸಲಾಗಿದೆ.");
         closeScreen('returnScreen');
         openMyOrdersScreen();
       } catch (e) {

@@ -430,6 +430,9 @@
             retMsg = "4. ಪಾವತಿ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗಿದೆ! ನಿಮ್ಮ ಖಾತೆಗೆ ಹಣ ತಲುಪಿದೆ.";
           }
 
+          let showReturnOtp = (o.returnStatus === 'RETURN_REQUESTED');
+          let returnOtpVal = o.deliveryPin || '5678';
+
           return `
             <div class="order-card" style="border-left: 4px solid #fb8c00;">
               <div style="display:flex; gap:10px; align-items:center;">
@@ -438,6 +441,7 @@
                   <h4 style="font-size:0.85rem;">${o.productName}</h4>
                   <div style="font-weight:bold; font-size:0.9rem; margin-top:2px;">₹${o.totalPrice}</div>
                   <span style="font-size:0.75rem; color:#d32f2f; font-weight:bold;">🔄 ರಿಟರ್ನ್ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿದೆ</span>
+                  ${showReturnOtp ? `<p style="font-size:0.8rem; color:#d32f2f; font-weight:bold; margin-top:4px;">🔒 ನಿಮ್ಮ ರಿಟರ್ನ್ OTP: <span style="font-size:0.95rem; background:#ffebee; padding:2px 6px; border-radius:4px;">${returnOtpVal}</span></p>` : ''}
                 </div>
               </div>
 
@@ -483,12 +487,14 @@
     async function submitReturnRequest() {
       if (!activeReturnOrderId) return;
       const upiId = document.getElementById('returnUpiId').value.trim();
+      const returnPin = Math.floor(1000 + Math.random() * 9000).toString();
 
       try {
         await window.updateDoc(window.doc(window.db, "orders", activeReturnOrderId), {
           status: 'RETURNED',
           isReturned: true,
           returnStatus: 'RETURN_REQUESTED',
+          deliveryPin: returnPin,
           returnUpiId: upiId || 'N/A',
           returnRequestedAt: window.serverTimestamp()
         });

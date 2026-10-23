@@ -183,16 +183,8 @@
       <span class="back-btn" onclick="closeScreen('returnScreen')">←</span>
       <span>ಪ್ರಾಡಕ್ಟ್ ರಿಟರ್ನ್ ಮಾಡಿ</span>
     </div>
-    <div style="padding: 15px;">
-      <p style="font-size:0.9rem; font-weight:bold; color:#d32f2f; margin-bottom:10px;">ಯಾವ ರೂ. 50 ಚಾರ್ಜ್ ಇಲ್ಲ (ಉಚಿತ ರಿಟರ್ನ್).</p>
-      <p style="font-size:0.85rem; margin-bottom:15px;" id="returnOrderInfo"></p>
-      
-      <div style="margin-bottom: 15px;">
-        <label style="font-size:0.85rem; font-weight:bold; display:block; margin-bottom:5px;">ಸ್ಕ್ಯಾನರ್ / ಪ್ರಾಡಕ್ಟ್ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಮಾಡಿ:</label>
-        <input type="file" id="returnScannerPhoto" accept="image/*" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
-      </div>
-
-      <button onclick="submitReturnRequest()" style="background:#2874f0; color:#fff; border:none; padding:12px; width:100%; border-radius:6px; font-weight:bold; cursor:pointer;">ರಿಟರ್ನ್ ವಿನಂತಿ ಕಳುಹಿಸಿ</button>
+    <div style="padding: 15px;" id="returnContentBox">
+      <!-- Dynamic Return Form with QR Code / UPI & Payment Status -->
     </div>
   </div>
 
@@ -330,6 +322,8 @@
           },
           status: 'STEP_1', 
           isReturned: false,
+          returnStatus: 'NONE', // NONE, RETURN_REQUESTED, PICKED_UP_BY_DBOY, DELIVERED_TO_SHOP, PAYMENT_SUCCESS
+          paymentStatus: 'PENDING', // PENDING, SUCCESS
           timestamp: window.serverTimestamp()
         };
 
@@ -379,7 +373,11 @@
           s2 = "active"; s3 = "active"; s4 = "active";
           statusMsg = "4. ಡೆಲಿವರಿ ಸಕ್ಸೆಸ್‌ಫುಲ್ ಆಗಿದೆ!";
         } else if (o.status === 'RETURNED' || o.isReturned) {
-          statusMsg = "🔄 ನಿಮ್ಮ ರಿಟರ್ನ್ ಎಸ್ ಎಸಿಸಿದ ಡೆಲಿವರಿ ಗೆಳಸಲಾಗಿದೆ ಮತ್ತು ಅಂಗಡಿಗೆ ತಲುಪಿಸಲಾಗಿದೆ.";
+          if (o.paymentStatus === 'SUCCESS') {
+            statusMsg = "🔄 ರಿಟರ್ನ್ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ. ನಿಮ್ಮ ಅಕೌಂಟ್‌ನಲ್ಲಿ ಪಾವತಿ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗಿದೆ.";
+          } else {
+            statusMsg = "🔄 ರಿಟರ್ನ್ ಆರ್ಡರ್ ಅಂಗಡಿಗೆ ತಲುಪಿದೆ. ಪಾವತಿ ಪ್ರೆಂಡಿಂಗ್‌ನಲ್ಲಿದೆ.";
+          }
         }
 
         let showReturnBtn = false;
@@ -409,34 +407,61 @@
             </div>
 
             ${showReturnBtn ? `
-              <button onclick="openReturnScreen('${o.docId}', '${o.productName}')" style="background:#fff; border:1px solid #fb8c00; color:#fb8c00; padding:6px; border-radius:4px; font-size:0.75rem; font-weight:bold; cursor:pointer; width:100%;">
+              <button onclick="openReturnScreen('${o.docId}', '${o.productName}', ${o.totalPrice})" style="background:#fff; border:1px solid #fb8c00; color:#fb8c00; padding:6px; border-radius:4px; font-size:0.75rem; font-weight:bold; cursor:pointer; width:100%;">
                 🔄 ರಿಟರ್ನ್ ಮಾಡಿ (Return Item)
               </button>
+            ` : ''}
+
+            ${o.isReturned ? `
+              <div style="margin-top:8px; padding:8px; background:#fff3e0; border-radius:6px; font-size:0.8rem;">
+                <p><b>ಪಾವತಿ ಸ್ಥಿತಿ:</b> <span style="color:${o.paymentStatus === 'SUCCESS' ? '#388e3c' : '#d32f2f'}; font-weight:bold;">${o.paymentStatus === 'SUCCESS' ? 'ನಿಮ್ಮ ಅಕೌಂಟ್‌ನಲ್ಲಿ ಪಾವತಿ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗಿದೆ' : 'ಪಾವತಿ ಪೆಂಡಿಂಗ್‌ನಲ್ಲಿದೆ'}</span></p>
+              </div>
             ` : ''}
           </div>
         `;
       }).join('');
     }
 
-    function openReturnScreen(docId, prodName) {
+    function openReturnScreen(docId, prodName, price) {
       activeReturnOrderId = docId;
-      document.getElementById('returnOrderInfo').innerText = "ಪ್ರಾಡಕ್ಟ್: " + prodName;
+      const contentBox = document.getElementById('returnContentBox');
+      
+      contentBox.innerHTML = `
+        <p style="font-size:0.9rem; font-weight:bold; color:#d32f2f; margin-bottom:10px;">ಉಚಿತ ರಿಟರ್ನ್ (ಯಾವುದೇ ಚಾರ್ಜ್ ಇಲ್ಲ).</p>
+        <p style="font-size:0.85rem; margin-bottom:15px;">ಪ್ರಾಡಕ್ಟ್: ${prodName} (₹${price})</p>
+        
+        <div style="background:#f8f9fa; border:1px solid #ddd; padding:12px; border-radius:8px; margin-bottom:15px; text-align:center;">
+          <p style="font-size:0.85rem; font-weight:bold; margin-bottom:6px;">ನಿಮ್ಮ ಪಾವತಿ ಮಾಡಲು ಕ್ಯೂಆರ್ ಕೋಡ್ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಅಥವಾ ಯುಪಿಐ ಬಳಸಿ:</p>
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=merchant@upi&pn=NamahShapur&am=${price}&cu=INR" alt="QR Code" style="width:140px; height:140px; margin-bottom:10px; border:1px solid #ccc; border-radius:6px;">
+          <p style="font-size:0.8rem; margin-bottom:8px; font-weight:bold;">ಯುಪಿಐ ಐಡಿ / ಫೋನ್‌ಪೇ / ಗೂಗಲ್ ಪೇ:</p>
+          <a href="upi://pay?pa=merchant@upi&pn=NamahShapur&am=${price}&cu=INR" style="display:inline-block; background:#2874f0; color:#fff; padding:8px 16px; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:bold;">ಫೋನ್‌ಪೇ / ಗೂಗಲ್ ಪೇ ಮುಖಾಂತರ ಪಾವತಿಸಿ (Pay Now)</a>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <label style="font-size:0.85rem; font-weight:bold; display:block; margin-bottom:5px;">ಕ್ಯೂಆರ್ ಕೋಡ್ / ಪ್ರಾಡಕ್ಟ್ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಮಾಡಿ:</label>
+          <input type="file" id="returnScannerPhoto" accept="image/*" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
+        </div>
+
+        <button onclick="submitReturnRequest()" style="background:#2874f0; color:#fff; border:none; padding:12px; width:100%; border-radius:6px; font-weight:bold; cursor:pointer;">ರಿಟರ್ನ್ ವಿನಂತಿ ಕಳುಹಿಸಿ</button>
+      `;
+
       document.getElementById('returnScreen').style.display = 'block';
       pushScreenState();
     }
 
     async function submitReturnRequest() {
       if (!activeReturnOrderId) return;
-      const fileInput = document.getElementById('returnScannerPhoto');
       
       try {
         await window.updateDoc(window.doc(window.db, "orders", activeReturnOrderId), {
           status: 'RETURNED',
           isReturned: true,
+          returnStatus: 'RETURN_REQUESTED',
           returnRequestedAt: window.serverTimestamp()
         });
-        alert("ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಹಾಗೂ ಸ್ಕ್ಯಾನರ್ ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಮತ್ತು ಡೆಲಿವರಿ ಬಾಯ್ ಬಳಿಗೆ ತಲುಪಿಸಲಾಗಿದೆ. ಯಾವುದೇ ರೂ. 50 ಚಾರ್ಜ್ ಇಲ್ಲ.");
+        alert("ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಮತ್ತು ಕ್ಯೂಆರ್ ಕೋಡ್/ಪಾವತಿ ವಿವರಗಳು ಮಾಸ್ಟರ್ ಐಡಿ ಪ್ಯಾನೆಲ್ ಹಾಗೂ ಡೆಲಿವರಿ ಬಾಯ್ ಪ್ಯಾನಲ್‌ಗೆ ಯಶಸ್ವಿಯಾಗಿ ತಲುಪಿಸಲಾಗಿದೆ.");
         closeScreen('returnScreen');
+        openMyOrdersScreen();
       } catch (e) {
         alert("ದೋಷ: " + e.message);
       }

@@ -56,7 +56,7 @@
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
     .old-price { font-size: 0.75rem; color: #888; text-decoration: line-through; margin-left: 6px; }
 
-    .screen { display: none; background: #fff; min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 200; overflow-y: auto; padding-bottom: 30px; }
+    .screen { display: none; background: #fff; min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 200; overflow-y: auto; padding-bottom: 80px; }
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; }
     .back-btn { font-size: 1.3rem; cursor: pointer; }
 
@@ -72,25 +72,30 @@
 
     .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; margin: 10px 0; display: flex; align-items: center; gap: 6px; }
 
-    .size-container { display: flex; gap: 10px; margin: 12px 0; }
-    .size-btn { border: 1px solid #e0e0e0; padding: 8px 14px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; background: #fff; }
+    .size-container { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+    .size-btn { border: 1px solid #e0e0e0; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; background: #fff; }
     .size-btn.active { border-color: var(--primary); background: #e8f0fe; color: var(--primary); font-weight: bold; }
+
+    /* Flipkart Similar Products Horizontal Scroll */
+    .similar-section { margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; }
+    .similar-title { font-size: 1rem; font-weight: bold; margin-bottom: 10px; color: #333; }
+    .similar-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+    .similar-scroll::-webkit-scrollbar { display: none; }
+    .similar-card { min-width: 130px; max-width: 130px; background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 6px; cursor: pointer; flex-shrink: 0; }
+    .similar-card img { width: 100%; height: 110px; object-fit: cover; border-radius: 4px; }
+    .similar-card-title { font-size: 0.75rem; font-weight: bold; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #e0e0e0; z-index: 300; }
     .btn-action { flex: 1; padding: 14px; border: none; font-weight: bold; font-size: 0.95rem; cursor: pointer; text-align: center; }
     .btn-buy-now { background: #ff9f00; color: #fff; }
-    .btn-continue { background: #fb641b; color: #fff; }
 
     .order-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
-    
     .tracker-box { background: #e8f5e9; padding: 10px; border-radius: 8px; margin: 8px 0; border: 1px solid #c8e6c9; }
     .progress-steps { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; position: relative; }
     .step-item { display: flex; flex-direction: column; align-items: center; font-size: 0.68rem; font-weight: bold; color: #777; flex: 1; text-align: center; }
     .step-circle { width: 24px; height: 24px; border-radius: 50%; background: #b0bec5; color: white; display: flex; justify-content: center; align-items: center; font-size: 0.75rem; margin-bottom: 4px; transition: background 0.3s; }
-    
     .step-item.active .step-circle { background: var(--success); }
     .step-item.active { color: var(--success); }
-
     .gps-text { font-size: 0.7rem; color: #388e3c; margin-top: 4px; font-weight: bold; }
     .btn-call { display: inline-block; background: #388e3c; color: #fff; padding: 4px 10px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: bold; margin-top: 4px; }
   </style>
@@ -143,12 +148,17 @@
       </div>
 
       <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
-      <h4>ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ:</h4>
-      <div class="size-container">
-        <button class="size-btn active" onclick="selectSize(this)">9 - 10 Years</button>
-        <button class="size-btn" onclick="selectSize(this)">11 - 12 Years</button>
-        <button class="size-btn" onclick="selectSize(this)">13 - 14 Years</button>
+      <h4>ಸೈಜ್ / ಅಳತೆ ಆಯ್ಕೆಮಾಡಿ:</h4>
+      <div class="size-container" id="sizeOptionsContainer">
+        <button class="size-btn active" onclick="selectSize(this)">Standard Size</button>
       </div>
+
+      <!-- Flipkart Style Similar Products Section -->
+      <div class="similar-section">
+        <div class="similar-title">🔥 Similar Products (ಇದೇ ರೀತಿಯ ಇತರ ವಸ್ತುಗಳು)</div>
+        <div class="similar-scroll" id="similarProductsScroll"></div>
+      </div>
+
     </div>
 
     <div class="bottom-bar">
@@ -197,7 +207,7 @@
     </div>
 
     <div class="bottom-bar">
-      <button class="btn-action btn-continue" onclick="confirmOrderWithPopup()">ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)</button>
+      <button class="btn-action btn-buy-now" onclick="confirmOrderWithPopup()">ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)</button>
     </div>
   </div>
 
@@ -224,7 +234,7 @@
   <script>
     let allProducts = [];
     let selectedProduct = null;
-    let selectedSize = "9 - 10 Years";
+    let selectedSize = "Standard";
     let userGPSLocation = "";
     let activeReturnOrderId = null;
 
@@ -320,6 +330,51 @@
         });
       };
 
+      // Render Flipkart Style Similar Products (Other items in same shop or category)
+      const similarScroll = document.getElementById('similarProductsScroll');
+      const similarItems = allProducts.filter(p => p.id !== selectedProduct.id);
+      
+      if (similarItems.length > 0) {
+        similarScroll.innerHTML = similarItems.map(p => `
+          <div class="similar-card" onclick="openProductDetail('${p.id}')">
+            <img src="${p.photo || p.photo1 || 'https://via.placeholder.com/100'}">
+            <div class="similar-card-title">${p.name}</div>
+            <div style="font-size:0.75rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${p.price}</div>
+          </div>
+        `).join('');
+      } else {
+        similarScroll.innerHTML = '<p style="font-size:0.8rem; color:#777;">ಇತರ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>';
+      }
+
+      // Dynamic Size Options based on Shop Type
+      const sizeContainer = document.getElementById('sizeOptionsContainer');
+      let sizeHtml = '';
+      if (selectedProduct.shopType === 'ಬಟ್ಟೆ ಅಂಗಡಿ') {
+        sizeHtml = `
+          <button class="size-btn active" onclick="selectSize(this)">5 ವರ್ಷ (Kids)</button>
+          <button class="size-btn" onclick="selectSize(this)">10 ವರ್ಷ (Kids)</button>
+          <button class="size-btn" onclick="selectSize(this)">18 ವರ್ಷ (Teens)</button>
+          <button class="size-btn" onclick="selectSize(this)">M Size</button>
+          <button class="size-btn" onclick="selectSize(this)">L Size</button>
+          <button class="size-btn" onclick="selectSize(this)">XL Size</button>
+          <button class="size-btn" onclick="selectSize(this)">XXL Size</button>
+        `;
+      } else if (selectedProduct.shopType === 'ಚಪ್ಪಲಿ ಅಂಗಡಿ') {
+        sizeHtml = `
+          <button class="size-btn active" onclick="selectSize(this)">Size 5-8 (Kids)</button>
+          <button class="size-btn" onclick="selectSize(this)">Size 28-32</button>
+          <button class="size-btn" onclick="selectSize(this)">Size 33-36</button>
+          <button class="size-btn" onclick="selectSize(this)">Size 37-40</button>
+        `;
+      } else {
+        sizeHtml = `
+          <button class="size-btn active" onclick="selectSize(this)">Standard Size</button>
+          <button class="size-btn" onclick="selectSize(this)">Free Size</button>
+        `;
+      }
+      sizeContainer.innerHTML = sizeHtml;
+      selectedSize = sizeContainer.querySelector('.size-btn').innerText;
+
       document.getElementById('productDetailScreen').style.display = 'block';
       pushScreenState();
     }
@@ -380,7 +435,7 @@
 
         const orderData = {
           orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
-          productName: selectedProduct.name,
+          productName: selectedProduct.name + " (" + selectedSize + ")",
           productPhoto: selectedProduct.photo || selectedProduct.photo1 || '',
           totalPrice: selectedProduct.price,
           selectedSize: selectedSize,

@@ -57,13 +57,14 @@
     /* Single Product Detail View */
     #productDetailView { display: none; padding: 12px; }
     
-    /* Horizontal Carousel / Slider */
-    .slider-container { width: 100%; position: relative; overflow: hidden; border-radius: 8px; background: #f0f0f0; }
-    .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+    /* Flipkart Style Image Slider & Thumbnails */
+    .slider-container { width: 100%; position: relative; overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #eee; }
+    .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .slider-track::-webkit-scrollbar { display: none; }
     .slider-track img { width: 100%; flex-shrink: 0; height: 280px; object-fit: contain; scroll-snap-align: start; background: #fff; }
     
-    .thumbnail-bar { display: flex; gap: 8px; margin-top: 8px; justify-content: center; }
-    .thumbnail-bar img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 2px solid #ddd; cursor: pointer; }
+    .thumbnail-bar { display: flex; gap: 8px; margin-top: 10px; justify-content: center; overflow-x: auto; padding: 4px; }
+    .thumbnail-bar img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; }
     .thumbnail-bar img.active { border-color: var(--primary); }
 
     .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; margin: 10px 0; display: flex; align-items: center; gap: 6px; }
@@ -116,7 +117,7 @@
         📦 <span><b>ಓಪನ್ ಬಾಕ್ಸ್ ಡೆಲಿವರಿ:</b> ವಸ್ತುವನ್ನು ಪರಿಶೀಲಿಸಿ ಸ್ವೀಕರಿಸಬಹುದು!</span>
       </div>
 
-      <!-- Dynamic Product Attributes (Visible only if applicable) -->
+      <!-- Dynamic Product Attributes -->
       <div id="dynamicAttributes" style="margin-top:10px;"></div>
 
       <button class="btn-buy" onclick="openOrderModal()">ಈಗ ಖರೀದಿಸಿ (Buy Now)</button>
@@ -131,9 +132,9 @@
         <div class="form-group"><label>ನಿಮ್ಮ ಹೆಸರು:</label><input type="text" id="custName" required placeholder="ಹೆಸರು"></div>
         <div class="form-group"><label>ಮೊಬೈಲ್ ನಂಬರ್:</label><input type="tel" id="custPhone" required placeholder="ಮೊಬೈಲ್ ಸಂಖ್ಯೆ"></div>
         <div class="form-group"><label>ಊರು / ವಿಳಾಸ:</label><input type="text" id="custVillage" required placeholder="ಉದಾ: ಭೀಮರಾಯನಗುಡಿ, ಶಹಾಪುರ"></div>
-        <div style="display:flex; gap:8px;">
-          <button type="submit" class="btn-buy" style="position:static; transform:none; border-radius:6px; flex:1; background:var(--success);">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್</button>
-          <button type="button" class="btn-buy" style="position:static; transform:none; border-radius:6px; flex:1; background:#757575;" onclick="closeOrderModal()">ಕ್ಯಾನ್ಸಲ್</button>
+        <div style="display:flex; gap:8px; margin-top:15px;">
+          <button type="submit" class="btn-buy" style="position:static; transform:none; border-radius:6px; flex:1; background:var(--success); padding:10px;">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್</button>
+          <button type="button" class="btn-buy" style="position:static; transform:none; border-radius:6px; flex:1; background:#757575; padding:10px;" onclick="closeOrderModal()">ಕ್ಯಾನ್ಸಲ್</button>
         </div>
       </form>
     </div>
@@ -167,7 +168,7 @@
 
       grid.innerHTML = list.map(p => `
         <div class="card" onclick="viewProduct('${p.docId}')">
-          <img src="${p.photo || 'https://via.placeholder.com/150'}">
+          <img src="${p.photo || p.photo1 || 'https://via.placeholder.com/150'}">
           <div class="card-body">
             <div class="card-title">${p.name}</div>
             <div class="price-bar">
@@ -193,7 +194,7 @@
       document.getElementById('detailPrice').innerText = `₹${currentProduct.price}`;
       document.getElementById('detailOldPrice').innerText = currentProduct.oldPrice ? `₹${currentProduct.oldPrice}` : '';
 
-      // Setup Flipkart Style Image Slider & Thumbnails
+      // Setup Flipkart Style Image Slider & Thumbnails for Multiple Photos
       const sliderTrack = document.getElementById('sliderTrack');
       const thumbnailBar = document.getElementById('thumbnailBar');
 
@@ -201,6 +202,10 @@
       if (currentProduct.photo) photos.push(currentProduct.photo);
       if (currentProduct.photo2) photos.push(currentProduct.photo2);
       if (currentProduct.photo3) photos.push(currentProduct.photo3);
+      if (currentProduct.photo1 && !photos.includes(currentProduct.photo1)) photos.unshift(currentProduct.photo1);
+
+      // Fallback if no photo found
+      if (photos.length === 0) photos.push('https://via.placeholder.com/300');
 
       sliderTrack.innerHTML = photos.map(imgSrc => `<img src="${imgSrc}">`).join('');
 
@@ -213,7 +218,14 @@
         thumbnailBar.style.display = 'none';
       }
 
-      // Display Details Specific to Category
+      // Track manual scroll to update active thumbnail
+      sliderTrack.onscroll = function() {
+        const index = Math.round(sliderTrack.scrollLeft / sliderTrack.clientWidth);
+        document.querySelectorAll('.thumbnail-bar img').forEach((thumb, i) => {
+          thumb.classList.toggle('active', i === index);
+        });
+      };
+
       const attrDiv = document.getElementById('dynamicAttributes');
       attrDiv.innerHTML = '';
       if (currentProduct.details) {
@@ -255,7 +267,7 @@
         productId: currentProduct.docId,
         productName: currentProduct.name,
         totalPrice: currentProduct.price,
-        productPhoto: currentProduct.photo,
+        productPhoto: currentProduct.photo || currentProduct.photo1 || '',
         shopId: currentProduct.shopId || '',
         shopName: currentProduct.shopName || '',
         shopType: currentProduct.shopType || '',

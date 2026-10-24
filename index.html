@@ -54,10 +54,23 @@
     .product-card img { width: 100%; height: 160px; object-fit: cover; border-radius: 6px; }
     .prod-title { font-size: 0.85rem; font-weight: 600; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
+    .old-price { font-size: 0.75rem; color: #888; text-decoration: line-through; margin-left: 6px; }
 
     .screen { display: none; background: #fff; min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 200; overflow-y: auto; padding-bottom: 30px; }
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; }
     .back-btn { font-size: 1.3rem; cursor: pointer; }
+
+    /* Flipkart Style Slider & Thumbnails */
+    .slider-container { width: 100%; position: relative; overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #eee; }
+    .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .slider-track::-webkit-scrollbar { display: none; }
+    .slider-track img { width: 100%; flex-shrink: 0; height: 280px; object-fit: contain; scroll-snap-align: start; background: #fff; }
+    
+    .thumbnail-bar { display: flex; gap: 8px; margin-top: 10px; justify-content: center; overflow-x: auto; padding: 4px; }
+    .thumbnail-bar img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; }
+    .thumbnail-bar img.active { border-color: var(--primary); }
+
+    .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; margin: 10px 0; display: flex; align-items: center; gap: 6px; }
 
     .size-container { display: flex; gap: 10px; margin: 12px 0; }
     .size-btn { border: 1px solid #e0e0e0; padding: 8px 14px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; background: #fff; }
@@ -106,11 +119,27 @@
       <span>ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ</span>
     </div>
     <div style="padding: 15px;">
-      <img id="detailImg" src="" style="width: 100%; height: 280px; object-fit: cover; border-radius: 8px;">
-      <h3 id="detailTitle" style="font-size: 1.1rem; margin-top: 8px;"></h3>
+      
+      <!-- Flipkart Style Image Slider -->
+      <div class="slider-container">
+        <div class="slider-track" id="sliderTrack"></div>
+      </div>
+      <div class="thumbnail-bar" id="thumbnailBar"></div>
+
+      <h3 id="detailTitle" style="font-size: 1.1rem; margin-top: 12px;"></h3>
       <p id="detailShopName" style="color: #666; font-size: 0.8rem; margin-top: 2px;"></p>
-      <div style="margin-top: 10px;">
-        <span class="curr-price" id="detailPrice" style="font-size: 1.3rem;"></span>
+      
+      <div style="margin-top: 8px; display: flex; align-items: center; gap: 8px;">
+        <span class="curr-price" id="detailPrice" style="font-size: 1.3rem; color:var(--success);"></span>
+        <span class="old-price" id="detailOldPrice" style="font-size: 0.9rem;"></span>
+      </div>
+
+      <!-- Fast Delivery & Open Box Delivery Badges -->
+      <div class="delivery-badge">
+        🚚 <span><b>ಫಾಸ್ಟ್ ಡೆಲಿವರಿ:</b> 2 ದಿನಗಳ ಒಳಗೆ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪಿಸಲಾಗುವುದು!</span>
+      </div>
+      <div class="delivery-badge" style="background:#e3f2fd; border-color:#90caf9; color:#1565c0;">
+        📦 <span><b>ಓಪನ್ ಬಾಕ್ಸ್ ಡೆಲಿವರಿ:</b> ವಸ್ತುವನ್ನು ಪರಿಶೀಲಿಸಿ ಸ್ವೀಕರಿಸಬಹುದು!</span>
       </div>
 
       <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
@@ -238,9 +267,12 @@
       const grid = document.getElementById('productsGrid');
       grid.innerHTML = list.map(p => `
         <div class="product-card" onclick="openProductDetail('${p.id}')">
-          <img src="${p.photo}">
+          <img src="${p.photo || p.photo1 || 'https://via.placeholder.com/150'}">
           <div class="prod-title">${p.name}</div>
-          <div class="curr-price">₹${p.price}</div>
+          <div style="display:flex; align-items:center; margin-top:4px;">
+            <span class="curr-price">₹${p.price}</span>
+            ${p.oldPrice ? `<span class="old-price">₹${p.oldPrice}</span>` : ''}
+          </div>
         </div>
       `).join('');
     }
@@ -252,12 +284,55 @@
 
     function openProductDetail(id) {
       selectedProduct = allProducts.find(p => p.id === id);
-      document.getElementById('detailImg').src = selectedProduct.photo;
+      
       document.getElementById('detailTitle').innerText = selectedProduct.name;
       document.getElementById('detailShopName').innerText = "ಅಂಗಡಿ: " + (selectedProduct.shopName || "ನಮ್ಮ ಶಾಪುರ್ ಸ್ಟೋರ್");
       document.getElementById('detailPrice').innerText = "₹" + selectedProduct.price;
+      document.getElementById('detailOldPrice').innerText = selectedProduct.oldPrice ? "₹" + selectedProduct.oldPrice : "";
+
+      // Setup Flipkart Style Image Slider & Thumbnails for Multiple Photos
+      const sliderTrack = document.getElementById('sliderTrack');
+      const thumbnailBar = document.getElementById('thumbnailBar');
+
+      let photos = [];
+      if (selectedProduct.photo) photos.push(selectedProduct.photo);
+      if (selectedProduct.photo2) photos.push(selectedProduct.photo2);
+      if (selectedProduct.photo3) photos.push(selectedProduct.photo3);
+      if (selectedProduct.photo1 && !photos.includes(selectedProduct.photo1)) photos.unshift(selectedProduct.photo1);
+
+      if (photos.length === 0) photos.push('https://via.placeholder.com/300');
+
+      sliderTrack.innerHTML = photos.map(imgSrc => `<img src="${imgSrc}">`).join('');
+
+      if (photos.length > 1) {
+        thumbnailBar.style.display = 'flex';
+        thumbnailBar.innerHTML = photos.map((imgSrc, idx) => `
+          <img src="${imgSrc}" class="${idx === 0 ? 'active' : ''}" onclick="scrollToImage(${idx})">
+        `).join('');
+      } else {
+        thumbnailBar.style.display = 'none';
+      }
+
+      sliderTrack.onscroll = function() {
+        const index = Math.round(sliderTrack.scrollLeft / sliderTrack.clientWidth);
+        document.querySelectorAll('.thumbnail-bar img').forEach((thumb, i) => {
+          thumb.classList.toggle('active', i === index);
+        });
+      };
+
       document.getElementById('productDetailScreen').style.display = 'block';
       pushScreenState();
+    }
+
+    function scrollToImage(index) {
+      const track = document.getElementById('sliderTrack');
+      const imgs = track.querySelectorAll('img');
+      if (imgs[index]) {
+        imgs[index].scrollIntoView({ behavior: 'smooth', inline: 'start' });
+        document.querySelectorAll('.thumbnail-bar img').forEach((thumb, i) => {
+          thumb.classList.toggle('active', i === index);
+        });
+      }
     }
 
     function selectSize(btn) {
@@ -267,7 +342,7 @@
     }
 
     function openCheckoutScreen() {
-      document.getElementById('checkoutImg').src = selectedProduct.photo;
+      document.getElementById('checkoutImg').src = selectedProduct.photo || selectedProduct.photo1 || '';
       document.getElementById('checkoutTitle').innerText = selectedProduct.name;
       document.getElementById('checkoutPrice').innerText = "₹" + selectedProduct.price;
       document.getElementById('checkoutScreen').style.display = 'block';
@@ -306,7 +381,7 @@
         const orderData = {
           orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
           productName: selectedProduct.name,
-          productPhoto: selectedProduct.photo,
+          productPhoto: selectedProduct.photo || selectedProduct.photo1 || '',
           totalPrice: selectedProduct.price,
           selectedSize: selectedSize,
           shopId: selectedProduct.shopId || "default_shop",

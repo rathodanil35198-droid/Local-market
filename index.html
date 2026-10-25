@@ -9,7 +9,7 @@
   <!-- Firebase SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, updateDoc, doc, serverTimestamp, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, updateDoc, doc, serverTimestamp, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAm3HFKu101wex1b025-zJZ2BJ_o1Xvw",
@@ -31,6 +31,7 @@
     window.doc = doc;
     window.query = query;
     window.where = where;
+    window.orderBy = orderBy;
     window.serverTimestamp = serverTimestamp;
   </script>
 
@@ -97,7 +98,6 @@
     .zoom-controls { display: flex; gap: 15px; margin-top: 15px; }
     .zoom-btn { background: #fff; color: #000; border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 1.3rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
-    /* Flipkart Style Order Card & Steps Tracker */
     .order-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
     .order-top { display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; }
     .order-top img { width: 70px; height: 70px; object-fit: contain; border-radius: 6px; background: #fafafa; border: 1px solid #eee; }
@@ -234,7 +234,6 @@
         </div>
       </div>
 
-      <!-- Payment Option Box -->
       <div style="margin-top: 15px; background: #e8f5e9; border: 1px solid #c8e6c9; padding: 10px; border-radius: 8px; font-size: 0.8rem;">
         <p><b>💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery):</b> ವಸ್ತುವನ್ನು ಪರಿಶೀಲಿಸಿ (Open Box Delivery) ಹಣ ನೀಡಿ. 2 ದಿನಗಳಲ್ಲಿ ತಲುಪಲಿದೆ.</p>
       </div>
@@ -546,7 +545,7 @@
           deliveryPin: Math.floor(1000 + Math.random() * 9000).toString(),
           returnOtp: returnOtp,
           customer: { name, phone, village, taluk, district, pincode, lat: customerGpsLat, lng: customerGpsLng },
-          status: 'STEP_1', // STEP_1: Confirmed, STEP_2: Packed, STEP_3: Out for delivery, STEP_4: Delivered, RETURNED
+          status: 'STEP_1',
           timestamp: window.serverTimestamp()
         };
 
@@ -569,7 +568,13 @@
       if (!phone) {
         container.innerHTML = '<p style="text-align:center; color:#777; margin-top:20px;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.</p>';
       } else {
-        const q = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
+        // Query ordered by timestamp descending so new orders appear on top
+        const q = window.query(
+          window.collection(window.db, "orders"), 
+          window.where("customer.phone", "==", phone),
+          window.orderBy("timestamp", "desc")
+        );
+
         window.onSnapshot(q, (snapshot) => {
           let orders = [];
           snapshot.forEach(d => orders.push({ id: d.id, ...d.data() }));
@@ -580,7 +585,6 @@
             const now = Date.now();
 
             container.innerHTML = orders.map(o => {
-              // 2 Days Return Window Check (2 * 24 * 60 * 60 * 1000 ms)
               let orderTime = o.timestamp ? o.timestamp.toMillis() : now;
               let isWithin2Days = (now - orderTime) <= (2 * 24 * 60 * 60 * 1000);
               let canReturn = (o.status === 'STEP_4' || o.status === 'DELIVERED') && isWithin2Days;

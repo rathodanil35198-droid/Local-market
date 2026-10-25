@@ -9,7 +9,7 @@
   <!-- Firebase SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, updateDoc, doc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, updateDoc, doc, serverTimestamp, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAm3HFKu101wex1b025-zJZ2BJ_o1Xvw",
@@ -30,7 +30,7 @@
     window.updateDoc = updateDoc;
     window.doc = doc;
     window.query = query;
-    window.orderBy = orderBy;
+    window.where = where;
     window.serverTimestamp = serverTimestamp;
   </script>
 
@@ -49,7 +49,6 @@
 
     .container { padding: 8px; max-width: 500px; margin: 0 auto; }
 
-    /* Flipkart Style Grid Layout (Compact & Clean) */
     .grid-products { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
     .product-card { background: #fff; border-radius: 8px; padding: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; }
     .img-box { width: 100%; height: 150px; background: #fafafa; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
@@ -59,12 +58,10 @@
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
     .old-price { font-size: 0.75rem; color: #888; text-decoration: line-through; }
 
-    /* Product Detail Screen */
     .screen { display: none; background: #fff; min-height: 100vh; position: absolute; top: 0; left: 0; width: 100%; z-index: 200; padding-bottom: 90px; }
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; }
     .back-btn { font-size: 1.3rem; cursor: pointer; }
 
-    /* Slider Container */
     .slider-container { width: 100%; position: relative; overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #eee; }
     .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .slider-track::-webkit-scrollbar { display: none; }
@@ -80,7 +77,6 @@
     .size-btn { border: 1px solid #e0e0e0; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; background: #fff; }
     .size-btn.active { border-color: var(--primary); background: #e8f0fe; color: var(--primary); font-weight: bold; }
 
-    /* Similar Products */
     .similar-section { margin-top: 20px; border-top: 2px solid #f1f3f6; padding-top: 15px; }
     .similar-title { font-size: 0.95rem; font-weight: bold; margin-bottom: 10px; color: #333; }
     .similar-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
@@ -95,20 +91,15 @@
     .btn-action { flex: 1; padding: 14px; border: none; font-weight: bold; font-size: 0.95rem; cursor: pointer; text-align: center; }
     .btn-buy-now { background: #ff9f00; color: #fff; }
 
-    /* Fullscreen Image Zoom Modal */
     .zoom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; flex-direction: column; }
     .zoom-img-container { width: 100%; height: 80%; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; }
     .zoom-img-container img { max-width: 95%; max-height: 95%; object-fit: contain; transition: transform 0.25s ease; transform-origin: center center; }
     .zoom-controls { display: flex; gap: 15px; margin-top: 15px; }
     .zoom-btn { background: #fff; color: #000; border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 1.3rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
-    .order-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
-    .tracker-box { background: #e8f5e9; padding: 10px; border-radius: 8px; margin: 8px 0; border: 1px solid #c8e6c9; }
-    .progress-steps { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; position: relative; }
-    .step-item { display: flex; flex-direction: column; align-items: center; font-size: 0.68rem; font-weight: bold; color: #777; flex: 1; text-align: center; }
-    .step-circle { width: 24px; height: 24px; border-radius: 50%; background: #b0bec5; color: white; display: flex; justify-content: center; align-items: center; font-size: 0.75rem; margin-bottom: 4px; }
-    .step-item.active .step-circle { background: var(--success); }
-    .step-item.active { color: var(--success); }
+    /* Order Card Style */
+    .order-item-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 12px; display: flex; gap: 10px; }
+    .order-item-card img { width: 75px; height: 75px; object-fit: contain; border-radius: 6px; background: #fafafa; border: 1px solid #eee; }
   </style>
 </head>
 <body>
@@ -128,7 +119,7 @@
     <div id="productsGrid" class="grid-products"></div>
   </div>
 
-  <!-- SCREEN 1: PRODUCT DETAILS SCREEN -->
+  <!-- PRODUCT DETAIL SCREEN -->
   <div id="productDetailScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="closeScreen('productDetailScreen')">←</span>
@@ -136,7 +127,6 @@
     </div>
     <div style="padding: 15px;">
       
-      <!-- Flipkart Style Image Slider -->
       <div class="slider-container">
         <div class="slider-track" id="sliderTrack"></div>
       </div>
@@ -151,12 +141,8 @@
         <span class="old-price" id="detailOldPrice" style="font-size: 0.9rem;"></span>
       </div>
 
-      <!-- Badges -->
       <div class="delivery-badge">
         🚚 <span><b>ಫಾಸ್ಟ್ ಡೆಲಿವರಿ:</b> 2 ದಿನಗಳ ಒಳಗೆ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪಿಸಲಾಗುವುದು!</span>
-      </div>
-      <div class="delivery-badge" style="background:#e3f2fd; border-color:#90caf9; color:#1565c0;">
-        📦 <span><b>ಓಪನ್ ಬಾಕ್ಸ್ ಡೆಲಿವರಿ:</b> ವಸ್ತುವನ್ನು ಪರಿಶೀಲಿಸಿ ಸ್ವೀಕರಿಸಬಹುದು!</span>
       </div>
 
       <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
@@ -165,13 +151,11 @@
         <button class="size-btn active" onclick="selectSize(this)">Standard Size</button>
       </div>
 
-      <!-- Similar Products -->
       <div class="similar-section">
         <div class="similar-title">🔥 Similar Products (ಇದೇ ರೀತಿಯ ಇತರ ವಸ್ತುಗಳು)</div>
         <div class="similar-scroll" id="similarProductsScroll"></div>
       </div>
 
-      <!-- More Products -->
       <div class="similar-section">
         <div class="similar-title">✨ More Products For You (ನಿಮಗಾಗಿ ಹೆಚ್ಚಿನ ವಸ್ತುಗಳು)</div>
         <div class="more-products-grid" id="moreProductsGrid"></div>
@@ -184,7 +168,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 2: FULLSCREEN IMAGE ZOOM MODAL -->
+  <!-- ZOOM MODAL -->
   <div id="zoomModal" class="zoom-modal">
     <div style="position:absolute; top:15px; right:20px; color:#fff; font-size:1.8rem; cursor:pointer;" onclick="closeZoomModal()">✕</div>
     <div class="zoom-img-container">
@@ -197,7 +181,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 3: CHECKOUT SCREEN -->
+  <!-- CHECKOUT SCREEN WITH AUTO-FILL ADDRESS & EDIT BUTTON -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="closeScreen('checkoutScreen')">←</span>
@@ -205,7 +189,11 @@
     </div>
     <div style="padding: 15px;">
       <div style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-        <h4 style="font-size: 0.9rem; margin-bottom: 8px; color: #2874f0;">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:</h4>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="font-size: 0.9rem; color: #2874f0;">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:</h4>
+          <button type="button" id="editAddressBtn" onclick="enableAddressEdit()" style="display:none; background:#ff9f00; color:#fff; border:none; padding:4px 8px; border-radius:4px; font-size:0.75rem; font-weight:bold; cursor:pointer;">ಅಡ್ರೆಸ್ ಬದಲಾಯಿಸಿ</button>
+        </div>
+
         <input type="text" id="custName" placeholder="ಹೆಸರು" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
@@ -234,7 +222,7 @@
     </div>
   </div>
 
-  <!-- SCREEN 4: MY ORDERS SCREEN -->
+  <!-- MY ORDERS SCREEN -->
   <div id="myOrdersScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="closeScreen('myOrdersScreen')">←</span>
@@ -254,6 +242,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       startRealtimeShopOwnerCheck();
+      loadSavedAddress();
 
       window.history.pushState({ page: 'home' }, '', '');
       window.addEventListener('popstate', () => {
@@ -274,7 +263,38 @@
       window.history.pushState({ page: 'subpage' }, '', '');
     }
 
-    // Filter Deleted/Unpaid Shop Products in Realtime
+    function loadSavedAddress() {
+      const saved = localStorage.getItem('customer_saved_address');
+      if (saved) {
+        const addr = JSON.parse(saved);
+        document.getElementById('custName').value = addr.name || '';
+        document.getElementById('custPhone').value = addr.phone || '';
+        document.getElementById('custVillage').value = addr.village || '';
+        document.getElementById('custTaluk').value = addr.taluk || 'ಶಹಾಪುರ';
+        document.getElementById('custDistrict').value = addr.district || 'ಯಾದಗಿರಿ';
+        document.getElementById('custPincode').value = addr.pincode || '585223';
+
+        // Lock inputs if already saved, show change button
+        document.getElementById('custName').disabled = true;
+        document.getElementById('custPhone').disabled = true;
+        document.getElementById('custVillage').disabled = true;
+        document.getElementById('custTaluk').disabled = true;
+        document.getElementById('custDistrict').disabled = true;
+        document.getElementById('custPincode').disabled = true;
+        document.getElementById('editAddressBtn').style.display = 'inline-block';
+      }
+    }
+
+    function enableAddressEdit() {
+      document.getElementById('custName').disabled = false;
+      document.getElementById('custPhone').disabled = false;
+      document.getElementById('custVillage').disabled = false;
+      document.getElementById('custTaluk').disabled = false;
+      document.getElementById('custDistrict').disabled = false;
+      document.getElementById('custPincode').disabled = false;
+      document.getElementById('editAddressBtn').style.display = 'none';
+    }
+
     function startRealtimeShopOwnerCheck() {
       window.onSnapshot(window.collection(window.db, "shop_owners"), (snap) => {
         validShopIds.clear();
@@ -286,7 +306,6 @@
           if (s.paidExpiryDate && now > s.paidExpiryDate) {
             isPaidActive = false;
           }
-
           if (isPaidActive) {
             validShopIds.add(s.id);
           }
@@ -301,18 +320,11 @@
         allProducts = [];
         snap.forEach(docSnap => {
           const p = { id: docSnap.id, ...docSnap.data() };
-          // Only show products whose shop is valid and paid
           if (validShopIds.has(p.shopId)) {
             allProducts.push(p);
           }
         });
-
         renderProducts(allProducts);
-
-        if (selectedProduct) {
-          const exists = allProducts.find(p => p.id === selectedProduct.id);
-          if (!exists) closeScreen('productDetailScreen');
-        }
       });
     }
 
@@ -374,7 +386,6 @@
 
       const similarScroll = document.getElementById('similarProductsScroll');
       const moreGrid = document.getElementById('moreProductsGrid');
-      
       const otherItems = allProducts.filter(p => p.id !== selectedProduct.id);
       
       if (otherItems.length > 0) {
@@ -398,9 +409,6 @@
             </div>
           </div>
         `).join('');
-      } else {
-        similarScroll.innerHTML = '<p style="font-size:0.8rem; color:#777;">ಇತರ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>';
-        moreGrid.innerHTML = '<p style="font-size:0.8rem; color:#777;">ಹೆಚ್ಚಿನ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>';
       }
 
       document.getElementById('productDetailScreen').style.display = 'block';
@@ -459,13 +467,21 @@
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
+      const taluk = document.getElementById('custTaluk').value.trim();
+      const district = document.getElementById('custDistrict').value.trim();
+      const pincode = document.getElementById('custPincode').value.trim();
 
       if (!name || !phone || !village) {
         alert("ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಊರು ನಮೂದಿಸಿ.");
         return;
       }
 
-      if (confirm(`ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಲು OK ಒತ್ತಿ.`)) {
+      // Save address locally
+      const addressData = { name, phone, village, taluk, district, pincode };
+      localStorage.setItem('customer_saved_address', JSON.stringify(addressData));
+      localStorage.setItem('customer_phone_key', phone);
+
+      if (confirm(`🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಲು OK ಒತ್ತಿ.`)) {
         const orderData = {
           orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
           productName: selectedProduct.name + " (" + selectedSize + ")",
@@ -473,7 +489,7 @@
           totalPrice: selectedProduct.price,
           shopId: selectedProduct.shopId,
           deliveryPin: Math.floor(1000 + Math.random() * 9000).toString(),
-          customer: { name, phone, village },
+          customer: { name, phone, village, taluk, district, pincode },
           status: 'STEP_1',
           timestamp: window.serverTimestamp()
         };
@@ -490,8 +506,39 @@
       }
     }
 
-    function openMyOrdersScreen() { 
-      document.getElementById('myOrdersScreen').style.display = 'block'; 
+    function openMyOrdersScreen() {
+      const phone = localStorage.getItem('customer_phone_key');
+      const container = document.getElementById('ordersContainer');
+      
+      if (!phone) {
+        container.innerHTML = '<p style="text-align:center; color:#777; margin-top:20px;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.</p>';
+      } else {
+        // Fetch and listen orders for this customer phone
+        const q = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
+        window.onSnapshot(q, (snapshot) => {
+          let orders = [];
+          snapshot.forEach(d => orders.push({ id: d.id, ...d.data() }));
+
+          if (orders.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:#777; margin-top:20px;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.</p>';
+          } else {
+            container.innerHTML = orders.map(o => `
+              <div class="order-item-card">
+                <img src="${o.productPhoto || 'https://via.placeholder.com/80'}">
+                <div style="flex:1;">
+                  <h4 style="font-size:0.85rem; font-weight:bold;">${o.productName}</h4>
+                  <p style="font-size:0.8rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${o.totalPrice}</p>
+                  <p style="font-size:0.75rem; color:#555; margin-top:4px;"><b>ವಿಳಾಸ:</b> ${o.customer?.name}, ${o.customer?.village}, ${o.customer?.taluk} (${o.customer?.pincode})</p>
+                  <p style="font-size:0.75rem; color:#555;"><b>ಫೋನ್:</b> ${o.customer?.phone}</p>
+                  <a href="tel:${o.customer?.phone}" style="display:inline-block; margin-top:6px; background:var(--success); color:#fff; padding:4px 8px; border-radius:4px; font-size:0.7rem; text-decoration:none; font-weight:bold;">📞 ಕಾಲ್ ಮಾಡಿ</a>
+                </div>
+              </div>
+            `).join('');
+          }
+        });
+      }
+
+      document.getElementById('myOrdersScreen').style.display = 'block';
       pushScreenState();
     }
 

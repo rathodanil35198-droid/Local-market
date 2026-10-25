@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ನಮ್ಮ ಶಾಪುರ್ - ಗ್ರಾಹಕರ ಆಪ್ | Customer App</title>
+  <title id="appTitle">ನಮ್ಮ ಶಾಪುರ್ - ಗ್ರಾಹಕರ ಆಪ್ | Customer App</title>
   <link rel="icon" type="image/png" sizes="192x192" href="AR_Taxi_Booking_Go_Fast_512x512.png">
 
   <!-- Firebase SDKs -->
@@ -31,7 +31,6 @@
     window.doc = doc;
     window.query = query;
     window.where = where;
-    window.serverTimestamp = serverTimestamp;
   </script>
 
   <style>
@@ -42,7 +41,10 @@
     header { background-color: var(--primary); color: white; padding: 10px 14px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     .brand-title { font-size: 1.1rem; font-weight: bold; font-style: italic; }
-    .btn-my-orders { background: var(--secondary); color: #000; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; cursor: pointer; }
+    
+    .header-btns { display: flex; gap: 6px; align-items: center; }
+    .btn-lang { background: #fff; color: var(--primary); border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
+    .btn-my-orders { background: var(--secondary); color: #000; border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
 
     .search-box { display: flex; background: #fff; border-radius: 6px; padding: 8px 12px; align-items: center; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 0.88rem; margin-left: 8px; }
@@ -91,8 +93,11 @@
   <!-- Main Header -->
   <header>
     <div class="top-bar">
-      <div class="brand-title">🛍️ ನಮ್ಮ ಶಾಪುರ್</div>
-      <button class="btn-my-orders" onclick="openMyOrdersScreen()">📦 ನನ್ನ ಆರ್ಡರ್</button>
+      <div class="brand-title" id="lblBrand">🛍️ ನಮ್ಮ ಶಾಪುರ್</div>
+      <div class="header-btns">
+        <button class="btn-lang" id="langToggleBtn" onclick="toggleLanguage()">English</button>
+        <button class="btn-my-orders" id="lblMyOrdersBtn" onclick="openMyOrdersScreen()">📦 ನನ್ನ ಆರ್ಡರ್</button>
+      </div>
     </div>
     <div class="search-box">
       🔍 <input type="text" id="searchInput" placeholder="ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ..." oninput="filterProducts()">
@@ -107,7 +112,7 @@
   <div id="productDetailScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="closeScreen('productDetailScreen')">←</span>
-      <span>ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ</span>
+      <span id="lblProdDetailTitle">ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ</span>
     </div>
     <div style="padding: 15px;">
       
@@ -116,7 +121,7 @@
         <div class="slider-track" id="sliderTrack"></div>
       </div>
       <div class="thumbnail-bar" id="thumbnailBar"></div>
-      <p style="text-align:center; font-size:0.75rem; color:#555; margin-top:6px;">🔍 ಫೋಟೋ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ HD ಕ್ವಾಲಿಟಿಯಲ್ಲಿ ಜೂಮ್ (Zoom In) ಮಾಡಿ ವೀಕ್ಷಿಸಿ</p>
+      <p style="text-align:center; font-size:0.75rem; color:#555; margin-top:6px;" id="lblZoomHint">🔍 ಫೋಟೋ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ HD ಕ್ವಾಲಿಟಿಯಲ್ಲಿ ಜೂಮ್ (Zoom In) ಮಾಡಿ ವೀಕ್ಷಿಸಿ</p>
 
       <h3 id="detailTitle" style="font-size: 1.1rem; margin-top: 10px;"></h3>
       <p id="detailShopName" style="color: #666; font-size: 0.8rem; margin-top: 2px;"></p>
@@ -128,20 +133,20 @@
       </div>
 
       <div style="display:flex; align-items:center; gap:10px; margin: 12px 0; background:#f8f9fa; padding:8px; border-radius:6px; border:1px solid #eee;">
-        <span style="font-size:0.85rem; font-weight:bold;">ಪ್ರಮಾಣ (Quantity):</span>
+        <span style="font-size:0.85rem; font-weight:bold;" id="lblQty">ಪ್ರಮಾಣ (Quantity):</span>
         <button onclick="changeQty(-1)" style="width:30px; height:30px; font-weight:bold; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer;">-</button>
         <span id="qtyDisplay" style="font-weight:bold; font-size:1rem; min-width:20px; text-align:center;">1</span>
         <button onclick="changeQty(1)" style="width:30px; height:30px; font-weight:bold; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer;">+</button>
       </div>
 
       <div class="delivery-badge">
-        🚚 <span><b>ಫಾಸ್ಟ್ ಡೆಲಿವರಿ:</b> 2 ದಿನಗಳ ಒಳಗೆ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪಿಸಲಾಗುವುದು! (ಓಪನ್ ಬಾಕ್ಸ್ ಡೆಲಿವರಿ)</span>
+        🚚 <span id="lblFastDeliv"><b>ಫಾಸ್ಟ್ ಡೆಲಿವರಿ:</b> 2 ದಿನಗಳ ಒಳಗೆ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪಿಸಲಾಗುವುದು! (ಓಪನ್ ಬಾಕ್ಸ್ ಡೆಲಿವರಿ)</span>
       </div>
 
     </div>
 
     <div class="bottom-bar">
-      <button class="btn-action btn-buy-now" onclick="openCheckoutScreen()">ಈಗ ಖರೀದಿಸಿ (Buy Now)</button>
+      <button class="btn-action btn-buy-now" id="lblBuyNowBtn" onclick="openCheckoutScreen()">ಈಗ ಖರೀದಿಸಿ (Buy Now)</button>
     </div>
   </div>
 
@@ -162,14 +167,14 @@
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="closeScreen('checkoutScreen')">←</span>
-      <span>ವಿವರ ಖಚಿತಪಡಿಸಿ (Checkout)</span>
+      <span id="lblCheckoutHeader">ವಿವರ ಖಚಿತಪಡಿಸಿ (Checkout)</span>
     </div>
     <div style="padding: 15px;">
       <div style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-        <h4 style="font-size: 0.9rem; color: #2874f0; margin-bottom:8px;">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:</h4>
-        <input type="text" id="custName" placeholder="ಹೆಸರು" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು / ಗ್ರಾಮೀಣ" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:</h4>
+        <input type="text" id="custName" placeholder="ಹೆಸರು / Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು / Village" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="text" id="custTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="text" id="custDistrict" value="ಯಾದಗಿರಿ" placeholder="ಜಿಲ್ಲೆ" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="text" id="custPincode" value="585223" placeholder="ಪಿನ್‌ಕೋಡ್" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
@@ -186,7 +191,7 @@
       </div>
     </div>
     <div class="bottom-bar">
-      <button class="btn-action btn-buy-now" onclick="confirmOrderWithPopup()">ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)</button>
+      <button class="btn-action btn-buy-now" id="lblConfirmOrderBtn" onclick="confirmOrderWithPopup()">ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)</button>
     </div>
   </div>
 
@@ -194,7 +199,7 @@
   <div id="myOrdersScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="closeScreen('myOrdersScreen')">←</span>
-      <span>ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)</span>
+      <span id="lblMyOrdersHeader">ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)</span>
     </div>
     <div style="padding: 15px;">
       <div id="ordersContainer"></div>
@@ -207,11 +212,94 @@
     let selectedProduct = null;
     let productQty = 1;
     let currentZoomScale = 1;
+    let currentLang = localStorage.getItem('app_lang') || 'kn'; // 'kn' or 'en'
+
+    const translations = {
+      kn: {
+        appTitle: "ನಮ್ಮ ಶಾಪುರ್ - ಗ್ರಾಹಕರ ಆಪ್",
+        brandTitle: "🛍️ ನಮ್ಮ ಶಾಪುರ್",
+        myOrdersBtn: "📦 ನನ್ನ ಆರ್ಡರ್",
+        searchPlaceholder: "ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ...",
+        prodDetailTitle: "ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ",
+        zoomHint: "🔍 ಫೋಟೋ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ HD ಕ್ವಾಲಿಟಿಯಲ್ಲಿ ಜೂಮ್ (Zoom In) ಮಾಡಿ ವೀಕ್ಷಿಸಿ",
+        shopPrefix: "ಅಂಗಡಿ: ",
+        qtyLabel: "ಪ್ರಮಾಣ (Quantity):",
+        fastDeliv: "<b>ಫಾಸ್ಟ್ ಡೆಲಿವರಿ:</b> 2 ದಿನಗಳ ಒಳಗೆ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪಿಸಲಾಗುವುದು! (ಓಪನ್ ಬಾಕ್ಸ್ ಡೆಲಿವರಿ)",
+        buyNowBtn: "ಈಗ ಖರೀದಿಸಿ (Buy Now)",
+        checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ (Checkout)",
+        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:",
+        namePlaceholder: "ಹೆಸರು",
+        phonePlaceholder: "ಮೊಬೈಲ್ ನಂಬರ್",
+        villagePlaceholder: "ಊರಿನ ಹೆಸರು / ಗ್ರಾಮೀಣ",
+        confirmOrderBtn: "ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)",
+        myOrdersHeader: "ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)",
+        noOrders: "ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
+        statusLabel: "ಸ್ಥಿತಿ: ",
+        orderSuccess: "🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!",
+        confirmPopup: "🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಲು OK ಒತ್ತಿ.",
+        fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಊರು ನಮೂದಿಸಿ."
+      },
+      en: {
+        appTitle: "Namma Shahapur - Customer App",
+        brandTitle: "🛍️ Namma Shahapur",
+        myOrdersBtn: "📦 My Orders",
+        searchPlaceholder: "Search products or shops...",
+        prodDetailTitle: "Product Description",
+        zoomHint: "🔍 Click photo to zoom in HD quality",
+        shopPrefix: "Shop: ",
+        qtyLabel: "Quantity:",
+        fastDeliv: "<b>Fast Delivery:</b> Delivered to your doorstep within 2 days! (Open Box Delivery)",
+        buyNowBtn: "Buy Now",
+        checkoutHeader: "Checkout",
+        deliveryAddrTitle: "📍 Your Delivery Address:",
+        namePlaceholder: "Name",
+        phonePlaceholder: "Mobile Number",
+        villagePlaceholder: "Village / Town",
+        confirmOrderBtn: "Confirm Order",
+        myOrdersHeader: "My Orders",
+        noOrders: "No orders found.",
+        statusLabel: "Status: ",
+        orderSuccess: "🎉 Your order has been successfully confirmed!",
+        confirmPopup: "🎉 Press OK to confirm your order.",
+        fillAll: "Please enter Name, Mobile Number and Village."
+      }
+    };
 
     window.addEventListener('DOMContentLoaded', () => {
+      applyLanguage();
       startRealtimeShopOwnerCheck();
       loadSavedAddress();
     });
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'kn' ? 'en' : 'kn';
+      localStorage.setItem('app_lang', currentLang);
+      applyLanguage();
+      renderProducts(allProducts);
+    }
+
+    function applyLanguage() {
+      const t = translations[currentLang];
+      document.getElementById('appTitle').innerText = t.appTitle;
+      document.getElementById('lblBrand').innerText = t.brandTitle;
+      document.getElementById('lblMyOrdersBtn').innerText = t.myOrdersBtn;
+      document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+      document.getElementById('langToggleBtn').innerText = currentLang === 'kn' ? 'English' : 'ಕನ್ನಡ';
+      
+      document.getElementById('lblProdDetailTitle').innerText = t.prodDetailTitle;
+      document.getElementById('lblZoomHint').innerText = t.zoomHint;
+      document.getElementById('lblQty').innerText = t.qtyLabel;
+      document.getElementById('lblFastDeliv').innerHTML = t.fastDeliv;
+      document.getElementById('lblBuyNowBtn').innerText = t.buyNowBtn;
+
+      document.getElementById('lblCheckoutHeader').innerText = t.checkoutHeader;
+      document.getElementById('lblDeliveryAddrTitle').innerText = t.deliveryAddrTitle;
+      document.getElementById('custName').placeholder = t.namePlaceholder;
+      document.getElementById('custPhone').placeholder = t.phonePlaceholder;
+      document.getElementById('custVillage').placeholder = t.villagePlaceholder;
+      document.getElementById('lblConfirmOrderBtn').innerText = t.confirmOrderBtn;
+      document.getElementById('lblMyOrdersHeader').innerText = t.myOrdersHeader;
+    }
 
     function loadSavedAddress() {
       const saved = localStorage.getItem('customer_saved_address');
@@ -282,8 +370,9 @@
       document.getElementById('qtyDisplay').innerText = productQty;
       window.scrollTo(0, 0);
 
+      const t = translations[currentLang];
       document.getElementById('detailTitle').innerText = selectedProduct.name;
-      document.getElementById('detailShopName').innerText = "ಅಂಗಡಿ: " + (selectedProduct.shopName || "ನಮ್ಮ ಶಾಪುರ್ ಸ್ಟೋರ್");
+      document.getElementById('detailShopName').innerText = t.shopPrefix + (selectedProduct.shopName || "Namma Shahapur Store");
       document.getElementById('detailVariant').innerText = selectedProduct.variant ? `RAM & ROM: ${selectedProduct.variant}` : '';
       document.getElementById('detailPrice').innerText = "₹" + selectedProduct.price;
       document.getElementById('detailOldPrice').innerText = selectedProduct.oldPrice ? "₹" + selectedProduct.oldPrice : "";
@@ -291,7 +380,6 @@
       const sliderTrack = document.getElementById('sliderTrack');
       const thumbnailBar = document.getElementById('thumbnailBar');
 
-      // Collecting 4 Photos from colors array or fallback to individual photo fields
       let photos = [];
       if (selectedProduct.colors && selectedProduct.colors.length > 0 && selectedProduct.colors[0].photos) {
         photos = selectedProduct.colors[0].photos.filter(Boolean);
@@ -371,18 +459,19 @@
     }
 
     async function confirmOrderWithPopup() {
+      const t = translations[currentLang];
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
 
       if (!name || !phone || !village) {
-        alert("ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಊರು ನಮೂದಿಸಿ.");
+        alert(t.fillAll);
         return;
       }
 
       localStorage.setItem('customer_phone_key', phone);
 
-      if (confirm(`🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಲು OK ಒತ್ತಿ.`)) {
+      if (confirm(t.confirmPopup)) {
         const finalAmt = Number(selectedProduct.price) * productQty;
         const returnOtp = Math.floor(1000 + Math.random() * 9000).toString();
 
@@ -403,22 +492,23 @@
 
         try {
           await window.addDoc(window.collection(window.db, "orders"), orderData);
-          alert("🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
+          alert(t.orderSuccess);
           closeScreen('checkoutScreen');
           closeScreen('productDetailScreen');
           openMyOrdersScreen();
         } catch (e) {
-          alert("ದೋಷ: " + e.message);
+          alert("Error: " + e.message);
         }
       }
     }
 
     function openMyOrdersScreen() {
+      const t = translations[currentLang];
       const phone = localStorage.getItem('customer_phone_key');
       const container = document.getElementById('ordersContainer');
       
       if (!phone) {
-        container.innerHTML = '<p style="text-align:center; color:#777; margin-top:20px;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.</p>';
+        container.innerHTML = `<p style="text-align:center; color:#777; margin-top:20px;">${t.noOrders}</p>`;
       } else {
         const q = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
 
@@ -428,7 +518,7 @@
           orders.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
           if (orders.length === 0) {
-            container.innerHTML = '<p style="text-align:center; color:#777; margin-top:20px;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.</p>';
+            container.innerHTML = `<p style="text-align:center; color:#777; margin-top:20px;">${t.noOrders}</p>`;
           } else {
             container.innerHTML = orders.map(o => `
               <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:12px; margin-bottom:12px;">
@@ -437,7 +527,7 @@
                   <div>
                     <h4 style="font-size:0.85rem;">${o.productName}</h4>
                     <p style="font-size:0.85rem; color:var(--success); font-weight:bold;">₹${o.totalPrice}</p>
-                    <p style="font-size:0.75rem; color:#555;"><b>ಸ್ಥಿತಿ:</b> ${o.status}</p>
+                    <p style="font-size:0.75rem; color:#555;"><b>${t.statusLabel}</b> ${o.status}</p>
                   </div>
                 </div>
               </div>

@@ -97,9 +97,17 @@
     .zoom-controls { display: flex; gap: 15px; margin-top: 15px; }
     .zoom-btn { background: #fff; color: #000; border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 1.3rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
-    /* Order Card Style */
-    .order-item-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 12px; display: flex; gap: 10px; }
-    .order-item-card img { width: 75px; height: 75px; object-fit: contain; border-radius: 6px; background: #fafafa; border: 1px solid #eee; }
+    /* Flipkart Style Order Card & Steps Tracker */
+    .order-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .order-top { display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+    .order-top img { width: 70px; height: 70px; object-fit: contain; border-radius: 6px; background: #fafafa; border: 1px solid #eee; }
+    
+    .tracker-container { margin-top: 12px; background: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; }
+    .progress-steps { display: flex; justify-content: space-between; align-items: center; position: relative; margin-top: 6px; }
+    .step-item { display: flex; flex-direction: column; align-items: center; font-size: 0.65rem; font-weight: bold; color: #777; flex: 1; text-align: center; z-index: 2; }
+    .step-circle { width: 22px; height: 22px; border-radius: 50%; background: #cbd5e0; color: white; display: flex; justify-content: center; align-items: center; font-size: 0.7rem; margin-bottom: 3px; }
+    .step-item.active .step-circle { background: var(--success); }
+    .step-item.active { color: var(--success); }
   </style>
 </head>
 <body>
@@ -274,7 +282,6 @@
         document.getElementById('custDistrict').value = addr.district || 'ಯಾದಗಿರಿ';
         document.getElementById('custPincode').value = addr.pincode || '585223';
 
-        // Lock inputs if already saved, show change button
         document.getElementById('custName').disabled = true;
         document.getElementById('custPhone').disabled = true;
         document.getElementById('custVillage').disabled = true;
@@ -476,7 +483,6 @@
         return;
       }
 
-      // Save address locally
       const addressData = { name, phone, village, taluk, district, pincode };
       localStorage.setItem('customer_saved_address', JSON.stringify(addressData));
       localStorage.setItem('customer_phone_key', phone);
@@ -513,7 +519,6 @@
       if (!phone) {
         container.innerHTML = '<p style="text-align:center; color:#777; margin-top:20px;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.</p>';
       } else {
-        // Fetch and listen orders for this customer phone
         const q = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
         window.onSnapshot(q, (snapshot) => {
           let orders = [];
@@ -523,14 +528,39 @@
             container.innerHTML = '<p style="text-align:center; color:#777; margin-top:20px;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.</p>';
           } else {
             container.innerHTML = orders.map(o => `
-              <div class="order-item-card">
-                <img src="${o.productPhoto || 'https://via.placeholder.com/80'}">
-                <div style="flex:1;">
-                  <h4 style="font-size:0.85rem; font-weight:bold;">${o.productName}</h4>
-                  <p style="font-size:0.8rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${o.totalPrice}</p>
-                  <p style="font-size:0.75rem; color:#555; margin-top:4px;"><b>ವಿಳಾಸ:</b> ${o.customer?.name}, ${o.customer?.village}, ${o.customer?.taluk} (${o.customer?.pincode})</p>
-                  <p style="font-size:0.75rem; color:#555;"><b>ಫೋನ್:</b> ${o.customer?.phone}</p>
-                  <a href="tel:${o.customer?.phone}" style="display:inline-block; margin-top:6px; background:var(--success); color:#fff; padding:4px 8px; border-radius:4px; font-size:0.7rem; text-decoration:none; font-weight:bold;">📞 ಕಾಲ್ ಮಾಡಿ</a>
+              <div class="order-card">
+                <div class="order-top">
+                  <img src="${o.productPhoto || 'https://via.placeholder.com/80'}">
+                  <div style="flex:1;">
+                    <h4 style="font-size:0.85rem; font-weight:bold;">${o.productName}</h4>
+                    <p style="font-size:0.85rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${o.totalPrice}</p>
+                    <p style="font-size:0.72rem; color:#555; margin-top:3px;"><b>ವಿಳಾಸ:</b> ${o.customer?.name}, ${o.customer?.village}, ${o.customer?.taluk}, ${o.customer?.district} (${o.customer?.pincode})</p>
+                    <p style="font-size:0.72rem; color:#555;"><b>ಫೋನ್:</b> ${o.customer?.phone}</p>
+                    <a href="tel:${o.customer?.phone}" style="display:inline-block; margin-top:5px; background:var(--success); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; text-decoration:none; font-weight:bold;">📞 ಕಾಲ್ ಮಾಡಿ</a>
+                  </div>
+                </div>
+
+                <!-- Flipkart Style Steps Tracker -->
+                <div class="tracker-container">
+                  <p style="font-size:0.72rem; font-weight:bold; color:#333; margin-bottom:4px;">📦 ಆರ್ಡರ್ ಸ್ಥಿತಿ (Order Status)</p>
+                  <div class="progress-steps">
+                    <div class="step-item active">
+                      <div class="step-circle">✓</div>
+                      <span>ಕನ್ಫರ್ಮ್</span>
+                    </div>
+                    <div class="step-item ${o.status === 'STEP_2' || o.status === 'STEP_3' || o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : ''}">
+                      <div class="step-circle">2</div>
+                      <span>ಪ್ಯಾಕಿಂಗ್</span>
+                    </div>
+                    <div class="step-item ${o.status === 'STEP_3' || o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : ''}">
+                      <div class="step-circle">3</div>
+                      <span>ಹೊರಟಿದೆ</span>
+                    </div>
+                    <div class="step-item ${o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : ''}">
+                      <div class="step-circle">4</div>
+                      <span>ತಲುಪಿದೆ</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             `).join('');

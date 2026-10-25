@@ -107,6 +107,8 @@
     .step-circle { width: 22px; height: 22px; border-radius: 50%; background: #cbd5e0; color: white; display: flex; justify-content: center; align-items: center; font-size: 0.65rem; margin-bottom: 3px; }
     .step-item.active .step-circle { background: var(--success); }
     .step-item.active { color: var(--success); }
+    .step-item.cancelled .step-circle { background: var(--danger); }
+    .step-item.cancelled { color: var(--danger); }
   </style>
 </head>
 <body>
@@ -545,7 +547,7 @@
           returnOtp: returnOtp,
           customer: { name, phone, village, taluk, district, pincode, lat: customerGpsLat, lng: customerGpsLng },
           status: 'STEP_1',
-          timestamp: Date.now() // Client timestamp for reliable sorting
+          timestamp: Date.now()
         };
 
         try {
@@ -576,7 +578,7 @@
           let orders = [];
           snapshot.forEach(d => orders.push({ id: d.id, ...d.data() }));
 
-          // Sort descending: New orders on top, old orders at the bottom
+          // New orders on top, old orders at the bottom
           orders.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
           if (orders.length === 0) {
@@ -588,12 +590,18 @@
               let orderTime = o.timestamp || now;
               let ageInHours = (now - orderTime) / (1000 * 60 * 60);
 
+              let isCancelled = o.status === 'CANCELLED';
+              let isReturned = o.status === 'RETURNED';
+
               // 1 Hour Cancel Window
-              let canCancel = (ageInHours <= 1) && (o.status !== 'CANCELLED') && (o.status !== 'DELIVERED') && (o.status !== 'RETURNED');
+              let canCancel = (ageInHours <= 1) && !isCancelled && !isReturned && (o.status !== 'DELIVERED');
 
               // 30 Hours Return Window after delivery
-              let isWithin30Hours = ageInHours <= (24 + 6); // roughly 30 hours from order or delivery check
-              let canReturn = (o.status === 'STEP_4' || o.status === 'DELIVERED') && isWithin30Hours && (o.status !== 'RETURNED');
+              let isWithin30Hours = ageInHours <= (24 + 6);
+              let canReturn = (o.status === 'STEP_4' || o.status === 'DELIVERED') && isWithin30Hours && !isReturned;
+
+              // Call button only when delivery boy is out for delivery (STEP_3) or delivered (STEP_4)
+              let showCallBtn = (o.status === 'STEP_3' || o.status === 'STEP_4' || o.status === 'DELIVERED');
 
               return `
                 <div class="order-card">
@@ -603,35 +611,39 @@
                       <h4 style="font-size:0.85rem; font-weight:bold;">${o.productName}</h4>
                       <p style="font-size:0.85rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${o.totalPrice}</p>
                       <p style="font-size:0.72rem; color:#555; margin-top:3px;"><b>ವಿಳಾಸ:</b> ${o.customer?.name}, ${o.customer?.village}, ${o.customer?.taluk} (${o.customer?.pincode})</p>
-                      <p style="font-size:0.72rem; color:#d32f2f; margin-top:2px;"><b>ಸ್ಥಿತಿ:</b> ${o.status === 'CANCELLED' ? 'ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ (Cancelled)' : (o.status === 'RETURNED' ? 'ರಿಟರ್ನ್ ಮಾಡಲಾಗಿದೆ' : o.status)}</p>
+                      <p style="font-size:0.72rem; color:${isCancelled || isReturned ? 'var(--danger)' : '#555'}; margin-top:2px;"><b>ಸ್ಥಿತಿ:</b> ${isCancelled ? 'ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ (Cancelled)' : (isReturned ? 'ರಿಟರ್ನ್ ಮಾಡಲಾಗಿದೆ' : 'ಎರಡು ದಿನಗಳಲ್ಲಿ ತಲುಪಲಿದೆ')}</p>
                     </div>
                   </div>
 
-                  <!-- Flipkart Style Steps Tracker -->
+                  <!-- Flipkart Style Steps Tracker with Red for Cancel/Return -->
                   <div class="tracker-container">
                     <p style="font-size:0.72rem; font-weight:bold; color:#333; margin-bottom:4px;">📦 ಆರ್ಡರ್ ಸ್ಥಿತಿ (Order Status)</p>
                     <div class="progress-steps">
-                      <div class="step-item active">
-                        <div class="step-circle">✓</div>
-                        <span>ಕನ್ಫರ್ಮ್</span>
+                      <div class="step-item ${isCancelled || isReturned ? 'cancelled' : 'active'}">
+                        <div class="step-circle">${isCancelled || isReturned ? '✕' : '✓'}</div>
+                        <span>${isCancelled ? 'ರದ್ದು' : (isReturned ? 'ರಿಟರ್ನ್' : 'ಕನ್ಫರ್ಮ್')}</span>
                       </div>
-                      <div class="step-item ${o.status === 'STEP_2' || o.status === 'STEP_3' || o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : ''}">
-                        <div class="step-circle">2</div>
+                      <div class="step-item ${isCancelled || isReturned ? 'cancelled' : (o.status === 'STEP_2' || o.status === 'STEP_3' || o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : '')}">
+                        <div class="step-circle">${isCancelled || isReturned ? '✕' : '2'}</div>
                         <span>ಪ್ಯಾಕಿಂಗ್</span>
                       </div>
-                      <div class="step-item ${o.status === 'STEP_3' || o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : ''}">
-                        <div class="step-circle">3</div>
+                      <div class="step-item ${isCancelled || isReturned ? 'cancelled' : (o.status === 'STEP_3' || o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : '')}">
+                        <div class="step-circle">${isCancelled || isReturned ? '✕' : '3'}</div>
                         <span>ಹೊರಟಿದೆ</span>
                       </div>
-                      <div class="step-item ${o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : ''}">
-                        <div class="step-circle">4</div>
+                      <div class="step-item ${isCancelled || isReturned ? 'cancelled' : (o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : '')}">
+                        <div class="step-circle">${isCancelled || isReturned ? '✕' : '4'}</div>
                         <span>ತಲುಪಿದೆ</span>
                       </div>
                     </div>
                   </div>
 
                   <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
-                    <a href="tel:${o.customer?.phone}" style="background:var(--success); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; text-decoration:none; font-weight:bold;">📞 ಕಾಲ್ ಮಾಡಿ</a>
+                    <div>
+                      ${showCallBtn ? `
+                        <a href="tel:${o.customer?.phone}" style="background:var(--success); color:#fff; padding:5px 10px; border-radius:4px; font-size:0.7rem; text-decoration:none; font-weight:bold;">📞 ಕಾಲ್ ಮಾಡಿ</a>
+                      ` : ''}
+                    </div>
                     
                     <div>
                       ${canCancel ? `

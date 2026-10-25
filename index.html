@@ -104,8 +104,8 @@
     
     .tracker-container { margin-top: 12px; background: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; }
     .progress-steps { display: flex; justify-content: space-between; align-items: center; position: relative; margin-top: 6px; }
-    .step-item { display: flex; flex-direction: column; align-items: center; font-size: 0.65rem; font-weight: bold; color: #777; flex: 1; text-align: center; z-index: 2; }
-    .step-circle { width: 22px; height: 22px; border-radius: 50%; background: #cbd5e0; color: white; display: flex; justify-content: center; align-items: center; font-size: 0.7rem; margin-bottom: 3px; }
+    .step-item { display: flex; flex-direction: column; align-items: center; font-size: 0.62rem; font-weight: bold; color: #777; flex: 1; text-align: center; z-index: 2; }
+    .step-circle { width: 22px; height: 22px; border-radius: 50%; background: #cbd5e0; color: white; display: flex; justify-content: center; align-items: center; font-size: 0.65rem; margin-bottom: 3px; }
     .step-item.active .step-circle { background: var(--success); }
     .step-item.active { color: var(--success); }
   </style>
@@ -149,8 +149,16 @@
         <span class="old-price" id="detailOldPrice" style="font-size: 0.9rem;"></span>
       </div>
 
+      <!-- Quantity Selector (+ / -) -->
+      <div style="display:flex; align-items:center; gap:10px; margin: 12px 0; background:#f8f9fa; padding:8px; border-radius:6px; border:1px solid #eee;">
+        <span style="font-size:0.85rem; font-weight:bold;">ಪ್ರಮಾಣ (Quantity):</span>
+        <button onclick="changeQty(-1)" style="width:30px; height:30px; font-weight:bold; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer;">-</button>
+        <span id="qtyDisplay" style="font-weight:bold; font-size:1rem; min-width:20px; text-align:center;">1</span>
+        <button onclick="changeQty(1)" style="width:30px; height:30px; font-weight:bold; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer;">+</button>
+      </div>
+
       <div class="delivery-badge">
-        🚚 <span><b>ಫಾಸ್ಟ್ ಡೆಲಿವರಿ:</b> 2 ದಿನಗಳ ಒಳಗೆ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪಿಸಲಾಗುವುದು!</span>
+        🚚 <span><b>ಫಾಸ್ಟ್ ಡೆಲಿವರಿ:</b> 2 ದಿನಗಳ ಒಳಗೆ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪಿಸಲಾಗುವುದು! (ಓಪನ್ ಬಾಕ್ಸ್ ಡೆಲಿವರಿ)</span>
       </div>
 
       <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
@@ -189,22 +197,22 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN WITH AUTO-FILL ADDRESS & EDIT BUTTON -->
+  <!-- CHECKOUT SCREEN -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="closeScreen('checkoutScreen')">←</span>
-      <span>ವಿವರ ಖಚಿತಪಡಿಸಿ</span>
+      <span>ವಿವರ ಖಚಿತಪಡಿಸಿ (Checkout)</span>
     </div>
     <div style="padding: 15px;">
       <div style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
           <h4 style="font-size: 0.9rem; color: #2874f0;">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:</h4>
-          <button type="button" id="editAddressBtn" onclick="enableAddressEdit()" style="display:none; background:#ff9f00; color:#fff; border:none; padding:4px 8px; border-radius:4px; font-size:0.75rem; font-weight:bold; cursor:pointer;">ಅಡ್ರೆಸ್ ಬದಲಾಯಿಸಿ</button>
+          <button type="button" id="editAddressBtn" onclick="enableAddressEdit()" style="display:none; background:#ff9f00; color:#fff; border:none; padding:4px 8px; border-radius:4px; font-size:0.75rem; font-weight:bold; cursor:pointer;">ಬದಲಾಯಿಸಿ</button>
         </div>
 
         <input type="text" id="custName" placeholder="ಹೆಸರು" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು / ಗ್ರಾಮೀಣ" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
         <div style="display:flex; gap:6px;">
           <input type="text" id="custTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:4px;">
@@ -212,16 +220,23 @@
         </div>
         
         <input type="text" id="custPincode" value="585223" placeholder="ಪಿನ್‌ಕೋಡ್" style="width:100%; padding:8px; margin-top:6px; border:1px solid #ccc; border-radius:4px;">
+        
+        <button type="button" onclick="setMapLocation()" style="width:100%; margin-top:8px; background:#1976d2; color:#fff; border:none; padding:8px; border-radius:4px; font-size:0.8rem; font-weight:bold; cursor:pointer;">🗺️ ಮ್ಯಾಪ್‌ನಲ್ಲಿ ಜಿಪಿಎಸ್ ಲೊಕೇಶನ್ ಸೆಟ್ ಮಾಡಿ</button>
       </div>
 
-      <div style="display: flex; gap: 12px; align-items: center; border: 1px solid #eee; padding: 10px; border-radius: 8px;">
+      <div style="display: flex; gap: 12px; align-items: center; border: 1px solid #eee; padding: 10px; border-radius: 8px; background:#fff;">
         <img id="checkoutImg" src="" style="width: 70px; height: 70px; object-fit: contain; border-radius: 6px;">
         <div style="flex: 1;">
           <h4 id="checkoutTitle" style="font-size: 0.85rem;"></h4>
           <div style="margin-top: 4px;">
-            <span class="curr-price" id="checkoutPrice"></span>
+            <span class="curr-price" id="checkoutPrice"></span> <span style="font-size:0.75rem; color:#666;" id="checkoutQtyText"></span>
           </div>
         </div>
+      </div>
+
+      <!-- Payment Option Box -->
+      <div style="margin-top: 15px; background: #e8f5e9; border: 1px solid #c8e6c9; padding: 10px; border-radius: 8px; font-size: 0.8rem;">
+        <p><b>💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery):</b> ವಸ್ತುವನ್ನು ಪರಿಶೀಲಿಸಿ (Open Box Delivery) ಹಣ ನೀಡಿ. 2 ದಿನಗಳಲ್ಲಿ ತಲುಪಲಿದೆ.</p>
       </div>
     </div>
 
@@ -246,7 +261,10 @@
     let validShopIds = new Set();
     let selectedProduct = null;
     let selectedSize = "Standard";
+    let productQty = 1;
     let currentZoomScale = 1;
+    let customerGpsLat = "";
+    let customerGpsLng = "";
 
     window.addEventListener('DOMContentLoaded', () => {
       startRealtimeShopOwnerCheck();
@@ -281,6 +299,8 @@
         document.getElementById('custTaluk').value = addr.taluk || 'ಶಹಾಪುರ';
         document.getElementById('custDistrict').value = addr.district || 'ಯಾದಗಿರಿ';
         document.getElementById('custPincode').value = addr.pincode || '585223';
+        customerGpsLat = addr.lat || "";
+        customerGpsLng = addr.lng || "";
 
         document.getElementById('custName').disabled = true;
         document.getElementById('custPhone').disabled = true;
@@ -300,6 +320,20 @@
       document.getElementById('custDistrict').disabled = false;
       document.getElementById('custPincode').disabled = false;
       document.getElementById('editAddressBtn').style.display = 'none';
+    }
+
+    function setMapLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          customerGpsLat = position.coords.latitude;
+          customerGpsLng = position.coords.longitude;
+          alert("📍 ನಿಮ್ಮ ಜಿಪಿಎಸ್ ಲೊಕೇಶನ್ ಯಶಸ್ವಾಗಿ ಸೆಟ್ ಮಾಡಲಾಗಿದೆ!");
+        }, () => {
+          alert("ಲೊಕೇಶನ್ ಪಡೆಯಲು ಅನುಮತಿ ಸಿಗಲಿಲ್ಲ.");
+        });
+      } else {
+        alert("ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಜಿಪಿಎಸ್ ಸಪೋರ್ಟ್ ಇಲ್ಲ.");
+      }
     }
 
     function startRealtimeShopOwnerCheck() {
@@ -362,6 +396,8 @@
       selectedProduct = allProducts.find(p => p.id === id);
       if (!selectedProduct) return;
       
+      productQty = 1;
+      document.getElementById('qtyDisplay').innerText = productQty;
       window.scrollTo(0, 0);
 
       document.getElementById('detailTitle').innerText = selectedProduct.name;
@@ -422,6 +458,14 @@
       pushScreenState();
     }
 
+    function changeQty(val) {
+      productQty += val;
+      if (productQty < 1) productQty = 1;
+      document.getElementById('qtyDisplay').innerText = productQty;
+      let totalPrice = Number(selectedProduct.price) * productQty;
+      document.getElementById('detailPrice').innerText = "₹" + totalPrice;
+    }
+
     function openZoomModal(imgSrc) {
       currentZoomScale = 1;
       const target = document.getElementById('zoomTargetImg');
@@ -465,7 +509,9 @@
     function openCheckoutScreen() {
       document.getElementById('checkoutImg').src = selectedProduct.photo || selectedProduct.photo1 || '';
       document.getElementById('checkoutTitle').innerText = selectedProduct.name;
-      document.getElementById('checkoutPrice').innerText = "₹" + selectedProduct.price;
+      let finalAmt = Number(selectedProduct.price) * productQty;
+      document.getElementById('checkoutPrice').innerText = "₹" + finalAmt;
+      document.getElementById('checkoutQtyText').innerText = `(Qty: ${productQty})`;
       document.getElementById('checkoutScreen').style.display = 'block';
       pushScreenState();
     }
@@ -483,26 +529,30 @@
         return;
       }
 
-      const addressData = { name, phone, village, taluk, district, pincode };
+      const addressData = { name, phone, village, taluk, district, pincode, lat: customerGpsLat, lng: customerGpsLng };
       localStorage.setItem('customer_saved_address', JSON.stringify(addressData));
       localStorage.setItem('customer_phone_key', phone);
 
       if (confirm(`🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಲು OK ಒತ್ತಿ.`)) {
+        const finalAmt = Number(selectedProduct.price) * productQty;
+        const returnOtp = Math.floor(1000 + Math.random() * 9000).toString();
+
         const orderData = {
           orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
-          productName: selectedProduct.name + " (" + selectedSize + ")",
+          productName: selectedProduct.name + " (" + selectedSize + ", Qty: " + productQty + ")",
           productPhoto: selectedProduct.photo || selectedProduct.photo1 || '',
-          totalPrice: selectedProduct.price,
+          totalPrice: finalAmt,
           shopId: selectedProduct.shopId,
           deliveryPin: Math.floor(1000 + Math.random() * 9000).toString(),
-          customer: { name, phone, village, taluk, district, pincode },
-          status: 'STEP_1',
+          returnOtp: returnOtp,
+          customer: { name, phone, village, taluk, district, pincode, lat: customerGpsLat, lng: customerGpsLng },
+          status: 'STEP_1', // STEP_1: Confirmed, STEP_2: Packed, STEP_3: Out for delivery, STEP_4: Delivered, RETURNED
           timestamp: window.serverTimestamp()
         };
 
         try {
           await window.addDoc(window.collection(window.db, "orders"), orderData);
-          alert("🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
+          alert("🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ! ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ.");
           closeScreen('checkoutScreen');
           closeScreen('productDetailScreen');
           openMyOrdersScreen();
@@ -527,49 +577,78 @@
           if (orders.length === 0) {
             container.innerHTML = '<p style="text-align:center; color:#777; margin-top:20px;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.</p>';
           } else {
-            container.innerHTML = orders.map(o => `
-              <div class="order-card">
-                <div class="order-top">
-                  <img src="${o.productPhoto || 'https://via.placeholder.com/80'}">
-                  <div style="flex:1;">
-                    <h4 style="font-size:0.85rem; font-weight:bold;">${o.productName}</h4>
-                    <p style="font-size:0.85rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${o.totalPrice}</p>
-                    <p style="font-size:0.72rem; color:#555; margin-top:3px;"><b>ವಿಳಾಸ:</b> ${o.customer?.name}, ${o.customer?.village}, ${o.customer?.taluk}, ${o.customer?.district} (${o.customer?.pincode})</p>
-                    <p style="font-size:0.72rem; color:#555;"><b>ಫೋನ್:</b> ${o.customer?.phone}</p>
-                    <a href="tel:${o.customer?.phone}" style="display:inline-block; margin-top:5px; background:var(--success); color:#fff; padding:4px 10px; border-radius:4px; font-size:0.7rem; text-decoration:none; font-weight:bold;">📞 ಕಾಲ್ ಮಾಡಿ</a>
-                  </div>
-                </div>
+            const now = Date.now();
 
-                <!-- Flipkart Style Steps Tracker -->
-                <div class="tracker-container">
-                  <p style="font-size:0.72rem; font-weight:bold; color:#333; margin-bottom:4px;">📦 ಆರ್ಡರ್ ಸ್ಥಿತಿ (Order Status)</p>
-                  <div class="progress-steps">
-                    <div class="step-item active">
-                      <div class="step-circle">✓</div>
-                      <span>ಕನ್ಫರ್ಮ್</span>
-                    </div>
-                    <div class="step-item ${o.status === 'STEP_2' || o.status === 'STEP_3' || o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : ''}">
-                      <div class="step-circle">2</div>
-                      <span>ಪ್ಯಾಕಿಂಗ್</span>
-                    </div>
-                    <div class="step-item ${o.status === 'STEP_3' || o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : ''}">
-                      <div class="step-circle">3</div>
-                      <span>ಹೊರಟಿದೆ</span>
-                    </div>
-                    <div class="step-item ${o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : ''}">
-                      <div class="step-circle">4</div>
-                      <span>ತಲುಪಿದೆ</span>
+            container.innerHTML = orders.map(o => {
+              // 2 Days Return Window Check (2 * 24 * 60 * 60 * 1000 ms)
+              let orderTime = o.timestamp ? o.timestamp.toMillis() : now;
+              let isWithin2Days = (now - orderTime) <= (2 * 24 * 60 * 60 * 1000);
+              let canReturn = (o.status === 'STEP_4' || o.status === 'DELIVERED') && isWithin2Days;
+
+              return `
+                <div class="order-card">
+                  <div class="order-top">
+                    <img src="${o.productPhoto || 'https://via.placeholder.com/80'}">
+                    <div style="flex:1;">
+                      <h4 style="font-size:0.85rem; font-weight:bold;">${o.productName}</h4>
+                      <p style="font-size:0.85rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${o.totalPrice}</p>
+                      <p style="font-size:0.72rem; color:#555; margin-top:3px;"><b>ವಿಳಾಸ:</b> ${o.customer?.name}, ${o.customer?.village}, ${o.customer?.taluk} (${o.customer?.pincode})</p>
+                      <a href="tel:${o.customer?.phone}" style="display:inline-block; margin-top:5px; background:var(--success); color:#fff; padding:3px 8px; border-radius:4px; font-size:0.68rem; text-decoration:none; font-weight:bold;">📞 ಕಾಲ್ ಮಾಡಿ</a>
                     </div>
                   </div>
+
+                  <!-- Flipkart Style Steps Tracker -->
+                  <div class="tracker-container">
+                    <p style="font-size:0.72rem; font-weight:bold; color:#333; margin-bottom:4px;">📦 ಆರ್ಡರ್ ಸ್ಥಿತಿ (Order Status)</p>
+                    <div class="progress-steps">
+                      <div class="step-item active">
+                        <div class="step-circle">✓</div>
+                        <span>ಕನ್ಫರ್ಮ್</span>
+                      </div>
+                      <div class="step-item ${o.status === 'STEP_2' || o.status === 'STEP_3' || o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : ''}">
+                        <div class="step-circle">2</div>
+                        <span>ಪ್ಯಾಕಿಂಗ್</span>
+                      </div>
+                      <div class="step-item ${o.status === 'STEP_3' || o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : ''}">
+                        <div class="step-circle">3</div>
+                        <span>ಹೊರಟಿದೆ</span>
+                      </div>
+                      <div class="step-item ${o.status === 'STEP_4' || o.status === 'DELIVERED' ? 'active' : ''}">
+                        <div class="step-circle">4</div>
+                        <span>ತಲುಪಿದೆ</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  ${canReturn ? `
+                    <div style="margin-top:10px; text-align:right;">
+                      <button onclick="requestReturn('${o.id}')" style="background:var(--danger); color:#fff; border:none; padding:6px 12px; border-radius:4px; font-size:0.75rem; font-weight:bold; cursor:pointer;">🔄 ವಸ್ತುವನ್ನು ರಿಟರ್ನ್ ಮಾಡಿ (Return)</button>
+                    </div>
+                  ` : ''}
                 </div>
-              </div>
-            `).join('');
+              `;
+            }).join('');
           }
         });
       }
 
       document.getElementById('myOrdersScreen').style.display = 'block';
       pushScreenState();
+    }
+
+    async function requestReturn(orderId) {
+      let otpInput = prompt("🔄 ವಸ್ತುವನ್ನು ರಿಟರ್ನ್ ಮಾಡಲು ಡೆಲಿವರಿ ಬಾಯ್ ನೀಡಿರುವ 4 ಡಿಜಿಟ್ ಒಟಿಪಿ (OTP) ನಮೂದಿಸಿ:");
+      if (otpInput) {
+        try {
+          await window.updateDoc(window.doc(window.db, "orders", orderId), {
+            status: 'RETURNED',
+            returnRequested: true
+          });
+          alert("✅ ರಿಟರ್ನ್ ವಿನಂತಿ ಯಶಸ್ವಿಯಾಗಿ ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ತಲುಪಿದೆ!");
+        } catch(e) {
+          alert("ದೋಷ: " + e.message);
+        }
+      }
     }
 
     function closeScreen(id) { 

@@ -79,22 +79,22 @@
     .btn-action { flex: 1; padding: 14px; border: none; font-weight: bold; font-size: 0.95rem; cursor: pointer; text-align: center; }
     .btn-buy-now { background: #ff9f00; color: #fff; }
 
-    .size-container { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+    .size-container { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 12px 0; }
     .size-btn { padding: 8px 12px; border: 1px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
     .size-btn.selected { border-color: var(--primary); background: #e3f2fd; color: var(--primary); }
 
     /* Flipkart Style Stepper */
     .stepper-container { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
-    .stepper-title { font-size: 0.9rem; font-weight: bold; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .stepper-title { font-size: 0.9rem; font-weight: bold; color: var(--primary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
     
-    .flipkart-steps { display: flex; justify-content: space-between; position: relative; margin: 10px 5px 25px 5px; }
+    .flipkart-steps { display: flex; justify-content: space-between; position: relative; margin: 15px 5px 25px 5px; }
     .flipkart-steps::before { content: ''; position: absolute; top: 12px; left: 15px; right: 15px; height: 3px; background: #e0e0e0; z-index: 1; }
     
     .f-step { display: flex; flex-direction: column; align-items: center; z-index: 2; position: relative; width: 25%; }
     .f-circle { width: 26px; height: 26px; border-radius: 50%; background: #e0e0e0; color: #757575; display: flex; justify-content: center; align-items: center; font-size: 0.75rem; font-weight: bold; border: 2px solid #fff; }
     .f-step.completed .f-circle { background: var(--success); color: #fff; }
     .f-step.active .f-circle { background: var(--primary); color: #fff; }
-    .f-label { font-size: 0.68rem; margin-top: 6px; color: #333; text-align: center; line-height: 1.2; font-weight: 500; }
+    .f-label { font-size: 0.65rem; margin-top: 6px; color: #333; text-align: center; line-height: 1.2; font-weight: 500; }
 
     .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 20px; }
     .modal-box { background: #fff; width: 100%; max-width: 350px; padding: 20px; border-radius: 10px; text-align: center; }
@@ -136,9 +136,18 @@
       <h3 id="detailTitle" style="font-size: 1.1rem; margin-top: 10px;"></h3>
       <p id="detailShopName" style="color: #666; font-size: 0.8rem; margin-top: 2px;"></p>
       
+      <!-- Size Selector -->
       <div id="sizeSection" style="margin-top: 10px;">
         <label style="font-size: 0.85rem; font-weight: bold;" id="lblSizeTitle">ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ (Select Size):</label>
         <div class="size-container" id="sizeOptionsContainer"></div>
+      </div>
+
+      <!-- Quantity Plus / Minus Selector -->
+      <div style="display:flex; align-items:center; gap:10px; margin: 10px 0; background:#f8f9fa; padding:8px; border-radius:6px; border:1px solid #eee;">
+        <span style="font-size:0.85rem; font-weight:bold;">ಪ್ರಮಾಣ (Quantity):</span>
+        <button onclick="changeQty(-1)" style="width:30px; height:30px; font-weight:bold; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer;">-</button>
+        <span id="qtyDisplay" style="font-weight:bold; font-size:1rem; min-width:20px; text-align:center;">1</span>
+        <button onclick="changeQty(1)" style="width:30px; height:30px; font-weight:bold; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer;">+</button>
       </div>
 
       <div style="margin-top: 8px; display: flex; align-items: center; gap: 8px;">
@@ -212,7 +221,7 @@
   <div id="returnModal" class="modal">
     <div class="modal-box">
       <h3 style="color:var(--danger); margin-bottom:8px;">🔄 ರಿಟರ್ನ್ ವಿನಂತಿ (Return)</h3>
-      <p style="font-size:0.8rem; margin-bottom:10px;">ನಿಮ್ಮ ಹಣ ಪಡೆಯಲು ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ (ಡೆಲಿವರಿ ಬಾಯ್ ಬಂದು ವಸ್ತು ಪಡೆದ 6 ಗಂಟೆಯೊಳಗೆ ನಿಮ್ಮ UPI ಗೆ ಹಣ ಜಮೆ ಆಗಲಿದೆ):</p>
+      <p style="font-size:0.8rem; margin-bottom:10px;">ನಿಮ್ಮ ಯುಪಿಐ ಐಡಿ (UPI ID) ನಮೂದಿಸಿ. ಒಟ್ಟು ಮೊತ್ತದಿಂದ ರೂ. 30 ಕಟ್ ಆಗಿ (ಮೈನಸ್) ಉಳಿದ ಹಣ 6 ಗಂಟೆಯೊಳಗೆ ನಿಮ್ಮ ಯುಪಿಐಗೆ ಜಮೆ ಆಗುತ್ತದೆ:</p>
       <input type="text" id="returnUpiInput" placeholder="example@upi" style="width:100%; padding:9px; border:1px solid #ccc; border-radius:6px; margin-bottom:12px;">
       <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="submitReturnRequest()">ಸಂರಕ್ಷಿಸಿ & ರಿಟರ್ನ್ ಕಳುಹಿಸಿ</button>
       <button class="btn" style="background:#757575; color:#fff; width:100%; padding:8px; border:none; border-radius:6px; font-weight:bold; margin-top:6px;" onclick="closeReturnModal()">ರದ್ದುಮಾಡಿ</button>
@@ -224,6 +233,7 @@
     let validShopIds = new Set();
     let selectedProduct = null;
     let selectedSize = '';
+    let productQty = 1;
     let currentLang = localStorage.getItem('app_lang') || 'kn';
     let activeReturnOrderId = null;
 
@@ -382,11 +392,13 @@
       if (!selectedProduct) return;
       
       window.scrollTo(0, 0);
+      productQty = 1;
+      document.getElementById('qtyDisplay').innerText = productQty;
+
       const t = translations[currentLang];
       document.getElementById('detailTitle').innerText = selectedProduct.name;
       document.getElementById('detailShopName').innerText = t.shopPrefix + (selectedProduct.shopName || "Namma Shahapur Store");
-      document.getElementById('detailPrice').innerText = "₹" + selectedProduct.price;
-      document.getElementById('detailOldPrice').innerText = selectedProduct.oldPrice ? "₹" + selectedProduct.oldPrice : "";
+      updatePriceDisplay();
 
       let sizes = [];
       const nameLower = selectedProduct.name.toLowerCase();
@@ -445,6 +457,20 @@
       selectedSize = size;
     }
 
+    function changeQty(val) {
+      productQty += val;
+      if (productQty < 1) productQty = 1;
+      document.getElementById('qtyDisplay').innerText = productQty;
+      updatePriceDisplay();
+    }
+
+    function updatePriceDisplay() {
+      if (!selectedProduct) return;
+      let total = Number(selectedProduct.price) * productQty;
+      document.getElementById('detailPrice').innerText = "₹" + total;
+      document.getElementById('detailOldPrice').innerText = selectedProduct.oldPrice ? "₹" + (Number(selectedProduct.oldPrice) * productQty) : "";
+    }
+
     function openCheckoutScreen() {
       if (!selectedSize) {
         alert(translations[currentLang].selectSizeMsg);
@@ -453,8 +479,9 @@
       let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
       document.getElementById('checkoutImg').src = photos[0] || '';
       document.getElementById('checkoutTitle').innerText = selectedProduct.name;
-      document.getElementById('checkoutPrice').innerText = "₹" + selectedProduct.price;
-      document.getElementById('checkoutSizeText').innerText = `(Size: ${selectedSize})`;
+      let finalAmt = Number(selectedProduct.price) * productQty;
+      document.getElementById('checkoutPrice').innerText = "₹" + finalAmt;
+      document.getElementById('checkoutSizeText').innerText = `(Size: ${selectedSize}, Qty: ${productQty})`;
 
       window.history.pushState({ screen: 'checkout' }, '', '');
       document.getElementById('checkoutScreen').style.display = 'block';
@@ -476,12 +503,13 @@
 
       if (confirm(t.confirmPopup)) {
         let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
+        let finalAmt = Number(selectedProduct.price) * productQty;
 
         const orderData = {
           orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
-          productName: `${selectedProduct.name} [Size: ${selectedSize}]`,
+          productName: `${selectedProduct.name} [Size: ${selectedSize}, Qty: ${productQty}]`,
           productPhoto: photos[0] || '',
-          totalPrice: Number(selectedProduct.price),
+          totalPrice: finalAmt,
           shopId: selectedProduct.shopId,
           customer: { name, phone, village, taluk: 'ಶಹಾಪುರ', district: 'ಯಾದಗಿರಿ' },
           status: 'STEP_1',
@@ -526,7 +554,7 @@
                   <div style="flex:1;">
                     <h4 style="font-size:0.85rem;">${o.productName}</h4>
                     <p style="font-size:0.9rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${o.totalPrice}</p>
-                    <p style="font-size:0.75rem; color:#555; margin-top:2px;"><b>ಸ್ಥಿತಿ:</b> <span style="color:var(--primary); font-weight:bold;">2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಆರ್ಡರ್ ತಲುಪುತ್ತದೆ</span></p>
+                    <p style="font-size:0.75rem; color:#555; margin-top:2px;"><b>ಸ್ಥಿತಿ:</b> <span style="color:var(--primary); font-weight:bold;">2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಆರ್ಡರ್ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪುತ್ತದೆ</span></p>
                   </div>
                 </div>
               </div>
@@ -542,9 +570,9 @@
       const content = document.getElementById('orderDetailsContent');
       let step1 = 'completed active', step2 = '', step3 = '', step4 = '';
 
-      if (order.status === 'CONFIRMED' || order.status === 'STEP_2' || order.status === 'PACKING') {
+      if (order.status === 'CONFIRMED') {
         step1 = 'completed'; step2 = 'completed active';
-      } else if (order.status === 'PICKED_UP' || order.status === 'STEP_3') {
+      } else if (order.status === 'STEP_2' || order.status === 'PACKING') {
         step1 = 'completed'; step2 = 'completed'; step3 = 'completed active';
       } else if (order.status === 'DELIVERED' || order.status === 'STEP_4') {
         step1 = 'completed'; step2 = 'completed'; step3 = 'completed'; step4 = 'completed active';
@@ -584,7 +612,7 @@
             </div>
             <div class="f-step ${step3}">
               <div class="f-circle">✓</div>
-              <div class="f-label">ಪ್ಯಾಕಿಂಗ್ & ಡೆಲಿವರಿಗೆ ಬಿಡಲಾಗಿದೆ</div>
+              <div class="f-label">ಪ್ಯಾಕಿಂಗ್ ಆಗಿ ಡೆಲಿವರಿಗೆ ಬಿಡಲಾಗಿದೆ</div>
             </div>
             <div class="f-step ${step4}">
               <div class="f-circle">✓</div>
@@ -627,7 +655,7 @@
           returnStatus: 'RETURN_REQUESTED',
           customerUpi: upi
         });
-        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಸ್ವೀಕರಿಸಲಾಗಿದೆ. ಡೆಲಿವರಿ ಬಾಯ್ ಬಂದು ವಸ್ತು ಪಡೆದ 6 ಗಂಟೆಯೊಳಗೆ ನಿಮ್ಮ UPI ಗೆ ಹಣ ಜಮೆ ಆಗಲಿದೆ.");
+        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಸ್ವೀಕರಿಸಲಾಗಿದೆ. ರೂ. 30 ಕಟ್ ಆಗಿ ಉಳಿದ ಮೊತ್ತವು ಡೆಲಿವರಿ ಬಾಯ್ ವಸ್ತು ಪಡೆದ 6 ಗಂಟೆಯೊಳಗೆ ನಿಮ್ಮ ಯುಪಿಐಗೆ ಜಮೆ ಆಗುತ್ತದೆ.");
         closeReturnModal();
         closeScreen('orderDetailsScreen');
         closeScreen('myOrdersScreen');

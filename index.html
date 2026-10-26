@@ -73,27 +73,29 @@
     .thumbnail-bar img { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; background: #fafafa; }
     .thumbnail-bar img.active { border-color: var(--primary); }
 
-    .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; margin: 10px 0; display: flex; align-items: center; gap: 6px; }
+    .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 10px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; margin: 10px 0; line-height: 1.4; }
 
     .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #e0e0e0; z-index: 300; }
     .btn-action { flex: 1; padding: 14px; border: none; font-weight: bold; font-size: 0.95rem; cursor: pointer; text-align: center; }
     .btn-buy-now { background: #ff9f00; color: #fff; }
 
-    /* Size Selector Options */
     .size-container { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
     .size-btn { padding: 8px 12px; border: 1px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
     .size-btn.selected { border-color: var(--primary); background: #e3f2fd; color: var(--primary); }
 
-    /* Flipkart Status Stepper */
-    .stepper { display: flex; justify-content: space-between; align-items: center; margin: 15px 0; position: relative; padding: 0 10px; }
-    .step { display: flex; flex-direction: column; align-items: center; z-index: 2; position: relative; }
-    .step-circle { width: 24px; height: 24px; border-radius: 50%; background: #ccc; display: flex; justify-content: center; align-items: center; font-size: 0.7rem; color: #fff; font-weight: bold; }
-    .step.completed .step-circle { background: var(--success); }
-    .step.active .step-circle { background: var(--primary); }
-    .step-label { font-size: 0.65rem; margin-top: 4px; color: #666; text-align: center; width: 70px; }
-    .step-line { position: absolute; top: 12px; left: 20px; right: 20px; height: 3px; background: #ccc; z-index: 1; }
+    /* Flipkart Style Stepper */
+    .stepper-container { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+    .stepper-title { font-size: 0.9rem; font-weight: bold; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    
+    .flipkart-steps { display: flex; justify-content: space-between; position: relative; margin: 10px 5px 25px 5px; }
+    .flipkart-steps::before { content: ''; position: absolute; top: 12px; left: 15px; right: 15px; height: 3px; background: #e0e0e0; z-index: 1; }
+    
+    .f-step { display: flex; flex-direction: column; align-items: center; z-index: 2; position: relative; width: 25%; }
+    .f-circle { width: 26px; height: 26px; border-radius: 50%; background: #e0e0e0; color: #757575; display: flex; justify-content: center; align-items: center; font-size: 0.75rem; font-weight: bold; border: 2px solid #fff; }
+    .f-step.completed .f-circle { background: var(--success); color: #fff; }
+    .f-step.active .f-circle { background: var(--primary); color: #fff; }
+    .f-label { font-size: 0.68rem; margin-top: 6px; color: #333; text-align: center; line-height: 1.2; font-weight: 500; }
 
-    /* Modal */
     .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 20px; }
     .modal-box { background: #fff; width: 100%; max-width: 350px; padding: 20px; border-radius: 10px; text-align: center; }
   </style>
@@ -134,7 +136,6 @@
       <h3 id="detailTitle" style="font-size: 1.1rem; margin-top: 10px;"></h3>
       <p id="detailShopName" style="color: #666; font-size: 0.8rem; margin-top: 2px;"></p>
       
-      <!-- Dynamic Size / Variant Options -->
       <div id="sizeSection" style="margin-top: 10px;">
         <label style="font-size: 0.85rem; font-weight: bold;" id="lblSizeTitle">ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ (Select Size):</label>
         <div class="size-container" id="sizeOptionsContainer"></div>
@@ -146,7 +147,7 @@
       </div>
 
       <div class="delivery-badge">
-        🚚 <b id="lblFastDeliv">ಫಾಸ್ಟ್ ಡೆಲಿವರಿ: 2 ದಿನಗಳ ಒಳಗೆ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪಿಸಲಾಗುವುದು! (ಓಪನ್ ಬಾಕ್ಸ್ ಡೆಲಿವರಿ)</b>
+        🚚 <b>ಫಾಸ್ಟ್ ಡೆಲಿವರಿ: 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಆರ್ಡರ್ ಅನ್ನು ತಲುಪಿಸಲಾಗುವುದು!</b> (ಓಪನ್ ಬಾಕ್ಸ್ ಡೆಲಿವರಿ)
       </div>
 
     </div>
@@ -211,7 +212,7 @@
   <div id="returnModal" class="modal">
     <div class="modal-box">
       <h3 style="color:var(--danger); margin-bottom:8px;">🔄 ರಿಟರ್ನ್ ವಿನಂತಿ (Return)</h3>
-      <p style="font-size:0.8rem; margin-bottom:10px;">ನಿಮ್ಮ ಹಣ ಪಡೆಯಲು ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ:</p>
+      <p style="font-size:0.8rem; margin-bottom:10px;">ನಿಮ್ಮ ಹಣ ಪಡೆಯಲು ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ (ಡೆಲಿವರಿ ಬಾಯ್ ಬಂದು ವಸ್ತು ಪಡೆದ 6 ಗಂಟೆಯೊಳಗೆ ನಿಮ್ಮ UPI ಗೆ ಹಣ ಜಮೆ ಆಗಲಿದೆ):</p>
       <input type="text" id="returnUpiInput" placeholder="example@upi" style="width:100%; padding:9px; border:1px solid #ccc; border-radius:6px; margin-bottom:12px;">
       <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="submitReturnRequest()">ಸಂರಕ್ಷಿಸಿ & ರಿಟರ್ನ್ ಕಳುಹಿಸಿ</button>
       <button class="btn" style="background:#757575; color:#fff; width:100%; padding:8px; border:none; border-radius:6px; font-weight:bold; margin-top:6px;" onclick="closeReturnModal()">ರದ್ದುಮಾಡಿ</button>
@@ -234,7 +235,7 @@
         searchPlaceholder: "ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ...",
         prodDetailTitle: "ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ",
         shopPrefix: "ಅಂಗಡಿ: ",
-        fastDeliv: "ಫಾಸ್ಟ್ ಡೆಲಿವರಿ: 2 ದಿನಗಳ ಒಳಗೆ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪಿಸಲಾಗುವುದು! (ಓಪನ್ ಬಾಕ್ಸ್ ಡೆಲಿವರಿ)",
+        fastDeliv: "ಫಾಸ್ಟ್ ಡೆಲಿವರಿ: 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಆರ್ಡರ್ ಅನ್ನು ತಲುಪಿಸಲಾಗುವುದು!",
         buyNowBtn: "ಈಗ ಖರೀದಿಸಿ (Buy Now)",
         checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ (Checkout)",
         deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:",
@@ -242,7 +243,7 @@
         myOrdersHeader: "ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)",
         orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು",
         noOrders: "ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
-        orderSuccess: "🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!",
+        orderSuccess: "🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ! 2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಆರ್ಡರ್ ತಲುಪುತ್ತದೆ.",
         confirmPopup: "🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಲು OK ಒತ್ತಿ.",
         fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಊರು ನಮೂದಿಸಿ.",
         selectSizeMsg: "ದಯವಿಟ್ಟು ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ."
@@ -254,7 +255,7 @@
         searchPlaceholder: "Search products or shops...",
         prodDetailTitle: "Product Description",
         shopPrefix: "Shop: ",
-        fastDeliv: "Fast Delivery: Delivered to your doorstep within 2 days! (Open Box Delivery)",
+        fastDeliv: "Fast Delivery: Delivered to your doorstep within 2 days!",
         buyNowBtn: "Buy Now",
         checkoutHeader: "Checkout",
         deliveryAddrTitle: "📍 Your Delivery Address:",
@@ -262,7 +263,7 @@
         myOrdersHeader: "My Orders",
         orderDetailsHeader: "Order Details",
         noOrders: "No orders found.",
-        orderSuccess: "🎉 Your order has been successfully confirmed!",
+        orderSuccess: "🎉 Your order has been successfully confirmed! Delivered within 2 days.",
         confirmPopup: "🎉 Press OK to confirm your order.",
         fillAll: "Please enter Name, Mobile Number and Village.",
         selectSizeMsg: "Please select a size."
@@ -274,7 +275,6 @@
       startRealtimeShopOwnerCheck();
       loadSavedAddress();
 
-      // Mobile Browser Hardware Back Button Handler
       window.history.replaceState({ screen: 'main' }, '', '');
       window.addEventListener('popstate', (e) => {
         const screens = ['productDetailScreen', 'checkoutScreen', 'myOrdersScreen', 'orderDetailsScreen'];
@@ -310,7 +310,6 @@
       document.getElementById('langToggleBtn').innerText = currentLang === 'kn' ? 'English' : 'ಕನ್ನಡ';
       
       document.getElementById('lblProdDetailTitle').innerText = t.prodDetailTitle;
-      document.getElementById('lblFastDeliv').innerText = t.fastDeliv;
       document.getElementById('lblBuyNowBtn').innerText = t.buyNowBtn;
       document.getElementById('lblCheckoutHeader').innerText = t.checkoutHeader;
       document.getElementById('lblDeliveryAddrTitle').innerText = t.deliveryAddrTitle;
@@ -389,7 +388,6 @@
       document.getElementById('detailPrice').innerText = "₹" + selectedProduct.price;
       document.getElementById('detailOldPrice').innerText = selectedProduct.oldPrice ? "₹" + selectedProduct.oldPrice : "";
 
-      // Dynamic Size Options based on Category/Item type
       let sizes = [];
       const nameLower = selectedProduct.name.toLowerCase();
       const typeLower = (selectedProduct.shopType || '').toLowerCase();
@@ -528,7 +526,7 @@
                   <div style="flex:1;">
                     <h4 style="font-size:0.85rem;">${o.productName}</h4>
                     <p style="font-size:0.9rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${o.totalPrice}</p>
-                    <p style="font-size:0.75rem; color:#555; margin-top:2px;"><b>ಸ್ಥಿತಿ:</b> <span style="color:var(--primary); font-weight:bold;">${o.status}</span></p>
+                    <p style="font-size:0.75rem; color:#555; margin-top:2px;"><b>ಸ್ಥಿತಿ:</b> <span style="color:var(--primary); font-weight:bold;">2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಆರ್ಡರ್ ತಲುಪುತ್ತದೆ</span></p>
                   </div>
                 </div>
               </div>
@@ -542,20 +540,16 @@
 
     function openOrderDetails(order) {
       const content = document.getElementById('orderDetailsContent');
-      let s1 = '', s2 = '', s3 = '', s4 = '';
-      let l1 = 'background:#ccc;', l2 = 'background:#ccc;', l3 = 'background:#ccc;';
+      let step1 = 'completed active', step2 = '', step3 = '', step4 = '';
 
-      if (order.status === 'STEP_1' || order.status === 'ORDER_PLACED') {
-        s1 = 'completed active';
-      } else if (order.status === 'CONFIRMED') {
-        s1 = 'completed'; s2 = 'completed active'; l1 = 'background:var(--success);';
-      } else if (order.status === 'STEP_2' || order.status === 'PACKING') {
-        s1 = 'completed'; s2 = 'completed'; s3 = 'completed active'; l1 = 'background:var(--success);'; l2 = 'background:var(--success);';
+      if (order.status === 'CONFIRMED' || order.status === 'STEP_2' || order.status === 'PACKING') {
+        step1 = 'completed'; step2 = 'completed active';
+      } else if (order.status === 'PICKED_UP' || order.status === 'STEP_3') {
+        step1 = 'completed'; step2 = 'completed'; step3 = 'completed active';
       } else if (order.status === 'DELIVERED' || order.status === 'STEP_4') {
-        s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; s4 = 'completed active'; l1 = 'background:var(--success);'; l2 = 'background:var(--success);'; l3 = 'background:var(--success);';
+        step1 = 'completed'; step2 = 'completed'; step3 = 'completed'; step4 = 'completed active';
       }
 
-      // Check 24 hour return window
       const orderTime = order.orderTime || order.timestamp || Date.now();
       const hoursPassed = (Date.now() - orderTime) / (1000 * 60 * 60);
       let returnButtonHTML = '';
@@ -575,31 +569,26 @@
           </div>
         </div>
 
-        <div style="background:#fff; padding:15px; border-radius:8px; border:1px solid #e0e0e0; margin-bottom:15px;">
-          <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:10px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಸ್ಟೇಟಸ್</h4>
-          
-          <div class="stepper">
-            <div class="step-line" style="left:12px; right:12px;">
-              <div style="width:33%; height:100%; display:inline-block; ${l1}"></div>
-              <div style="width:33%; height:100%; display:inline-block; ${l2}"></div>
-              <div style="width:34%; height:100%; display:inline-block; ${l3}"></div>
-            </div>
+        <div class="stepper-container">
+          <div class="stepper-title">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಸ್ಟೇಟಸ್</div>
+          <p style="font-size:0.75rem; color:#d32f2f; font-weight:bold; margin-bottom:10px;">🚚 2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಆರ್ಡರ್ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪುತ್ತದೆ!</p>
 
-            <div class="step ${s1}">
-              <div class="step-circle">1</div>
-              <div class="step-label">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ (ಅಂಗಡಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ)</div>
+          <div class="flipkart-steps">
+            <div class="f-step ${step1}">
+              <div class="f-circle">✓</div>
+              <div class="f-label">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್</div>
             </div>
-            <div class="step ${s2}">
-              <div class="step-circle">2</div>
-              <div class="step-label">ಮಾಲೀಕರಿಂದ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ</div>
+            <div class="f-step ${step2}">
+              <div class="f-circle">✓</div>
+              <div class="f-label">ಮಾಲೀಕರಿಂದ ಕನ್ಫರ್ಮ್</div>
             </div>
-            <div class="step ${s3}">
-              <div class="step-circle">3</div>
-              <div class="step-label">ಪ್ಯಾಕಿಂಗ್ ಆಗಿ ಡೆಲಿವರಿಗೆ ಬಿಡಲಾಗಿದೆ</div>
+            <div class="f-step ${step3}">
+              <div class="f-circle">✓</div>
+              <div class="f-label">ಪ್ಯಾಕಿಂಗ್ & ಡೆಲಿವರಿಗೆ ಬಿಡಲಾಗಿದೆ</div>
             </div>
-            <div class="step ${s4}">
-              <div class="step-circle">4</div>
-              <div class="step-label">ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್</div>
+            <div class="f-step ${step4}">
+              <div class="f-circle">✓</div>
+              <div class="f-label">ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್</div>
             </div>
           </div>
         </div>

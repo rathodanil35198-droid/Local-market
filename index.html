@@ -80,6 +80,15 @@
     .btn-action { flex: 1; padding: 14px; border: none; font-weight: bold; font-size: 0.95rem; cursor: pointer; text-align: center; }
     .btn-buy-now { background: #ff9f00; color: #fff; }
 
+    /* Flipkart Status Stepper */
+    .stepper { display: flex; justify-content: space-between; align-items: center; margin: 15px 0; position: relative; padding: 0 10px; }
+    .step { display: flex; flex-direction: column; align-items: center; z-index: 2; position: relative; }
+    .step-circle { width: 22px; height: 22px; border-radius: 50%; background: #ccc; display: flex; justify-content: center; align-items: center; font-size: 0.65rem; color: #fff; font-weight: bold; }
+    .step.completed .step-circle { background: var(--success); }
+    .step.active .step-circle { background: var(--primary); }
+    .step-label { font-size: 0.7rem; margin-top: 4px; color: #666; text-align: center; }
+    .step-line { position: absolute; top: 11px; left: 20px; right: 20px; height: 3px; background: #ccc; z-index: 1; }
+
     /* HD Zoom Modal */
     .zoom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; flex-direction: column; }
     .zoom-img-container { width: 100%; height: 80%; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; }
@@ -206,13 +215,22 @@
     </div>
   </div>
 
+  <!-- ORDER DETAILS STATUS SCREEN -->
+  <div id="orderDetailsScreen" class="screen">
+    <div class="screen-header">
+      <span class="back-btn" onclick="closeScreen('orderDetailsScreen')">←</span>
+      <span id="lblOrderDetailsHeader">Order Details</span>
+    </div>
+    <div style="padding: 15px;" id="orderDetailsContent"></div>
+  </div>
+
   <script>
     let allProducts = [];
     let validShopIds = new Set();
     let selectedProduct = null;
     let productQty = 1;
     let currentZoomScale = 1;
-    let currentLang = localStorage.getItem('app_lang') || 'kn'; // 'kn' or 'en'
+    let currentLang = localStorage.getItem('app_lang') || 'kn';
 
     const translations = {
       kn: {
@@ -233,11 +251,15 @@
         villagePlaceholder: "ಊರಿನ ಹೆಸರು / ಗ್ರಾಮೀಣ",
         confirmOrderBtn: "ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)",
         myOrdersHeader: "ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)",
+        orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು",
         noOrders: "ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
-        statusLabel: "ಸ್ಥಿತಿ: ",
         orderSuccess: "🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!",
         confirmPopup: "🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಲು OK ಒತ್ತಿ.",
-        fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಊರು ನಮೂದಿಸಿ."
+        fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಊರು ನಮೂದಿಸಿ.",
+        status1: "ಆರ್ಡರ್ ದೃಢೀಕರಿಸಲಾಗಿದೆ",
+        status2: "ಶಿಪ್ ಮಾಡಲಾಗಿದೆ",
+        status3: "ಡೆಲಿವರಿ",
+        cancelled: "ಕ್ಯಾನ್ಸಲ್ ಮಾಡಲಾಗಿದೆ"
       },
       en: {
         appTitle: "Namma Shahapur - Customer App",
@@ -257,11 +279,15 @@
         villagePlaceholder: "Village / Town",
         confirmOrderBtn: "Confirm Order",
         myOrdersHeader: "My Orders",
+        orderDetailsHeader: "Order Details",
         noOrders: "No orders found.",
-        statusLabel: "Status: ",
         orderSuccess: "🎉 Your order has been successfully confirmed!",
         confirmPopup: "🎉 Press OK to confirm your order.",
-        fillAll: "Please enter Name, Mobile Number and Village."
+        fillAll: "Please enter Name, Mobile Number and Village.",
+        status1: "Order Confirmed",
+        status2: "Shipped",
+        status3: "Delivered",
+        cancelled: "Cancelled"
       }
     };
 
@@ -299,6 +325,7 @@
       document.getElementById('custVillage').placeholder = t.villagePlaceholder;
       document.getElementById('lblConfirmOrderBtn').innerText = t.confirmOrderBtn;
       document.getElementById('lblMyOrdersHeader').innerText = t.myOrdersHeader;
+      document.getElementById('lblOrderDetailsHeader').innerText = t.orderDetailsHeader;
     }
 
     function loadSavedAddress() {
@@ -473,18 +500,15 @@
 
       if (confirm(t.confirmPopup)) {
         const finalAmt = Number(selectedProduct.price) * productQty;
-        const returnOtp = Math.floor(1000 + Math.random() * 9000).toString();
 
         let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
 
         const orderData = {
           orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
-          productName: selectedProduct.name + (selectedProduct.variant ? ` (${selectedProduct.variant})` : '') + `, Qty: ${productQty}`,
+          productName: selectedProduct.name + (selectedProduct.variant ? ` (${selectedProduct.variant})` : ''),
           productPhoto: photos[0] || '',
           totalPrice: finalAmt,
           shopId: selectedProduct.shopId,
-          deliveryPin: Math.floor(1000 + Math.random() * 9000).toString(),
-          returnOtp: returnOtp,
           customer: { name, phone, village, taluk: 'ಶಹಾಪುರ', district: 'ಯಾದಗಿರಿ', pincode: '585223' },
           status: 'STEP_1',
           timestamp: Date.now()
@@ -521,13 +545,13 @@
             container.innerHTML = `<p style="text-align:center; color:#777; margin-top:20px;">${t.noOrders}</p>`;
           } else {
             container.innerHTML = orders.map(o => `
-              <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:12px; margin-bottom:12px;">
+              <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:12px; margin-bottom:12px; cursor:pointer;" onclick='openOrderDetails(${JSON.stringify(o)})'>
                 <div style="display:flex; gap:12px; align-items:center;">
-                  <img src="${o.productPhoto}" style="width:60px; height:60px; object-fit:contain; border-radius:6px; background:#fafafa;">
-                  <div>
+                  <img src="${o.productPhoto}" style="width:65px; height:65px; object-fit:contain; border-radius:6px; background:#fafafa;">
+                  <div style="flex:1;">
                     <h4 style="font-size:0.85rem;">${o.productName}</h4>
-                    <p style="font-size:0.85rem; color:var(--success); font-weight:bold;">₹${o.totalPrice}</p>
-                    <p style="font-size:0.75rem; color:#555;"><b>${t.statusLabel}</b> ${o.status}</p>
+                    <p style="font-size:0.9rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${o.totalPrice}</p>
+                    <p style="font-size:0.75rem; color:#555; margin-top:2px;"><b>ಸ್ಥಿತಿ / Status:</b> <span style="color:var(--primary); font-weight:bold;">${o.status}</span></p>
                   </div>
                 </div>
               </div>
@@ -536,6 +560,67 @@
         });
       }
       document.getElementById('myOrdersScreen').style.display = 'block';
+    }
+
+    function openOrderDetails(order) {
+      const t = translations[currentLang];
+      const content = document.getElementById('orderDetailsContent');
+
+      let s1 = 'completed', s2 = '', s3 = '';
+      let line1 = 'background: #ccc;', line2 = 'background: #ccc;';
+
+      if (order.status === 'STEP_2' || order.status === 'PACKING') {
+        s1 = 'completed'; s2 = 'active'; line1 = 'background: var(--success);';
+      } else if (order.status === 'PICKED_UP' || order.status === 'STEP_3') {
+        s1 = 'completed'; s2 = 'completed'; s3 = 'active'; line1 = 'background: var(--success);'; line2 = 'background: var(--success);';
+      } else if (order.status === 'DELIVERED' || order.status === 'STEP_4') {
+        s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; line1 = 'background: var(--success);'; line2 = 'background: var(--success);';
+      } else if (order.status === 'CANCELLED') {
+        s1 = ''; s2 = ''; s3 = '';
+      }
+
+      content.innerHTML = `
+        <div style="display:flex; gap:12px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #e0e0e0; margin-bottom:15px;">
+          <img src="${order.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px;">
+          <div>
+            <h4 style="font-size:0.9rem;">${order.productName}</h4>
+            <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${order.totalPrice}</p>
+          </div>
+        </div>
+
+        <div style="background:#fff; padding:15px; border-radius:8px; border:1px solid #e0e0e0; margin-bottom:15px;">
+          <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:10px;">📦 ಆರ್ಡರ್ ಸ್ಟೇಟಸ್ (Order Tracking)</h4>
+          
+          <div class="stepper">
+            <div class="step-line" style="left:15px; right:15px;">
+              <div style="width:50%; height:100%; ${line1}"></div>
+            </div>
+            <div class="step-line" style="left:50%; right:15px;">
+              <div style="width:50%; height:100%; ${line2}"></div>
+            </div>
+
+            <div class="step ${s1}">
+              <div class="step-circle">✓</div>
+              <div class="step-label">${t.status1}</div>
+            </div>
+            <div class="step ${s2}">
+              <div class="step-circle">✓</div>
+              <div class="step-label">${t.status2}</div>
+            </div>
+            <div class="step ${s3}">
+              <div class="step-circle">✓</div>
+              <div class="step-label">${t.status3}</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #e0e0e0; font-size:0.85rem;">
+          <p><b>ಆರ್ಡರ್ ಐಡಿ / Order ID:</b> ${order.orderId || 'OD'}</p>
+          <p style="margin-top:6px;"><b>ವಿಳಾಸ / Address:</b> ${order.customer?.name}, ${order.customer?.village}, ${order.customer?.taluk} (${order.customer?.phone})</p>
+        </div>
+      `;
+
+      document.getElementById('orderDetailsScreen').style.display = 'block';
     }
 
     function closeScreen(id) { 

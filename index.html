@@ -632,7 +632,12 @@
         `;
       }
 
-      let mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order.customer?.village + ', ' + (order.customer?.taluk || 'Shahapur'))}`;
+      // Check if order is picked up to show Call button
+      let isPickedUp = (order.status === 'PICKED_UP' || order.status === 'STEP_3' || order.status === 'DELIVERED' || order.status === 'STEP_4');
+      let callButtonHTML = isPickedUp ? `
+        <a href="tel:${order.deliveryBoyPhone || '8105010768'}" style="background:var(--success); color:#fff; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:0.8rem; font-weight:bold; display:flex; align-items:center; gap:4px;">📞 ಕಾಲ್</a>
+      ` : '';
+
       let returnButtonHTML = '';
       const orderTime = order.orderTime || order.timestamp || Date.now();
       const hoursPassed = (Date.now() - orderTime) / (1000 * 60 * 60);
@@ -644,20 +649,23 @@
       }
 
       content.innerHTML = `
+        <!-- Top Order ID Bar for Quick Barcode/QR Scanning -->
+        <div style="background:#e3f2fd; border:1px solid #bbdefb; border-radius:8px; padding:10px; margin-bottom:12px; text-align:center;">
+          <span style="font-size:0.75rem; color:#1565c0; font-weight:bold;">📷 ಸ್ಕ್ಯಾನ್ ಮಾಡಲು ಆರ್ಡರ್ ಐಡಿ (Scan Barcode/QR):</span>
+          <div style="font-size:1.1rem; font-weight:bold; color:#0d47a1; margin-top:2px; letter-spacing:1px;">${order.orderId || 'OD000000'}</div>
+        </div>
+
         <div style="display:flex; gap:12px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #e0e0e0; margin-bottom:15px;">
           <img src="${order.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px;">
           <div style="flex:1;">
             <h4 style="font-size:0.9rem;">${order.productName}</h4>
             <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${order.totalPrice}</p>
           </div>
-          <a href="tel:8105010768" style="background:#388e3c; color:#fff; padding:6px 10px; border-radius:6px; text-decoration:none; font-size:0.75rem; font-weight:bold;">📞 ಕಾಲ್</a>
+          ${callButtonHTML}
         </div>
 
         <div style="background:#f8f9fa; padding:10px; border-radius:8px; border:1px solid #eee; margin-bottom:15px; font-size:0.8rem;">
           <p><b>ಡೆಲಿವರಿ ಬಾಯ್ ID:</b> <span style="color:var(--primary); font-weight:bold;">${order.assignedDboyId || order.deliveryBoyId || 'ಅಸೈನ್ ಮಾಡಲಾಗುತ್ತಿದೆ'}</span></p>
-          <div style="margin-top:6px;">
-            <a href="${mapsUrl}" target="_blank" style="display:block; background:#1976d2; color:#fff; text-align:center; padding:6px; border-radius:4px; text-decoration:none; font-size:0.75rem; font-weight:bold;">🗺️ ಲೈವ್ ಜಿಪಿಎಸ್ ರೂಟ್ ಮ್ಯಾಪ್ ನೋಡಿ</a>
-          </div>
         </div>
 
         <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:15px; margin-bottom:15px;">
@@ -690,7 +698,6 @@
         ${returnTimelineHTML}
 
         <div style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #e0e0e0; font-size:0.85rem; margin-top:15px;">
-          <p><b>ಆರ್ಡರ್ ಐಡಿ:</b> ${order.orderId || 'OD'}</p>
           <p style="margin-top:6px;"><b>ವಿಳಾಸ:</b> ${order.customer?.name}, ${order.customer?.village}, ${order.customer?.taluk} (${order.customer?.phone})</p>
           ${order.returnStatus ? `<p style="margin-top:6px; color:var(--danger); font-weight:bold;">ರಿಟರ್ನ್ ಸ್ಥಿತಿ: ${order.returnStatus}</p>` : ''}
         </div>

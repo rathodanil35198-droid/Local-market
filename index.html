@@ -84,7 +84,7 @@
     .size-btn { padding: 8px 12px; border: 1px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
     .size-btn.selected { border-color: var(--primary); background: #e3f2fd; color: var(--primary); }
 
-    /* Flipkart Style Timeline */
+    /* Timeline */
     .timeline { position: relative; padding-left: 20px; margin: 15px 0; }
     .timeline::before { content: ''; position: absolute; left: 7px; top: 5px; bottom: 5px; width: 2px; background: #e0e0e0; }
     .t-item { position: relative; margin-bottom: 15px; }
@@ -602,7 +602,6 @@
         t1 = 'completed'; t2 = 'completed'; t3 = 'completed'; t4 = 'completed';
       }
 
-      // Return Timeline handling
       let returnTimelineHTML = '';
       if (order.isReturned || order.status === 'RETURNED' || order.returnStatus) {
         let r1 = 'completed', r2 = '', r3 = '';
@@ -633,9 +632,10 @@
         `;
       }
 
+      let mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order.customer?.village + ', ' + (order.customer?.taluk || 'Shahapur'))}`;
+      let returnButtonHTML = '';
       const orderTime = order.orderTime || order.timestamp || Date.now();
       const hoursPassed = (Date.now() - orderTime) / (1000 * 60 * 60);
-      let returnButtonHTML = '';
 
       if ((order.status === 'DELIVERED' || order.status === 'STEP_4') && hoursPassed <= 24 && !order.isReturned) {
         returnButtonHTML = `
@@ -650,7 +650,14 @@
             <h4 style="font-size:0.9rem;">${order.productName}</h4>
             <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${order.totalPrice}</p>
           </div>
-          <a href="tel:8105010768" style="background:#388e3c; color:#fff; padding:6px 10px; border-radius:6px; text-decoration:none; font-size:0.75rem; font-weight:bold;">📞 ಡೆಲಿವರಿ ಕಾಲ್</a>
+          <a href="tel:8105010768" style="background:#388e3c; color:#fff; padding:6px 10px; border-radius:6px; text-decoration:none; font-size:0.75rem; font-weight:bold;">📞 ಕಾಲ್</a>
+        </div>
+
+        <div style="background:#f8f9fa; padding:10px; border-radius:8px; border:1px solid #eee; margin-bottom:15px; font-size:0.8rem;">
+          <p><b>ಡೆಲಿವರಿ ಬಾಯ್ ID:</b> <span style="color:var(--primary); font-weight:bold;">${order.assignedDboyId || order.deliveryBoyId || 'ಅಸೈನ್ ಮಾಡಲಾಗುತ್ತಿದೆ'}</span></p>
+          <div style="margin-top:6px;">
+            <a href="${mapsUrl}" target="_blank" style="display:block; background:#1976d2; color:#fff; text-align:center; padding:6px; border-radius:4px; text-decoration:none; font-size:0.75rem; font-weight:bold;">🗺️ ಲೈವ್ ಜಿಪಿಎಸ್ ರೂಟ್ ಮ್ಯಾಪ್ ನೋಡಿ</a>
+          </div>
         </div>
 
         <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:15px; margin-bottom:15px;">

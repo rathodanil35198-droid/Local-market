@@ -46,10 +46,14 @@
     .btn-lang { background: #fff; color: var(--primary); border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
     .btn-my-orders { background: var(--secondary); color: #000; border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
 
-    .search-box { display: flex; background: #fff; border-radius: 6px; padding: 8px 12px; align-items: center; }
+    .search-box { display: flex; background: #fff; border-radius: 6px; padding: 8px 12px; align-items: center; margin-bottom: 8px; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 0.88rem; margin-left: 8px; }
 
     .container { padding: 8px; max-width: 500px; margin: 0 auto; }
+
+    /* 20 KM Filter Box */
+    .filter-box { background: #e3f2fd; border: 1px solid #90caf9; padding: 8px 12px; border-radius: 8px; margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
+    .filter-box input { flex: 1; padding: 6px; border: 1px solid #90caf9; border-radius: 4px; font-size: 0.8rem; background: #fff; }
 
     .grid-products { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
     .product-card { background: #fff; border-radius: 8px; padding: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
@@ -94,8 +98,8 @@
     .t-title { font-size: 0.85rem; font-weight: bold; color: #333; }
     .t-desc { font-size: 0.75rem; color: #666; margin-top: 2px; }
 
-    .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 20px; }
-    .modal-box { background: #fff; width: 100%; max-width: 350px; padding: 20px; border-radius: 10px; text-align: center; }
+    .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 20px; overflow-y: auto; }
+    .modal-box { background: #fff; width: 100%; max-width: 380px; padding: 20px; border-radius: 10px; max-height: 90vh; overflow-y: auto; }
   </style>
 </head>
 <body>
@@ -115,6 +119,13 @@
   </header>
 
   <div class="container">
+    <!-- 20 KM / Taluk & District Filter Bar -->
+    <div class="filter-box">
+      <span style="font-size:0.75rem; font-weight:bold; color:#0d47a1;">📍 20 ಕಿ.ಮೀ ಫಿಲ್ಟರ್:</span>
+      <input type="text" id="filterTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು" oninput="applyLocationFilter()">
+      <input type="text" id="filterDistrict" value="ಯಾದಗಿರಿ" placeholder="ಜಿಲ್ಲೆ" oninput="applyLocationFilter()">
+    </div>
+
     <div id="productsGrid" class="grid-products"></div>
   </div>
 
@@ -133,6 +144,7 @@
 
       <h3 id="detailTitle" style="font-size: 1.1rem; margin-top: 10px;"></h3>
       <p id="detailShopName" style="color: #666; font-size: 0.8rem; margin-top: 2px;"></p>
+      <p id="detailShopLocation" style="color: var(--primary); font-size: 0.8rem; font-weight: bold; margin-top: 2px;"></p>
       
       <div id="sizeSection" style="margin-top: 10px;">
         <label style="font-size: 0.85rem; font-weight: bold;" id="lblSizeTitle">ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ (Select Size):</label>
@@ -213,25 +225,46 @@
     <div style="padding: 15px;" id="orderDetailsContent"></div>
   </div>
 
-  <!-- RETURN UPI MODAL -->
+  <!-- RETURN / EXCHANGE MODAL WITH 2-3 PHOTOS & REASON -->
   <div id="returnModal" class="modal">
     <div class="modal-box">
-      <h3 style="color:var(--danger); margin-bottom:8px;">🔄 ರಿಟರ್ನ್ ವಿನಂತಿ (Return)</h3>
-      <p style="font-size:0.8rem; margin-bottom:10px;">ನಿಮ್ಮ ಯುಪಿಐ ಐಡಿ (UPI ID) ನಮೂದಿಸಿ. ರೂ. 30 ಕಟ್ ಆಗಿ ಉಳಿದ ಹಣ ಸಂಜೆ 5 ರಿಂದ 6 ರೊಳಗೆ ಜಮೆ ಆಗುತ್ತದೆ:</p>
-      <input type="text" id="returnUpiInput" placeholder="example@upi" style="width:100%; padding:9px; border:1px solid #ccc; border-radius:6px; margin-bottom:12px;">
-      <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="submitReturnRequest()">ಸಂರಕ್ಷಿಸಿ & ರಿಟರ್ನ್ ಕಳುಹಿಸಿ</button>
-      <button class="btn" style="background:#757575; color:#fff; width:100%; padding:8px; border:none; border-radius:6px; font-weight:bold; margin-top:6px;" onclick="closeReturnModal()">ರದ್ದುಮಾಡಿ</button>
+      <h3 style="color:var(--danger); margin-bottom:6px;">🔄 ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ (Return / Exchange)</h3>
+      <p style="font-size:0.75rem; color:#d32f2f; margin-bottom:8px; line-height:1.4;">
+        💡 <b>ಸೂಚನೆ:</b> ನೀವು ಬೇಕಾದರೆ ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿ ಮಾಲೀಕರ ಬಳಿಗೆ ನೇರವಾಗಿ ಹೋಗಿ ವಸ್ತುವನ್ನು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿಕೊಳ್ಳಬಹುದು. ಅಥವಾ ಆನ್‌ಲೈನ್ ರಿಟರ್ನ್ ಮಾಡಬಹುದು (ರೂ. 30/- ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಕಡಿತಗೊಳ್ಳುತ್ತದೆ).
+      </p>
+
+      <div style="margin-bottom:8px;">
+        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:3px; display:block;">ವಸ್ತು ಏನಾಗಿದೆ / ಸಮಸ್ಯೆ ಏನು?:</label>
+        <textarea id="returnReason" rows="2" placeholder="ಕಾರಣ ಇಲ್ಲಿ ಬರೆಯಿರಿ..." style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.8rem;"></textarea>
+      </div>
+
+      <div style="background:#f8f9fa; padding:8px; border-radius:6px; border:1px solid #ddd; margin-bottom:8px;">
+        <label style="font-size:0.8rem; font-weight:bold; color:var(--primary); display:block; margin-bottom:4px;">📸 2 ಅಥವಾ 3 ಫೋಟೋಗಳನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ:</label>
+        <div style="margin-bottom:4px;"><label style="font-size:0.7rem;">ಫೋಟೋ 1:</label><input type="file" accept="image/*" id="ret_p1" style="font-size:0.75rem;"></div>
+        <div style="margin-bottom:4px;"><label style="font-size:0.7rem;">ಫೋಟೋ 2:</label><input type="file" accept="image/*" id="ret_p2" style="font-size:0.75rem;"></div>
+        <div><label style="font-size:0.7rem;">ಫೋಟೋ 3:</label><input type="file" accept="image/*" id="ret_p3" style="font-size:0.75rem;"></div>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:3px; display:block;">ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ (ರೂ. 30 ಕಟ್ ಆಗಿ ಬಾಕಿ ಹಣ ಜಮೆ ಆಗುತ್ತದೆ):</label>
+        <input type="text" id="returnUpiInput" placeholder="example@upi" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;">
+      </div>
+
+      <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem;" onclick="submitReturnRequest()">ರಿಟರ್ನ್ ವಿನಂತಿ ಕಳುಹಿಸಿ (₹30 ಕಡಿತ)</button>
+      <button class="btn" style="background:#757575; color:#fff; width:100%; padding:8px; border:none; border-radius:6px; font-weight:bold; margin-top:6px; font-size:0.85rem;" onclick="closeReturnModal()">ರದ್ದುಮಾಡಿ</button>
     </div>
   </div>
 
   <script>
     let allProducts = [];
+    let allShopsMap = {};
     let validShopIds = new Set();
     let selectedProduct = null;
     let selectedSize = '';
     let productQty = 1;
     let currentLang = localStorage.getItem('app_lang') || 'kn';
     let activeReturnOrderId = null;
+    let activeReturnOrderPrice = 0;
 
     const translations = {
       kn: {
@@ -278,7 +311,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       applyLanguage();
-      startRealtimeShopOwnerCheck();
+      startRealtimeShopOwners();
       loadSavedAddress();
 
       window.history.replaceState({ screen: 'main' }, '', '');
@@ -304,7 +337,7 @@
       currentLang = currentLang === 'kn' ? 'en' : 'kn';
       localStorage.setItem('app_lang', currentLang);
       applyLanguage();
-      renderProducts(allProducts);
+      applyLocationFilter();
     }
 
     function applyLanguage() {
@@ -331,14 +364,18 @@
         document.getElementById('custName').value = addr.name || '';
         document.getElementById('custPhone').value = addr.phone || '';
         document.getElementById('custVillage').value = addr.village || '';
+        if (addr.taluk) document.getElementById('filterTaluk').value = addr.taluk;
+        if (addr.district) document.getElementById('filterDistrict').value = addr.district;
       }
     }
 
-    function startRealtimeShopOwnerCheck() {
+    function startRealtimeShopOwners() {
       window.onSnapshot(window.collection(window.db, "shop_owners"), (snap) => {
+        allShopsMap = {};
         validShopIds.clear();
         snap.forEach(docSnap => {
           const s = docSnap.data();
+          allShopsMap[s.id] = s;
           if (s.isPaid) validShopIds.add(s.id);
         });
         startRealtimeProducts();
@@ -352,8 +389,33 @@
           const p = { id: docSnap.id, ...docSnap.data() };
           if (validShopIds.has(p.shopId)) allProducts.push(p);
         });
-        renderProducts(allProducts);
+        applyLocationFilter();
       });
+    }
+
+    // 20 KM / Taluk & District Filter Function
+    function applyLocationFilter() {
+      const targetTaluk = document.getElementById('filterTaluk').value.trim().toLowerCase();
+      const targetDistrict = document.getElementById('filterDistrict').value.trim().toLowerCase();
+      const searchQ = document.getElementById('searchInput').value.toLowerCase();
+
+      let filtered = allProducts.filter(p => {
+        let shop = allShopsMap[p.shopId];
+        if (!shop) return false;
+
+        let shopTaluk = (shop.taluk || '').toLowerCase();
+        let shopDistrict = (shop.district || '').toLowerCase();
+
+        // Match 20 km / Taluk & District rule
+        let matchLocation = (targetTaluk === '' || shopTaluk.includes(targetTaluk)) && 
+                            (targetDistrict === '' || shopDistrict.includes(targetDistrict));
+        
+        let matchSearch = p.name.toLowerCase().includes(searchQ) || shop.shopName.toLowerCase().includes(searchQ);
+
+        return matchLocation && matchSearch;
+      });
+
+      renderProducts(filtered);
     }
 
     function renderProducts(list) {
@@ -363,6 +425,9 @@
         if (p.colors && p.colors.length > 0 && p.colors[0].photos && p.colors[0].photos.length > 0) {
           displayPhoto = p.colors[0].photos[0];
         }
+        let shop = allShopsMap[p.shopId];
+        let shopName = shop ? shop.shopName : "Namma Shahapur Store";
+
         return `
           <div class="product-card" onclick="openProductDetail('${p.id}')">
             <div class="img-box">
@@ -371,6 +436,7 @@
             </div>
             <div>
               <div class="prod-title">${p.name}</div>
+              <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shopName}</div>
               <div class="price-row">
                 <span class="curr-price">₹${p.price}</span>
                 ${p.oldPrice ? `<span class="old-price">₹${p.oldPrice}</span>` : ''}
@@ -382,8 +448,7 @@
     }
 
     function filterProducts() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(q)));
+      applyLocationFilter();
     }
 
     function openProductDetail(id) {
@@ -395,8 +460,10 @@
       document.getElementById('qtyDisplay').innerText = productQty;
 
       const t = translations[currentLang];
+      let shop = allShopsMap[selectedProduct.shopId];
       document.getElementById('detailTitle').innerText = selectedProduct.name;
-      document.getElementById('detailShopName').innerText = t.shopPrefix + (selectedProduct.shopName || "Namma Shahapur Store");
+      document.getElementById('detailShopName').innerText = t.shopPrefix + (shop ? shop.shopName : "Namma Shahapur Store");
+      document.getElementById('detailShopLocation').innerText = `📍 ಅಂಗಡಿ ಇರುವ ಸ್ಥಳ: ${shop ? shop.taluk + ', ' + shop.district : 'ಶಹಾಪುರ, ಯಾದಗಿರಿ'}`;
       updatePriceDisplay();
 
       let sizes = [];
@@ -491,6 +558,8 @@
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
+      const taluk = document.getElementById('custTaluk').value.trim();
+      const district = document.getElementById('custDistrict').value.trim();
 
       if (!name || !phone || !village) {
         alert(t.fillAll);
@@ -498,11 +567,12 @@
       }
 
       localStorage.setItem('customer_phone_key', phone);
-      localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village }));
+      localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, taluk, district }));
 
       if (confirm(t.confirmPopup)) {
         let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
         let finalAmt = Number(selectedProduct.price) * productQty;
+        let shop = allShopsMap[selectedProduct.shopId];
 
         const orderData = {
           orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
@@ -510,7 +580,9 @@
           productPhoto: photos[0] || '',
           totalPrice: finalAmt,
           shopId: selectedProduct.shopId,
-          customer: { name, phone, village, taluk: 'ಶಹಾಪುರ', district: 'ಯಾದಗಿರಿ' },
+          shopName: shop ? shop.shopName : "Store",
+          shopLocation: shop ? `${shop.taluk}, ${shop.district}` : "ಶಹಾಪುರ",
+          customer: { name, phone, village, taluk, district },
           status: 'STEP_1',
           orderTime: Date.now(),
           timestamp: Date.now()
@@ -550,6 +622,11 @@
               let statusText = "2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಆರ್ಡರ್ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪುತ್ತದೆ";
               let statusColor = "var(--primary)";
 
+              let displayAmount = Number(o.totalPrice || 0);
+              if (o.isReturned || o.status === 'RETURNED' || o.returnStatus) {
+                displayAmount = Math.max(0, displayAmount - 30);
+              }
+
               if (o.status === 'CONFIRMED' || o.status === 'STEP_2') {
                 statusText = "ಮಾಲೀಕರಿಂದ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ";
                 statusColor = "#e65100";
@@ -560,7 +637,7 @@
                 statusText = "ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್ (Delivery Successful)";
                 statusColor = "var(--success)";
               } else if (o.returnStatus === 'PICKED_UP_BY_DBOY') {
-                statusText = "ರಿಟರ್ನ್ ಪಿಕಪ್ ಮಾಡಲಾಗಿದೆ. ಪೇಮೆಂಟ್ ಸಂಜೆ 5-6 ರೊಳಗೆ ಬರುತ್ತದೆ";
+                statusText = "ರಿಟರ್ನ್ ಪಿಕಪ್ ಮಾಡಲಾಗಿದೆ. ರೂ. 30 ಕಟ್ ಆಗಿ ಪೇಮೆಂಟ್ ಬರುತ್ತದೆ";
                 statusColor = "var(--danger)";
               } else if (o.returnStatus === 'DELIVERED_TO_SHOP' || o.paymentStatus === 'SUCCESS') {
                 statusText = "ರಿಟರ್ನ್ ಪೇಮೆಂಟ್ UPI ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗಿದೆ";
@@ -576,7 +653,7 @@
                     <img src="${o.productPhoto}" style="width:65px; height:65px; object-fit:contain; border-radius:6px; background:#fafafa;">
                     <div style="flex:1;">
                       <h4 style="font-size:0.85rem;">${o.productName}</h4>
-                      <p style="font-size:0.9rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${o.totalPrice}</p>
+                      <p style="font-size:0.9rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${displayAmount} ${o.isReturned ? '<span style="font-size:0.7rem; color:#d32f2f;">(₹30 ಕಡಿತ)</span>' : ''}</p>
                       <p style="font-size:0.75rem; color:#555; margin-top:2px;"><b>ಸ್ಥಿತಿ:</b> <span style="color:${statusColor}; font-weight:bold;">${statusText}</span></p>
                     </div>
                   </div>
@@ -620,7 +697,7 @@
               <div class="t-item ${r2}">
                 <div class="t-dot"></div>
                 <div class="t-title">ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿಕೊಂಡಿದ್ದಾರೆ</div>
-                <div class="t-desc">ಸಂಜೆ 5 ರಿಂದ 6 ರೊಳಗೆ ನಿಮ್ಮ UPI ಗೆ ಹಣ ಜಮೆ ಆಗುತ್ತದೆ.</div>
+                <div class="t-desc">ರೂ. 30 ಕಟ್ ಆಗಿ ಬಾಕಿ ಹಣ ನಿಮ್ಮ UPI ಗೆ ಜಮೆ ಆಗುತ್ತದೆ.</div>
               </div>
               <div class="t-item ${r3}">
                 <div class="t-dot"></div>
@@ -632,7 +709,6 @@
         `;
       }
 
-      // Check if order is picked up to show Call button
       let isPickedUp = (order.status === 'PICKED_UP' || order.status === 'STEP_3' || order.status === 'DELIVERED' || order.status === 'STEP_4');
       let callButtonHTML = isPickedUp ? `
         <a href="tel:${order.deliveryBoyPhone || '8105010768'}" style="background:var(--success); color:#fff; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:0.8rem; font-weight:bold; display:flex; align-items:center; gap:4px;">📞 ಕಾಲ್</a>
@@ -644,12 +720,16 @@
 
       if ((order.status === 'DELIVERED' || order.status === 'STEP_4') && hoursPassed <= 24 && !order.isReturned) {
         returnButtonHTML = `
-          <button class="btn" style="background:var(--danger); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; margin-top:15px;" onclick="openReturnModal('${order.id}')">🔄 24 ಗಂಟೆಯೊಳಗೆ ರಿಟರ್ನ್ ಮಾಡಿ (Return Item)</button>
+          <button class="btn" style="background:var(--danger); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; margin-top:15px;" onclick="openReturnModal('${order.id}', ${order.totalPrice})">🔄 ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿ (Return / Exchange)</button>
         `;
       }
 
+      let displayAmount = Number(order.totalPrice || 0);
+      if (order.isReturned || order.status === 'RETURNED' || order.returnStatus) {
+        displayAmount = Math.max(0, displayAmount - 30);
+      }
+
       content.innerHTML = `
-        <!-- Top Order ID Bar for Quick Barcode/QR Scanning -->
         <div style="background:#e3f2fd; border:1px solid #bbdefb; border-radius:8px; padding:10px; margin-bottom:12px; text-align:center;">
           <span style="font-size:0.75rem; color:#1565c0; font-weight:bold;">📷 ಸ್ಕ್ಯಾನ್ ಮಾಡಲು ಆರ್ಡರ್ ಐಡಿ (Scan Barcode/QR):</span>
           <div style="font-size:1.1rem; font-weight:bold; color:#0d47a1; margin-top:2px; letter-spacing:1px;">${order.orderId || 'OD000000'}</div>
@@ -659,13 +739,14 @@
           <img src="${order.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px;">
           <div style="flex:1;">
             <h4 style="font-size:0.9rem;">${order.productName}</h4>
-            <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${order.totalPrice}</p>
+            <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${displayAmount} ${order.isReturned ? '<span style="font-size:0.75rem; color:#d32f2f;">(ರೂ. 30 ಕಡಿತಗೊಂಡಿದೆ)</span>' : ''}</p>
           </div>
           ${callButtonHTML}
         </div>
 
         <div style="background:#f8f9fa; padding:10px; border-radius:8px; border:1px solid #eee; margin-bottom:15px; font-size:0.8rem;">
-          <p><b>ಡೆಲಿವರಿ ಬಾಯ್ ID:</b> <span style="color:var(--primary); font-weight:bold;">${order.assignedDboyId || order.deliveryBoyId || 'ಅಸೈನ್ ಮಾಡಲಾಗುತ್ತಿದೆ'}</span></p>
+          <p><b>ಅಂಗಡಿ ಸ್ಥಳ:</b> ${order.shopName || 'Namma Store'} (${order.shopLocation || 'ಶಹಾಪುರ'})</p>
+          <p style="margin-top:4px;"><b>ಡೆಲಿವರಿ ಬಾಯ್ ID:</b> <span style="color:var(--primary); font-weight:bold;">${order.assignedDboyId || order.deliveryBoyId || 'ಅಸೈನ್ ಮಾಡಲಾಗುತ್ತಿದೆ'}</span></p>
         </div>
 
         <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:15px; margin-bottom:15px;">
@@ -698,7 +779,8 @@
         ${returnTimelineHTML}
 
         <div style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #e0e0e0; font-size:0.85rem; margin-top:15px;">
-          <p style="margin-top:6px;"><b>ವಿಳಾಸ:</b> ${order.customer?.name}, ${order.customer?.village}, ${order.customer?.taluk} (${order.customer?.phone})</p>
+          <p><b>ವಿಳಾಸ:</b> ${order.customer?.name}, ${order.customer?.village}, ${order.customer?.taluk} (${order.customer?.phone})</p>
+          ${order.returnReason ? `<p style="margin-top:6px; color:#d32f2f;"><b>ರಿಟರ್ನ್ ಕಾರಣ:</b> ${order.returnReason}</p>` : ''}
           ${order.returnStatus ? `<p style="margin-top:6px; color:var(--danger); font-weight:bold;">ರಿಟರ್ನ್ ಸ್ಥಿತಿ: ${order.returnStatus}</p>` : ''}
         </div>
 
@@ -709,8 +791,9 @@
       document.getElementById('orderDetailsScreen').style.display = 'block';
     }
 
-    function openReturnModal(orderId) {
+    function openReturnModal(orderId, price) {
       activeReturnOrderId = orderId;
+      activeReturnOrderPrice = price;
       document.getElementById('returnModal').style.display = 'flex';
     }
 
@@ -718,19 +801,61 @@
       document.getElementById('returnModal').style.display = 'none';
     }
 
+    function convertFileToBase64(file) {
+      return new Promise((resolve) => {
+        if (!file) { resolve(''); return; }
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const maxDim = 300;
+            let w = img.width, h = img.height;
+            if (w > h && w > maxDim) { h *= maxDim / w; w = maxDim; } else if (h > maxDim) { w *= maxDim / h; h = maxDim; }
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', 0.4));
+          };
+        };
+        reader.onerror = () => resolve('');
+      });
+    }
+
     async function submitReturnRequest() {
+      const reason = document.getElementById('returnReason').value.trim();
       const upi = document.getElementById('returnUpiInput').value.trim();
+      
+      if (!reason) {
+        alert("ದಯವಿಟ್ಟು ವಸ್ತು ಏನಾಗಿದೆ ಎಂಬ ಕಾರಣವನ್ನು ಬರೆಯಿರಿ.");
+        return;
+      }
       if (!upi) {
         alert("ದಯವಿಟ್ಟು ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ.");
         return;
       }
+
+      const f1 = document.getElementById('ret_p1').files[0];
+      const f2 = document.getElementById('ret_p2').files[0];
+      const f3 = document.getElementById('ret_p3').files[0];
+
+      const b1 = await convertFileToBase64(f1);
+      const b2 = await convertFileToBase64(f2);
+      const b3 = await convertFileToBase64(f3);
+
       try {
         await window.updateDoc(window.doc(window.db, "orders", activeReturnOrderId), {
           isReturned: true,
           returnStatus: 'RETURN_REQUESTED',
-          customerUpi: upi
+          returnReason: reason,
+          returnPhotos: [b1, b2, b3].filter(Boolean),
+          customerUpi: upi,
+          deductionCharge: 30,
+          finalRefundAmount: Math.max(0, Number(activeReturnOrderPrice) - 30)
         });
-        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ. ರೂ. 30 ಕಟ್ ಆಗಿ ಉಳಿದ ಮೊತ್ತವು ಸಂಜೆ 5 ರಿಂದ 6 ರೊಳಗೆ ನಿಮ್ಮ ಯುಪಿಐಗೆ ಜಮೆ ಆಗುತ್ತದೆ.");
+
+        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ! ರೂ. 30 ಕಟ್ ಆಗಿ ಬಾಕಿ ಹಣ ನಿಮ್ಮ UPI ಗೆ ಜಮೆ ಆಗುತ್ತದೆ.");
         closeReturnModal();
         closeScreen('orderDetailsScreen');
         closeScreen('myOrdersScreen');

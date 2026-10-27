@@ -36,7 +36,7 @@
   <style>
     :root { --primary: #2874f0; --secondary: #ffe500; --bg: #f1f3f6; --text: #212121; --success: #388e3c; --danger: #d32f2f; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 70px; overflow-x: hidden; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; overflow-x: hidden; }
 
     header { background-color: var(--primary); color: white; padding: 10px 14px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
@@ -64,8 +64,8 @@
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
     .old-price { font-size: 0.75rem; color: #888; text-decoration: line-through; }
 
-    .screen { display: none; background: #fff; min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 200; padding-bottom: 90px; overflow-y: auto; }
-    .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; }
+    .screen { display: none; background: #fff; min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 200; overflow-y: auto; padding-bottom: 120px; }
+    .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .back-btn { font-size: 1.3rem; cursor: pointer; }
 
     .slider-container { width: 100%; position: relative; overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #eee; }
@@ -79,8 +79,8 @@
 
     .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 10px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; margin: 10px 0; line-height: 1.4; }
 
-    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #e0e0e0; z-index: 300; }
-    .btn-action { flex: 1; padding: 14px; border: none; font-weight: bold; font-size: 0.95rem; cursor: pointer; text-align: center; }
+    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #e0e0e0; z-index: 300; padding: 10px 15px; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); }
+    .btn-action { flex: 1; padding: 12px; border: none; font-weight: bold; font-size: 0.95rem; cursor: pointer; text-align: center; border-radius: 6px; }
     .btn-buy-now { background: #ff9f00; color: #fff; }
 
     .size-container { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 12px 0; }
@@ -98,6 +98,8 @@
 
     .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 20px; overflow-y: auto; }
     .modal-box { background: #fff; width: 100%; max-width: 380px; padding: 20px; border-radius: 10px; max-height: 90vh; overflow-y: auto; }
+    .shop-call-btn { background: #28a745; color: white; padding: 8px 12px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px; }
+    .shop-map-btn { background: #007bff; color: white; padding: 8px 12px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px; }
   </style>
 </head>
 <body>
@@ -132,7 +134,7 @@
   <!-- PRODUCT DETAIL SCREEN -->
   <div id="productDetailScreen" class="screen">
     <div class="screen-header">
-      <span class="back-btn" onclick="closeScreen('productDetailScreen')">←</span>
+      <span class="back-btn" onclick="goBackScreen('productDetailScreen')">←</span>
       <span id="lblProdDetailTitle">ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ</span>
     </div>
     <div style="padding: 15px;">
@@ -180,7 +182,7 @@
   <!-- CHECKOUT SCREEN -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
-      <span class="back-btn" onclick="closeScreen('checkoutScreen')">←</span>
+      <span class="back-btn" onclick="goBackScreen('checkoutScreen')">←</span>
       <span id="lblCheckoutHeader">ವಿವರ ಖಚಿತಪಡಿಸಿ (Checkout)</span>
     </div>
     <div style="padding: 15px;">
@@ -212,50 +214,40 @@
   <!-- MY ORDERS SCREEN -->
   <div id="myOrdersScreen" class="screen">
     <div class="screen-header">
-      <span class="back-btn" onclick="closeScreen('myOrdersScreen')">←</span>
+      <span class="back-btn" onclick="goBackScreen('myOrdersScreen')">←</span>
       <span id="lblMyOrdersHeader">ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)</span>
     </div>
-    <div style="padding: 15px;">
-      <div id="ordersContainer"></div>
-    </div>
+    <div style="padding: 15px;" id="ordersContainer"></div>
   </div>
 
   <!-- ORDER DETAILS STATUS SCREEN -->
   <div id="orderDetailsScreen" class="screen">
     <div class="screen-header">
-      <span class="back-btn" onclick="closeScreen('orderDetailsScreen')">←</span>
+      <span class="back-btn" onclick="goBackScreen('orderDetailsScreen')">←</span>
       <span id="lblOrderDetailsHeader">Order Details</span>
     </div>
     <div style="padding: 15px;" id="orderDetailsContent"></div>
   </div>
 
-  <!-- RETURN / EXCHANGE MODAL -->
-  <div id="returnModal" class="modal">
+  <!-- STORE DIRECT EXCHANGE MODAL (NO REFUND / NO DBOY) -->
+  <div id="exchangeModal" class="modal">
     <div class="modal-box">
-      <h3 style="color:var(--danger); margin-bottom:6px;">🔄 ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ (Return / Exchange)</h3>
-      <p style="font-size:0.75rem; color:#d32f2f; margin-bottom:8px; line-height:1.4;">
-        💡 <b>ಸೂಚನೆ:</b> ಹತ್ತಿರದ ಅಂಗಡಿಗೆ ನೇರವಾಗಿ ಹೋಗಿ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿಕೊಳ್ಳಬಹುದು. ಅಥವಾ ಆನ್‌ಲೈನ್ ರಿಟರ್ನ್ ಮಾಡಬಹುದು (ರೂ. 30/- ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಕಡಿತಗೊಳ್ಳುತ್ತದೆ).
-      </p>
-
-      <div style="margin-bottom:8px;">
-        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:3px; display:block;">ಸಮಸ್ಯೆ ಏನು?:</label>
-        <textarea id="returnReason" rows="2" placeholder="ಕಾರಣ ಇಲ್ಲಿ ಬರೆಯಿರಿ..." style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.8rem;"></textarea>
+      <h3 style="color:#d32f2f; margin-bottom:8px;">🔄 ಎಕ್ಸ್ಚೇಂಜ್ ಆಫರ್ (Exchange Only)</h3>
+      
+      <div style="background:#fff3e0; border:1px solid #ffe0b2; padding:10px; border-radius:6px; font-size:0.8rem; color:#e65100; margin-bottom:12px; line-height:1.4; text-align:left;">
+        ⚠️ <b>ಪ್ರಮುಖ ಸೂಚನೆ:</b> ನಿಮಗೆ ಓಪನ್ ಬಾಕ್ಸ್ ಡೆಲಿವರಿ ನೀಡಿರುವುದರಿಂದ <b>ಆನ್‌ಲೈನ್ ರಿಟರ್ನ್ ಮತ್ತು ಪೇಮೆಂಟ್ ವಾಪಸ್ ಬರುವುದಿಲ್ಲ</b>.<br><br>
+        ನೀವೇ ನೇರವಾಗಿ ಈ ಕೆಳಗಿನ <b>ಅಂಗಡಿಗೆ ಭೇಟಿ ನೀಡಿ</b> ವಸ್ತುವನ್ನು ಪರಿಶೀಲಿಸಿ <b>ಎಕ್ಸ್ಚೇಂಜ್ (Exchange)</b> ಮಾಡಿಕೊಳ್ಳಬಹುದು.
       </div>
 
-      <div style="background:#f8f9fa; padding:8px; border-radius:6px; border:1px solid #ddd; margin-bottom:8px;">
-        <label style="font-size:0.8rem; font-weight:bold; color:var(--primary); display:block; margin-bottom:4px;">📸 2 ಅಥವಾ 3 ಫೋಟೋಗಳನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ:</label>
-        <div style="margin-bottom:4px;"><label style="font-size:0.7rem;">ಫೋಟೋ 1:</label><input type="file" accept="image/*" id="ret_p1" style="font-size:0.75rem;"></div>
-        <div style="margin-bottom:4px;"><label style="font-size:0.7rem;">ಫೋಟೋ 2:</label><input type="file" accept="image/*" id="ret_p2" style="font-size:0.75rem;"></div>
-        <div><label style="font-size:0.7rem;">ಫೋಟೋ 3:</label><input type="file" accept="image/*" id="ret_p3" style="font-size:0.75rem;"></div>
+      <div id="exchangeShopDetails" style="background:#f8f9fa; border:1px solid #e0e0e0; padding:10px; border-radius:8px; text-align:left; font-size:0.83rem; margin-bottom:12px;"></div>
+
+      <div style="margin-bottom:10px; text-align:left;">
+        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:3px; display:block;">ವಸ್ತುವಿನಲ್ಲಿ ಏನಾದರೂ ಲೋಪವಿದ್ದರೆ ತಿಳಿಸಿ:</label>
+        <textarea id="exchangeReason" rows="2" placeholder="ಉದಾ: ಸೈಜ್ ಸರಿ ಇಲ್ಲ, ಬಣ್ಣ ಬದಲಾಯಿಸಬೇಕು..." style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.8rem;"></textarea>
       </div>
 
-      <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:3px; display:block;">ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ:</label>
-        <input type="text" id="returnUpiInput" placeholder="example@upi" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;">
-      </div>
-
-      <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem;" onclick="submitReturnRequest()">ರಿಟರ್ನ್ ವಿನಂತಿ ಕಳುಹಿಸಿ (₹30 ಕಡಿತ)</button>
-      <button class="btn" style="background:#757575; color:#fff; width:100%; padding:8px; border:none; border-radius:6px; font-weight:bold; margin-top:6px; font-size:0.85rem;" onclick="closeReturnModal()">ರದ್ದುಮಾಡಿ</button>
+      <button class="btn" style="background:var(--primary); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem;" onclick="submitExchangeRequest()">ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ತಿಳಿಸಿ & ಎಕ್ಸ್ಚೇಂಜ್ ಪಡೆಯಿರಿ</button>
+      <button class="btn" style="background:#757575; color:#fff; width:100%; padding:8px; border:none; border-radius:6px; font-weight:bold; margin-top:6px; font-size:0.85rem;" onclick="closeExchangeModal()">ರದ್ದುಮಾಡಿ</button>
     </div>
   </div>
 
@@ -267,8 +259,7 @@
     let selectedSize = '';
     let productQty = 1;
     let currentLang = localStorage.getItem('app_lang') || 'kn';
-    let activeReturnOrderId = null;
-    let activeReturnOrderPrice = 0;
+    let activeExchangeOrder = null;
 
     const translations = {
       kn: {
@@ -317,23 +308,28 @@
       loadSavedAddress();
 
       window.history.replaceState({ screen: 'main' }, '', '');
+
       window.addEventListener('popstate', (e) => {
-        const screens = ['productDetailScreen', 'checkoutScreen', 'myOrdersScreen', 'orderDetailsScreen'];
-        let closedAny = false;
-        screens.forEach(id => {
-          const el = document.getElementById(id);
-          if (el && el.style.display === 'block') {
-            el.style.display = 'none';
-            closedAny = true;
-          }
-        });
-        if (!closedAny) {
-          window.history.back();
-        } else {
-          window.history.pushState({ screen: 'main' }, '', '');
+        const screens = ['orderDetailsScreen', 'myOrdersScreen', 'checkoutScreen', 'productDetailScreen'];
+        let openedScreen = screens.find(id => document.getElementById(id).style.display === 'block');
+        
+        if (openedScreen) {
+          document.getElementById(openedScreen).style.display = 'none';
         }
       });
     });
+
+    function showScreen(screenId) {
+      window.history.pushState({ screen: screenId }, '', '');
+      document.getElementById(screenId).style.display = 'block';
+    }
+
+    function goBackScreen(screenId) {
+      document.getElementById(screenId).style.display = 'none';
+      if (window.history.state && window.history.state.screen === screenId) {
+        window.history.back();
+      }
+    }
 
     function toggleLanguage() {
       currentLang = currentLang === 'kn' ? 'en' : 'kn';
@@ -495,8 +491,7 @@
         thumbnailBar.style.display = 'none';
       }
 
-      window.history.pushState({ screen: 'detail' }, '', '');
-      document.getElementById('productDetailScreen').style.display = 'block';
+      showScreen('productDetailScreen');
     }
 
     function selectSize(btn, size) {
@@ -550,8 +545,7 @@
       document.getElementById('checkoutSizeText').innerText = `(Size: ${selectedSize}, Qty: ${productQty})`;
       document.getElementById('checkoutFeeBreakdown').innerText = distanceKm > 20 ? `(ಪ್ರಾಡಕ್ಟ್ ಬೆಲೆ: ₹${baseTotal} + ಡೆಲಿವರಿ ಚಾರ್ಜ್: ₹50)` : `(ಫ್ರೀ ಡೆಲಿವರಿ)`;
 
-      window.history.pushState({ screen: 'checkout' }, '', '');
-      document.getElementById('checkoutScreen').style.display = 'block';
+      showScreen('checkoutScreen');
     }
 
     async function confirmOrderWithPopup() {
@@ -587,7 +581,9 @@
           distanceKm: distanceKm,
           shopId: selectedProduct.shopId,
           shopName: shop ? shop.shopName : "Store",
+          shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
           shopLocation: shop ? `${shop.taluk}, ${shop.district}` : "ಶಹಾಪುರ",
+          shopMapUrl: shop ? (shop.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.shopName + ' ' + shop.taluk)}`) : '#',
           customer: { name, phone, village, taluk, district },
           status: 'STEP_1',
           orderTime: Date.now(),
@@ -597,8 +593,8 @@
         try {
           await window.addDoc(window.collection(window.db, "orders"), orderData);
           alert(t.orderSuccess);
-          closeScreen('checkoutScreen');
-          closeScreen('productDetailScreen');
+          document.getElementById('checkoutScreen').style.display = 'none';
+          document.getElementById('productDetailScreen').style.display = 'none';
           openMyOrdersScreen();
         } catch (e) {
           alert("Error: " + e.message);
@@ -628,11 +624,6 @@
               let statusText = "2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಆರ್ಡರ್ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪುತ್ತದೆ";
               let statusColor = "var(--primary)";
 
-              let displayAmount = Number(o.totalPrice || 0);
-              if (o.isReturned || o.status === 'RETURNED' || o.returnStatus) {
-                displayAmount = Math.max(0, displayAmount - 30);
-              }
-
               if (o.status === 'CONFIRMED' || o.status === 'STEP_2') {
                 statusText = "ಮಾಲೀಕರಿಂದ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ";
                 statusColor = "#e65100";
@@ -642,6 +633,9 @@
               } else if (o.status === 'DELIVERED' || o.status === 'STEP_4') {
                 statusText = "ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್ (Delivery Successful)";
                 statusColor = "var(--success)";
+              } else if (o.isExchangeRequested) {
+                statusText = "ಅಂಗಡಿಯಲ್ಲಿ ಎಕ್ಸ್ಚೇಂಜ್‌ಗೆ ಕೋರಲಾಗಿದೆ";
+                statusColor = "#d32f2f";
               }
 
               return `
@@ -650,7 +644,7 @@
                     <img src="${o.productPhoto}" style="width:65px; height:65px; object-fit:contain; border-radius:6px; background:#fafafa;">
                     <div style="flex:1;">
                       <h4 style="font-size:0.85rem;">${o.productName}</h4>
-                      <p style="font-size:0.9rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${displayAmount} ${o.deliveryFee ? '<span style="font-size:0.7rem; color:#555;">(ಚಾರ್ಜ್ ಸೇರಿದೆ)</span>' : ''}</p>
+                      <p style="font-size:0.9rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${o.totalPrice}</p>
                       <p style="font-size:0.75rem; color:#555; margin-top:2px;"><b>ಸ್ಥಿತಿ:</b> <span style="color:${statusColor}; font-weight:bold;">${statusText}</span></p>
                     </div>
                   </div>
@@ -660,8 +654,7 @@
           }
         });
       }
-      window.history.pushState({ screen: 'myorders' }, '', '');
-      document.getElementById('myOrdersScreen').style.display = 'block';
+      showScreen('myOrdersScreen');
     }
 
     function openOrderDetails(order) {
@@ -676,7 +669,14 @@
         t1 = 'completed'; t2 = 'completed'; t3 = 'completed'; t4 = 'completed';
       }
 
-      let displayAmount = Number(order.totalPrice || 0);
+      let mapUrl = order.shopMapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((order.shopName || '') + ' ' + (order.shopLocation || ''))}`;
+
+      let exchangeButtonHTML = '';
+      if (order.status === 'DELIVERED' || order.status === 'STEP_4') {
+        exchangeButtonHTML = `
+          <button class="btn" style="background:var(--danger); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; margin-top:15px; font-size:0.85rem;" onclick='openExchangeModal(${JSON.stringify(order)})'>🔄 ವಸ್ತು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿ (Exchange Only)</button>
+        `;
+      }
 
       content.innerHTML = `
         <div style="background:#e3f2fd; border:1px solid #bbdefb; border-radius:8px; padding:10px; margin-bottom:12px; text-align:center;">
@@ -688,13 +688,20 @@
           <img src="${order.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px;">
           <div style="flex:1;">
             <h4 style="font-size:0.9rem;">${order.productName}</h4>
-            <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${displayAmount} ${order.deliveryFee ? `<span style="font-size:0.7rem; color:#666;">(ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಸೇರಿ: ₹${order.deliveryFee})</span>` : ''}</p>
+            <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${order.totalPrice}</p>
           </div>
         </div>
 
-        <div style="background:#f8f9fa; padding:10px; border-radius:8px; border:1px solid #eee; margin-bottom:15px; font-size:0.8rem;">
-          <p><b>ಅಂಗಡಿ ಸ್ಥಳ:</b> ${order.shopName || 'Namma Store'} (${order.shopLocation || 'ಶಹಾಪುರ'})</p>
-          <p style="margin-top:4px;"><b>ಡೆಲಿವರಿ ಬಾಯ್ ID:</b> <span style="color:var(--primary); font-weight:bold;">${order.assignedDboyId || order.deliveryBoyId || 'ಅಸೈನ್ ಮಾಡಲಾಗುತ್ತಿದೆ'}</span></p>
+        <!-- Store Location, Phone & GPS Links for Customer -->
+        <div style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #eee; margin-bottom:15px; font-size:0.82rem;">
+          <p style="font-size:0.85rem; font-weight:bold; color:var(--primary); margin-bottom:6px;">🏪 ಈ ವಸ್ತು ಬಂದಿರುವ ಅಂಗಡಿಯ ವಿವರ:</p>
+          <p><b>ಅಂಗಡಿ ಹೆಸರು:</b> ${order.shopName || 'Namma Store'}</p>
+          <p style="margin-top:2px;"><b>ಸ್ಥಳ/ತಾಲೂಕು:</b> ${order.shopLocation || 'ಶಹಾಪುರ'}</p>
+          
+          <div style="display:flex; gap:8px; margin-top:10px;">
+            <a href="tel:${order.shopPhone || '8105010768'}" class="shop-call-btn">📞 ಅಂಗಡಿಗೆ ಕಾಲ್ ಮಾಡಿ</a>
+            <a href="${mapUrl}" target="_blank" class="shop-map-btn">📍 GPS ಲೊಕೇಶನ್ (Map)</a>
+          </div>
         </div>
 
         <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:15px; margin-bottom:15px;">
@@ -706,14 +713,52 @@
             <div class="t-item ${t4}"><div class="t-dot"></div><div class="t-title">ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್</div></div>
           </div>
         </div>
+
+        ${exchangeButtonHTML}
       `;
 
-      window.history.pushState({ screen: 'details' }, '', '');
-      document.getElementById('orderDetailsScreen').style.display = 'block';
+      showScreen('orderDetailsScreen');
     }
 
-    function closeScreen(id) { 
-      document.getElementById(id).style.display = 'none'; 
+    function openExchangeModal(order) {
+      activeExchangeOrder = order;
+      let mapUrl = order.shopMapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((order.shopName || '') + ' ' + (order.shopLocation || ''))}`;
+      
+      document.getElementById('exchangeShopDetails').innerHTML = `
+        <b>🏪 ಅಂಗಡಿ ಹೆಸರು:</b> ${order.shopName}<br>
+        <b>📍 ಲೊಕೇಶನ್:</b> ${order.shopLocation}<br><br>
+        <div style="display:flex; gap:8px;">
+          <a href="tel:${order.shopPhone || '8105010768'}" class="shop-call-btn">📞 ಅಂಗಡಿಗೆ ಕಾಲ್ ಮಾಡಿ (${order.shopPhone || '8105010768'})</a>
+          <a href="${mapUrl}" target="_blank" class="shop-map-btn">📍 GPS ಲೊಕೇಶನ್</a>
+        </div>
+      `;
+
+      document.getElementById('exchangeModal').style.display = 'flex';
+    }
+
+    function closeExchangeModal() {
+      document.getElementById('exchangeModal').style.display = 'none';
+    }
+
+    async function submitExchangeRequest() {
+      if (!activeExchangeOrder) return;
+      const reason = document.getElementById('exchangeReason').value.trim();
+
+      try {
+        // Send Notification directly to Shop Owner (No Delivery Boy Involved, No Refund)
+        await window.updateDoc(window.doc(window.db, "orders", activeExchangeOrder.id), {
+          isExchangeRequested: true,
+          exchangeReason: reason || "ಗ್ರಾಹಕರು ಅಂಗಡಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿಕೊಳ್ಳಲಿದ್ದಾರೆ",
+          exchangeStatus: 'PENDING_STORE_EXCHANGE',
+          shopNotice: "⚠️ ಗ್ರಾಹಕರು ಈ ವಸ್ತುವನ್ನು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ನಿಮ್ಮ ಅಂಗಡಿಗೆ ಬರಲಿದ್ದಾರೆ. ದಯವಿಟ್ಟು ಪರಿಶೀಲಿಸಿ ಬದಲಾಯಿಸಿಕೊಡಿ."
+        });
+
+        alert("✅ ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿಯನ್ನು ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ! ಓಪನ್ ಬಾಕ್ಸ್ ಡೆಲಿವರಿ ನೀಡಿರುವುದರಿಂದ ರಿಫಂಡ್ ಇರುವುದಿಲ್ಲ. ನೀವೇ ನೇರವಾಗಿ ಅಂಗಡಿಗೆ ಹೋಗಿ ಎಕ್ಸ್ಚೇಂಜ್ ಪಡೆಯಿರಿ.");
+        closeExchangeModal();
+        openMyOrdersScreen();
+      } catch (e) {
+        alert("Error: " + e.message);
+      }
     }
   </script>
 </body>

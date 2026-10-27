@@ -217,7 +217,7 @@
   <div id="returnModal" class="modal">
     <div class="modal-box">
       <h3 style="color:var(--danger); margin-bottom:8px;">🔄 ರಿಟರ್ನ್ ವಿನಂತಿ (Return)</h3>
-      <p style="font-size:0.8rem; margin-bottom:10px;">ನಿಮ್ಮ ಯುಪಿಐ ಐಡಿ (UPI ID) ನಮೂದಿಸಿ. ರೂ. 30 ಕಟ್ ಆಗಿ ಉಳಿದ ಹಣ 6 ಗಂಟೆಯೊಳಗೆ ಜಮೆ ಆಗುತ್ತದೆ:</p>
+      <p style="font-size:0.8rem; margin-bottom:10px;">ನಿಮ್ಮ ಯುಪಿಐ ಐಡಿ (UPI ID) ನಮೂದಿಸಿ. ರೂ. 30 ಕಟ್ ಆಗಿ ಉಳಿದ ಹಣ ಸಂಜೆ 5 ರಿಂದ 6 ರೊಳಗೆ ಜಮೆ ಆಗುತ್ತದೆ:</p>
       <input type="text" id="returnUpiInput" placeholder="example@upi" style="width:100%; padding:9px; border:1px solid #ccc; border-radius:6px; margin-bottom:12px;">
       <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="submitReturnRequest()">ಸಂರಕ್ಷಿಸಿ & ರಿಟರ್ನ್ ಕಳುಹಿಸಿ</button>
       <button class="btn" style="background:#757575; color:#fff; width:100%; padding:8px; border:none; border-radius:6px; font-weight:bold; margin-top:6px;" onclick="closeReturnModal()">ರದ್ದುಮಾಡಿ</button>
@@ -559,8 +559,14 @@
               } else if (o.status === 'DELIVERED' || o.status === 'STEP_4') {
                 statusText = "ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್ (Delivery Successful)";
                 statusColor = "var(--success)";
+              } else if (o.returnStatus === 'PICKED_UP_BY_DBOY') {
+                statusText = "ರಿಟರ್ನ್ ಪಿಕಪ್ ಮಾಡಲಾಗಿದೆ. ಪೇಮೆಂಟ್ ಸಂಜೆ 5-6 ರೊಳಗೆ ಬರುತ್ತದೆ";
+                statusColor = "var(--danger)";
+              } else if (o.returnStatus === 'DELIVERED_TO_SHOP' || o.paymentStatus === 'SUCCESS') {
+                statusText = "ರಿಟರ್ನ್ ಪೇಮೆಂಟ್ UPI ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗಿದೆ";
+                statusColor = "var(--success)";
               } else if (o.isReturned || o.status === 'RETURNED') {
-                statusText = "ರಿಟರ್ನ್ ವಿನಂತಿ ಕಳುಹಿಸಲಾಗಿದೆ";
+                statusText = "ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ";
                 statusColor = "var(--danger)";
               }
 
@@ -586,18 +592,45 @@
 
     function openOrderDetails(order) {
       const content = document.getElementById('orderDetailsContent');
-      let step1 = 'completed active', step2 = '', step3 = '', step4 = '';
       let t1 = 'completed', t2 = '', t3 = '', t4 = '';
 
       if (order.status === 'CONFIRMED' || order.status === 'STEP_2') {
-        step1 = 'completed'; step2 = 'completed active';
         t1 = 'completed'; t2 = 'active';
       } else if (order.status === 'PACKING' || order.status === 'PICKED_UP' || order.status === 'STEP_3') {
-        step1 = 'completed'; step2 = 'completed'; step3 = 'completed active';
         t1 = 'completed'; t2 = 'completed'; t3 = 'active';
       } else if (order.status === 'DELIVERED' || order.status === 'STEP_4') {
-        step1 = 'completed'; step2 = 'completed'; step3 = 'completed'; step4 = 'completed active';
         t1 = 'completed'; t2 = 'completed'; t3 = 'completed'; t4 = 'completed';
+      }
+
+      // Return Timeline handling
+      let returnTimelineHTML = '';
+      if (order.isReturned || order.status === 'RETURNED' || order.returnStatus) {
+        let r1 = 'completed', r2 = '', r3 = '';
+        if (order.returnStatus === 'PICKED_UP_BY_DBOY') { r1 = 'completed'; r2 = 'active'; }
+        if (order.returnStatus === 'DELIVERED_TO_SHOP' || order.paymentStatus === 'SUCCESS') { r1 = 'completed'; r2 = 'completed'; r3 = 'completed'; }
+
+        returnTimelineHTML = `
+          <div style="background:#fff3e0; border:1px solid #ffe0b2; border-radius:8px; padding:15px; margin-top:15px;">
+            <h4 style="font-size:0.9rem; color:#e65100; margin-bottom:12px;">🔄 ರಿಟರ್ನ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಸ್ಟೇಟಸ್</h4>
+            <div class="timeline">
+              <div class="t-item ${r1}">
+                <div class="t-dot"></div>
+                <div class="t-title">ರಿಟರ್ನ್ ವಿನಂತಿ ಕಳುಹಿಸಲಾಗಿದೆ</div>
+                <div class="t-desc">ನಿಮ್ಮ ರಿಟರ್ನ್ ರಿಕ್ವೆಸ್ಟ್ ಸ್ವೀಕರಿಸಲಾಗಿದೆ.</div>
+              </div>
+              <div class="t-item ${r2}">
+                <div class="t-dot"></div>
+                <div class="t-title">ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿಕೊಂಡಿದ್ದಾರೆ</div>
+                <div class="t-desc">ಸಂಜೆ 5 ರಿಂದ 6 ರೊಳಗೆ ನಿಮ್ಮ UPI ಗೆ ಹಣ ಜಮೆ ಆಗುತ್ತದೆ.</div>
+              </div>
+              <div class="t-item ${r3}">
+                <div class="t-dot"></div>
+                <div class="t-title">ರಿಟರ್ನ್ ಪೇಮೆಂಟ್ UPI ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗಿದೆ</div>
+                <div class="t-desc">ಅಂಗಡಿಗೆ ತಲುಪಿದೆ ಮತ್ತು ಹಣ ನಿಮ್ಮ ಯುಪಿಐಗೆ ಜಮೆ ಮಾಡಲಾಗಿದೆ.</div>
+              </div>
+            </div>
+          </div>
+        `;
       }
 
       const orderTime = order.orderTime || order.timestamp || Date.now();
@@ -647,7 +680,9 @@
           </div>
         </div>
 
-        <div style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #e0e0e0; font-size:0.85rem;">
+        ${returnTimelineHTML}
+
+        <div style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #e0e0e0; font-size:0.85rem; margin-top:15px;">
           <p><b>ಆರ್ಡರ್ ಐಡಿ:</b> ${order.orderId || 'OD'}</p>
           <p style="margin-top:6px;"><b>ವಿಳಾಸ:</b> ${order.customer?.name}, ${order.customer?.village}, ${order.customer?.taluk} (${order.customer?.phone})</p>
           ${order.returnStatus ? `<p style="margin-top:6px; color:var(--danger); font-weight:bold;">ರಿಟರ್ನ್ ಸ್ಥಿತಿ: ${order.returnStatus}</p>` : ''}
@@ -681,7 +716,7 @@
           returnStatus: 'RETURN_REQUESTED',
           customerUpi: upi
         });
-        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ. ರೂ. 30 ಕಟ್ ಆಗಿ ಉಳಿದ ಮೊತ್ತವು 6 ಗಂಟೆಯೊಳಗೆ ನಿಮ್ಮ ಯುಪಿಐಗೆ ಜಮೆ ಆಗುತ್ತದೆ.");
+        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ. ರೂ. 30 ಕಟ್ ಆಗಿ ಉಳಿದ ಮೊತ್ತವು ಸಂಜೆ 5 ರಿಂದ 6 ರೊಳಗೆ ನಿಮ್ಮ ಯುಪಿಐಗೆ ಜಮೆ ಆಗುತ್ತದೆ.");
         closeReturnModal();
         closeScreen('orderDetailsScreen');
         closeScreen('myOrdersScreen');

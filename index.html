@@ -65,7 +65,7 @@
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
     .old-price { font-size: 0.75rem; color: #888; text-decoration: line-through; }
 
-    .screen { display: none; background: #fff; min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 200; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 150px; }
+    .screen { display: none; background: #fff; min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 200; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 160px; }
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .back-btn { font-size: 1.3rem; cursor: pointer; }
 
@@ -104,7 +104,7 @@
 
     /* Custom Popup Modal Styles */
     #customAlertModal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 20px; }
-    .custom-alert-box { background: #fff; width: 100%; max-width: 320px; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: scaleUp 0.2s ease; }
+    .custom-alert-box { background: #fff; width: 100%; max-width: 330px; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: scaleUp 0.2s ease; }
     @keyframes scaleUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   </style>
 </head>
@@ -116,6 +116,18 @@
       <div id="customAlertIcon" style="font-size: 2.2rem; margin-bottom: 8px;">🎉</div>
       <h3 id="customAlertTitle" style="font-size: 1rem; color: #333; margin-bottom: 8px; font-weight: bold;">ಸೂಚನೆ</h3>
       <p id="customAlertMsg" style="font-size: 0.88rem; color: #555; margin-bottom: 15px; line-height: 1.4;"></p>
+      
+      <div id="cancelReasonBox" style="display:none; text-align:left; margin-bottom:12px;">
+        <label style="font-size:0.8rem; font-weight:bold; color:#d32f2f; margin-bottom:4px; display:block;">ಕ್ಯಾನ್ಸಲ್ ಮಾಡಲು ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ:</label>
+        <select id="cancelReasonSelect" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem; margin-bottom:6px;">
+          <option value="ಬಣ್ಣ ಬದಲಾಯಿಸಬೇಕು (Color Change)">🎨 ಬಣ್ಣ ಬದಲಾಯಿಸಬೇಕು (Color Change)</option>
+          <option value="ಇಷ್ಟವಿಲ್ಲ (Not Interested)">💖 ಇಷ್ಟವಿಲ್ಲ (Not Interested)</option>
+          <option value="ಸೈಜ್ ತೊಂದರೆ (Size Issue)">📏 ಸೈಜ್ ತೊಂದರೆ (Size Issue)</option>
+          <option value="ಇತರ ಕಾರಣ (Other)">✏️ ಇತರ ಕಾರಣ (Other Reason)</option>
+        </select>
+        <input type="text" id="cancelOtherText" placeholder="ಇತರ ವಿವರಣೆ ಬರೆಯಿರಿ..." style="width:100%; padding:6px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem; display:none;">
+      </div>
+
       <div id="customAlertBtns" style="display: flex; gap: 8px;">
         <button id="customAlertCancelBtn" style="flex: 1; padding: 10px; border: 1px solid #ccc; background: #f5f5f5; color: #333; border-radius: 6px; font-weight: bold; cursor: pointer; display: none;" onclick="closeCustomAlert(false)">ರದ್ದುಮಾಡಿ</button>
         <button id="customAlertOkBtn" style="flex: 1; padding: 10px; border: none; background: var(--primary); color: #fff; border-radius: 6px; font-weight: bold; cursor: pointer;" onclick="closeCustomAlert(true)">ಸರಿ (OK)</button>
@@ -156,7 +168,7 @@
       <span class="back-btn" onclick="goBackScreen('productDetailScreen')">←</span>
       <span id="lblProdDetailTitle">ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ</span>
     </div>
-    <div style="padding: 15px 15px 120px 15px;">
+    <div style="padding: 15px 15px 160px 15px;">
       
       <div class="slider-container">
         <div class="slider-track" id="sliderTrack"></div>
@@ -191,6 +203,11 @@
         🚚 <b>20 ಕಿ.ಮೀ ಒಳಗೆ: ಯಾವುದೇ ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಇಲ್ಲ (ಫ್ರೀ ಡೆಲಿವರಿ)!</b>
       </div>
 
+      <!-- Related Products Grid Below Detail -->
+      <hr style="margin:20px 0 10px 0; border:0; border-top:1px solid #ddd;">
+      <h4 style="font-size:0.95rem; color:var(--primary); margin-bottom:8px;">🛒 ಇತರ ಲಭ್ಯವಿರುವ ವಸ್ತುಗಳು (Other Products):</h4>
+      <div id="relatedProductsGrid" class="grid-products"></div>
+
     </div>
 
     <div class="bottom-bar">
@@ -204,7 +221,7 @@
       <span class="back-btn" onclick="goBackScreen('checkoutScreen')">←</span>
       <span id="lblCheckoutHeader">ವಿವರ ಖಚಿತಪಡಿಸಿ (Checkout)</span>
     </div>
-    <div style="padding: 15px 15px 120px 15px;">
+    <div style="padding: 15px 15px 160px 15px;">
       <div style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:</h4>
         <input type="text" id="custName" placeholder="ಹೆಸರು / Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
@@ -236,7 +253,7 @@
       <span class="back-btn" onclick="goBackScreen('myOrdersScreen')">←</span>
       <span id="lblMyOrdersHeader">ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)</span>
     </div>
-    <div style="padding: 15px 15px 120px 15px;" id="ordersContainer"></div>
+    <div style="padding: 15px 15px 160px 15px;" id="ordersContainer"></div>
   </div>
 
   <!-- ORDER DETAILS STATUS SCREEN -->
@@ -245,7 +262,7 @@
       <span class="back-btn" onclick="goBackScreen('orderDetailsScreen')">←</span>
       <span id="lblOrderDetailsHeader">Order Details</span>
     </div>
-    <div style="padding: 15px 15px 140px 15px;" id="orderDetailsContent"></div>
+    <div style="padding: 15px 15px 160px 15px;" id="orderDetailsContent"></div>
   </div>
 
   <!-- STORE DIRECT EXCHANGE MODAL -->
@@ -284,25 +301,50 @@
 
     let customAlertCallback = null;
 
-    function showCustomAlert(title, msg, isConfirm = false, callback = null) {
+    function showCustomAlert(title, msg, isConfirm = false, showCancelForm = false, callback = null) {
       document.getElementById('customAlertTitle').innerText = title;
       document.getElementById('customAlertMsg').innerText = msg;
       customAlertCallback = callback;
 
       const cancelBtn = document.getElementById('customAlertCancelBtn');
+      const cancelBox = document.getElementById('cancelReasonBox');
+
       if (isConfirm) {
         cancelBtn.style.display = 'block';
       } else {
         cancelBtn.style.display = 'none';
       }
 
+      if (showCancelForm) {
+        cancelBox.style.display = 'block';
+      } else {
+        cancelBox.style.display = 'none';
+      }
+
       document.getElementById('customAlertModal').style.display = 'flex';
     }
+
+    document.getElementById('cancelReasonSelect').addEventListener('change', (e) => {
+      const otherTxt = document.getElementById('cancelOtherText');
+      if (e.target.value.includes('Other')) {
+        otherTxt.style.display = 'block';
+      } else {
+        otherTxt.style.display = 'none';
+      }
+    });
 
     function closeCustomAlert(result) {
       document.getElementById('customAlertModal').style.display = 'none';
       if (customAlertCallback) {
-        customAlertCallback(result);
+        let selectedReason = '';
+        if (document.getElementById('cancelReasonBox').style.display === 'block') {
+          let sel = document.getElementById('cancelReasonSelect').value;
+          if (sel.includes('Other')) {
+            sel = document.getElementById('cancelOtherText').value.trim() || 'ಇತರ ಕಾರಣ (Other Reason)';
+          }
+          selectedReason = sel;
+        }
+        customAlertCallback(result, selectedReason);
         customAlertCallback = null;
       }
     }
@@ -491,7 +533,7 @@
       selectedProduct = allProducts.find(p => p.id === id);
       if (!selectedProduct) return;
       
-      window.scrollTo(0, 0);
+      document.getElementById('productDetailScreen').scrollTop = 0;
       productQty = 1;
       document.getElementById('qtyDisplay').innerText = productQty;
 
@@ -537,7 +579,43 @@
         thumbnailBar.style.display = 'none';
       }
 
+      // Render Related Products in Detail View
+      renderRelatedProducts(selectedProduct.id);
+
       showScreen('productDetailScreen');
+    }
+
+    function renderRelatedProducts(currentId) {
+      const relContainer = document.getElementById('relatedProductsGrid');
+      let others = allProducts.filter(p => p.id !== currentId);
+      if (others.length === 0) {
+        relContainer.innerHTML = `<p style="font-size:0.8rem; color:#777;">ಇತರ ಯಾವುದೇ ವಸ್ತುಗಳು ಸದ್ಯಕ್ಕೆ ಲಭ್ಯವಿಲ್ಲ.</p>`;
+        return;
+      }
+      relContainer.innerHTML = others.slice(0, 6).map(p => {
+        let displayPhoto = p.photo || 'https://via.placeholder.com/150';
+        if (p.colors && p.colors.length > 0 && p.colors[0].photos && p.colors[0].photos.length > 0) {
+          displayPhoto = p.colors[0].photos[0];
+        }
+        let shop = allShopsMap[p.shopId];
+        let shopName = shop ? shop.shopName : "Namma Shahapur Store";
+
+        return `
+          <div class="product-card" onclick="openProductDetail('${p.id}')">
+            <div class="img-box">
+              <img src="${displayPhoto}">
+              <div class="qr-badge">📷 QR Scan</div>
+            </div>
+            <div>
+              <div class="prod-title">${p.name}</div>
+              <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shopName}</div>
+              <div class="price-row">
+                <span class="curr-price">₹${p.price}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     function selectSize(btn, size) {
@@ -607,7 +685,7 @@
         return;
       }
 
-      showCustomAlert("ಆರ್ಡರ್ ದೃಢೀಕರಣ", t.confirmPopup, true, async (confirmed) => {
+      showCustomAlert("ಆರ್ಡರ್ ದೃಢೀಕರಣ", t.confirmPopup, true, false, async (confirmed) => {
         if (confirmed) {
           localStorage.setItem('customer_phone_key', phone);
           localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, taluk, district }));
@@ -673,7 +751,10 @@
               let statusText = "2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಆರ್ಡರ್ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪುತ್ತದೆ";
               let statusColor = "var(--primary)";
 
-              if (o.status === 'CONFIRMED' || o.status === 'STEP_2') {
+              if (o.status === 'CANCELLED') {
+                statusText = "ಆರ್ಡರ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ (Cancelled)";
+                statusColor = "var(--danger)";
+              } else if (o.status === 'CONFIRMED' || o.status === 'STEP_2') {
                 statusText = "ಮಾಲೀಕರಿಂದ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ";
                 statusColor = "#e65100";
               } else if (o.status === 'PACKING' || o.status === 'PICKED_UP' || o.status === 'STEP_3') {
@@ -711,6 +792,7 @@
       let t1 = 'completed', t2 = '', t3 = '', t4 = '';
 
       let status = order.status || 'STEP_1';
+      let isCancelled = (status === 'CANCELLED');
       let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || order.isDelivered);
       let isPickedUp = (status === 'STEP_3' || order.isPickedUp || isDelivered);
       let isPacked = (status === 'STEP_2' || isPickedUp);
@@ -721,8 +803,9 @@
 
       let mapUrl = order.shopMapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((order.shopName || '') + ' ' + (order.shopLocation || ''))}`;
 
+      // Delivery OTP Box
       let otpBoxHTML = '';
-      if (order.pickupOtp) {
+      if (order.pickupOtp && !isCancelled) {
         otpBoxHTML = `
           <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
             <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):</span>
@@ -732,30 +815,9 @@
         `;
       }
 
+      // Shop Contact & Location Buttons (Visible ONLY IF DELIVERED)
       let contactActionHTML = '';
-      if (!isPickedUp) {
-        contactActionHTML = `
-          <div style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #eee; margin-bottom:15px; font-size:0.82rem;">
-            <p style="font-size:0.85rem; font-weight:bold; color:var(--primary); margin-bottom:6px;">🏪 ಈ ವಸ್ತು ಬಂದಿರುವ ಅಂಗಡಿಯ ವಿವರ:</p>
-            <p><b>ಅಂಗಡಿ ಹೆಸರು:</b> ${order.shopName || 'Namma Store'}</p>
-            <p style="margin-top:2px;"><b>ಸ್ಥಳ/ತಾಲೂಕು:</b> ${order.shopLocation || 'ಶಹಾಪುರ'}</p>
-            
-            <div style="display:flex; gap:8px; margin-top:10px;">
-              <a href="tel:${order.shopPhone || '8105010768'}" class="shop-call-btn">📞 ಅಂಗಡಿಗೆ ಕಾಲ್ ಮಾಡಿ</a>
-              <a href="${mapUrl}" target="_blank" class="shop-map-btn">📍 GPS ಲೊಕೇಶನ್ (Map)</a>
-            </div>
-          </div>
-        `;
-      } else if (isPickedUp && !isDelivered) {
-        contactActionHTML = `
-          <div style="background:#e8f5e9; padding:12px; border-radius:8px; border:1px solid #c8e6c9; margin-bottom:15px; font-size:0.82rem;">
-            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">🛵 ಡೆಲಿವರಿ ಬಾಯ್ ವಸ್ತು ತಲುಪಿಸುತ್ತಿದ್ದಾರೆ:</p>
-            <div style="margin-top:8px;">
-              <a href="tel:${order.deliveryBoyPhone || '8105010768'}" class="shop-call-btn" style="background:var(--success);">📞 ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಾಲ್ ಮಾಡಿ</a>
-            </div>
-          </div>
-        `;
-      } else {
+      if (isDelivered) {
         contactActionHTML = `
           <div style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #eee; margin-bottom:15px; font-size:0.82rem;">
             <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">✔ ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿ ಪೂರ್ಣಗೊಂಡಿದೆ.</p>
@@ -766,8 +828,36 @@
             </div>
           </div>
         `;
+      } else if (isPickedUp && !isCancelled) {
+        contactActionHTML = `
+          <div style="background:#e8f5e9; padding:12px; border-radius:8px; border:1px solid #c8e6c9; margin-bottom:15px; font-size:0.82rem;">
+            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">🛵 ಡೆಲಿವರಿ ಬಾಯ್ ವಸ್ತು ತಲುಪಿಸುತ್ತಿದ್ದಾರೆ:</p>
+            <div style="margin-top:8px;">
+              <a href="tel:${order.deliveryBoyPhone || '8105010768'}" class="shop-call-btn" style="background:var(--success);">📞 ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಾಲ್ ಮಾಡಿ</a>
+            </div>
+          </div>
+        `;
       }
 
+      // Cancel Order Button HTML
+      let cancelBtnHTML = '';
+      if (!isDelivered && !isCancelled) {
+        cancelBtnHTML = `
+          <button class="btn" style="background:var(--danger); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; margin-top:12px; font-size:0.85rem;" onclick='cancelOrderPrompt(${JSON.stringify(order)})'>❌ ಆರ್ಡರ್ ರದ್ದುಮಾಡಿ (Cancel Order)</button>
+        `;
+      }
+
+      let cancelledNoticeHTML = '';
+      if (isCancelled) {
+        cancelledNoticeHTML = `
+          <div style="background:#ffebee; border:1px solid #ffcdd2; color:#b71c1c; padding:10px; border-radius:8px; font-size:0.85rem; text-align:center; font-weight:bold; margin-bottom:15px;">
+            ❌ ಈ ಆರ್ಡರ್ ರದ್ದುಗೊಂಡಿದೆ.<br>
+            <span style="font-size:0.75rem; font-weight:normal; color:#555;">ಕಾರಣ: ${order.cancelReason || 'ಗ್ರಾಹಕರ ವಿನಂತಿ'}</span>
+          </div>
+        `;
+      }
+
+      // Return / Exchange Button Logic (Active only after delivery)
       let exchangeButtonHTML = '';
       if (isDelivered) {
         let deliveredTime = order.deliveredTimestamp?.toMillis?.() || order.timestamp || Date.now();
@@ -792,9 +882,11 @@
           </div>
         </div>
 
+        ${cancelledNoticeHTML}
         ${otpBoxHTML}
         ${contactActionHTML}
 
+        ${!isCancelled ? `
         <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:15px; margin-bottom:15px;">
           <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಸ್ಟೇಟಸ್</h4>
           <div class="timeline">
@@ -804,11 +896,31 @@
             <div class="t-item ${t4}"><div class="t-dot"></div><div class="t-title">ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್</div></div>
           </div>
         </div>
+        ` : ''}
 
+        ${cancelBtnHTML}
         ${exchangeButtonHTML}
       `;
 
       showScreen('orderDetailsScreen');
+    }
+
+    function cancelOrderPrompt(order) {
+      showCustomAlert("ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ", "ನಿಮಗೆ ನಿಜವಾಗಿಯೂ ಈ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಬೇಕೇ?", true, true, async (confirmed, reason) => {
+        if (confirmed) {
+          try {
+            await window.updateDoc(window.doc(window.db, "orders", order.id), {
+              status: 'CANCELLED',
+              isCancelled: true,
+              cancelReason: reason || "ಗ್ರಾಹಕರಿಂದ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ"
+            });
+            showCustomAlert("ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ", "✅ ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ.");
+            openMyOrdersScreen();
+          } catch (e) {
+            showCustomAlert("ದೋಷ", "Error: " + e.message);
+          }
+        }
+      });
     }
 
     function openExchangeModal(order) {
@@ -844,7 +956,7 @@
           shopNotice: "⚠️ ಗ್ರಾಹಕರು ಈ ವಸ್ತುವನ್ನು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ನಿಮ್ಮ ಅಂಗಡಿಗೆ ಬರಲಿದ್ದಾರೆ. ದಯವಿಟ್ಟು ಪರಿಶೀಲಿಸಿ ಬದಲಾಯಿಸಿಕೊಡಿ."
         });
 
-        showCustomAlert("ಯಶಸ್ವಿ", "✅ ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿಯನ್ನು ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ! ದಯವಿಟ್ಟು ನೇರವಾಗಿ ಅಂಗಡಿಗೆ ಭೇಟಿ ನೀಡಿ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿಕೊಳ್ಳی.");
+        showCustomAlert("ಯಶಸ್ವಿ", "✅ ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿಯನ್ನು ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ! ದಯವಿಟ್ಟು ನೇರವಾಗಿ ಅಂಗಡಿಗೆ ಭೇಟಿ ನೀಡಿ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿಕೊಳ್ಳಿ.");
         closeExchangeModal();
         openMyOrdersScreen();
       } catch (e) {

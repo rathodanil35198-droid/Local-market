@@ -229,7 +229,7 @@
     <div style="padding: 15px;" id="orderDetailsContent"></div>
   </div>
 
-  <!-- STORE DIRECT EXCHANGE MODAL (12 Hours Limit + Custom Warning) -->
+  <!-- STORE DIRECT EXCHANGE MODAL -->
   <div id="exchangeModal" class="modal">
     <div class="modal-box">
       <div style="font-size: 2rem; margin-bottom: 5px;">⚠️</div>
@@ -675,7 +675,19 @@
 
       let mapUrl = order.shopMapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((order.shopName || '') + ' ' + (order.shopLocation || ''))}`;
 
-      // Dynamic Contact & Location Buttons based on Delivery Status
+      // 1. Delivery OTP display box for customer
+      let otpBoxHTML = '';
+      if (order.pickupOtp) {
+        otpBoxHTML = `
+          <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
+            <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):</span>
+            <div style="font-size:1.4rem; font-weight:bold; color:#1b5e20; letter-spacing:3px; margin-top:4px;">${order.pickupOtp}</div>
+            <div style="font-size:0.75rem; color:#555; margin-top:4px;">(ವಸ್ತು ಪಡೆಯುವಾಗ ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಈ ಒಟಿಪಿ ನೀಡಿ)</div>
+          </div>
+        `;
+      }
+
+      // 2. Dynamic Contact & Location Buttons based on Delivery Status
       let contactActionHTML = '';
       if (!isPickedUp) {
         // Before Pickup: Show Shop Owner Call & Shop GPS Map
@@ -715,7 +727,7 @@
         `;
       }
 
-      // Return / Exchange Button Logic (Active only after delivery and within 12 hours)
+      // 3. Return / Exchange Button Logic (Active only after delivery and within 12 hours)
       let exchangeButtonHTML = '';
       if (isDelivered) {
         let deliveredTime = order.deliveredTimestamp?.toMillis?.() || order.timestamp || Date.now();
@@ -740,6 +752,7 @@
           </div>
         </div>
 
+        ${otpBoxHTML}
         ${contactActionHTML}
 
         <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:15px; margin-bottom:15px;">

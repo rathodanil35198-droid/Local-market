@@ -57,7 +57,7 @@
 
     .grid-products { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
     .product-card { background: #fff; border-radius: 8px; padding: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
-    .img-box { width: 100%; height: 150px; background: #fafafa; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+    .img-box { width: 100%; height: 180px; background: #fafafa; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
     .product-card img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .qr-badge { position: absolute; bottom: 4px; right: 4px; background: rgba(0,0,0,0.7); color: #fff; font-size: 0.6rem; padding: 2px 5px; border-radius: 4px; }
     .prod-title { font-size: 0.8rem; font-weight: 600; margin-top: 6px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.5em; color: #333; }
@@ -72,20 +72,21 @@
     .slider-container { width: 100%; position: relative; overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #eee; }
     .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .slider-track::-webkit-scrollbar { display: none; }
-    .slider-track img { width: 100%; flex-shrink: 0; height: 320px; object-fit: contain; scroll-snap-align: start; background: #fff; }
+    .slider-track img { width: 100%; flex-shrink: 0; height: 360px; object-fit: contain; scroll-snap-align: start; background: #fff; }
     
     .thumbnail-bar { display: flex; gap: 8px; margin-top: 10px; justify-content: center; overflow-x: auto; padding: 4px; }
-    .thumbnail-bar img { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; background: #fafafa; }
+    .thumbnail-bar img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; background: #fafafa; }
     .thumbnail-bar img.active { border-color: var(--primary); }
 
     .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 10px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; margin: 10px 0; line-height: 1.4; }
 
-    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #e0e0e0; z-index: 300; padding: 10px 15px; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); }
+    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #e0e0e0; z-index: 300; padding: 10px 15px; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); gap: 10px; }
     .btn-action { flex: 1; padding: 12px; border: none; font-weight: bold; font-size: 0.95rem; cursor: pointer; text-align: center; border-radius: 6px; }
     .btn-buy-now { background: #ff9f00; color: #fff; }
+    .btn-add-cart { background: #fff; color: #2874f0; border: 1px solid #2874f0; }
 
     .size-container { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 12px 0; }
-    .size-btn { padding: 8px 12px; border: 1px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
+    .size-btn { padding: 8px 14px; border: 1px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.85rem; font-weight: bold; cursor: pointer; }
     .size-btn.selected { border-color: var(--primary); background: #e3f2fd; color: var(--primary); }
 
     .timeline { position: relative; padding-left: 20px; margin: 15px 0; }
@@ -162,7 +163,7 @@
     <div id="productsGrid" class="grid-products"></div>
   </div>
 
-  <!-- PRODUCT DETAIL SCREEN -->
+  <!-- PRODUCT DETAIL SCREEN (Flipkart Style) -->
   <div id="productDetailScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackScreen('productDetailScreen')">←</span>
@@ -170,6 +171,7 @@
     </div>
     <div style="padding: 15px 15px 160px 15px;">
       
+      <!-- Flipkart Big Image Slider -->
       <div class="slider-container">
         <div class="slider-track" id="sliderTrack"></div>
       </div>
@@ -179,39 +181,40 @@
       <p id="detailShopName" style="color: #666; font-size: 0.8rem; margin-top: 2px;"></p>
       <p id="detailShopLocation" style="color: var(--primary); font-size: 0.8rem; font-weight: bold; margin-top: 2px;"></p>
       
-      <div id="sizeSection" style="margin-top: 10px;">
+      <div style="margin-top: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="curr-price" id="detailPrice" style="font-size: 1.4rem; color:var(--success);"></span>
+          <span class="old-price" id="detailOldPrice" style="font-size: 0.95rem;"></span>
+        </div>
+        <div id="deliveryFeeNotice" style="font-size: 0.75rem; color: #d32f2f; font-weight: bold; margin-top: 4px;"></div>
+      </div>
+
+      <div id="sizeSection" style="margin-top: 12px;">
         <label style="font-size: 0.85rem; font-weight: bold;" id="lblSizeTitle">ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ (Select Size):</label>
         <div class="size-container" id="sizeOptionsContainer"></div>
       </div>
 
-      <div style="display:flex; align-items:center; gap:10px; margin: 10px 0; background:#f8f9fa; padding:8px; border-radius:6px; border:1px solid #eee;">
-        <span style="font-size:0.85rem; font-weight:bold;">ಪ್ರಮಾಣ (Quantity):</span>
+      <div style="display:flex; align-items:center; gap:10px; margin: 12px 0; background:#f8f9fa; padding:8px; border-radius:6px; border:1px solid #eee;">
+        ಸರಕು ಪ್ರಮಾಣ (Quantity):
         <button onclick="changeQty(-1)" style="width:30px; height:30px; font-weight:bold; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer;">-</button>
         <span id="qtyDisplay" style="font-weight:bold; font-size:1rem; min-width:20px; text-align:center;">1</span>
         <button onclick="changeQty(1)" style="width:30px; height:30px; font-weight:bold; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer;">+</button>
-      </div>
-
-      <div style="margin-top: 8px;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="curr-price" id="detailPrice" style="font-size: 1.3rem; color:var(--success);"></span>
-          <span class="old-price" id="detailOldPrice" style="font-size: 0.9rem;"></span>
-        </div>
-        <div id="deliveryFeeNotice" style="font-size: 0.75rem; color: #d32f2f; font-weight: bold; margin-top: 4px;"></div>
       </div>
 
       <div class="delivery-badge" id="deliveryBadgeText">
         🚚 <b>20 ಕಿ.ಮೀ ಒಳಗೆ: ಯಾವುದೇ ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಇಲ್ಲ (ಫ್ರೀ ಡೆಲಿವರಿ)!</b>
       </div>
 
-      <!-- Related Products Grid Below Detail -->
+      <!-- Flipkart Similar Products Section -->
       <hr style="margin:20px 0 10px 0; border:0; border-top:1px solid #ddd;">
-      <h4 style="font-size:0.95rem; color:var(--primary); margin-bottom:8px;">🛒 ಇತರ ಲಭ್ಯವಿರುವ ವಸ್ತುಗಳು (Other Products):</h4>
+      <h4 style="font-size:1rem; color:#212121; margin-bottom:8px; font-weight:bold;">🛒 Similar Products (ಇತರ ಸಮಾನ ವಸ್ತುಗಳು):</h4>
       <div id="relatedProductsGrid" class="grid-products"></div>
 
     </div>
 
     <div class="bottom-bar">
-      <button class="btn-action btn-buy-now" id="lblBuyNowBtn" onclick="openCheckoutScreen()">ಈಗ ಖರೀದಿಸಿ (Buy Now)</button>
+      <button class="btn-action btn-add-cart" onclick="openCheckoutScreen()">ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ</button>
+      <button class="btn-action btn-buy-now" id="lblBuyNowBtn" onclick="openCheckoutScreen()">ಖರೀದಿಸಿ (Buy Now)</button>
     </div>
   </div>
 
@@ -298,7 +301,6 @@
     let productQty = 1;
     let currentLang = localStorage.getItem('app_lang') || 'kn';
     let activeExchangeOrder = null;
-
     let customAlertCallback = null;
 
     function showCustomAlert(title, msg, isConfirm = false, showCancelForm = false, callback = null) {
@@ -579,7 +581,7 @@
         thumbnailBar.style.display = 'none';
       }
 
-      // Render Related Products in Detail View
+      // Render Flipkart-style Similar Products Below
       renderRelatedProducts(selectedProduct.id);
 
       showScreen('productDetailScreen');
@@ -592,7 +594,7 @@
         relContainer.innerHTML = `<p style="font-size:0.8rem; color:#777;">ಇತರ ಯಾವುದೇ ವಸ್ತುಗಳು ಸದ್ಯಕ್ಕೆ ಲಭ್ಯವಿಲ್ಲ.</p>`;
         return;
       }
-      relContainer.innerHTML = others.slice(0, 6).map(p => {
+      relContainer.innerHTML = others.map(p => {
         let displayPhoto = p.photo || 'https://via.placeholder.com/150';
         if (p.colors && p.colors.length > 0 && p.colors[0].photos && p.colors[0].photos.length > 0) {
           displayPhoto = p.colors[0].photos[0];
@@ -611,6 +613,7 @@
               <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shopName}</div>
               <div class="price-row">
                 <span class="curr-price">₹${p.price}</span>
+                ${p.oldPrice ? `<span class="old-price">₹${p.oldPrice}</span>` : ''}
               </div>
             </div>
           </div>
@@ -803,7 +806,6 @@
 
       let mapUrl = order.shopMapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((order.shopName || '') + ' ' + (order.shopLocation || ''))}`;
 
-      // Delivery OTP Box
       let otpBoxHTML = '';
       if (order.pickupOtp && !isCancelled) {
         otpBoxHTML = `
@@ -815,7 +817,6 @@
         `;
       }
 
-      // Shop Contact & Location Buttons (Visible ONLY IF DELIVERED)
       let contactActionHTML = '';
       if (isDelivered) {
         contactActionHTML = `
@@ -839,7 +840,6 @@
         `;
       }
 
-      // Cancel Order Button HTML
       let cancelBtnHTML = '';
       if (!isDelivered && !isCancelled) {
         cancelBtnHTML = `
@@ -857,7 +857,6 @@
         `;
       }
 
-      // Return / Exchange Button Logic (Active only after delivery)
       let exchangeButtonHTML = '';
       if (isDelivered) {
         let deliveredTime = order.deliveredTimestamp?.toMillis?.() || order.timestamp || Date.now();

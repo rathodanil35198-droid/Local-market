@@ -97,7 +97,7 @@
     .t-desc { font-size: 0.75rem; color: #666; margin-top: 2px; }
 
     .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 20px; overflow-y: auto; }
-    .modal-box { background: #fff; width: 100%; max-width: 380px; padding: 20px; border-radius: 10px; max-height: 90vh; overflow-y: auto; }
+    .modal-box { background: #fff; width: 100%; max-width: 380px; padding: 20px; border-radius: 10px; max-height: 90vh; overflow-y: auto; text-align: center; }
     .shop-call-btn { background: #28a745; color: white; padding: 8px 12px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px; }
     .shop-map-btn { background: #007bff; color: white; padding: 8px 12px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px; }
   </style>
@@ -229,14 +229,16 @@
     <div style="padding: 15px;" id="orderDetailsContent"></div>
   </div>
 
-  <!-- STORE DIRECT EXCHANGE MODAL (NO REFUND / NO DBOY) -->
+  <!-- STORE DIRECT EXCHANGE MODAL (12 Hours Limit + Custom Warning) -->
   <div id="exchangeModal" class="modal">
     <div class="modal-box">
-      <h3 style="color:#d32f2f; margin-bottom:8px;">🔄 ಎಕ್ಸ್ಚೇಂಜ್ ಆಫರ್ (Exchange Only)</h3>
+      <div style="font-size: 2rem; margin-bottom: 5px;">⚠️</div>
+      <h3 style="color:#d32f2f; margin-bottom:8px;">ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಸೂಚನೆ</h3>
       
-      <div style="background:#fff3e0; border:1px solid #ffe0b2; padding:10px; border-radius:6px; font-size:0.8rem; color:#e65100; margin-bottom:12px; line-height:1.4; text-align:left;">
-        ⚠️ <b>ಪ್ರಮುಖ ಸೂಚನೆ:</b> ನಿಮಗೆ ಓಪನ್ ಬಾಕ್ಸ್ ಡೆಲಿವರಿ ನೀಡಿರುವುದರಿಂದ <b>ಆನ್‌ಲೈನ್ ರಿಟರ್ನ್ ಮತ್ತು ಪೇಮೆಂಟ್ ವಾಪಸ್ ಬರುವುದಿಲ್ಲ</b>.<br><br>
-        ನೀವೇ ನೇರವಾಗಿ ಈ ಕೆಳಗಿನ <b>ಅಂಗಡಿಗೆ ಭೇಟಿ ನೀಡಿ</b> ವಸ್ತುವನ್ನು ಪರಿಶೀಲಿಸಿ <b>ಎಕ್ಸ್ಚೇಂಜ್ (Exchange)</b> ಮಾಡಿಕೊಳ್ಳಬಹುದು.
+      <div style="background:#fff3e0; border:1px solid #ffe0b2; padding:10px; border-radius:6px; font-size:0.82rem; color:#e65100; margin-bottom:12px; line-height:1.5; text-align:left;">
+        ಈ ವಸ್ತುವನ್ನು ನೇರವಾಗಿ ನಿಮ್ಮ ಅಂಗಡಿಗೆ ತೆಗೆದುಕೊಂಡು ಹೋಗಿ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿಕೊಳ್ಳಿ, ಬೇಕಾಗುವ ಬೇರೆ ವಸ್ತುಗಳನ್ನು ಪಡೆಯಿರಿ.<br><br>
+        <b>ಅವಧಿ:</b> ಡೆಲಿವರಿ ಆದ 48 ಗಂಟೆಗಳ ಒಳಗೆ (12 ಗಂಟೆಗಳ ಒಳಗೆ ವಿನಂತಿ ಮಾಡಲು) ಅವಕಾಶವಿರುತ್ತದೆ.<br>
+        ಅಂಗಡಿ ಮಾಲೀಕರೊಂದಿಗೆ ಮಾತನಾಡಿ ಸುಲಭವಾಗಿ ಬದಲಾಯಿಸಿಕೊಳ್ಳಬಹುದು.
       </div>
 
       <div id="exchangeShopDetails" style="background:#f8f9fa; border:1px solid #e0e0e0; padding:10px; border-radius:8px; text-align:left; font-size:0.83rem; margin-bottom:12px;"></div>
@@ -246,7 +248,7 @@
         <textarea id="exchangeReason" rows="2" placeholder="ಉದಾ: ಸೈಜ್ ಸರಿ ಇಲ್ಲ, ಬಣ್ಣ ಬದಲಾಯಿಸಬೇಕು..." style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.8rem;"></textarea>
       </div>
 
-      <button class="btn" style="background:var(--primary); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem;" onclick="submitExchangeRequest()">ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ತಿಳಿಸಿ & ಎಕ್ಸ್ಚೇಂಜ್ ಪಡೆಯಿರಿ</button>
+      <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem;" onclick="submitExchangeRequest()">ಸರಿ (OK) & ಎಕ್ಸ್ಚೇಂಜ್ ಪಡೆಯಿರಿ</button>
       <button class="btn" style="background:#757575; color:#fff; width:100%; padding:8px; border:none; border-radius:6px; font-weight:bold; margin-top:6px; font-size:0.85rem;" onclick="closeExchangeModal()">ರದ್ದುಮಾಡಿ</button>
     </div>
   </div>
@@ -582,6 +584,7 @@
           shopId: selectedProduct.shopId,
           shopName: shop ? shop.shopName : "Store",
           shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
+          deliveryBoyPhone: '8105010768',
           shopLocation: shop ? `${shop.taluk}, ${shop.district}` : "ಶಹಾಪುರ",
           shopMapUrl: shop ? (shop.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.shopName + ' ' + shop.taluk)}`) : '#',
           customer: { name, phone, village, taluk, district },
@@ -628,7 +631,7 @@
                 statusText = "ಮಾಲೀಕರಿಂದ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ";
                 statusColor = "#e65100";
               } else if (o.status === 'PACKING' || o.status === 'PICKED_UP' || o.status === 'STEP_3') {
-                statusText = "ಪ್ಯಾಕಿಂಗ್ ಆಗಿ ಡೆಲಿವರಿಗೆ ಬಿಡಲಾಗಿದೆ";
+                statusText = "ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿಕೊಂಡಿದ್ದಾರೆ";
                 statusColor = "#1565c0";
               } else if (o.status === 'DELIVERED' || o.status === 'STEP_4') {
                 statusText = "ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್ (Delivery Successful)";
@@ -661,29 +664,74 @@
       const content = document.getElementById('orderDetailsContent');
       let t1 = 'completed', t2 = '', t3 = '', t4 = '';
 
-      if (order.status === 'CONFIRMED' || order.status === 'STEP_2') {
-        t1 = 'completed'; t2 = 'active';
-      } else if (order.status === 'PACKING' || order.status === 'PICKED_UP' || order.status === 'STEP_3') {
-        t1 = 'completed'; t2 = 'completed'; t3 = 'active';
-      } else if (order.status === 'DELIVERED' || order.status === 'STEP_4') {
-        t1 = 'completed'; t2 = 'completed'; t3 = 'completed'; t4 = 'completed';
-      }
+      let status = order.status || 'STEP_1';
+      let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || order.isDelivered);
+      let isPickedUp = (status === 'STEP_3' || order.isPickedUp || isDelivered);
+      let isPacked = (status === 'STEP_2' || isPickedUp);
+
+      if (isPacked) { t1 = 'completed'; t2 = 'completed'; }
+      if (isPickedUp) { t3 = 'completed'; }
+      if (isDelivered) { t4 = 'completed'; }
 
       let mapUrl = order.shopMapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((order.shopName || '') + ' ' + (order.shopLocation || ''))}`;
 
-      let exchangeButtonHTML = '';
-      if (order.status === 'DELIVERED' || order.status === 'STEP_4') {
-        exchangeButtonHTML = `
-          <button class="btn" style="background:var(--danger); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; margin-top:15px; font-size:0.85rem;" onclick='openExchangeModal(${JSON.stringify(order)})'>🔄 ವಸ್ತು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿ (Exchange Only)</button>
+      // Dynamic Contact & Location Buttons based on Delivery Status
+      let contactActionHTML = '';
+      if (!isPickedUp) {
+        // Before Pickup: Show Shop Owner Call & Shop GPS Map
+        contactActionHTML = `
+          <div style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #eee; margin-bottom:15px; font-size:0.82rem;">
+            <p style="font-size:0.85rem; font-weight:bold; color:var(--primary); margin-bottom:6px;">🏪 ಈ ವಸ್ತು ಬಂದಿರುವ ಅಂಗಡಿಯ ವಿವರ:</p>
+            <p><b>ಅಂಗಡಿ ಹೆಸರು:</b> ${order.shopName || 'Namma Store'}</p>
+            <p style="margin-top:2px;"><b>ಸ್ಥಳ/ತಾಲೂಕು:</b> ${order.shopLocation || 'ಶಹಾಪುರ'}</p>
+            
+            <div style="display:flex; gap:8px; margin-top:10px;">
+              <a href="tel:${order.shopPhone || '8105010768'}" class="shop-call-btn">📞 ಅಂಗಡಿಗೆ ಕಾಲ್ ಮಾಡಿ</a>
+              <a href="${mapUrl}" target="_blank" class="shop-map-btn">📍 GPS ಲೊಕೇಶನ್ (Map)</a>
+            </div>
+          </div>
+        `;
+      } else if (isPickedUp && !isDelivered) {
+        // Out for Delivery / Picked Up: Show Delivery Boy Call Button
+        contactActionHTML = `
+          <div style="background:#e8f5e9; padding:12px; border-radius:8px; border:1px solid #c8e6c9; margin-bottom:15px; font-size:0.82rem;">
+            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">🛵 ಡೆಲಿವರಿ ಬಾಯ್ ವಸ್ತು ತಲುಪಿಸುತ್ತಿದ್ದಾರೆ:</p>
+            <div style="margin-top:8px;">
+              <a href="tel:${order.deliveryBoyPhone || '8105010768'}" class="shop-call-btn" style="background:var(--success);">📞 ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಾಲ್ ಮಾಡಿ</a>
+            </div>
+          </div>
+        `;
+      } else {
+        // Delivered: Show Shop Contact & Location
+        contactActionHTML = `
+          <div style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #eee; margin-bottom:15px; font-size:0.82rem;">
+            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">✔ ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿ ಪೂರ್ಣಗೊಂಡಿದೆ.</p>
+            <p><b>ಅಂಗಡಿ ಹೆಸರು:</b> ${order.shopName || 'Namma Store'}</p>
+            <div style="display:flex; gap:8px; margin-top:10px;">
+              <a href="tel:${order.shopPhone || '8105010768'}" class="shop-call-btn">📞 ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕಾಲ್ ಮಾಡಿ</a>
+              <a href="${mapUrl}" target="_blank" class="shop-map-btn">📍 ಅಂಗಡಿ GPS ಲೊಕೇಶನ್</a>
+            </div>
+          </div>
         `;
       }
 
-      content.innerHTML = `
-        <div style="background:#e3f2fd; border:1px solid #bbdefb; border-radius:8px; padding:10px; margin-bottom:12px; text-align:center;">
-          <span style="font-size:0.75rem; color:#1565c0; font-weight:bold;">📷 ಸ್ಕ್ಯಾನ್ ಮಾಡಲು ಆರ್ಡರ್ ಐಡಿ:</span>
-          <div style="font-size:1.1rem; font-weight:bold; color:#0d47a1; margin-top:2px; letter-spacing:1px;">${order.orderId || 'OD000000'}</div>
-        </div>
+      // Return / Exchange Button Logic (Active only after delivery and within 12 hours)
+      let exchangeButtonHTML = '';
+      if (isDelivered) {
+        let deliveredTime = order.deliveredTimestamp?.toMillis?.() || order.timestamp || Date.now();
+        let hoursPassed = (Date.now() - deliveredTime) / (1000 * 60 * 60);
 
+        if (hoursPassed <= 12) {
+          exchangeButtonHTML = `
+            <button class="btn" style="background:var(--danger); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; margin-top:15px; font-size:0.85rem;" onclick='openExchangeModal(${JSON.stringify(order)})'>🔄 ವಸ್ತುವನ್ನು ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿ</button>
+            <p style="font-size:0.7rem; color:#d32f2f; text-align:center; margin-top:4px;">(ಡೆಲಿವರಿ ಆದ 12 ಗಂಟೆಗಳ ಒಳಗೆ ಮಾತ್ರ ರಿಟರ್ನ್ ಮಾಡಲು ಅವಕಾಶವಿರುತ್ತದೆ)</p>
+          `;
+        } else {
+          exchangeButtonHTML = `<p style="font-size:0.75rem; color:#777; text-align:center; margin-top:15px;">ರಿಟರ್ನ್ ಮಾಡುವ ಅವಧಿ (12 ಗಂಟೆಗಳು) ಮುಕ್ತಾಯಗೊಂಡಿದೆ.</p>`;
+        }
+      }
+
+      content.innerHTML = `
         <div style="display:flex; gap:12px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #e0e0e0; margin-bottom:15px;">
           <img src="${order.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px;">
           <div style="flex:1;">
@@ -692,17 +740,7 @@
           </div>
         </div>
 
-        <!-- Store Location, Phone & GPS Links for Customer -->
-        <div style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #eee; margin-bottom:15px; font-size:0.82rem;">
-          <p style="font-size:0.85rem; font-weight:bold; color:var(--primary); margin-bottom:6px;">🏪 ಈ ವಸ್ತು ಬಂದಿರುವ ಅಂಗಡಿಯ ವಿವರ:</p>
-          <p><b>ಅಂಗಡಿ ಹೆಸರು:</b> ${order.shopName || 'Namma Store'}</p>
-          <p style="margin-top:2px;"><b>ಸ್ಥಳ/ತಾಲೂಕು:</b> ${order.shopLocation || 'ಶಹಾಪುರ'}</p>
-          
-          <div style="display:flex; gap:8px; margin-top:10px;">
-            <a href="tel:${order.shopPhone || '8105010768'}" class="shop-call-btn">📞 ಅಂಗಡಿಗೆ ಕಾಲ್ ಮಾಡಿ</a>
-            <a href="${mapUrl}" target="_blank" class="shop-map-btn">📍 GPS ಲೊಕೇಶನ್ (Map)</a>
-          </div>
-        </div>
+        ${contactActionHTML}
 
         <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:15px; margin-bottom:15px;">
           <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಸ್ಟೇಟಸ್</h4>
@@ -726,9 +764,10 @@
       
       document.getElementById('exchangeShopDetails').innerHTML = `
         <b>🏪 ಅಂಗಡಿ ಹೆಸರು:</b> ${order.shopName}<br>
-        <b>📍 ಲೊಕೇಶನ್:</b> ${order.shopLocation}<br><br>
+        <b>📍 ಲೊಕೇಶನ್:</b> ${order.shopLocation}<br>
+        <b>📞 ಫೋನ್:</b> ${order.shopPhone || '8105010768'}<br><br>
         <div style="display:flex; gap:8px;">
-          <a href="tel:${order.shopPhone || '8105010768'}" class="shop-call-btn">📞 ಅಂಗಡಿಗೆ ಕಾಲ್ ಮಾಡಿ (${order.shopPhone || '8105010768'})</a>
+          <a href="tel:${order.shopPhone || '8105010768'}" class="shop-call-btn">📞 ಅಂಗಡಿಗೆ ಕಾಲ್ ಮಾಡಿ</a>
           <a href="${mapUrl}" target="_blank" class="shop-map-btn">📍 GPS ಲೊಕೇಶನ್</a>
         </div>
       `;
@@ -745,7 +784,6 @@
       const reason = document.getElementById('exchangeReason').value.trim();
 
       try {
-        // Send Notification directly to Shop Owner (No Delivery Boy Involved, No Refund)
         await window.updateDoc(window.doc(window.db, "orders", activeExchangeOrder.id), {
           isExchangeRequested: true,
           exchangeReason: reason || "ಗ್ರಾಹಕರು ಅಂಗಡಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿಕೊಳ್ಳಲಿದ್ದಾರೆ",
@@ -753,7 +791,7 @@
           shopNotice: "⚠️ ಗ್ರಾಹಕರು ಈ ವಸ್ತುವನ್ನು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ನಿಮ್ಮ ಅಂಗಡಿಗೆ ಬರಲಿದ್ದಾರೆ. ದಯವಿಟ್ಟು ಪರಿಶೀಲಿಸಿ ಬದಲಾಯಿಸಿಕೊಡಿ."
         });
 
-        alert("✅ ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿಯನ್ನು ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ! ಓಪನ್ ಬಾಕ್ಸ್ ಡೆಲಿವರಿ ನೀಡಿರುವುದರಿಂದ ರಿಫಂಡ್ ಇರುವುದಿಲ್ಲ. ನೀವೇ ನೇರವಾಗಿ ಅಂಗಡಿಗೆ ಹೋಗಿ ಎಕ್ಸ್ಚೇಂಜ್ ಪಡೆಯಿರಿ.");
+        alert("✅ ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿಯನ್ನು ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ! ದಯವಿಟ್ಟು ನೇರವಾಗಿ ಅಂಗಡಿಗೆ ಭೇಟಿ ನೀಡಿ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿಕೊಳ್ಳಿ.");
         closeExchangeModal();
         openMyOrdersScreen();
       } catch (e) {

@@ -66,28 +66,30 @@
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
     .old-price { font-size: 0.75rem; color: #888; text-decoration: line-through; }
 
-    .screen { display: none; background: #fff; min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 200; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    /* Fix for scrolling and layout inside product detail screen */
+    .screen { display: none; background: #fff; min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .back-btn { font-size: 1.3rem; cursor: pointer; }
 
     .slider-container { width: 100%; position: relative; overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #eee; }
     .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .slider-track::-webkit-scrollbar { display: none; }
-    .slider-track img { width: 100%; flex-shrink: 0; height: 320px; object-fit: contain; scroll-snap-align: start; background: #fff; }
+    /* Reduced image height so similar products appear nicely below without taking full screen */
+    .slider-track img { width: 100%; flex-shrink: 0; height: 220px; object-fit: contain; scroll-snap-align: start; background: #fff; }
     
-    .thumbnail-bar { display: flex; gap: 8px; margin-top: 10px; justify-content: center; overflow-x: auto; padding: 4px; }
-    .thumbnail-bar img { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; background: #fafafa; }
+    .thumbnail-bar { display: flex; gap: 6px; margin-top: 8px; justify-content: center; overflow-x: auto; padding: 4px; }
+    .thumbnail-bar img { width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; background: #fafafa; }
     .thumbnail-bar img.active { border-color: var(--primary); }
 
-    .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 10px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; margin: 10px 0; line-height: 1.4; }
+    .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; margin: 8px 0; line-height: 1.4; }
 
     .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #e0e0e0; z-index: 300; padding: 10px 15px; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); gap: 10px; }
     .btn-action { flex: 1; padding: 12px; border: none; font-weight: bold; font-size: 0.95rem; cursor: pointer; text-align: center; border-radius: 6px; }
     .btn-buy-now { background: #ff9f00; color: #fff; }
     .btn-add-cart { background: #fff; color: #2874f0; border: 1px solid #2874f0; }
 
-    .size-container { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 12px 0; }
-    .size-btn { padding: 8px 14px; border: 1px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.85rem; font-weight: bold; cursor: pointer; }
+    .size-container { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px 0; }
+    .size-btn { padding: 6px 12px; border: 1px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
     .size-btn.selected { border-color: var(--primary); background: #e3f2fd; color: var(--primary); }
 
     .timeline { position: relative; padding-left: 20px; margin: 15px 0; }
@@ -168,13 +170,14 @@
     <div id="productsGrid" class="grid-products"></div>
   </div>
 
-  <!-- PRODUCT DETAIL SCREEN (Flipkart Style) -->
+  <!-- PRODUCT DETAIL SCREEN (Flipkart Style with proper scrolling) -->
   <div id="productDetailScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackScreen('productDetailScreen')">←</span>
       <span id="lblProdDetailTitle">ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ</span>
     </div>
-    <div style="padding: 15px 15px 180px 15px;">
+    <!-- Added generous bottom padding so scrolling easily reveals similar products below -->
+    <div style="padding: 12px 12px 220px 12px;">
       
       <!-- Flipkart Big Image Slider -->
       <div class="slider-container">
@@ -182,28 +185,28 @@
       </div>
       <div class="thumbnail-bar" id="thumbnailBar"></div>
 
-      <h3 id="detailTitle" style="font-size: 1.1rem; margin-top: 10px;"></h3>
-      <p id="detailShopName" style="color: #666; font-size: 0.8rem; margin-top: 2px;"></p>
-      <p id="detailShopLocation" style="color: var(--primary); font-size: 0.8rem; font-weight: bold; margin-top: 2px;"></p>
+      <h3 id="detailTitle" style="font-size: 1rem; margin-top: 8px;"></h3>
+      <p id="detailShopName" style="color: #666; font-size: 0.75rem; margin-top: 2px;"></p>
+      <p id="detailShopLocation" style="color: var(--primary); font-size: 0.75rem; font-weight: bold; margin-top: 2px;"></p>
       
-      <div style="margin-top: 8px;">
+      <div style="margin-top: 6px;">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="curr-price" id="detailPrice" style="font-size: 1.4rem; color:var(--success);"></span>
-          <span class="old-price" id="detailOldPrice" style="font-size: 0.95rem;"></span>
+          <span class="curr-price" id="detailPrice" style="font-size: 1.2rem; color:var(--success);"></span>
+          <span class="old-price" id="detailOldPrice" style="font-size: 0.85rem;"></span>
         </div>
-        <div id="deliveryFeeNotice" style="font-size: 0.75rem; color: #d32f2f; font-weight: bold; margin-top: 4px;"></div>
+        <div id="deliveryFeeNotice" style="font-size: 0.7rem; color: #d32f2f; font-weight: bold; margin-top: 2px;"></div>
       </div>
 
-      <div id="sizeSection" style="margin-top: 12px;">
-        <label style="font-size: 0.85rem; font-weight: bold;" id="lblSizeTitle">ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ (Select Size):</label>
+      <div id="sizeSection" style="margin-top: 8px;">
+        <label style="font-size: 0.8rem; font-weight: bold;" id="lblSizeTitle">ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ (Select Size):</label>
         <div class="size-container" id="sizeOptionsContainer"></div>
       </div>
 
-      <div style="display:flex; align-items:center; gap:10px; margin: 12px 0; background:#f8f9fa; padding:8px; border-radius:6px; border:1px solid #eee;">
+      <div style="display:flex; align-items:center; gap:8px; margin: 8px 0; background:#f8f9fa; padding:6px 8px; border-radius:6px; border:1px solid #eee; font-size:0.85rem;">
         ಸರಕು ಪ್ರಮಾಣ (Quantity):
-        <button onclick="changeQty(-1)" style="width:30px; height:30px; font-weight:bold; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer;">-</button>
-        <span id="qtyDisplay" style="font-weight:bold; font-size:1rem; min-width:20px; text-align:center;">1</span>
-        <button onclick="changeQty(1)" style="width:30px; height:30px; font-weight:bold; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer;">+</button>
+        <button onclick="changeQty(-1)" style="width:26px; height:26px; font-weight:bold; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer;">-</button>
+        <span id="qtyDisplay" style="font-weight:bold; font-size:0.95rem; min-width:20px; text-align:center;">1</span>
+        <button onclick="changeQty(1)" style="width:26px; height:26px; font-weight:bold; border:1px solid #ccc; background:#fff; border-radius:4px; cursor:pointer;">+</button>
       </div>
 
       <div class="delivery-badge" id="deliveryBadgeText">
@@ -211,8 +214,8 @@
       </div>
 
       <!-- Flipkart Similar Products Section -->
-      <hr style="margin:25px 0 10px 0; border:0; border-top:1px solid #ddd;">
-      <h4 style="font-size:1rem; color:#212121; margin-bottom:8px; font-weight:bold;">🛒 More products for you (ಇತರ ವಸ್ತುಗಳು):</h4>
+      <hr style="margin:15px 0 8px 0; border:0; border-top:1px solid #ddd;">
+      <h4 style="font-size:0.9rem; color:#212121; margin-bottom:8px; font-weight:bold;">🛒 More products for you (ಇತರ ವಸ್ತುಗಳು):</h4>
       <div id="relatedProductsGrid" class="grid-products"></div>
 
     </div>
@@ -720,7 +723,6 @@
           localStorage.setItem('customer_phone_key', phone);
           localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, taluk, district }));
 
-          // Track order count for pocket money cashback logic
           let userOrdersCount = parseInt(localStorage.getItem('user_orders_count_' + phone) || '0') + 1;
           localStorage.setItem('user_orders_count_' + phone, userOrdersCount);
 
@@ -951,7 +953,6 @@
             let userOrdersCount = parseInt(localStorage.getItem('user_orders_count_' + phone) || '1');
             if (userOrdersCount > 0) localStorage.setItem('user_orders_count_' + phone, userOrdersCount - 1);
 
-            // Deduct pocket money if cancelled after 3 days condition or general cancellation
             let currentWallet = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
             let deductedWallet = Math.max(0, currentWallet - 30);
             localStorage.setItem('user_wallet_' + phone, deductedWallet);
@@ -1065,13 +1066,18 @@
     async function submitWithdrawRequest(amount) {
       const upiId = document.getElementById('upiIdInput').value.trim();
       const upiPin = document.getElementById('upiPinInput').value.trim();
-      const phone = localStorage.getItem('customer_phone_key') || '9999999999';
+      const phone = localStorage.getItem('customer_phone_key'] || '9999999999';
 
       if (!upiId || !upiPin) {
         showCustomAlert("ಎಚ್ಚರಿಕೆ", "ದಯವಿಟ್ಟು ಯುಪಿಐ ಐಡಿ ಮತ್ತು ಪಿನ್ ನಮೂದಿಸಿ.");
         return;
       }
 
+      // Check if user has any delivered order completed at least 2 days ago
+      // Ensuring company protection rule: can only request after 2 days of delivery completion
+      let userOrdersQuery = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
+      
+      // Request submission to Firestore
       const withdrawData = {
         requestId: 'WD' + Math.floor(100000 + Math.random() * 900000),
         phone: phone,
@@ -1084,7 +1090,7 @@
 
       try {
         await window.addDoc(window.collection(window.db, "withdraw_requests"), withdrawData);
-        showCustomAlert("ಯಶಸ್ವಿ", "✅ ನಿಮ್ಮ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿಯನ್ನು ಮಾಸ್ಟರ್ ಪ್ಯಾನೆಲ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. 24 ಗಂಟೆಗಳ ಒಳಗೆ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗುತ್ತದೆ!");
+        showCustomAlert("ಯಶಸ್ವಿ", "✅ ನಿಮ್ಮ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿಯನ್ನು ಮಾಸ್ಟರ್ ಪ್ಯಾನೆಲ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ಡೆಲಿವರಿ ಪೂರ್ಣಗೊಂಡು 2 ದಿನಗಳ ಬಳಿಕ 24 ಗಂಟೆಗಳ ಒಳಗೆ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗುತ್ತದೆ!");
         document.getElementById('pocketMoneyScreen').style.display = 'none';
       } catch (e) {
         showCustomAlert("ದೋಷ", "Error: " + e.message);

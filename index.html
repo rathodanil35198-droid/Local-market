@@ -46,6 +46,7 @@
     .header-btns { display: flex; gap: 6px; align-items: center; }
     .btn-lang { background: #fff; color: var(--primary); border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
     .btn-my-orders { background: var(--secondary); color: #000; border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
+    .btn-pocket { background: #ff9f00; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 3px; }
 
     .search-box { display: flex; background: #fff; border-radius: 6px; padding: 8px 12px; align-items: center; margin-bottom: 8px; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 0.88rem; margin-left: 8px; }
@@ -111,6 +112,9 @@
 </head>
 <body>
 
+  <!-- Audio element for coin drop sound effect -->
+  <audio id="coinSound" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3" preload="auto"></audio>
+
   <!-- Custom Popup Modal -->
   <div id="customAlertModal">
     <div class="custom-alert-box">
@@ -141,6 +145,7 @@
     <div class="top-bar">
       <div class="brand-title" id="lblBrand">🛍️ ನಮ್ಮ ಶಾಪುರ್</div>
       <div class="header-btns">
+        <button class="btn-pocket" onclick="openPocketMoneyScreen()">💰 ಪಾಕೆಟ್ ಮನಿ</button>
         <button class="btn-lang" id="langToggleBtn" onclick="toggleLanguage()">English</button>
         <button class="btn-my-orders" id="lblMyOrdersBtn" onclick="openMyOrdersScreen()">📦 ನನ್ನ ಆರ್ಡರ್</button>
       </div>
@@ -268,27 +273,40 @@
     <div style="padding: 15px 15px 160px 15px;" id="orderDetailsContent"></div>
   </div>
 
+  <!-- POCKET MONEY SCREEN -->
+  <div id="pocketMoneyScreen" class="screen">
+    <div class="screen-header">
+      <span class="back-btn" onclick="goBackScreen('pocketMoneyScreen')">←</span>
+      <span>💰 ಪಾಕೆಟ್ ಮನಿ (Pocket Money)</span>
+    </div>
+    <div style="padding: 15px; max-width: 500px; margin: 0 auto;" id="pocketMoneyContent"></div>
+  </div>
+
   <!-- STORE DIRECT EXCHANGE MODAL -->
   <div id="exchangeModal" class="modal">
     <div class="modal-box">
       <div style="font-size: 2rem; margin-bottom: 5px;">⚠️</div>
-      <h3 style="color:#d32f2f; margin-bottom:8px;">ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಸೂಚನೆ</h3>
+      <h3 style="color:#d32f2f; margin-bottom:8px;">ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಆಯ್ಕೆಗಳು</h3>
       
-      <div style="background:#fff3e0; border:1px solid #ffe0b2; padding:10px; border-radius:6px; font-size:0.82rem; color:#e65100; margin-bottom:12px; line-height:1.5; text-align:left;">
-        ಈ ವಸ್ತುವನ್ನು ನೇರವಾಗಿ ನಿಮ್ಮ ಅಂಗಡಿಗೆ ತೆಗೆದುಕೊಂಡು ಹೋಗಿ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿಕೊಳ್ಳಿ, ಬೇಕಾಗುವ ಬೇರೆ ವಸ್ತುಗಳನ್ನು ಪಡೆಯಿರಿ.<br><br>
-        <b>ಅವಧಿ:</b> ಡೆಲಿವರಿ ಆದ 48 ಗಂಟೆಗಳ ಒಳಗೆ (12 ಗಂಟೆಗಳ ಒಳಗೆ ವಿನಂತಿ ಮಾಡಲು) ಅವಕಾಶವಿರುತ್ತದೆ.<br>
-        ಅಂಗಡಿ ಮಾಲೀಕರೊಂದಿಗೆ ಮಾತನಾಡಿ ಸುಲಭವಾಗಿ ಬದಲಾಯಿಸಿಕೊಳ್ಳಬಹುದು.
+      <div style="background:#e8f5e9; border:1px solid #c8e6c9; padding:12px; border-radius:8px; font-size:0.83rem; color:#2e7d32; margin-bottom:12px; text-align:left;">
+        <b>1. ನೇರ ಅಂಗಡಿಗೆ ಭೇಟಿ ನೀಡಿ (ಯಾವುದೇ ಚಾರ್ಜ್ ಇಲ್ಲ):</b><br>
+        ಹತ್ತಿರದ ಅಂಗಡಿಗೆ ನೇರವಾಗಿ ಹೋಗಿ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿಕೊಳ್ಳಿ. ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕಾಲ್ ಮಾಡಿ ಮಾತನಾಡಬಹುದು.<br>
+        <div id="directExchangeShopBox" style="margin-top:8px;"></div>
       </div>
 
-      <div id="exchangeShopDetails" style="background:#f8f9fa; border:1px solid #e0e0e0; padding:10px; border-radius:8px; text-align:left; font-size:0.83rem; margin-bottom:12px;"></div>
+      <div style="background:#fff3e0; border:1px solid #ffe0b2; padding:12px; border-radius:8px; font-size:0.83rem; color:#e65100; margin-bottom:12px; text-align:left;">
+        <b>2. ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ / ರಿಟರ್ನ್ (ರೂ. 50 ಚಾರ್ಜ್):</b><br>
+        ಡೆಲಿವರಿ ಬಾಯ್ ಬಂದು ವಸ್ತುವನ್ನು ಬದಲಾಯಿಸುತ್ತಾರೆ. ರೂ. 50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಅನ್ವಯಿಸುತ್ತದೆ.<br>
+        <i>ಸೂಚನೆ: ವಸ್ತುವು ಯಾವುದೇ ಡ್ಯಾಮೇಜ್ ಆಗಿರಬಾರದು, ಕಲರ್ ಬದಲಾಗಿರಬಾರದು, ಒರಿಜಿನಲ್ ಪ್ಯಾಕಿಂಗ್ ಮತ್ತು ಬಿಲ್ ಕಡ್ಡಾಯವಾಗಿರಬೇಕು.</i>
+      </div>
 
       <div style="margin-bottom:10px; text-align:left;">
-        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:3px; display:block;">ವಸ್ತುವಿನಲ್ಲಿ ಏನಾದರೂ ಲೋಪವಿದ್ದರೆ ತಿಳಿಸಿ:</label>
+        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:3px; display:block;">ಕಾರಣ ತಿಳಿಸಿ:</label>
         <textarea id="exchangeReason" rows="2" placeholder="ಉದಾ: ಸೈಜ್ ಸರಿ ಇಲ್ಲ, ಬಣ್ಣ ಬದಲಾಯಿಸಬೇಕು..." style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.8rem;"></textarea>
       </div>
 
-      <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem;" onclick="submitExchangeRequest()">ಸರಿ (OK) & ಎಕ್ಸ್ಚೇಂಜ್ ಪಡೆಯಿರಿ</button>
-      <button class="btn" style="background:#757575; color:#fff; width:100%; padding:8px; border:none; border-radius:6px; font-weight:bold; margin-top:6px; font-size:0.85rem;" onclick="closeExchangeModal()">ರದ್ದುಮಾಡಿ</button>
+      <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem; margin-bottom:6px;" onclick="submitHomeExchangeRequest()">🏠 ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಬದಲಾಯಿಸಿ (₹50)</button>
+      <button class="btn" style="background:#757575; color:#fff; width:100%; padding:8px; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem;" onclick="closeExchangeModal()">ರದ್ದುಮಾಡಿ</button>
     </div>
   </div>
 
@@ -302,6 +320,14 @@
     let currentLang = localStorage.getItem('app_lang') || 'kn';
     let activeExchangeOrder = null;
     let customAlertCallback = null;
+
+    function playCoinSound() {
+      const sound = document.getElementById('coinSound');
+      if (sound) {
+        sound.currentTime = 0;
+        sound.play().catch(e => console.log("Audio play blocked:", e));
+      }
+    }
 
     function showCustomAlert(title, msg, isConfirm = false, showCancelForm = false, callback = null) {
       document.getElementById('customAlertTitle').innerText = title;
@@ -400,7 +426,7 @@
       window.history.replaceState({ screen: 'main' }, '', '');
 
       window.addEventListener('popstate', (e) => {
-        const screens = ['orderDetailsScreen', 'myOrdersScreen', 'checkoutScreen', 'productDetailScreen'];
+        const screens = ['orderDetailsScreen', 'myOrdersScreen', 'checkoutScreen', 'productDetailScreen', 'pocketMoneyScreen'];
         let openedScreen = screens.find(id => document.getElementById(id).style.display === 'block');
         
         if (openedScreen) {
@@ -690,8 +716,22 @@
 
       showCustomAlert("ಆರ್ಡರ್ ದೃಢೀಕರಣ", t.confirmPopup, true, false, async (confirmed) => {
         if (confirmed) {
+          playCoinSound();
           localStorage.setItem('customer_phone_key', phone);
           localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, taluk, district }));
+
+          // Calculate order count for pocket money cashback logic
+          let userOrdersCount = parseInt(localStorage.getItem('user_orders_count_' + phone) || '0') + 1;
+          localStorage.setItem('user_orders_count_' + phone, userOrdersCount);
+
+          let cashbackEarned = 0;
+          if (userOrdersCount === 1) cashbackEarned = 50;
+          else if (userOrdersCount > 1) cashbackEarned = 30;
+
+          let currentWallet = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
+          // Until 10 orders, do not accumulate visible ₹200 threshold accumulation except tracking total; as requested: "10 ಆರ್ಡರದವರೆಗೆ ಮೊದಲಿಗೆ ಫಾಸ್ಟ್ ಜಾಮ್ ಆಗಿರ್ಬೇಕು ಆಮೇಲೆ ಕಮ್ಮಿ ಕಮ್ಮಿ ಜಮವಾಗಿ 10 ಆರ್ ರವರೆಗೆ 200 ರೂಪಾಯಿ ಜಮಾ ಆಗಬಾರದು 16 ಅಂತ 11 ಗೆ ರೂ.200 ಜಮಾ ಆಗಿದೆ ಅಂತ ಕಾಣಬೇಕು"
+          let rawWallet = currentWallet + cashbackEarned;
+          localStorage.setItem('user_wallet_' + phone, rawWallet);
 
           let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
           let baseTotal = Number(selectedProduct.price) * productQty;
@@ -862,13 +902,13 @@
         let deliveredTime = order.deliveredTimestamp?.toMillis?.() || order.timestamp || Date.now();
         let hoursPassed = (Date.now() - deliveredTime) / (1000 * 60 * 60);
 
-        if (hoursPassed <= 12) {
+        if (hoursPassed <= 72) { // 3 days (72 hours) window as requested
           exchangeButtonHTML = `
             <button class="btn" style="background:var(--danger); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; margin-top:15px; font-size:0.85rem;" onclick='openExchangeModal(${JSON.stringify(order)})'>🔄 ವಸ್ತುವನ್ನು ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿ</button>
-            <p style="font-size:0.7rem; color:#d32f2f; text-align:center; margin-top:4px;">(ಡೆಲಿವರಿ ಆದ 12 ಗಂಟೆಗಳ ಒಳಗೆ ಮಾತ್ರ ರಿಟರ್ನ್ ಮಾಡಲು ಅವಕಾಶವಿರುತ್ತದೆ)</p>
+            <p style="font-size:0.7rem; color:#d32f2f; text-align:center; margin-top:4px;">(ಡೆಲಿವರಿ ಆದ 3 ದಿನಗಳ ಒಳಗೆ ಮಾತ್ರ ರಿಟರ್ನ್ ಮಾಡಲು ಅವಕಾಶವಿರುತ್ತದೆ)</p>
           `;
         } else {
-          exchangeButtonHTML = `<p style="font-size:0.75rem; color:#777; text-align:center; margin-top:15px;">ರಿಟರ್ನ್ ಮಾಡುವ ಅವಧಿ (12 ಗಂಟೆಗಳು) ಮುಕ್ತಾಯಗೊಂಡಿದೆ.</p>`;
+          exchangeButtonHTML = `<p style="font-size:0.75rem; color:#777; text-align:center; margin-top:15px;">ರಿಟರ್ನ್ ಮಾಡುವ ಅವಧಿ (3 ದಿನಗಳು) ಮುಕ್ತಾಯಗೊಂಡಿದೆ.</p>`;
         }
       }
 
@@ -908,12 +948,17 @@
       showCustomAlert("ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ", "ನಿಮಗೆ ನಿಜವಾಗಿಯೂ ಈ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಬೇಕೇ?", true, true, async (confirmed, reason) => {
         if (confirmed) {
           try {
+            let phone = localStorage.getItem('customer_phone_key');
+            // If order cancelled, deduct wallet cashback if credited
+            let userOrdersCount = parseInt(localStorage.getItem('user_orders_count_' + phone) || '1');
+            if (userOrdersCount > 0) localStorage.setItem('user_orders_count_' + phone, userOrdersCount - 1);
+
             await window.updateDoc(window.doc(window.db, "orders", order.id), {
               status: 'CANCELLED',
               isCancelled: true,
               cancelReason: reason || "ಗ್ರಾಹಕರಿಂದ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ"
             });
-            showCustomAlert("ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ", "✅ ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ.");
+            showCustomAlert("ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ", "✅ ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ ಹಾಗೂ ಪಾಕೆಟ್ ಮನಿ ಹಣ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ.");
             openMyOrdersScreen();
           } catch (e) {
             showCustomAlert("ದೋಷ", "Error: " + e.message);
@@ -926,11 +971,10 @@
       activeExchangeOrder = order;
       let mapUrl = order.shopMapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((order.shopName || '') + ' ' + (order.shopLocation || ''))}`;
       
-      document.getElementById('exchangeShopDetails').innerHTML = `
-        <b>🏪 ಅಂಗಡಿ ಹೆಸರು:</b> ${order.shopName}<br>
-        <b>📍 ಲೊಕೇಶನ್:</b> ${order.shopLocation}<br>
-        <b>📞 ಫೋನ್:</b> ${order.shopPhone || '8105010768'}<br><br>
-        <div style="display:flex; gap:8px;">
+      document.getElementById('directExchangeShopBox').innerHTML = `
+        <b>ಅಂಗಡಿ ಹೆಸರು:</b> ${order.shopName}<br>
+        <b>ಸ್ಥಳ:</b> ${order.shopLocation}<br>
+        <div style="display:flex; gap:8px; margin-top:8px;">
           <a href="tel:${order.shopPhone || '8105010768'}" class="shop-call-btn">📞 ಅಂಗಡಿಗೆ ಕಾಲ್ ಮಾಡಿ</a>
           <a href="${mapUrl}" target="_blank" class="shop-map-btn">📍 GPS ಲೊಕೇಶನ್</a>
         </div>
@@ -943,21 +987,96 @@
       document.getElementById('exchangeModal').style.display = 'none';
     }
 
-    async function submitExchangeRequest() {
+    async function submitHomeExchangeRequest() {
       if (!activeExchangeOrder) return;
       const reason = document.getElementById('exchangeReason').value.trim();
 
       try {
         await window.updateDoc(window.doc(window.db, "orders", activeExchangeOrder.id), {
           isExchangeRequested: true,
-          exchangeReason: reason || "ಗ್ರಾಹಕರು ಅಂಗಡಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿಕೊಳ್ಳಲಿದ್ದಾರೆ",
-          exchangeStatus: 'PENDING_STORE_EXCHANGE',
-          shopNotice: "⚠️ ಗ್ರಾಹಕರು ಈ ವಸ್ತುವನ್ನು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ನಿಮ್ಮ ಅಂಗಡಿಗೆ ಬರಲಿದ್ದಾರೆ. ದಯವಿಟ್ಟು ಪರಿಶೀಲಿಸಿ ಬದಲಾಯಿಸಿಕೊಡಿ."
+          exchangeType: 'HOME_EXCHANGE',
+          exchangeFee: 50,
+          exchangeReason: reason || "ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಕೋರಲಾಗಿದೆ",
+          exchangeStatus: 'PENDING_HOME_EXCHANGE',
+          shopNotice: "⚠️ ಗ್ರಾಹಕರು ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ವಸ್ತುವನ್ನು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಕೋರಿದ್ದಾರೆ (₹50 ಚಾರ್ಜ್ ಅನ್ವಯ)."
         });
 
-        showCustomAlert("ಯಶಸ್ವಿ", "✅ ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿಯನ್ನು ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ! ದಯವಿಟ್ಟು ನೇರವಾಗಿ ಅಂಗಡಿಗೆ ಭೇಟಿ ನೀಡಿ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿಕೊಳ್ಳಿ.");
+        showCustomAlert("ಯಶಸ್ವಿ", "✅ ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡುವ ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ! ರೂ. 50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಅನ್ವಯಿಸುತ್ತದೆ.");
         closeExchangeModal();
         openMyOrdersScreen();
+      } catch (e) {
+        showCustomAlert("ದೋಷ", "Error: " + e.message);
+      }
+    }
+
+    function openPocketMoneyScreen() {
+      const phone = localStorage.getItem('customer_phone_key') || '';
+      let ordersCount = parseInt(localStorage.getItem('user_orders_count_' + phone) || '0');
+      let displayBalance = 0;
+      
+      if (ordersCount >= 11) {
+        displayBalance = 200;
+      } else {
+        displayBalance = ordersCount * 30; // Accumulates gradually, but unlocks fully at order 11
+      }
+
+      const container = document.getElementById('pocketMoneyContent');
+      
+      let withdrawSection = '';
+      if (displayBalance >= 200) {
+        withdrawSection = `
+          <div style="background:#e8f5e9; border:1px solid #c8e6c9; padding:15px; border-radius:8px; margin-top:15px;">
+            <h4 style="color:#2e7d32; font-size:0.95rem; margin-bottom:8px;">💳 ಯುಪಿಐ ಮೂಲಕ ಹಣ ವಿತ್‌ಡ್ರಾ ಮಾಡಿ:</h4>
+            <input type="text" id="upiIdInput" placeholder="ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ (ಉದಾ: ybl@upi)" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-bottom:8px; font-size:0.85rem;">
+            <input type="password" id="upiPinInput" placeholder="UPI PIN ನಮೂದಿಸಿ" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-bottom:10px; font-size:0.85rem;">
+            <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="submitWithdrawRequest(${displayBalance})">ಸಬ್ಮಿಟ್ ಮಾಡಿ (Withdraw)</button>
+          </div>
+        `;
+      } else {
+        withdrawSection = `
+          <p style="font-size:0.8rem; color:#d32f2f; margin-top:15px; text-align:center; font-weight:bold;">
+            ⚠️ ವಿತ್‌ಡ್ರಾ ಮಾಡಲು ಕನಿಷ್ಠ ರೂ. 200 ಜಮಾ ಆಗಿರಬೇಕು (ಪ್ರಸ್ತುತ 11 ಅಥವಾ ಅದಕ್ಕಿಂತ ಹೆಚ್ಚಿನ ಆರ್ಡರ್‌ಗಳ ನಂತರ ಲಭ್ಯವಿರುತ್ತದೆ).
+          </p>
+        `;
+      }
+
+      container.innerHTML = `
+        <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:15px; text-align:center;">
+          <h3 style="font-size:1.1rem; color:var(--primary); margin-bottom:6px;">🎁 ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿ ಬ್ಯಾಲೆನ್ಸ್</h3>
+          <div style="font-size:2rem; font-weight:bold; color:var(--success); margin:10px 0;">₹${displayBalance}</div>
+          <p style="font-size:0.8rem; color:#666; line-height:1.4;">
+            ಮೊದಲ ಆರ್ಡರ್‌ಗೆ ರೂ. 50 ಹಾಗೂ ಮುಂದಿನ ಆರ್ಡರ್‌ಗಳಿಗೆ ರೂ. 30 ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಜಮಾ ಆಗುತ್ತದೆ. 10 ಆರ್ಡರ್‌ಗಳವರೆಗೆ ಸಂಗ್ರಹವಾಗಿ 11ನೇ ಆರ್ಡರ್‌ಗೆ ರೂ. 200 ಪೂರ್ಣಗೊಳ್ಳುತ್ತದೆ. ಮೂರು ದಿನಗಳ ನಂತರ ರಿಟರ್ನ್ ಮಾಡಿದರೆ ಅಥವಾ ಕ್ಯಾನ್ಸಲ್ ಆದರೆ ಈ ಹಣವು ರದ್ದಾಗುತ್ತದೆ.
+          </p>
+          ${withdrawSection}
+        </div>
+      `;
+
+      showScreen('pocketMoneyScreen');
+    }
+
+    async function submitWithdrawRequest(amount) {
+      const upiId = document.getElementById('upiIdInput').value.trim();
+      const upiPin = document.getElementById('upiPinInput').value.trim();
+      const phone = localStorage.getItem('customer_phone_key') || '9999999999';
+
+      if (!upiId || !upiPin) {
+        showCustomAlert("ಎಚ್ಚರಿಕೆ", "ದಯವಿಟ್ಟು ಯುಪಿಐ ಐಡಿ ಮತ್ತು ಪಿನ್ ನಮೂದಿಸಿ.");
+        return;
+      }
+
+      const withdrawData = {
+        requestId: 'WD' + Math.floor(100000 + Math.random() * 900000),
+        phone: phone,
+        amount: amount,
+        upiId: upiId,
+        status: 'PENDING_MASTER_APPROVAL',
+        timestamp: Date.now()
+      };
+
+      try {
+        await window.addDoc(window.collection(window.db, "withdraw_requests"), withdrawData);
+        showCustomAlert("ಯಶಸ್ವಿ", "✅ ನಿಮ್ಮ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿಯನ್ನು ಮಾಸ್ಟರ್ ಐಡಿ ಪ್ಯಾನೆಲ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ!");
+        document.getElementById('pocketMoneyScreen').style.display = 'none';
       } catch (e) {
         showCustomAlert("ದೋಷ", "Error: " + e.message);
       }

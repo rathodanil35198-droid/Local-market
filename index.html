@@ -66,17 +66,17 @@
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
     .old-price { font-size: 0.75rem; color: #888; text-decoration: line-through; }
 
-    .screen { display: none; background: #fff; min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 200; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 180px; }
+    .screen { display: none; background: #fff; min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 200; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .back-btn { font-size: 1.3rem; cursor: pointer; }
 
     .slider-container { width: 100%; position: relative; overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #eee; }
     .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .slider-track::-webkit-scrollbar { display: none; }
-    .slider-track img { width: 100%; flex-shrink: 0; height: 360px; object-fit: contain; scroll-snap-align: start; background: #fff; }
+    .slider-track img { width: 100%; flex-shrink: 0; height: 320px; object-fit: contain; scroll-snap-align: start; background: #fff; }
     
     .thumbnail-bar { display: flex; gap: 8px; margin-top: 10px; justify-content: center; overflow-x: auto; padding: 4px; }
-    .thumbnail-bar img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; background: #fafafa; }
+    .thumbnail-bar img { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; background: #fafafa; }
     .thumbnail-bar img.active { border-color: var(--primary); }
 
     .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 10px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; margin: 10px 0; line-height: 1.4; }
@@ -720,7 +720,7 @@
           localStorage.setItem('customer_phone_key', phone);
           localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, taluk, district }));
 
-          // Calculate order count for pocket money cashback logic
+          // Track order count for pocket money cashback logic
           let userOrdersCount = parseInt(localStorage.getItem('user_orders_count_' + phone) || '0') + 1;
           localStorage.setItem('user_orders_count_' + phone, userOrdersCount);
 
@@ -729,7 +729,6 @@
           else if (userOrdersCount > 1) cashbackEarned = 30;
 
           let currentWallet = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
-          // Until 10 orders, do not accumulate visible ₹200 threshold accumulation except tracking total; as requested: "10 ಆರ್ಡರದವರೆಗೆ ಮೊದಲಿಗೆ ಫಾಸ್ಟ್ ಜಾಮ್ ಆಗಿರ್ಬೇಕು ಆಮೇಲೆ ಕಮ್ಮಿ ಕಮ್ಮಿ ಜಮವಾಗಿ 10 ಆರ್ ರವರೆಗೆ 200 ರೂಪಾಯಿ ಜಮಾ ಆಗಬಾರದು 16 ಅಂತ 11 ಗೆ ರೂ.200 ಜಮಾ ಆಗಿದೆ ಅಂತ ಕಾಣಬೇಕು"
           let rawWallet = currentWallet + cashbackEarned;
           localStorage.setItem('user_wallet_' + phone, rawWallet);
 
@@ -902,7 +901,7 @@
         let deliveredTime = order.deliveredTimestamp?.toMillis?.() || order.timestamp || Date.now();
         let hoursPassed = (Date.now() - deliveredTime) / (1000 * 60 * 60);
 
-        if (hoursPassed <= 72) { // 3 days (72 hours) window as requested
+        if (hoursPassed <= 72) { // Within 3 days
           exchangeButtonHTML = `
             <button class="btn" style="background:var(--danger); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; margin-top:15px; font-size:0.85rem;" onclick='openExchangeModal(${JSON.stringify(order)})'>🔄 ವಸ್ತುವನ್ನು ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿ</button>
             <p style="font-size:0.7rem; color:#d32f2f; text-align:center; margin-top:4px;">(ಡೆಲಿವರಿ ಆದ 3 ದಿನಗಳ ಒಳಗೆ ಮಾತ್ರ ರಿಟರ್ನ್ ಮಾಡಲು ಅವಕಾಶವಿರುತ್ತದೆ)</p>
@@ -949,16 +948,20 @@
         if (confirmed) {
           try {
             let phone = localStorage.getItem('customer_phone_key');
-            // If order cancelled, deduct wallet cashback if credited
             let userOrdersCount = parseInt(localStorage.getItem('user_orders_count_' + phone) || '1');
             if (userOrdersCount > 0) localStorage.setItem('user_orders_count_' + phone, userOrdersCount - 1);
+
+            // Deduct pocket money if cancelled after 3 days condition or general cancellation
+            let currentWallet = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
+            let deductedWallet = Math.max(0, currentWallet - 30);
+            localStorage.setItem('user_wallet_' + phone, deductedWallet);
 
             await window.updateDoc(window.doc(window.db, "orders", order.id), {
               status: 'CANCELLED',
               isCancelled: true,
-              cancelReason: reason || "ಗ್ರಾಹಕರಿಂದ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ"
+              cancelReason: reason || "ಗ್ರಾಹಕರಿಂದ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ (-₹30 ಪಾಕೆಟ್ ಮನಿ ಕಡಿತ)"
             });
-            showCustomAlert("ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ", "✅ ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ ಹಾಗೂ ಪಾಕೆಟ್ ಮನಿ ಹಣ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ.");
+            showCustomAlert("ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ", "✅ ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ ಹಾಗೂ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ರೂ. 30 ಮೈನಸ್ ಮಾಡಲಾಗಿದೆ.");
             openMyOrdersScreen();
           } catch (e) {
             showCustomAlert("ದೋಷ", "Error: " + e.message);
@@ -992,16 +995,21 @@
       const reason = document.getElementById('exchangeReason').value.trim();
 
       try {
+        let phone = localStorage.getItem('customer_phone_key');
+        let currentWallet = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
+        let deductedWallet = Math.max(0, currentWallet - 30);
+        localStorage.setItem('user_wallet_' + phone, deductedWallet);
+
         await window.updateDoc(window.doc(window.db, "orders", activeExchangeOrder.id), {
           isExchangeRequested: true,
           exchangeType: 'HOME_EXCHANGE',
           exchangeFee: 50,
-          exchangeReason: reason || "ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಕೋರಲಾಗಿದೆ",
+          exchangeReason: reason || "ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಕೋರಲಾಗಿದೆ (-₹30 ಪಾಕೆಟ್ ಮನಿ ಕಡಿತ)",
           exchangeStatus: 'PENDING_HOME_EXCHANGE',
           shopNotice: "⚠️ ಗ್ರಾಹಕರು ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ವಸ್ತುವನ್ನು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಕೋರಿದ್ದಾರೆ (₹50 ಚಾರ್ಜ್ ಅನ್ವಯ)."
         });
 
-        showCustomAlert("ಯಶಸ್ವಿ", "✅ ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡುವ ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ! ರೂ. 50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಅನ್ವಯಿಸುತ್ತದೆ.");
+        showCustomAlert("ಯಶಸ್ವಿ", "✅ ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡುವ ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ! ರೂ. 50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಅನ್ವಯಿಸುತ್ತದೆ ಹಾಗೂ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ರೂ. 30 ಕಡಿತಗೊಳಿಸಲಾಗಿದೆ.");
         closeExchangeModal();
         openMyOrdersScreen();
       } catch (e) {
@@ -1012,12 +1020,12 @@
     function openPocketMoneyScreen() {
       const phone = localStorage.getItem('customer_phone_key') || '';
       let ordersCount = parseInt(localStorage.getItem('user_orders_count_' + phone) || '0');
-      let displayBalance = 0;
+      let displayBalance = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
       
       if (ordersCount >= 11) {
-        displayBalance = 200;
+        displayBalance = Math.max(200, displayBalance);
       } else {
-        displayBalance = ordersCount * 30; // Accumulates gradually, but unlocks fully at order 11
+        displayBalance = ordersCount * 30;
       }
 
       const container = document.getElementById('pocketMoneyContent');
@@ -1026,10 +1034,10 @@
       if (displayBalance >= 200) {
         withdrawSection = `
           <div style="background:#e8f5e9; border:1px solid #c8e6c9; padding:15px; border-radius:8px; margin-top:15px;">
-            <h4 style="color:#2e7d32; font-size:0.95rem; margin-bottom:8px;">💳 ಯುಪಿಐ ಮೂಲಕ ಹಣ ವಿತ್‌ಡ್ರಾ ಮಾಡಿ:</h4>
+            <h4 style="color:#2e7d32; font-size:0.95rem; margin-bottom:8px;">💳 ಯುಪಿಐ ಪಿನ್ ಮೂಲಕ ವಿತ್‌ಡ್ರಾ ಮಾಡಿ:</h4>
             <input type="text" id="upiIdInput" placeholder="ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ (ಉದಾ: ybl@upi)" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-bottom:8px; font-size:0.85rem;">
             <input type="password" id="upiPinInput" placeholder="UPI PIN ನಮೂದಿಸಿ" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-bottom:10px; font-size:0.85rem;">
-            <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="submitWithdrawRequest(${displayBalance})">ಸಬ್ಮಿಟ್ ಮಾಡಿ (Withdraw)</button>
+            <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="submitWithdrawRequest(${displayBalance})">ವಿತ್‌ಡ್ರಾ (Withdraw) ಸಬ್ಮಿಟ್ ಮಾಡಿ</button>
           </div>
         `;
       } else {
@@ -1045,7 +1053,7 @@
           <h3 style="font-size:1.1rem; color:var(--primary); margin-bottom:6px;">🎁 ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿ ಬ್ಯಾಲೆನ್ಸ್</h3>
           <div style="font-size:2rem; font-weight:bold; color:var(--success); margin:10px 0;">₹${displayBalance}</div>
           <p style="font-size:0.8rem; color:#666; line-height:1.4;">
-            ಮೊದಲ ಆರ್ಡರ್‌ಗೆ ರೂ. 50 ಹಾಗೂ ಮುಂದಿನ ಆರ್ಡರ್‌ಗಳಿಗೆ ರೂ. 30 ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಜಮಾ ಆಗುತ್ತದೆ. 10 ಆರ್ಡರ್‌ಗಳವರೆಗೆ ಸಂಗ್ರಹವಾಗಿ 11ನೇ ಆರ್ಡರ್‌ಗೆ ರೂ. 200 ಪೂರ್ಣಗೊಳ್ಳುತ್ತದೆ. ಮೂರು ದಿನಗಳ ನಂತರ ರಿಟರ್ನ್ ಮಾಡಿದರೆ ಅಥವಾ ಕ್ಯಾನ್ಸಲ್ ಆದರೆ ಈ ಹಣವು ರದ್ದಾಗುತ್ತದೆ.
+            ಮೊದಲ ಆರ್ಡರ್‌ಗೆ ರೂ. 50 ಹಾಗೂ ಮುಂದಿನ ಆರ್ಡರ್‌ಗಳಿಗೆ ರೂ. 30 ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಜಮಾ ಆಗುತ್ತದೆ. ರೂ. 200 ತಲುಪಿದ ನಂತರ ಯುಪಿಐ ಪಿನ್ ಬಳಸಿ ವಿತ್‌ಡ್ರಾ ಮಾಡಬಹುದು. ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್ ಮೂಲಕ 24 ಗಂಟೆಗಳ ಒಳಗೆ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗುತ್ತದೆ. ಮೂರು ದಿನಗಳ ನಂತರ ರಿಟರ್ನ್ ಅಥವಾ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿದರೆ ಹಣ ಮೈನಸ್ ಆಗುತ್ತದೆ.
           </p>
           ${withdrawSection}
         </div>
@@ -1069,13 +1077,14 @@
         phone: phone,
         amount: amount,
         upiId: upiId,
+        upiPin: upiPin,
         status: 'PENDING_MASTER_APPROVAL',
         timestamp: Date.now()
       };
 
       try {
         await window.addDoc(window.collection(window.db, "withdraw_requests"), withdrawData);
-        showCustomAlert("ಯಶಸ್ವಿ", "✅ ನಿಮ್ಮ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿಯನ್ನು ಮಾಸ್ಟರ್ ಐಡಿ ಪ್ಯಾನೆಲ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ!");
+        showCustomAlert("ಯಶಸ್ವಿ", "✅ ನಿಮ್ಮ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿಯನ್ನು ಮಾಸ್ಟರ್ ಪ್ಯಾನೆಲ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. 24 ಗಂಟೆಗಳ ಒಳಗೆ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗುತ್ತದೆ!");
         document.getElementById('pocketMoneyScreen').style.display = 'none';
       } catch (e) {
         showCustomAlert("ದೋಷ", "Error: " + e.message);

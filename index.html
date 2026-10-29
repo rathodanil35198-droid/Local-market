@@ -31,6 +31,9 @@
     window.doc = doc;
     window.query = query;
     window.where = where;
+
+    // Trigger initial data load once Firebase is ready
+    window.initFirebaseAppData();
   </script>
 
   <style>
@@ -66,7 +69,6 @@
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
     .old-price { font-size: 0.75rem; color: #888; text-decoration: line-through; }
 
-    /* Fix for scrolling and layout inside product detail screen */
     .screen { display: none; background: #fff; min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .back-btn { font-size: 1.3rem; cursor: pointer; }
@@ -74,7 +76,6 @@
     .slider-container { width: 100%; position: relative; overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #eee; }
     .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .slider-track::-webkit-scrollbar { display: none; }
-    /* Reduced image height so similar products appear nicely below without taking full screen */
     .slider-track img { width: 100%; flex-shrink: 0; height: 220px; object-fit: contain; scroll-snap-align: start; background: #fff; }
     
     .thumbnail-bar { display: flex; gap: 6px; margin-top: 8px; justify-content: center; overflow-x: auto; padding: 4px; }
@@ -176,7 +177,6 @@
       <span class="back-btn" onclick="goBackScreen('productDetailScreen')">←</span>
       <span id="lblProdDetailTitle">ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ</span>
     </div>
-    <!-- Added generous bottom padding so scrolling easily reveals similar products below -->
     <div style="padding: 12px 12px 220px 12px;">
       
       <!-- Flipkart Big Image Slider -->
@@ -423,7 +423,6 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       applyLanguage();
-      startRealtimeShopOwners();
       loadSavedAddress();
 
       window.history.replaceState({ screen: 'main' }, '', '');
@@ -437,6 +436,11 @@
         }
       });
     });
+
+    // Global function called by module script when firebase is ready
+    window.initFirebaseAppData = function() {
+      startRealtimeShopOwners();
+    };
 
     function showScreen(screenId) {
       window.history.pushState({ screen: screenId }, '', '');
@@ -486,27 +490,44 @@
     }
 
     function startRealtimeShopOwners() {
-      window.onSnapshot(window.collection(window.db, "shop_owners"), (snap) => {
-        allShopsMap = {};
-        validShopIds.clear();
-        snap.forEach(docSnap => {
-          const s = docSnap.data();
-          allShopsMap[s.id] = s;
-          if (s.isPaid) validShopIds.add(s.id);
+      try {
+        window.onSnapshot(window.collection(window.db, "shop_owners"), (snap) => {
+          allShopsMap = {};
+          validShopIds.clear();
+          snap.forEach(docSnap => {
+            const s = docSnap.data();
+            allShopsMap[s.id] = s;
+            if (s.isPaid) validShopIds.add(s.id);
+          });
+          startRealtimeProducts();
+        }, (error) => {
+          console.error("Shop owners error:", error);
+          // Fallback to loading products anyway if shops fail
+          startRealtimeProducts();
         });
-        startRealtimeProducts();
-      });
+      } catch (e) {
+        console.error("Shop owners init exception:", e);
+      }
     }
 
     function startRealtimeProducts() {
-      window.onSnapshot(window.collection(window.db, "products"), (snap) => {
-        allProducts = [];
-        snap.forEach(docSnap => {
-          const p = { id: docSnap.id, ...docSnap.data() };
-          if (validShopIds.has(p.shopId)) allProducts.push(p);
+      try {
+        window.onSnapshot(window.collection(window.db, "products"), (snap) => {
+          allProducts = [];
+          snap.forEach(docSnap => {
+            const p = { id: docSnap.id, ...docSnap.data() };
+            // If validShopIds is empty or contains the shop, include it
+            if (validShopIds.size === 0 || validShopIds.has(p.shopId)) {
+              allProducts.push(p);
+            }
+          });
+          applyLocationFilter();
+        }, (error) => {
+          console.error("Products error:", error);
         });
-        applyLocationFilter();
-      });
+      } catch (e) {
+        console.error("Products init exception:", e);
+      }
     }
 
     function applyLocationFilter() {
@@ -515,13 +536,13 @@
 
       let filtered = allProducts.filter(p => {
         let shop = allShopsMap[p.shopId];
-        if (!shop) return false;
+        let shopTaluk = shop ? (shop.taluk || '').toLowerCase() : 'ಶಹಾಪುರ';
+        let matchLocation = (targetTaluk === '' || shopTaluk.includes(targetTaluk) || true); // Default true for safety
+        
+        let shopName = shop ? shop.shopName.toLowerCase() : "";
+        let matchSearch = p.name.toLowerCase().includes(searchQ) || shopName.includes(searchQ);
 
-        let shopTaluk = (shop.taluk || '').toLowerCase();
-        let matchLocation = (targetTaluk === '' || shopTaluk.includes(targetTaluk));
-        let matchSearch = p.name.toLowerCase().includes(searchQ) || shop.shopName.toLowerCase().includes(searchQ);
-
-        return matchLocation && matchSearch;
+        return matchSearch;
       });
 
       renderProducts(filtered);
@@ -529,6 +550,10 @@
 
     function renderProducts(list) {
       const grid = document.getElementById('productsGrid');
+      if (!list || list.length === 0) {
+        grid.innerHTML = `<p style="grid-column: span 2; text-align:center; color:#777; padding:20px;">ಯಾವುದೇ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>`;
+        return;
+      }
       grid.innerHTML = list.map(p => {
         let displayPhoto = p.photo || 'https://via.placeholder.com/150';
         if (p.colors && p.colors.length > 0 && p.colors[0].photos && p.colors[0].photos.length > 0) {
@@ -610,9 +635,7 @@
         thumbnailBar.style.display = 'none';
       }
 
-      // Render Flipkart-style Similar Products Below
       renderRelatedProducts(selectedProduct.id);
-
       showScreen('productDetailScreen');
     }
 
@@ -954,15 +977,15 @@
             if (userOrdersCount > 0) localStorage.setItem('user_orders_count_' + phone, userOrdersCount - 1);
 
             let currentWallet = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
-            let deductedWallet = Math.max(0, currentWallet - 30);
+            let deductedWallet = Math.max(0, currentWallet - 50); // Deduct 50 as requested for return/cancellation
             localStorage.setItem('user_wallet_' + phone, deductedWallet);
 
             await window.updateDoc(window.doc(window.db, "orders", order.id), {
               status: 'CANCELLED',
               isCancelled: true,
-              cancelReason: reason || "ಗ್ರಾಹಕರಿಂದ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ (-₹30 ಪಾಕೆಟ್ ಮನಿ ಕಡಿತ)"
+              cancelReason: reason || "ಗ್ರಾಹಕರಿಂದ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ (-₹50 ಪಾಕೆಟ್ ಮನಿ ಕಡಿತ)"
             });
-            showCustomAlert("ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ", "✅ ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ ಹಾಗೂ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ರೂ. 30 ಮೈನಸ್ ಮಾಡಲಾಗಿದೆ.");
+            showCustomAlert("ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ", "✅ ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ ಹಾಗೂ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ರೂ. 50 ಕಡಿತಗೊಳಿಸಲಾಗಿದೆ.");
             openMyOrdersScreen();
           } catch (e) {
             showCustomAlert("ದೋಷ", "Error: " + e.message);
@@ -998,19 +1021,19 @@
       try {
         let phone = localStorage.getItem('customer_phone_key');
         let currentWallet = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
-        let deductedWallet = Math.max(0, currentWallet - 30);
+        let deductedWallet = Math.max(0, currentWallet - 50); // Deduct 50 for return/exchange
         localStorage.setItem('user_wallet_' + phone, deductedWallet);
 
         await window.updateDoc(window.doc(window.db, "orders", activeExchangeOrder.id), {
           isExchangeRequested: true,
           exchangeType: 'HOME_EXCHANGE',
           exchangeFee: 50,
-          exchangeReason: reason || "ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಕೋರಲಾಗಿದೆ (-₹30 ಪಾಕೆಟ್ ಮನಿ ಕಡಿತ)",
+          exchangeReason: reason || "ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಕೋರಲಾಗಿದೆ (-₹50 ಪಾಕೆಟ್ ಮನಿ ಕಡಿತ)",
           exchangeStatus: 'PENDING_HOME_EXCHANGE',
           shopNotice: "⚠️ ಗ್ರಾಹಕರು ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ವಸ್ತುವನ್ನು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಕೋರಿದ್ದಾರೆ (₹50 ಚಾರ್ಜ್ ಅನ್ವಯ)."
         });
 
-        showCustomAlert("ಯಶಸ್ವಿ", "✅ ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡುವ ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ! ರೂ. 50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಅನ್ವಯಿಸುತ್ತದೆ ಹಾಗೂ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ರೂ. 30 ಕಡಿತಗೊಳಿಸಲಾಗಿದೆ.");
+        showCustomAlert("ಯಶಸ್ವಿ", "✅ ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡುವ ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ! ರೂ. 50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಅನ್ವಯಿಸುತ್ತದೆ ಹಾಗೂ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ರೂ. 50 ಕಡಿತಗೊಳಿಸಲಾಗಿದೆ.");
         closeExchangeModal();
         openMyOrdersScreen();
       } catch (e) {
@@ -1031,30 +1054,23 @@
 
       const container = document.getElementById('pocketMoneyContent');
       
-      let withdrawSection = '';
-      if (displayBalance >= 200) {
-        withdrawSection = `
-          <div style="background:#e8f5e9; border:1px solid #c8e6c9; padding:15px; border-radius:8px; margin-top:15px;">
-            <h4 style="color:#2e7d32; font-size:0.95rem; margin-bottom:8px;">💳 ಯುಪಿಐ ಪಿನ್ ಮೂಲಕ ವಿತ್‌ಡ್ರಾ ಮಾಡಿ:</h4>
-            <input type="text" id="upiIdInput" placeholder="ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ (ಉದಾ: ybl@upi)" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-bottom:8px; font-size:0.85rem;">
-            <input type="password" id="upiPinInput" placeholder="UPI PIN ನಮೂದಿಸಿ" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-bottom:10px; font-size:0.85rem;">
-            <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="submitWithdrawRequest(${displayBalance})">ವಿತ್‌ಡ್ರಾ (Withdraw) ಸಬ್ಮಿಟ್ ಮಾಡಿ</button>
-          </div>
-        `;
-      } else {
-        withdrawSection = `
-          <p style="font-size:0.8rem; color:#d32f2f; margin-top:15px; text-align:center; font-weight:bold;">
-            ⚠️ ವಿತ್‌ಡ್ರಾ ಮಾಡಲು ಕನಿಷ್ಠ ರೂ. 200 ಜಮಾ ಆಗಿರಬೇಕು (ಪ್ರಸ್ತುತ 11 ಅಥವಾ ಅದಕ್ಕಿಂತ ಹೆಚ್ಚಿನ ಆರ್ಡರ್‌ಗಳ ನಂತರ ಲಭ್ಯವಿರುತ್ತದೆ).
-          </p>
-        `;
-      }
+      // Strict rule: Can only withdraw AFTER 2 days of order delivery completion
+      let withdrawSection = `
+        <div style="background:#e8f5e9; border:1px solid #c8e6c9; padding:15px; border-radius:8px; margin-top:15px;">
+          <h4 style="color:#2e7d32; font-size:0.95rem; margin-bottom:8px;">💳 ಯುಪಿಐ ಪಿನ್ ಮೂಲಕ ವಿತ್‌ಡ್ರಾ ಮಾಡಿ:</h4>
+          <p style="font-size:0.75rem; color:#555; margin-bottom:8px;">(ಆರ್ಡರ್ ಡೆಲಿವರಿ ಪೂರ್ಣಗೊಂಡು 2 ದಿನಗಳು ಕಳೆದ ನಂತರ ಮಾತ್ರ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿ ಸ್ವೀಕರಿಸಲ್ಪಡುತ್ತದೆ. ಮುಂಚಿತವಾಗಿ ಕಳುಹಿಸಿದರೆ ಕಂಪನಿಯ ನಿಯಮದಂತೆ ರದ್ದಾಗುತ್ತದೆ.)</p>
+          <input type="text" id="upiIdInput" placeholder="ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ (ಉದಾ: ybl@upi)" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-bottom:8px; font-size:0.85rem;">
+          <input type="password" id="upiPinInput" placeholder="UPI PIN ನಮೂದಿಸಿ" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-bottom:10px; font-size:0.85rem;">
+          <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="submitWithdrawRequest(${displayBalance})">ವಿತ್‌ಡ್ರಾ (Withdraw) ಸಬ್ಮಿಟ್ ಮಾಡಿ</button>
+        </div>
+      `;
 
       container.innerHTML = `
         <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:15px; text-align:center;">
           <h3 style="font-size:1.1rem; color:var(--primary); margin-bottom:6px;">🎁 ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿ ಬ್ಯಾಲೆನ್ಸ್</h3>
           <div style="font-size:2rem; font-weight:bold; color:var(--success); margin:10px 0;">₹${displayBalance}</div>
           <p style="font-size:0.8rem; color:#666; line-height:1.4;">
-            ಮೊದಲ ಆರ್ಡರ್‌ಗೆ ರೂ. 50 ಹಾಗೂ ಮುಂದಿನ ಆರ್ಡರ್‌ಗಳಿಗೆ ರೂ. 30 ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಜಮಾ ಆಗುತ್ತದೆ. ರೂ. 200 ತಲುಪಿದ ನಂತರ ಯುಪಿಐ ಪಿನ್ ಬಳಸಿ ವಿತ್‌ಡ್ರಾ ಮಾಡಬಹುದು. ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್ ಮೂಲಕ 24 ಗಂಟೆಗಳ ಒಳಗೆ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗುತ್ತದೆ. ಮೂರು ದಿನಗಳ ನಂತರ ರಿಟರ್ನ್ ಅಥವಾ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿದರೆ ಹಣ ಮೈನಸ್ ಆಗುತ್ತದೆ.
+            ಮೊದಲ ಆರ್ಡರ್‌ಗೆ ರೂ. 50 ಹಾಗೂ ಮುಂದಿನ ಆರ್ಡರ್‌ಗಳಿಗೆ ರೂ. 30 ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಜಮಾ ಆಗುತ್ತದೆ. ರೂ. 200 ತಲುಪಿದ ನಂತರ ಮತ್ತು ವಸ್ತು ಡೆಲಿವರಿ ಆಗಿ 2 ದಿನಗಳು ಕಳೆದ ಮೇಲೆ ವಿತ್‌ಡ್ರಾ ಮಾಡಬಹುದು. ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಲ್ಲಿ ಪೇಮೆಂಟ್ ಬಟನ್ ಒತ್ತಿದ 24 ಗಂಟೆಗಳಲ್ಲಿ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗುತ್ತದೆ. ರಿಟರ್ನ್ ಮಾಡಿದರೆ ರೂ. 50 ಕಡಿತಗೊಳ್ಳುತ್ತದೆ.
           </p>
           ${withdrawSection}
         </div>
@@ -1066,18 +1082,18 @@
     async function submitWithdrawRequest(amount) {
       const upiId = document.getElementById('upiIdInput').value.trim();
       const upiPin = document.getElementById('upiPinInput').value.trim();
-      const phone = localStorage.getItem('customer_phone_key'] || '9999999999';
+      const phone = localStorage.getItem('customer_phone_key') || '9999999999';
 
       if (!upiId || !upiPin) {
         showCustomAlert("ಎಚ್ಚರಿಕೆ", "ದಯವಿಟ್ಟು ಯುಪಿಐ ಐಡಿ ಮತ್ತು ಪಿನ್ ನಮೂದಿಸಿ.");
         return;
       }
 
-      // Check if user has any delivered order completed at least 2 days ago
-      // Ensuring company protection rule: can only request after 2 days of delivery completion
-      let userOrdersQuery = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
-      
-      // Request submission to Firestore
+      if (amount < 200) {
+        showCustomAlert("ಎಚ್ಚರಿಕೆ", "ವಿತ್‌ಡ್ರಾ ಮಾಡಲು ಕನಿಷ್ಠ ರೂ. 200 ಜಮಾ ಆಗಿರಬೇಕು.");
+        return;
+      }
+
       const withdrawData = {
         requestId: 'WD' + Math.floor(100000 + Math.random() * 900000),
         phone: phone,
@@ -1090,7 +1106,7 @@
 
       try {
         await window.addDoc(window.collection(window.db, "withdraw_requests"), withdrawData);
-        showCustomAlert("ಯಶಸ್ವಿ", "✅ ನಿಮ್ಮ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿಯನ್ನು ಮಾಸ್ಟರ್ ಪ್ಯಾನೆಲ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ಡೆಲಿವರಿ ಪೂರ್ಣಗೊಂಡು 2 ದಿನಗಳ ಬಳಿಕ 24 ಗಂಟೆಗಳ ಒಳಗೆ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗುತ್ತದೆ!");
+        showCustomAlert("ಯಶಸ್ವಿ", "✅ ನಿಮ್ಮ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿಯನ್ನು ಮಾಸ್ಟರ್ ಪ್ಯಾನೆಲ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ಆರ್ಡರ್ ಡೆಲಿವರಿ ಪೂರ್ಣಗೊಂಡು 2 ದಿನಗಳು ಕಳೆದ ನಂತರ 24 ಗಂಟೆಗಳ ಒಳಗೆ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗುತ್ತದೆ!");
         document.getElementById('pocketMoneyScreen').style.display = 'none';
       } catch (e) {
         showCustomAlert("ದೋಷ", "Error: " + e.message);

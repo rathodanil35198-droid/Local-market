@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title id="appTitle">ನಮ್ಮ ಶಾಪುರ್ - ಗ್ರಾಹಕರ ಆಪ್ | Customer App</title>
+  <title id="appTitle">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ಗ್ರಾಹಕರ ಆಪ್ | Customer App</title>
   <link rel="icon" type="image/png" sizes="192x192" href="AR_Taxi_Booking_Go_Fast_512x512.png">
 
   <!-- Firebase SDKs -->
@@ -32,38 +32,43 @@
     window.query = query;
     window.where = where;
 
-    // Trigger initial data load once Firebase is ready
     window.initFirebaseAppData();
   </script>
 
   <style>
-    :root { --primary: #2874f0; --secondary: #ffe500; --bg: #f1f3f6; --text: #212121; --success: #388e3c; --danger: #d32f2f; }
+    :root { --primary: #e65100; --secondary: #ffe500; --bg: #f4f7f6; --text: #212121; --success: #388e3c; --danger: #d32f2f; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
     html, body { width: 100%; min-height: 100vh; background-color: var(--bg); color: var(--text); overflow-x: hidden; }
     body { padding-bottom: 120px; }
 
     header { background-color: var(--primary); color: white; padding: 10px 14px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .brand-title { font-size: 1.1rem; font-weight: bold; font-style: italic; }
     
-    .header-btns { display: flex; gap: 6px; align-items: center; }
-    .btn-lang { background: #fff; color: var(--primary); border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
-    .btn-my-orders { background: var(--secondary); color: #000; border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
-    .btn-pocket { background: #ff9f00; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 3px; }
+    .brand-logo-area { display: flex; align-items: center; gap: 8px; }
+    .app-logo { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; background: #fff; }
+    .brand-title { font-size: 1.05rem; font-weight: bold; font-style: italic; }
+    
+    .header-btns { display: flex; gap: 5px; align-items: center; }
+    .btn-lang { background: #fff; color: var(--primary); border: none; padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
+    .btn-my-orders { background: var(--secondary); color: #000; border: none; padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
+    .btn-pocket { background: #ff9f00; color: #fff; border: none; padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; gap: 2px; }
+
+    .install-banner { background: #fff3e0; border-bottom: 1px solid #ffe0b2; padding: 6px 12px; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #e65100; font-weight: bold; }
+    .install-btn { background: var(--primary); color: white; border: none; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; cursor: pointer; font-weight: bold; }
 
     .search-box { display: flex; background: #fff; border-radius: 6px; padding: 8px 12px; align-items: center; margin-bottom: 8px; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 0.88rem; margin-left: 8px; }
 
     .container { padding: 8px 8px 100px 8px; max-width: 500px; margin: 0 auto; }
 
-    .filter-box { background: #e3f2fd; border: 1px solid #90caf9; padding: 8px 12px; border-radius: 8px; margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
-    .filter-box input { flex: 1; padding: 6px; border: 1px solid #90caf9; border-radius: 4px; font-size: 0.8rem; background: #fff; }
+    .filter-box { background: #fff3e0; border: 1px solid #ffe0b2; padding: 8px 12px; border-radius: 8px; margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
+    .filter-box input { flex: 1; padding: 6px; border: 1px solid #ffe0b2; border-radius: 4px; font-size: 0.8rem; background: #fff; }
 
     .grid-products { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
     .product-card { background: #fff; border-radius: 8px; padding: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
-    .img-box { width: 100%; height: 180px; background: #fafafa; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+    .img-box { width: 100%; height: 160px; background: #fafafa; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
     .product-card img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .qr-badge { position: absolute; bottom: 4px; right: 4px; background: rgba(0,0,0,0.7); color: #fff; font-size: 0.6rem; padding: 2px 5px; border-radius: 4px; }
+    .qr-badge { position: absolute; bottom: 4px; right: 4px; background: rgba(0,0,0,0.75); color: #fff; font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; display: flex; align-items: center; gap: 2px; }
     .prod-title { font-size: 0.8rem; font-weight: 600; margin-top: 6px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.5em; color: #333; }
     .price-row { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
@@ -87,11 +92,11 @@
     .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #e0e0e0; z-index: 300; padding: 10px 15px; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); gap: 10px; }
     .btn-action { flex: 1; padding: 12px; border: none; font-weight: bold; font-size: 0.95rem; cursor: pointer; text-align: center; border-radius: 6px; }
     .btn-buy-now { background: #ff9f00; color: #fff; }
-    .btn-add-cart { background: #fff; color: #2874f0; border: 1px solid #2874f0; }
+    .btn-add-cart { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
 
     .size-container { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px 0; }
     .size-btn { padding: 6px 12px; border: 1px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
-    .size-btn.selected { border-color: var(--primary); background: #e3f2fd; color: var(--primary); }
+    .size-btn.selected { border-color: var(--primary); background: #fff3e0; color: var(--primary); }
 
     .timeline { position: relative; padding-left: 20px; margin: 15px 0; }
     .timeline::before { content: ''; position: absolute; left: 7px; top: 5px; bottom: 5px; width: 2px; background: #e0e0e0; }
@@ -107,7 +112,16 @@
     .shop-call-btn { background: #28a745; color: white; padding: 8px 12px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px; }
     .shop-map-btn { background: #007bff; color: white; padding: 8px 12px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px; }
 
-    /* Custom Popup Modal Styles */
+    /* 5-Second Popup Ad Styles */
+    #promoPopupModal { display: none; position: fixed; z-index: 999999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 15px; }
+    .promo-box { background: #fff; width: 100%; max-width: 400px; border-radius: 14px; overflow: hidden; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: scaleUp 0.3s ease; }
+    .promo-close-btn { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
+    .promo-img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: #eee; padding: 4px; height: 240px; }
+    .promo-img-grid img { width: 100%; height: 100%; object-fit: cover; background: #fff; }
+    .promo-content { padding: 15px; }
+    .timer-badge { display: inline-block; background: #ffebee; color: #d32f2f; font-size: 0.75rem; font-weight: bold; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; border: 1px solid #ffcdd2; }
+
+    /* Custom Alert Modal Styles */
     #customAlertModal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 20px; }
     .custom-alert-box { background: #fff; width: 100%; max-width: 330px; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: scaleUp 0.2s ease; }
     @keyframes scaleUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -117,6 +131,23 @@
 
   <!-- Audio element for coin drop sound effect -->
   <audio id="coinSound" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3" preload="auto"></audio>
+
+  <!-- 5-Second Startup Promo Popup Modal -->
+  <div id="promoPopupModal">
+    <div class="promo-box">
+      <button class="promo-close-btn" onclick="closePromoPopup()">✕</button>
+      <div class="promo-img-grid" id="promoImgGrid">
+        <img src="https://via.placeholder.com/200" alt="Shop">
+        <img src="https://via.placeholder.com/200" alt="Product">
+      </div>
+      <div class="promo-content">
+        <div class="timer-badge" id="promoTimerBadge">⏳ 5 ಸೆಕೆಂಡುಗಳು ಉಳಿದಿವೆ (スキップ / Skip)</div>
+        <h3 id="promoShopName" style="font-size: 1.05rem; color: var(--primary); margin-bottom: 4px; font-weight: bold;">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ವಿಶೇಷ</h3>
+        <p id="promoMessage" style="font-size: 0.82rem; color: #555; margin-bottom: 12px; line-height: 1.4;">ಇಂದಿನ ವಿಶೇಷ ಅಂಗಡಿ ಹಾಗೂ ಉತ್ಪನ್ನಗಳ ಭರ್ಜರಿ ಆಫರ್!</p>
+        <button class="btn" style="background: var(--primary); color: #fff; width: 100%; padding: 10px; border: none; border-radius: 6px; font-weight: bold; font-size: 0.9rem;" onclick="closePromoPopup()">ಶಾಪಿಂಗ್ ಪ್ರಾರಂಭಿಸಿ (Start)</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Custom Popup Modal -->
   <div id="customAlertModal">
@@ -146,13 +177,23 @@
   <!-- Main Header -->
   <header>
     <div class="top-bar">
-      <div class="brand-title" id="lblBrand">🛍️ ನಮ್ಮ ಶಾಪುರ್</div>
+      <div class="brand-logo-area">
+        <img src="AR_Taxi_Booking_Go_Fast_512x512.png" class="app-logo" alt="Logo">
+        <div class="brand-title" id="lblBrand">🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್</div>
+      </div>
       <div class="header-btns">
         <button class="btn-pocket" onclick="openPocketMoneyScreen()">💰 ಪಾಕೆಟ್ ಮನಿ</button>
         <button class="btn-lang" id="langToggleBtn" onclick="toggleLanguage()">English</button>
         <button class="btn-my-orders" id="lblMyOrdersBtn" onclick="openMyOrdersScreen()">📦 ನನ್ನ ಆರ್ಡರ್</button>
       </div>
     </div>
+
+    <!-- Home Screen Install / Download App Banner -->
+    <div class="install-banner" id="installBanner" style="display:none;">
+      <span>📱 "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್" ಆಪ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ!</span>
+      <button class="install-btn" onclick="triggerAppInstall()">ಇನ್‌ಸ್ಟಾಲ್ (Install)</button>
+    </div>
+
     <div class="search-box">
       🔍 <input type="text" id="searchInput" placeholder="ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ..." oninput="filterProducts()">
     </div>
@@ -160,9 +201,9 @@
 
   <div class="container">
     <div class="filter-box">
-      <span style="font-size:0.75rem; font-weight:bold; color:#0d47a1;">📍 ದೂರ (ಕಿ.ಮೀ / ಊರು):</span>
+      <span style="font-size:0.75rem; font-weight:bold; color:#e65100;">📍 ದೂರ (ಕಿ.ಮೀ / ಊರು):</span>
       <input type="text" id="filterTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು/ಸ್ಥಳ" oninput="applyLocationFilter()">
-      <select id="distanceSelect" onchange="applyLocationFilter()" style="padding:4px; font-size:0.75rem; border:1px solid #90caf9; border-radius:4px;">
+      <select id="distanceSelect" onchange="applyLocationFilter()" style="padding:4px; font-size:0.75rem; border:1px solid #ffe0b2; border-radius:4px;">
         <option value="20">20 ಕಿ.ಮೀ ಒಳಗೆ (Free)</option>
         <option value="30">30 ಕಿ.ಮೀ ದೂರ (+₹50)</option>
       </select>
@@ -171,7 +212,7 @@
     <div id="productsGrid" class="grid-products"></div>
   </div>
 
-  <!-- PRODUCT DETAIL SCREEN (Flipkart Style with proper scrolling) -->
+  <!-- PRODUCT DETAIL SCREEN -->
   <div id="productDetailScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackScreen('productDetailScreen')">←</span>
@@ -179,7 +220,6 @@
     </div>
     <div style="padding: 12px 12px 220px 12px;">
       
-      <!-- Flipkart Big Image Slider -->
       <div class="slider-container">
         <div class="slider-track" id="sliderTrack"></div>
       </div>
@@ -210,10 +250,9 @@
       </div>
 
       <div class="delivery-badge" id="deliveryBadgeText">
-        🚚 <b>20 ಕಿ.ಮೀ ಒಳಗೆ: ಯಾವುದೇ ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಇಲ್ಲ (ಫ್ರೀ ಡೆಲಿವರಿ)!</b>
+        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ!</b>
       </div>
 
-      <!-- Flipkart Similar Products Section -->
       <hr style="margin:15px 0 8px 0; border:0; border-top:1px solid #ddd;">
       <h4 style="font-size:0.9rem; color:#212121; margin-bottom:8px; font-weight:bold;">🛒 More products for you (ಇತರ ವಸ್ತುಗಳು):</h4>
       <div id="relatedProductsGrid" class="grid-products"></div>
@@ -323,6 +362,8 @@
     let currentLang = localStorage.getItem('app_lang') || 'kn';
     let activeExchangeOrder = null;
     let customAlertCallback = null;
+    let deferredPrompt = null;
+    let promoTimerInterval = null;
 
     function playCoinSound() {
       const sound = document.getElementById('coinSound');
@@ -382,8 +423,8 @@
 
     const translations = {
       kn: {
-        appTitle: "ನಮ್ಮ ಶಾಪುರ್ - ಗ್ರಾಹಕರ ಆಪ್",
-        brandTitle: "🛍️ ನಮ್ಮ ಶಾಪುರ್",
+        appTitle: "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ಗ್ರಾಹಕರ ಆಪ್",
+        brandTitle: "🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್",
         myOrdersBtn: "📦 ನನ್ನ ಆರ್ಡರ್",
         searchPlaceholder: "ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ...",
         prodDetailTitle: "ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ",
@@ -395,14 +436,14 @@
         myOrdersHeader: "ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)",
         orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು",
         noOrders: "ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
-        orderSuccess: "🎉 ನಮ್ಮ ಆಪ್‌ನಲ್ಲಿ ಖರೀದಿ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು! ನೀವು ಮುಂದಿನ ಬಾರಿ ಖರೀದಿ ಮಾಡಿದಾಗ ಕಂಪನಿಯ ಕಡೆಯಿಂದ ವಿಶೇಷ ಡಿಸ್ಕೌಂಟ್ ಹಾಗೂ ಆಫರ್‌ಗಳು ಸಿಗಲಿವೆ. 📞 ನಿಮ್ಮ ಆರ್ಡರ್ ಅಥವಾ ಸೈಜ್ ಬದಲಾಯಿಸಬೇಕಾದರೆ ಅಂಗಡಿ ಮಾಲೀಕರು ನಿಮಗೆ ನೇರವಾಗಿ ಕಾಲ್ ಮಾಡಿ ಮಾತನಾಡುತ್ತಾರೆ, ಆಗ ನೀವು ಅವರಿಗೆ ತಿಳಿಸಬಹುದು.",
+        orderSuccess: "🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ನಲ್ಲಿ ಖರೀದಿ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು! 1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ. ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಜಮಾ ಆಗಿದೆ. ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದ ಮೇಲೆ ಈ ಹಣಗಳು ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಕಾಯಂ ಆಗಿ ಜಮಾ ಇರುತ್ತವೆ.",
         confirmPopup: "🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಲು OK ಒತ್ತಿ.",
         fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಊರು ನಮೂದಿಸಿ.",
         selectSizeMsg: "ದಯವಿಟ್ಟು ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ."
       },
       en: {
-        appTitle: "Namma Shahapur - Customer App",
-        brandTitle: "🛍️ Namma Shahapur",
+        appTitle: "Namma Ooru Shopping - Customer App",
+        brandTitle: "🛍️ Namma Ooru Shopping",
         myOrdersBtn: "📦 My Orders",
         searchPlaceholder: "Search products or shops...",
         prodDetailTitle: "Product Description",
@@ -414,7 +455,7 @@
         myOrdersHeader: "My Orders",
         orderDetailsHeader: "Order Details",
         noOrders: "No orders found.",
-        orderSuccess: "🎉 Thank you for purchasing from our app! You will receive special discounts and offers from the company on your future purchases. 📞 If you need to change your order or size, the shop owner will call you directly to discuss.",
+        orderSuccess: "🎉 Thank you for purchasing from Namma Ooru Shopping! Your delivery will reach you within 1 to 2 days. Cashback has been credited to your pocket money.",
         confirmPopup: "🎉 Press OK to confirm your order.",
         fillAll: "Please enter Name, Mobile Number and Village.",
         selectSizeMsg: "Please select a size."
@@ -424,6 +465,13 @@
     window.addEventListener('DOMContentLoaded', () => {
       applyLanguage();
       loadSavedAddress();
+      checkAndShowStartupPromo();
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installBanner').style.display = 'flex';
+      });
 
       window.history.replaceState({ screen: 'main' }, '', '');
 
@@ -437,7 +485,63 @@
       });
     });
 
-    // Global function called by module script when firebase is ready
+    // 5-Second Startup Promo Popup Logic (Shown ONLY once per app session)
+    function checkAndShowStartupPromo() {
+      if (!sessionStorage.getItem('startup_promo_shown')) {
+        sessionStorage.setItem('startup_promo_shown', 'true');
+        
+        // Pick latest product & shop photos if available
+        setTimeout(() => {
+          if (allProducts.length > 0) {
+            let sampleP = allProducts[0];
+            let sampleShop = allShopsMap[sampleP.shopId];
+            let pImg = sampleP.photo || 'https://via.placeholder.com/200';
+            let sImg = sampleShop ? (sampleShop.photo || 'https://via.placeholder.com/200') : 'https://via.placeholder.com/200';
+
+            document.getElementById('promoImgGrid').innerHTML = `<img src="${sImg}" alt="Shop"><img src="${pImg}" alt="Product">`;
+            if (sampleShop) {
+              document.getElementById('promoShopName').innerText = `🏪 ${sampleShop.shopName} (${sampleShop.taluk})`;
+              document.getElementById('promoMessage').innerText = `ಉತ್ಪನ್ನ: ${sampleP.name} | ಸ್ಪೆಷಲ್ ಆಫರ್ ₹${sampleP.price}! 1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ಮನೆ ಬಾಗಿಲಿಗೆ ಡೆಲಿವರಿ.`;
+            }
+          }
+        }, 800);
+
+        document.getElementById('promoPopupModal').style.display = 'flex';
+        let timeLeft = 5;
+        const badge = document.getElementById('promoTimerBadge');
+
+        promoTimerInterval = setInterval(() => {
+          timeLeft--;
+          if (timeLeft > 0) {
+            badge.innerText = `⏳ ${timeLeft} ಸೆಕೆಂಡುಗಳು ಉಳಿದಿವೆ (スキップ / Skip)`;
+          } else {
+            clearInterval(promoTimerInterval);
+            closePromoPopup();
+          }
+        }, 1000);
+      }
+    }
+
+    function closePromoPopup() {
+      if (promoTimerInterval) clearInterval(promoTimerInterval);
+      document.getElementById('promoPopupModal').style.display = 'none';
+    }
+
+    function triggerAppInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+          }
+          deferredPrompt = null;
+          document.getElementById('installBanner').style.display = 'none';
+        });
+      } else {
+        alert("📱 ನಿಮ್ಮ ಬ್ರೌಸರ್ ಮೆನು (⋮ ಅಥವಾ ⚙️) ಕ್ಲಿಕ್ ಮಾಡಿ 'Add to Home screen' ಅಥವಾ 'Install App' ಆಯ್ಕೆಮಾಡಿ.");
+      }
+    }
+
     window.initFirebaseAppData = function() {
       startRealtimeShopOwners();
     };
@@ -502,7 +606,6 @@
           startRealtimeProducts();
         }, (error) => {
           console.error("Shop owners error:", error);
-          // Fallback to loading products anyway if shops fail
           startRealtimeProducts();
         });
       } catch (e) {
@@ -516,7 +619,6 @@
           allProducts = [];
           snap.forEach(docSnap => {
             const p = { id: docSnap.id, ...docSnap.data() };
-            // If validShopIds is empty or contains the shop, include it
             if (validShopIds.size === 0 || validShopIds.has(p.shopId)) {
               allProducts.push(p);
             }
@@ -536,12 +638,8 @@
 
       let filtered = allProducts.filter(p => {
         let shop = allShopsMap[p.shopId];
-        let shopTaluk = shop ? (shop.taluk || '').toLowerCase() : 'ಶಹಾಪುರ';
-        let matchLocation = (targetTaluk === '' || shopTaluk.includes(targetTaluk) || true); // Default true for safety
-        
         let shopName = shop ? shop.shopName.toLowerCase() : "";
         let matchSearch = p.name.toLowerCase().includes(searchQ) || shopName.includes(searchQ);
-
         return matchSearch;
       });
 
@@ -560,13 +658,13 @@
           displayPhoto = p.colors[0].photos[0];
         }
         let shop = allShopsMap[p.shopId];
-        let shopName = shop ? shop.shopName : "Namma Shahapur Store";
+        let shopName = shop ? shop.shopName : "Namma Ooru Store";
 
         return `
           <div class="product-card" onclick="openProductDetail('${p.id}')">
             <div class="img-box">
               <img src="${displayPhoto}">
-              <div class="qr-badge">📷 QR Scan</div>
+              <div class="qr-badge" onclick="event.stopPropagation(); alert('📷 ಕ್ಯೂಆರ್ ಕೋಡ್ ಸ್ಕ್ಯಾನರ್ ಕ್ಯಾಮೆರಾ ಆಕ್ಟಿವ್ ಇದೆ!');">📷 QR Scan</div>
             </div>
             <div>
               <div class="prod-title">${p.name}</div>
@@ -596,7 +694,7 @@
       const t = translations[currentLang];
       let shop = allShopsMap[selectedProduct.shopId];
       document.getElementById('detailTitle').innerText = selectedProduct.name;
-      document.getElementById('detailShopName').innerText = t.shopPrefix + (shop ? shop.shopName : "Namma Shahapur Store");
+      document.getElementById('detailShopName').innerText = t.shopPrefix + (shop ? shop.shopName : "Namma Ooru Store");
       document.getElementById('detailShopLocation').innerText = `📍 ಅಂಗಡಿ ಇರುವ ಸ್ಥಳ: ${shop ? shop.taluk + ', ' + shop.district : 'ಶಹಾಪುರ, ಯಾದಗಿರಿ'}`;
       updatePriceDisplay();
 
@@ -652,13 +750,13 @@
           displayPhoto = p.colors[0].photos[0];
         }
         let shop = allShopsMap[p.shopId];
-        let shopName = shop ? shop.shopName : "Namma Shahapur Store";
+        let shopName = shop ? shop.shopName : "Namma Ooru Store";
 
         return `
           <div class="product-card" onclick="openProductDetail('${p.id}')">
             <div class="img-box">
               <img src="${displayPhoto}">
-              <div class="qr-badge">📷 QR Scan</div>
+              <div class="qr-badge">📷 QR</div>
             </div>
             <div>
               <div class="prod-title">${p.name}</div>
@@ -699,10 +797,10 @@
       
       if (distanceKm > 20) {
         document.getElementById('deliveryFeeNotice').innerText = `(+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ 30 ಕಿ.ಮೀ ದೂರಕ್ಕೆ ಸೇರಿಸಲಾಗಿದೆ)`;
-        document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>30 ಕಿ.ಮೀ ದೂರ: ರೂ. 50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಅನ್ವಯಿಸಲಾಗಿದೆ.</b>`;
+        document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ 30 ಕಿ.ಮೀ ದೂರಕ್ಕೆ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ (+₹50).</b>`;
       } else {
         document.getElementById('deliveryFeeNotice').innerText = `(20 ಕಿ.ಮೀ ಒಳಗೆ: ಫ್ರೀ ಡೆಲಿವರಿ)`;
-        document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>20 ಕಿ.ಮೀ ಒಳಗೆ: ಯಾವುದೇ ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಇಲ್ಲ (ಫ್ರೀ ಡೆಲಿವರಿ)!</b>`;
+        document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ!</b>`;
       }
     }
 
@@ -749,10 +847,7 @@
           let userOrdersCount = parseInt(localStorage.getItem('user_orders_count_' + phone) || '0') + 1;
           localStorage.setItem('user_orders_count_' + phone, userOrdersCount);
 
-          let cashbackEarned = 0;
-          if (userOrdersCount === 1) cashbackEarned = 50;
-          else if (userOrdersCount > 1) cashbackEarned = 30;
-
+          let cashbackEarned = userOrdersCount === 1 ? 50 : 30;
           let currentWallet = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
           let rawWallet = currentWallet + cashbackEarned;
           localStorage.setItem('user_wallet_' + phone, rawWallet);
@@ -815,7 +910,7 @@
             container.innerHTML = `<p style="text-align:center; color:#777; margin-top:20px;">${t.noOrders}</p>`;
           } else {
             container.innerHTML = orders.map(o => {
-              let statusText = "2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಆರ್ಡರ್ ಮನೆ ಬಾಗಿಲಿಗೆ ತಲುಪುತ್ತದೆ";
+              let statusText = "1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ";
               let statusColor = "var(--primary)";
 
               if (o.status === 'CANCELLED') {
@@ -828,7 +923,7 @@
                 statusText = "ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿಕೊಂಡಿದ್ದಾರೆ";
                 statusColor = "#1565c0";
               } else if (o.status === 'DELIVERED' || o.status === 'STEP_4') {
-                statusText = "ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್ (Delivery Successful)";
+                statusText = "ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್ (Delivery Successful - ಪಾಕೆಟ್ ಮನಿಗೆ ಹಣ ಜಮಾ)";
                 statusColor = "var(--success)";
               } else if (o.isExchangeRequested) {
                 statusText = "ಅಂಗಡಿಯಲ್ಲಿ ಎಕ್ಸ್ಚೇಂಜ್‌ಗೆ ಕೋರಲಾಗಿದೆ";
@@ -885,7 +980,7 @@
       if (isDelivered) {
         contactActionHTML = `
           <div style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #eee; margin-bottom:15px; font-size:0.82rem;">
-            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">✔ ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿ ಪೂರ್ಣಗೊಂಡಿದೆ.</p>
+            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">✔ ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿ ಪೂರ್ಣಗೊಂಡಿದೆ. ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಗೆ ಹಣ ಜಮಾ ಆಗಿದೆ!</p>
             <p><b>ಅಂಗಡಿ ಹೆಸರು:</b> ${order.shopName || 'Namma Store'}</p>
             <div style="display:flex; gap:8px; margin-top:10px;">
               <a href="tel:${order.shopPhone || '8105010768'}" class="shop-call-btn">📞 ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕಾಲ್ ಮಾಡಿ</a>
@@ -896,7 +991,7 @@
       } else if (isPickedUp && !isCancelled) {
         contactActionHTML = `
           <div style="background:#e8f5e9; padding:12px; border-radius:8px; border:1px solid #c8e6c9; margin-bottom:15px; font-size:0.82rem;">
-            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">🛵 ಡೆಲಿವರಿ ಬಾಯ್ ವಸ್ತು ತಲುಪಿಸುತ್ತಿದ್ದಾರೆ:</p>
+            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">🛵 ಡೆಲಿವರಿ ಬಾಯ್ ವಸ್ತು ತಲುಪಿಸುತ್ತಿದ್ದಾರೆ (1 ರಿಂದ 2 ದಿನಗಳು):</p>
             <div style="margin-top:8px;">
               <a href="tel:${order.deliveryBoyPhone || '8105010768'}" class="shop-call-btn" style="background:var(--success);">📞 ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಾಲ್ ಮಾಡಿ</a>
             </div>
@@ -926,10 +1021,10 @@
         let deliveredTime = order.deliveredTimestamp?.toMillis?.() || order.timestamp || Date.now();
         let hoursPassed = (Date.now() - deliveredTime) / (1000 * 60 * 60);
 
-        if (hoursPassed <= 72) { // Within 3 days
+        if (hoursPassed <= 72) {
           exchangeButtonHTML = `
             <button class="btn" style="background:var(--danger); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; margin-top:15px; font-size:0.85rem;" onclick='openExchangeModal(${JSON.stringify(order)})'>🔄 ವಸ್ತುವನ್ನು ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿ</button>
-            <p style="font-size:0.7rem; color:#d32f2f; text-align:center; margin-top:4px;">(ಡೆಲಿವರಿ ಆದ 3 ದಿನಗಳ ಒಳಗೆ ಮಾತ್ರ ರಿಟರ್ನ್ ಮಾಡಲು ಅವಕಾಶವಿರುತ್ತದೆ)</p>
+            <p style="font-size:0.7rem; color:#d32f2f; text-align:center; margin-top:4px;">(ಡೆಲಿವರಿ ಆದ 3 ದಿನಗಳ ಒಳಗೆ ಮಾತ್ರ ರಿಟರ್ನ್ ಮಾಡಲು ಅವಕಾಶವಿರುತ್ತದೆ. ರಿಟರ್ನ್ ಮಾಡಿದರೆ ಪಾಕೆಟ್ ಮನಿ ಹಣ ಕಡಿತಗೊಳ್ಳುತ್ತದೆ)</p>
           `;
         } else {
           exchangeButtonHTML = `<p style="font-size:0.75rem; color:#777; text-align:center; margin-top:15px;">ರಿಟರ್ನ್ ಮಾಡುವ ಅವಧಿ (3 ದಿನಗಳು) ಮುಕ್ತಾಯಗೊಂಡಿದೆ.</p>`;
@@ -951,12 +1046,12 @@
 
         ${!isCancelled ? `
         <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:15px; margin-bottom:15px;">
-          <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಸ್ಟೇಟಸ್</h4>
+          <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಸ್ಟೇಟಸ್ (1-2 ದಿನಗಳಲ್ಲಿ ತಲುಪುತ್ತದೆ)</h4>
           <div class="timeline">
             <div class="t-item ${t1}"><div class="t-dot"></div><div class="t-title">ಆರ್ಡರ್ ದೃಢೀಕರಿಸಲಾಗಿದೆ</div></div>
             <div class="t-item ${t2}"><div class="t-dot"></div><div class="t-title">ಮಾಲೀಕರಿಂದ ಪ್ಯಾಕಿಂಗ್</div></div>
             <div class="t-item ${t3}"><div class="t-dot"></div><div class="t-title">ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ</div></div>
-            <div class="t-item ${t4}"><div class="t-dot"></div><div class="t-title">ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್</div></div>
+            <div class="t-item ${t4}"><div class="t-dot"></div><div class="t-title">ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್ (ಪಾಕೆಟ್ ಮನಿಗೆ ಜಮಾ)</div></div>
           </div>
         </div>
         ` : ''}
@@ -969,7 +1064,7 @@
     }
 
     function cancelOrderPrompt(order) {
-      showCustomAlert("ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ", "ನಿಮಗೆ ನಿಜವಾಗಿಯೂ ಈ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಬೇಕೇ?", true, true, async (confirmed, reason) => {
+      showCustomAlert("ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ", "ನಿಮಗೆ ನಿಜವಾಗಿಯೂ ಈ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಬೇಕೇ? (ಕ್ಯಾನ್ಸಲ್ ಅಥವಾ ರಿಟರ್ನ್ ಮಾಡಿದರೆ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ರೂ. 50 ಕಡಿತಗೊಳ್ಳುತ್ತದೆ)", true, true, async (confirmed, reason) => {
         if (confirmed) {
           try {
             let phone = localStorage.getItem('customer_phone_key');
@@ -977,7 +1072,7 @@
             if (userOrdersCount > 0) localStorage.setItem('user_orders_count_' + phone, userOrdersCount - 1);
 
             let currentWallet = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
-            let deductedWallet = Math.max(0, currentWallet - 50); // Deduct 50 as requested for return/cancellation
+            let deductedWallet = Math.max(0, currentWallet - 50);
             localStorage.setItem('user_wallet_' + phone, deductedWallet);
 
             await window.updateDoc(window.doc(window.db, "orders", order.id), {
@@ -1054,11 +1149,10 @@
 
       const container = document.getElementById('pocketMoneyContent');
       
-      // Strict rule: Can only withdraw AFTER 2 days of order delivery completion
       let withdrawSection = `
         <div style="background:#e8f5e9; border:1px solid #c8e6c9; padding:15px; border-radius:8px; margin-top:15px;">
           <h4 style="color:#2e7d32; font-size:0.95rem; margin-bottom:8px;">💳 ಯುಪಿಐ ಪಿನ್ ಮೂಲಕ ವಿತ್‌ಡ್ರಾ ಮಾಡಿ:</h4>
-          <p style="font-size:0.75rem; color:#555; margin-bottom:8px;">(ಆರ್ಡರ್ ಡೆಲಿವರಿ ಪೂರ್ಣಗೊಂಡು 2 ದಿನಗಳು ಕಳೆದ ನಂತರ ಮಾತ್ರ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿ ಸ್ವೀಕರಿಸಲ್ಪಡುತ್ತದೆ. ಮುಂಚಿತವಾಗಿ ಕಳುಹಿಸಿದರೆ ಕಂಪನಿಯ ನಿಯಮದಂತೆ ರದ್ದಾಗುತ್ತದೆ.)</p>
+          <p style="font-size:0.75rem; color:#555; margin-bottom:8px;">(ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದ ಮೇಲೆ ಮಾತ್ರ ಈ ಹಣಗಳು ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಜಮಾ ಇರುತ್ತವೆ ಮತ್ತು ವಿತ್‌ಡ್ರಾ ಮಾಡಬಹುದು.)</p>
           <input type="text" id="upiIdInput" placeholder="ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ (ಉದಾ: ybl@upi)" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-bottom:8px; font-size:0.85rem;">
           <input type="password" id="upiPinInput" placeholder="UPI PIN ನಮೂದಿಸಿ" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-bottom:10px; font-size:0.85rem;">
           <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="submitWithdrawRequest(${displayBalance})">ವಿತ್‌ಡ್ರಾ (Withdraw) ಸಬ್ಮಿಟ್ ಮಾಡಿ</button>
@@ -1070,7 +1164,7 @@
           <h3 style="font-size:1.1rem; color:var(--primary); margin-bottom:6px;">🎁 ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿ ಬ್ಯಾಲೆನ್ಸ್</h3>
           <div style="font-size:2rem; font-weight:bold; color:var(--success); margin:10px 0;">₹${displayBalance}</div>
           <p style="font-size:0.8rem; color:#666; line-height:1.4;">
-            ಮೊದಲ ಆರ್ಡರ್‌ಗೆ ರೂ. 50 ಹಾಗೂ ಮುಂದಿನ ಆರ್ಡರ್‌ಗಳಿಗೆ ರೂ. 30 ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಜಮಾ ಆಗುತ್ತದೆ. ರೂ. 200 ತಲುಪಿದ ನಂತರ ಮತ್ತು ವಸ್ತು ಡೆಲಿವರಿ ಆಗಿ 2 ದಿನಗಳು ಕಳೆದ ಮೇಲೆ ವಿತ್‌ಡ್ರಾ ಮಾಡಬಹುದು. ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಲ್ಲಿ ಪೇಮೆಂಟ್ ಬಟನ್ ಒತ್ತಿದ 24 ಗಂಟೆಗಳಲ್ಲಿ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗುತ್ತದೆ. ರಿಟರ್ನ್ ಮಾಡಿದರೆ ರೂ. 50 ಕಡಿತಗೊಳ್ಳುತ್ತದೆ.
+            ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದ ಮೇಲೆ ಈ ಹಣಗಳು ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಕಾಯಂ ಆಗಿ ಜಮಾ ಇರುತ್ತವೆ. ಒಂದು ವೇಳೆ ವಸ್ತು ರಿಟರ್ನ್ ಮಾಡಿದರೆ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಜಮಾ ಆಗಿರುವ ಹಣದಲ್ಲಿ ರೂ. 50 ಕಡಿತಗೊಳ್ಳುತ್ತದೆ.
           </p>
           ${withdrawSection}
         </div>
@@ -1106,7 +1200,7 @@
 
       try {
         await window.addDoc(window.collection(window.db, "withdraw_requests"), withdrawData);
-        showCustomAlert("ಯಶಸ್ವಿ", "✅ ನಿಮ್ಮ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿಯನ್ನು ಮಾಸ್ಟರ್ ಪ್ಯಾನೆಲ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ಆರ್ಡರ್ ಡೆಲಿವರಿ ಪೂರ್ಣಗೊಂಡು 2 ದಿನಗಳು ಕಳೆದ ನಂತರ 24 ಗಂಟೆಗಳ ಒಳಗೆ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗುತ್ತದೆ!");
+        showCustomAlert("ಯಶಸ್ವಿ", "✅ ನಿಮ್ಮ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿಯನ್ನು ಮಾಸ್ಟರ್ ಪ್ಯಾನೆಲ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದ ಮೇಲೆ ಹಣ ವರ್ಗಾಯಿಸಲ್ಪಡುತ್ತದೆ!");
         document.getElementById('pocketMoneyScreen').style.display = 'none';
       } catch (e) {
         showCustomAlert("ದೋಷ", "Error: " + e.message);

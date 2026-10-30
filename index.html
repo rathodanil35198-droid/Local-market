@@ -60,6 +60,15 @@
     .search-box input { border: none; outline: none; width: 100%; font-size: 0.88rem; margin-left: 8px; }
     .camera-search-icon { font-size: 1.2rem; cursor: pointer; padding: 2px 6px; background: #f1f3f6; border-radius: 4px; margin-left: 4px; }
 
+    /* Flipkart Style Auto-Scrolling Banner Slider */
+    .hero-slider-container { width: 100%; height: 160px; position: relative; overflow: hidden; border-radius: 8px; margin-bottom: 10px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .hero-slider-track { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
+    .hero-slide { min-width: 100%; height: 100%; flex-shrink: 0; }
+    .hero-slide img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-dots { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; }
+    .hero-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.6); }
+    .hero-dot.active { background: #fff; width: 14px; border-radius: 4px; }
+
     .container { padding: 8px 8px 100px 8px; max-width: 500px; margin: 0 auto; }
 
     .filter-box { background: #fff3e0; border: 1px solid #ffe0b2; padding: 8px 12px; border-radius: 8px; margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
@@ -113,15 +122,6 @@
     .shop-call-btn { background: #28a745; color: white; padding: 8px 12px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px; }
     .shop-map-btn { background: #007bff; color: white; padding: 8px 12px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px; }
 
-    /* 5-Second Startup Promo Popup Styles */
-    #promoPopupModal { display: none; position: fixed; z-index: 999999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 15px; }
-    .promo-box { background: #fff; width: 100%; max-width: 400px; border-radius: 14px; overflow: hidden; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: scaleUp 0.3s ease; }
-    .promo-close-btn { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
-    .promo-img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: #eee; padding: 4px; height: 240px; }
-    .promo-img-grid img { width: 100%; height: 100%; object-fit: cover; background: #fff; }
-    .promo-content { padding: 15px; }
-    .timer-badge { display: inline-block; background: #ffebee; color: #d32f2f; font-size: 0.75rem; font-weight: bold; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; border: 1px solid #ffcdd2; }
-
     /* Custom Alert Modal Styles */
     #customAlertModal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 20px; }
     .custom-alert-box { background: #fff; width: 100%; max-width: 330px; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: scaleUp 0.2s ease; }
@@ -135,23 +135,6 @@
 
   <!-- Hidden camera input for photo search -->
   <input type="file" id="cameraSearchInput" accept="image/*" capture="environment" style="display:none;" onchange="handleCameraPhotoSearch(event)">
-
-  <!-- 5-Second Startup Promo Popup Modal -->
-  <div id="promoPopupModal">
-    <div class="promo-box">
-      <button class="promo-close-btn" onclick="closePromoPopup()">✕</button>
-      <div class="promo-img-grid" id="promoImgGrid">
-        <img src="https://via.placeholder.com/200" alt="Shop">
-        <img src="https://via.placeholder.com/200" alt="Product">
-      </div>
-      <div class="promo-content">
-        <div class="timer-badge" id="promoTimerBadge">⏳ 5 ಸೆಕೆಂಡುಗಳು ಉಳಿದಿವೆ (Skip)</div>
-        <h3 id="promoShopName" style="font-size: 1.05rem; color: var(--primary); margin-bottom: 4px; font-weight: bold;">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ವಿಶೇಷ</h3>
-        <p id="promoMessage" style="font-size: 0.82rem; color: #555; margin-bottom: 12px; line-height: 1.4;">ಇಂದಿನ ವಿಶೇಷ ಅಂಗಡಿ ಹಾಗೂ ಉತ್ಪನ್ನಗಳ ಭರ್ಜರಿ ಆಫರ್!</p>
-        <button class="btn" style="background: var(--primary); color: #fff; width: 100%; padding: 10px; border: none; border-radius: 6px; font-weight: bold; font-size: 0.9rem;" onclick="closePromoPopup()">ಶಾಪಿಂಗ್ ಪ್ರಾರಂಭಿಸಿ (Start)</button>
-      </div>
-    </div>
-  </div>
 
   <!-- Custom Popup Modal -->
   <div id="customAlertModal">
@@ -192,7 +175,7 @@
       </div>
     </div>
 
-    <!-- App Install Banner (Visible inside app when not installed as PWA) -->
+    <!-- App Install Banner -->
     <div class="install-banner" id="installBanner" style="display:flex;">
       <span>📱 "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್" ಆಪ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ!</span>
       <button class="install-btn" onclick="triggerAppInstall()">ಇನ್‌ಸ್ಟಾಲ್ (Install App)</button>
@@ -206,6 +189,18 @@
   </header>
 
   <div class="container">
+    
+    <!-- Flipkart Style Auto-Scrolling Banner Slider (Master Panel Ad Banners) -->
+    <div class="hero-slider-container" id="heroSliderContainer">
+      <div class="hero-slider-track" id="heroSliderTrack">
+        <!-- Default Banner if none added by Master -->
+        <div class="hero-slide"><img src="https://via.placeholder.com/500x160?text=Namma+Ooru+Shopping+Offers" alt="Offer"></div>
+      </div>
+      <div class="hero-dots" id="heroDots">
+        <div class="hero-dot active"></div>
+      </div>
+    </div>
+
     <div class="filter-box">
       <span style="font-size:0.75rem; font-weight:bold; color:#e65100;">📍 ದೂರ (ಕಿ.ಮೀ / ಊರು):</span>
       <input type="text" id="filterTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು/ಸ್ಥಳ" oninput="applyLocationFilter()">
@@ -256,7 +251,7 @@
       </div>
 
       <div class="delivery-badge" id="deliveryBadgeText">
-        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ[span_0](start_span)[span_0](end_span)!</b>
+        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ!</b>
       </div>
 
       <hr style="margin:15px 0 8px 0; border:0; border-top:1px solid #ddd;">
@@ -362,6 +357,10 @@
     let allProducts = [];
     let allShopsMap = {};
     let validShopIds = new Set();
+    let bannerList = [];
+    let currentBannerIndex = 0;
+    let bannerInterval = null;
+
     let selectedProduct = null;
     let selectedSize = '';
     let productQty = 1;
@@ -369,7 +368,6 @@
     let activeExchangeOrder = null;
     let customAlertCallback = null;
     let deferredPrompt = null;
-    let promoTimerInterval = null;
 
     function playCoinSound() {
       const sound = document.getElementById('coinSound');
@@ -442,7 +440,7 @@
         myOrdersHeader: "ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)",
         orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು",
         noOrders: "ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
-        orderSuccess: "🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ನಲ್ಲಿ ಖರೀದಿ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು! 1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ[span_1](start_span)[span_1](end_span). ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಜಮಾ ಆಗಿದೆ. ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದ ಮೇಲೆ ಈ ಹಣಗಳು ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಕಾಯಂ ಆಗಿ ಜಮಾ ಇರುತ್ತವೆ.",
+        orderSuccess: "🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ನಲ್ಲಿ ಖರೀದಿ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು! 1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ. ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಜಮಾ ಆಗಿದೆ.",
         confirmPopup: "🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಲು OK ಒತ್ತಿ.",
         fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಊರು ನಮೂದಿಸಿ.",
         selectSizeMsg: "ದಯವಿಟ್ಟು ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ."
@@ -461,7 +459,7 @@
         myOrdersHeader: "My Orders",
         orderDetailsHeader: "Order Details",
         noOrders: "No orders found.",
-        orderSuccess: "🎉 Thank you for purchasing from Namma Ooru Shopping! Your delivery will reach you within 1 to 2 days[span_2](start_span)[span_2](end_span). Cashback has been credited to your pocket money.",
+        orderSuccess: "🎉 Thank you for purchasing from Namma Ooru Shopping! Your delivery will reach you within 1 to 2 days. Cashback has been credited to your pocket money.",
         confirmPopup: "🎉 Press OK to confirm your order.",
         fillAll: "Please enter Name, Mobile Number and Village.",
         selectSizeMsg: "Please select a size."
@@ -471,12 +469,14 @@
     window.addEventListener('DOMContentLoaded', () => {
       applyLanguage();
       loadSavedAddress();
-      checkAndShowStartupPromo();
+      checkIfAlreadyInstalled();
 
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        document.getElementById('installBanner').style.display = 'flex';
+        if (!window.matchMedia('(display-mode: standalone)').matches && !window.navigator.standalone) {
+          document.getElementById('installBanner').style.display = 'flex';
+        }
       });
 
       window.history.replaceState({ screen: 'main' }, '', '');
@@ -491,45 +491,11 @@
       });
     });
 
-    // 5-Second Startup Promo Popup Logic (Shown ONCE per app session)
-    function checkAndShowStartupPromo() {
-      if (!sessionStorage.getItem('startup_promo_shown')) {
-        sessionStorage.setItem('startup_promo_shown', 'true');
-        
-        setTimeout(() => {
-          if (allProducts.length > 0) {
-            let sampleP = allProducts[0];
-            let sampleShop = allShopsMap[sampleP.shopId];
-            let pImg = sampleP.photo || 'https://via.placeholder.com/200';
-            let sImg = sampleShop ? (sampleShop.photo || 'https://via.placeholder.com/200') : 'https://via.placeholder.com/200';
-
-            document.getElementById('promoImgGrid').innerHTML = `<img src="${sImg}" alt="Shop"><img src="${pImg}" alt="Product">`;
-            if (sampleShop) {
-              document.getElementById('promoShopName').innerText = `🏪 ${sampleShop.shopName} (${sampleShop.taluk})`;
-              document.getElementById('promoMessage').innerText = `ಉತ್ಪನ್ನ: ${sampleP.name} | ಆಫರ್ ₹${sampleP.price}! 1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ಮನೆ ಬಾಗಿಲಿಗೆ ಡೆಲಿವರಿ[span_3](start_span)[span_3](end_span).`;
-            }
-          }
-        }, 800);
-
-        document.getElementById('promoPopupModal').style.display = 'flex';
-        let timeLeft = 5;
-        const badge = document.getElementById('promoTimerBadge');
-
-        promoTimerInterval = setInterval(() => {
-          timeLeft--;
-          if (timeLeft > 0) {
-            badge.innerText = `⏳ ${timeLeft} ಸೆಕೆಂಡುಗಳು ಉಳಿದಿವೆ (Skip)`;
-          } else {
-            clearInterval(promoTimerInterval);
-            closePromoPopup();
-          }
-        }, 1000);
+    function checkIfAlreadyInstalled() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+      if (isStandalone) {
+        document.getElementById('installBanner').style.display = 'none';
       }
-    }
-
-    function closePromoPopup() {
-      if (promoTimerInterval) clearInterval(promoTimerInterval);
-      document.getElementById('promoPopupModal').style.display = 'none';
     }
 
     function triggerAppInstall() {
@@ -537,17 +503,15 @@
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
           if (choiceResult.outcome === 'accepted') {
-            console.log('User accepted the install prompt');
+            document.getElementById('installBanner').style.display = 'none';
           }
           deferredPrompt = null;
-          document.getElementById('installBanner').style.display = 'none';
         });
       } else {
-        alert("📱 ನಿಮ್ಮ ಬ್ರೌಸರ್ ಮೆನು (⋮ ಅಥವಾ ⚙️) ಕ್ಲಿಕ್ ಮಾಡಿ 'Add to Home screen' ಅಥವಾ 'Install App' ಆಯ್ಕೆಮಾಡಿ.");
+        showCustomAlert("ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಗೈಡ್", "📱 ನಿಮ್ಮ ಬ್ರೌಸರ್ ಮೆನು (ಮೇಲ್ಭಾಗದಲ್ಲಿರುವ ⋮ ಅಥವಾ ⚙️ ಬಟನ್) ಕ್ಲಿಕ್ ಮಾಡಿ, ನಂತರ 'Add to Home screen' ಅಥವಾ 'Install App' ಆಯ್ಕೆಮಾಡಿ.");
       }
     }
 
-    // Camera Search Functions
     function openCameraSearch() {
       document.getElementById('cameraSearchInput').click();
     }
@@ -558,10 +522,8 @@
 
       showCustomAlert("ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್", "📷 ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಸೆರೆಹಿಡಿಯಲಾಗಿದೆ! ನಮ್ಮ ಊರಿನ ಅಂಗಡಿಗಳಲ್ಲಿ ಇದಕ್ಕೆ ಹೋಲುವ ವಸ್ತುಗಳನ್ನು ಹುಡುಕಲಾಗುತ್ತಿದೆ...", false, false, null);
       
-      // Randomly filter or pick matching products or show all popular products as smart match
       setTimeout(() => {
         if (allProducts.length > 0) {
-          // Pick a random product or first item as AI match
           let matched = allProducts[Math.floor(Math.random() * allProducts.length)];
           openProductDetail(matched.id);
         }
@@ -569,8 +531,56 @@
     }
 
     window.initFirebaseAppData = function() {
+      startRealtimeBanners();
       startRealtimeShopOwners();
     };
+
+    // Realtime Master Panel Banners Listener
+    function startRealtimeBanners() {
+      try {
+        window.onSnapshot(window.collection(window.db, "master_banners"), (snap) => {
+          bannerList = [];
+          snap.forEach(docSnap => {
+            const b = docSnap.data();
+            if (b.imageUrl) bannerList.push(b.imageUrl);
+          });
+          renderHeroSlider();
+        }, (error) => {
+          console.error("Banners error:", error);
+        });
+      } catch (e) {
+        console.error("Banners init exception:", e);
+      }
+    }
+
+    function renderHeroSlider() {
+      const track = document.getElementById('heroSliderTrack');
+      const dotsContainer = document.getElementById('heroDots');
+
+      if (bannerList.length === 0) {
+        track.innerHTML = `<div class="hero-slide"><img src="https://via.placeholder.com/500x160?text=Namma+Ooru+Shopping+Offers" alt="Offer"></div>`;
+        dotsContainer.innerHTML = `<div class="hero-dot active"></div>`;
+        return;
+      }
+
+      track.innerHTML = bannerList.map(img => `<div class="hero-slide"><img src="${img}" alt="Banner"></div>`).join('');
+      dotsContainer.innerHTML = bannerList.map((_, i) => `<div class="hero-dot ${i === 0 ? 'active' : ''}"></div>`).join('');
+
+      currentBannerIndex = 0;
+      if (bannerInterval) clearInterval(bannerInterval);
+
+      // Auto scroll every 3 seconds
+      bannerInterval = setInterval(() => {
+        currentBannerIndex = (currentBannerIndex + 1) % bannerList.length;
+        track.style.transform = `translateX(-${currentBannerIndex * 100}%)`;
+        
+        const dots = dotsContainer.querySelectorAll('.hero-dot');
+        dots.forEach((dot, idx) => {
+          if (idx === currentBannerIndex) dot.classList.add('active');
+          else dot.classList.remove('active');
+        });
+      }, 3000);
+    }
 
     function showScreen(screenId) {
       window.history.pushState({ screen: screenId }, '', '');
@@ -659,7 +669,6 @@
     }
 
     function applyLocationFilter() {
-      const targetTaluk = document.getElementById('filterTaluk').value.trim().toLowerCase();
       const searchQ = document.getElementById('searchInput').value.toLowerCase();
 
       let filtered = allProducts.filter(p => {
@@ -823,10 +832,10 @@
       
       if (distanceKm > 20) {
         document.getElementById('deliveryFeeNotice').innerText = `(+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ 30 ಕಿ.ಮೀ ದೂರಕ್ಕೆ ಸೇರಿಸಲಾಗಿದೆ)`;
-        document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ 30 ಕಿ.ಮೀ ದೂರಕ್ಕೆ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ (+₹50)[span_4](start_span)[span_4](end_span).</b>`;
+        document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ 30 ಕಿ.ಮೀ ದೂರಕ್ಕೆ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ (+₹50).</b>`;
       } else {
         document.getElementById('deliveryFeeNotice').innerText = `(20 ಕಿ.ಮೀ ಒಳಗೆ: ಫ್ರೀ ಡೆಲಿವರಿ)`;
-        document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ[span_5](start_span)[span_5](end_span)!</b>`;
+        document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ!</b>`;
       }
     }
 
@@ -936,7 +945,7 @@
             container.innerHTML = `<p style="text-align:center; color:#777; margin-top:20px;">${t.noOrders}</p>`;
           } else {
             container.innerHTML = orders.map(o => {
-              let statusText = "1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ[span_6](start_span)[span_6](end_span)";
+              let statusText = "1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ";
               let statusColor = "var(--primary)";
 
               if (o.status === 'CANCELLED') {
@@ -1017,7 +1026,7 @@
       } else if (isPickedUp && !isCancelled) {
         contactActionHTML = `
           <div style="background:#e8f5e9; padding:12px; border-radius:8px; border:1px solid #c8e6c9; margin-bottom:15px; font-size:0.82rem;">
-            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">🛵 ಡೆಲಿವರಿ ಬಾಯ್ ವಸ್ತು ತಲುಪಿಸುತ್ತಿದ್ದಾರೆ (1 ರಿಂದ 2 ದಿನಗಳು)[span_7](start_span)[span_7](end_span):</p>
+            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">🛵 ಡೆಲಿವರಿ ಬಾಯ್ ವಸ್ತು ತಲುಪಿಸುತ್ತಿದ್ದಾರೆ (1 ರಿಂದ 2 ದಿನಗಳು):</p>
             <div style="margin-top:8px;">
               <a href="tel:${order.deliveryBoyPhone || '8105010768'}" class="shop-call-btn" style="background:var(--success);">📞 ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಾಲ್ ಮಾಡಿ</a>
             </div>
@@ -1072,7 +1081,7 @@
 
         ${!isCancelled ? `
         <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:15px; margin-bottom:15px;">
-          <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಸ್ಟೇಟಸ್ (1-2 ದಿನಗಳಲ್ಲಿ ತಲುಪುತ್ತದೆ)[span_8](start_span)[span_8](end_span)</h4>
+          <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಸ್ಟೇಟಸ್ (1-2 ದಿನಗಳಲ್ಲಿ ತಲುಪುತ್ತದೆ)</h4>
           <div class="timeline">
             <div class="t-item ${t1}"><div class="t-dot"></div><div class="t-title">ಆರ್ಡರ್ ದೃಢೀಕರಿಸಲಾಗಿದೆ</div></div>
             <div class="t-item ${t2}"><div class="t-dot"></div><div class="t-title">ಮಾಲೀಕರಿಂದ ಪ್ಯಾಕಿಂಗ್</div></div>

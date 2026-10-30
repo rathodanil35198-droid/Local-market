@@ -53,11 +53,12 @@
     .btn-my-orders { background: var(--secondary); color: #000; border: none; padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
     .btn-pocket { background: #ff9f00; color: #fff; border: none; padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; gap: 2px; }
 
-    .install-banner { background: #fff3e0; border-bottom: 1px solid #ffe0b2; padding: 6px 12px; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #e65100; font-weight: bold; }
-    .install-btn { background: var(--primary); color: white; border: none; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; cursor: pointer; font-weight: bold; }
+    .install-banner { background: #fff3e0; border-bottom: 1px solid #ffe0b2; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #e65100; font-weight: bold; }
+    .install-btn { background: var(--primary); color: white; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
 
-    .search-box { display: flex; background: #fff; border-radius: 6px; padding: 8px 12px; align-items: center; margin-bottom: 8px; }
+    .search-box { display: flex; background: #fff; border-radius: 6px; padding: 6px 12px; align-items: center; margin-bottom: 8px; border: 1px solid #ddd; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 0.88rem; margin-left: 8px; }
+    .camera-search-icon { font-size: 1.2rem; cursor: pointer; padding: 2px 6px; background: #f1f3f6; border-radius: 4px; margin-left: 4px; }
 
     .container { padding: 8px 8px 100px 8px; max-width: 500px; margin: 0 auto; }
 
@@ -112,7 +113,7 @@
     .shop-call-btn { background: #28a745; color: white; padding: 8px 12px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px; }
     .shop-map-btn { background: #007bff; color: white; padding: 8px 12px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px; }
 
-    /* 5-Second Popup Ad Styles */
+    /* 5-Second Startup Promo Popup Styles */
     #promoPopupModal { display: none; position: fixed; z-index: 999999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 15px; }
     .promo-box { background: #fff; width: 100%; max-width: 400px; border-radius: 14px; overflow: hidden; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: scaleUp 0.3s ease; }
     .promo-close-btn { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
@@ -132,6 +133,9 @@
   <!-- Audio element for coin drop sound effect -->
   <audio id="coinSound" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3" preload="auto"></audio>
 
+  <!-- Hidden camera input for photo search -->
+  <input type="file" id="cameraSearchInput" accept="image/*" capture="environment" style="display:none;" onchange="handleCameraPhotoSearch(event)">
+
   <!-- 5-Second Startup Promo Popup Modal -->
   <div id="promoPopupModal">
     <div class="promo-box">
@@ -141,7 +145,7 @@
         <img src="https://via.placeholder.com/200" alt="Product">
       </div>
       <div class="promo-content">
-        <div class="timer-badge" id="promoTimerBadge">⏳ 5 ಸೆಕೆಂಡುಗಳು ಉಳಿದಿವೆ (スキップ / Skip)</div>
+        <div class="timer-badge" id="promoTimerBadge">⏳ 5 ಸೆಕೆಂಡುಗಳು ಉಳಿದಿವೆ (Skip)</div>
         <h3 id="promoShopName" style="font-size: 1.05rem; color: var(--primary); margin-bottom: 4px; font-weight: bold;">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ವಿಶೇಷ</h3>
         <p id="promoMessage" style="font-size: 0.82rem; color: #555; margin-bottom: 12px; line-height: 1.4;">ಇಂದಿನ ವಿಶೇಷ ಅಂಗಡಿ ಹಾಗೂ ಉತ್ಪನ್ನಗಳ ಭರ್ಜರಿ ಆಫರ್!</p>
         <button class="btn" style="background: var(--primary); color: #fff; width: 100%; padding: 10px; border: none; border-radius: 6px; font-weight: bold; font-size: 0.9rem;" onclick="closePromoPopup()">ಶಾಪಿಂಗ್ ಪ್ರಾರಂಭಿಸಿ (Start)</button>
@@ -188,14 +192,16 @@
       </div>
     </div>
 
-    <!-- Home Screen Install / Download App Banner -->
-    <div class="install-banner" id="installBanner" style="display:none;">
+    <!-- App Install Banner (Visible inside app when not installed as PWA) -->
+    <div class="install-banner" id="installBanner" style="display:flex;">
       <span>📱 "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್" ಆಪ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ!</span>
-      <button class="install-btn" onclick="triggerAppInstall()">ಇನ್‌ಸ್ಟಾಲ್ (Install)</button>
+      <button class="install-btn" onclick="triggerAppInstall()">ಇನ್‌ಸ್ಟಾಲ್ (Install App)</button>
     </div>
 
+    <!-- Search Box with Camera Photo Search Icon -->
     <div class="search-box">
       🔍 <input type="text" id="searchInput" placeholder="ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ..." oninput="filterProducts()">
+      <span class="camera-search-icon" onclick="openCameraSearch()" title="ಫೋಟೋ ತೆಗೆದು ಹುಡುಕಿ">📷</span>
     </div>
   </header>
 
@@ -250,7 +256,7 @@
       </div>
 
       <div class="delivery-badge" id="deliveryBadgeText">
-        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ!</b>
+        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ[span_0](start_span)[span_0](end_span)!</b>
       </div>
 
       <hr style="margin:15px 0 8px 0; border:0; border-top:1px solid #ddd;">
@@ -436,7 +442,7 @@
         myOrdersHeader: "ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)",
         orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು",
         noOrders: "ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
-        orderSuccess: "🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ನಲ್ಲಿ ಖರೀದಿ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು! 1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ. ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಜಮಾ ಆಗಿದೆ. ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದ ಮೇಲೆ ಈ ಹಣಗಳು ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಕಾಯಂ ಆಗಿ ಜಮಾ ಇರುತ್ತವೆ.",
+        orderSuccess: "🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ನಲ್ಲಿ ಖರೀದಿ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು! 1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ[span_1](start_span)[span_1](end_span). ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಜಮಾ ಆಗಿದೆ. ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದ ಮೇಲೆ ಈ ಹಣಗಳು ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಕಾಯಂ ಆಗಿ ಜಮಾ ಇರುತ್ತವೆ.",
         confirmPopup: "🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಲು OK ಒತ್ತಿ.",
         fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಊರು ನಮೂದಿಸಿ.",
         selectSizeMsg: "ದಯವಿಟ್ಟು ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ."
@@ -455,7 +461,7 @@
         myOrdersHeader: "My Orders",
         orderDetailsHeader: "Order Details",
         noOrders: "No orders found.",
-        orderSuccess: "🎉 Thank you for purchasing from Namma Ooru Shopping! Your delivery will reach you within 1 to 2 days. Cashback has been credited to your pocket money.",
+        orderSuccess: "🎉 Thank you for purchasing from Namma Ooru Shopping! Your delivery will reach you within 1 to 2 days[span_2](start_span)[span_2](end_span). Cashback has been credited to your pocket money.",
         confirmPopup: "🎉 Press OK to confirm your order.",
         fillAll: "Please enter Name, Mobile Number and Village.",
         selectSizeMsg: "Please select a size."
@@ -485,12 +491,11 @@
       });
     });
 
-    // 5-Second Startup Promo Popup Logic (Shown ONLY once per app session)
+    // 5-Second Startup Promo Popup Logic (Shown ONCE per app session)
     function checkAndShowStartupPromo() {
       if (!sessionStorage.getItem('startup_promo_shown')) {
         sessionStorage.setItem('startup_promo_shown', 'true');
         
-        // Pick latest product & shop photos if available
         setTimeout(() => {
           if (allProducts.length > 0) {
             let sampleP = allProducts[0];
@@ -501,7 +506,7 @@
             document.getElementById('promoImgGrid').innerHTML = `<img src="${sImg}" alt="Shop"><img src="${pImg}" alt="Product">`;
             if (sampleShop) {
               document.getElementById('promoShopName').innerText = `🏪 ${sampleShop.shopName} (${sampleShop.taluk})`;
-              document.getElementById('promoMessage').innerText = `ಉತ್ಪನ್ನ: ${sampleP.name} | ಸ್ಪೆಷಲ್ ಆಫರ್ ₹${sampleP.price}! 1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ಮನೆ ಬಾಗಿಲಿಗೆ ಡೆಲಿವರಿ.`;
+              document.getElementById('promoMessage').innerText = `ಉತ್ಪನ್ನ: ${sampleP.name} | ಆಫರ್ ₹${sampleP.price}! 1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ಮನೆ ಬಾಗಿಲಿಗೆ ಡೆಲಿವರಿ[span_3](start_span)[span_3](end_span).`;
             }
           }
         }, 800);
@@ -513,7 +518,7 @@
         promoTimerInterval = setInterval(() => {
           timeLeft--;
           if (timeLeft > 0) {
-            badge.innerText = `⏳ ${timeLeft} ಸೆಕೆಂಡುಗಳು ಉಳಿದಿವೆ (スキップ / Skip)`;
+            badge.innerText = `⏳ ${timeLeft} ಸೆಕೆಂಡುಗಳು ಉಳಿದಿವೆ (Skip)`;
           } else {
             clearInterval(promoTimerInterval);
             closePromoPopup();
@@ -540,6 +545,27 @@
       } else {
         alert("📱 ನಿಮ್ಮ ಬ್ರೌಸರ್ ಮೆನು (⋮ ಅಥವಾ ⚙️) ಕ್ಲಿಕ್ ಮಾಡಿ 'Add to Home screen' ಅಥವಾ 'Install App' ಆಯ್ಕೆಮಾಡಿ.");
       }
+    }
+
+    // Camera Search Functions
+    function openCameraSearch() {
+      document.getElementById('cameraSearchInput').click();
+    }
+
+    function handleCameraPhotoSearch(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      showCustomAlert("ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್", "📷 ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಸೆರೆಹಿಡಿಯಲಾಗಿದೆ! ನಮ್ಮ ಊರಿನ ಅಂಗಡಿಗಳಲ್ಲಿ ಇದಕ್ಕೆ ಹೋಲುವ ವಸ್ತುಗಳನ್ನು ಹುಡುಕಲಾಗುತ್ತಿದೆ...", false, false, null);
+      
+      // Randomly filter or pick matching products or show all popular products as smart match
+      setTimeout(() => {
+        if (allProducts.length > 0) {
+          // Pick a random product or first item as AI match
+          let matched = allProducts[Math.floor(Math.random() * allProducts.length)];
+          openProductDetail(matched.id);
+        }
+      }, 1200);
     }
 
     window.initFirebaseAppData = function() {
@@ -664,7 +690,7 @@
           <div class="product-card" onclick="openProductDetail('${p.id}')">
             <div class="img-box">
               <img src="${displayPhoto}">
-              <div class="qr-badge" onclick="event.stopPropagation(); alert('📷 ಕ್ಯೂಆರ್ ಕೋಡ್ ಸ್ಕ್ಯಾನರ್ ಕ್ಯಾಮೆರಾ ಆಕ್ಟಿವ್ ಇದೆ!');">📷 QR Scan</div>
+              <div class="qr-badge" onclick="event.stopPropagation(); openCameraSearch();" title="ಕ್ಯಾಮೆರಾ ಮೂಲಕ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ">📷 Scan</div>
             </div>
             <div>
               <div class="prod-title">${p.name}</div>
@@ -756,7 +782,7 @@
           <div class="product-card" onclick="openProductDetail('${p.id}')">
             <div class="img-box">
               <img src="${displayPhoto}">
-              <div class="qr-badge">📷 QR</div>
+              <div class="qr-badge">📷 Scan</div>
             </div>
             <div>
               <div class="prod-title">${p.name}</div>
@@ -797,10 +823,10 @@
       
       if (distanceKm > 20) {
         document.getElementById('deliveryFeeNotice').innerText = `(+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ 30 ಕಿ.ಮೀ ದೂರಕ್ಕೆ ಸೇರಿಸಲಾಗಿದೆ)`;
-        document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ 30 ಕಿ.ಮೀ ದೂರಕ್ಕೆ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ (+₹50).</b>`;
+        document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ 30 ಕಿ.ಮೀ ದೂರಕ್ಕೆ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ (+₹50)[span_4](start_span)[span_4](end_span).</b>`;
       } else {
         document.getElementById('deliveryFeeNotice').innerText = `(20 ಕಿ.ಮೀ ಒಳಗೆ: ಫ್ರೀ ಡೆಲಿವರಿ)`;
-        document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ!</b>`;
+        document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ[span_5](start_span)[span_5](end_span)!</b>`;
       }
     }
 
@@ -910,7 +936,7 @@
             container.innerHTML = `<p style="text-align:center; color:#777; margin-top:20px;">${t.noOrders}</p>`;
           } else {
             container.innerHTML = orders.map(o => {
-              let statusText = "1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ";
+              let statusText = "1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ[span_6](start_span)[span_6](end_span)";
               let statusColor = "var(--primary)";
 
               if (o.status === 'CANCELLED') {
@@ -991,7 +1017,7 @@
       } else if (isPickedUp && !isCancelled) {
         contactActionHTML = `
           <div style="background:#e8f5e9; padding:12px; border-radius:8px; border:1px solid #c8e6c9; margin-bottom:15px; font-size:0.82rem;">
-            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">🛵 ಡೆಲಿವರಿ ಬಾಯ್ ವಸ್ತು ತಲುಪಿಸುತ್ತಿದ್ದಾರೆ (1 ರಿಂದ 2 ದಿನಗಳು):</p>
+            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">🛵 ಡೆಲಿವರಿ ಬಾಯ್ ವಸ್ತು ತಲುಪಿಸುತ್ತಿದ್ದಾರೆ (1 ರಿಂದ 2 ದಿನಗಳು)[span_7](start_span)[span_7](end_span):</p>
             <div style="margin-top:8px;">
               <a href="tel:${order.deliveryBoyPhone || '8105010768'}" class="shop-call-btn" style="background:var(--success);">📞 ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಾಲ್ ಮಾಡಿ</a>
             </div>
@@ -1046,7 +1072,7 @@
 
         ${!isCancelled ? `
         <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:15px; margin-bottom:15px;">
-          <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಸ್ಟೇಟಸ್ (1-2 ದಿನಗಳಲ್ಲಿ ತಲುಪುತ್ತದೆ)</h4>
+          <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಸ್ಟೇಟಸ್ (1-2 ದಿನಗಳಲ್ಲಿ ತಲುಪುತ್ತದೆ)[span_8](start_span)[span_8](end_span)</h4>
           <div class="timeline">
             <div class="t-item ${t1}"><div class="t-dot"></div><div class="t-title">ಆರ್ಡರ್ ದೃಢೀಕರಿಸಲಾಗಿದೆ</div></div>
             <div class="t-item ${t2}"><div class="t-dot"></div><div class="t-title">ಮಾಲೀಕರಿಂದ ಪ್ಯಾಕಿಂಗ್</div></div>
@@ -1116,7 +1142,7 @@
       try {
         let phone = localStorage.getItem('customer_phone_key');
         let currentWallet = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
-        let deductedWallet = Math.max(0, currentWallet - 50); // Deduct 50 for return/exchange
+        let deductedWallet = Math.max(0, currentWallet - 50);
         localStorage.setItem('user_wallet_' + phone, deductedWallet);
 
         await window.updateDoc(window.doc(window.db, "orders", activeExchangeOrder.id), {

@@ -6,13 +6,13 @@
   <title id="appTitle">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ಗ್ರಾಹಕರ ಆಪ್ | Customer App</title>
   
   <!-- PWA & Mobile App Settings -->
-  <link rel="icon" type="image/png" sizes="192x192" href="AR_Taxi_Booking_Go_Fast_512x512.png">
-  <link rel="apple-touch-icon" href="AR_Taxi_Booking_Go_Fast_512x512.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#e65100">
 
-  <!-- Dynamic Web App Manifest -->
+  <!-- Dynamic Web App Manifest for Real App Feel -->
   <script>
     const manifestData = {
       "name": "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್",
@@ -22,8 +22,8 @@
       "background_color": "#f4f7f6",
       "theme_color": "#e65100",
       "icons": [
-        { "src": "AR_Taxi_Booking_Go_Fast_512x512.png", "sizes": "192x192", "type": "image/png" },
-        { "src": "AR_Taxi_Booking_Go_Fast_512x512.png", "sizes": "512x512", "type": "image/png" }
+        { "src": "logo.png", "sizes": "192x192", "type": "image/png" },
+        { "src": "logo.png", "sizes": "512x512", "type": "image/png" }
       ]
     };
     const stringManifest = JSON.stringify(manifestData);
@@ -89,7 +89,6 @@
     .search-box input { border: none; outline: none; width: 100%; font-size: 0.88rem; margin-left: 8px; }
     .camera-search-icon { font-size: 1.2rem; cursor: pointer; padding: 2px 6px; background: #f1f3f6; border-radius: 4px; margin-left: 4px; }
 
-    /* Flipkart Style Auto-Scrolling Banner Slider */
     .hero-slider-container { width: 100%; height: 160px; position: relative; overflow: hidden; border-radius: 8px; margin-bottom: 10px; background: linear-gradient(135deg, #ff9966, #ff5e62); box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
     .hero-slider-track { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
     .hero-slide { min-width: 100%; height: 100%; flex-shrink: 0; }
@@ -151,7 +150,6 @@
     .shop-call-btn { background: #28a745; color: white; padding: 8px 12px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px; }
     .shop-map-btn { background: #007bff; color: white; padding: 8px 12px; text-decoration: none; font-weight: bold; border-radius: 6px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 4px; }
 
-    /* Custom Alert Modal Styles */
     #customAlertModal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 20px; }
     .custom-alert-box { background: #fff; width: 100%; max-width: 330px; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: scaleUp 0.2s ease; }
     @keyframes scaleUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -194,7 +192,7 @@
   <header>
     <div class="top-bar">
       <div class="brand-logo-area">
-        <img src="AR_Taxi_Booking_Go_Fast_512x512.png" class="app-logo" alt="Logo" onerror="this.src='https://via.placeholder.com/36?text=🛍️'">
+        <img src="logo.png" class="app-logo" alt="Logo" onerror="this.src='https://via.placeholder.com/36?text=🛍️'">
         <div class="brand-title" id="lblBrand">🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್</div>
       </div>
       <div class="header-btns">
@@ -204,9 +202,9 @@
       </div>
     </div>
 
-    <!-- App Install Banner -->
+    <!-- App Install Banner for Real App Download -->
     <div class="install-banner" id="installBanner">
-      <span>📱 "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್" ಆಪ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ!</span>
+      <span>📱 "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್" ಅಸಲಿ ಆಪ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ!</span>
       <button class="install-btn" onclick="triggerAppInstall()">ಇನ್‌ಸ್ಟಾಲ್ (Install App)</button>
     </div>
 
@@ -219,10 +217,9 @@
 
   <div class="container">
     
-    <!-- Flipkart Style Auto-Scrolling Banner Slider (Master Panel Ad Banners) -->
+    <!-- Flipkart Style Auto-Scrolling Banner Slider -->
     <div class="hero-slider-container" id="heroSliderContainer">
       <div class="hero-slider-track" id="heroSliderTrack">
-        <!-- Default Attractive Banner if none added by Master -->
         <div class="hero-slide" style="display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #ff9966, #ff5e62); color:white; font-size:1.1rem; font-weight:bold;">
           🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ವಿಶೇಷ ಆಫರ್‌ಗಳು
         </div>
@@ -266,7 +263,6 @@
           <span class="curr-price" id="detailPrice" style="font-size: 1.2rem; color:var(--success);"></span>
           <span class="old-price" id="detailOldPrice" style="font-size: 0.85rem;"></span>
         </div>
-        <div id="deliveryFeeNotice" style="font-size: 0.75rem; color: #d32f2f; font-weight: bold; margin-top: 4px; background:#fff3e0; padding:6px; border-radius:4px; border:1px solid #ffe0b2;"></div>
       </div>
 
       <div id="sizeSection" style="margin-top: 8px;">
@@ -297,7 +293,7 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN -->
+  <!-- CHECKOUT SCREEN (Delivery charges & breakdown shown here) -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackScreen('checkoutScreen')">←</span>
@@ -310,7 +306,7 @@
         <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು / Village" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="text" id="custTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custDistrict" value="ಯಾದಗಿರಿ" placeholder="ಜಿಲ್ಲೆ" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custDistrict" value="ಯಾದಗಿರಿ" placeholder="ಜಿಲ್ಲೆ" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
       </div>
 
       <div style="display: flex; gap: 12px; align-items: center; border: 1px solid #eee; padding: 10px; border-radius: 8px; background:#fff;">
@@ -320,6 +316,7 @@
           <div style="margin-top: 4px;">
             <span class="curr-price" id="checkoutPrice"></span> <span id="checkoutSizeText" style="font-size:0.75rem; color:#1976d2; font-weight:bold;"></span>
           </div>
+          <!-- Delivery charge breakdown shown here during checkout confirmation -->
           <div id="checkoutFeeBreakdown" style="font-size: 0.78rem; color: #d32f2f; font-weight: bold; margin-top: 4px; background:#fff3e0; padding:6px; border-radius:4px; border:1px solid #ffe0b2;"></div>
         </div>
       </div>
@@ -375,7 +372,7 @@
       </div>
 
       <div style="margin-bottom:10px; text-align:left;">
-        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:3px; display:block;">ಕಾರಣ ತಿಳಿಸಿ:</label>
+        <label style="font-size:0.80rem; font-weight:bold; margin-bottom:3px; display:block;">ಕಾರಣ ತಿಳಿಸಿ:</label>
         <textarea id="exchangeReason" rows="2" placeholder="ಉದಾ: ಸೈಜ್ ಸರಿ ಇಲ್ಲ, ಬಣ್ಣ ಬದಲಾಯಿಸಬೇಕು..." style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.8rem;"></textarea>
       </div>
 
@@ -539,7 +536,7 @@
           deferredPrompt = null;
         });
       } else {
-        showCustomAlert("ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಗೈಡ್", "📱 ನಿಮ್ಮ ಬ್ರೌಸರ್ ಮೆನು (ಮೇಲ್ಭಾಗದಲ್ಲಿರುವ ⋮ ಅಥವಾ ⚙️ ಬಟನ್) ಕ್ಲಿಕ್ ಮಾಡಿ, ನಂತರ 'Add to Home screen' ಅಥವಾ 'Install App' ಆಯ್ಕೆಮಾಡಿ.");
+        showCustomAlert("ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಗೈಡ್", "📱 ನಿಮ್ಮ ಬ್ರೌಸರ್ ಮೆನು (ಮೇಲ್ಭಾಗದಲ್ಲಿರುವ ⋮ ಬಟನ್) ಕ್ಲಿಕ್ ಮಾಡಿ, ನಂತರ 'Install app' ಅಥವಾ 'Add to Home screen' ಆಯ್ಕೆಮಾಡಿ.");
       }
     }
 
@@ -566,7 +563,6 @@
       startRealtimeShopOwners();
     };
 
-    // Realtime Master Panel Banners Listener
     function startRealtimeBanners() {
       try {
         window.onSnapshot(window.collection(window.db, "master_banners"), (snap) => {
@@ -600,7 +596,6 @@
       currentBannerIndex = 0;
       if (bannerInterval) clearInterval(bannerInterval);
 
-      // Auto scroll every 3 seconds
       bannerInterval = setInterval(() => {
         if (bannerList.length <= 1) return;
         currentBannerIndex = (currentBannerIndex + 1) % bannerList.length;
@@ -854,16 +849,10 @@
     function updatePriceDisplay() {
       if (!selectedProduct) return;
       let baseTotal = Number(selectedProduct.price) * productQty;
-      let distanceKm = parseInt(document.getElementById('distanceSelect').value);
       
-      let deliveryFee = distanceKm > 20 ? 30 : 0; 
-      let grandTotal = baseTotal + deliveryFee;
-
-      document.getElementById('detailPrice').innerText = "₹" + grandTotal;
+      // Product detail screen shows only original product price without delivery fee notice
+      document.getElementById('detailPrice').innerText = "₹" + baseTotal;
       document.getElementById('detailOldPrice').innerText = selectedProduct.oldPrice ? "₹" + (Number(selectedProduct.oldPrice) * productQty) : "";
-      
-      document.getElementById('deliveryFeeNotice').innerHTML = `🚚 <b>ಡೆಲಿವರಿ ಚಾರ್ಜ್ ರೂ.80 ಇದ್ದದ್ದು ಡಿಸ್ಕೌಂಟ್ ಮಾಡಿ ರೂ.30 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಸೇರಿಸಲಾಗಿದೆ.</b>`;
-      document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ!</b>`;
     }
 
     function openCheckoutScreen() {
@@ -877,11 +866,13 @@
       
       let baseTotal = Number(selectedProduct.price) * productQty;
       let distanceKm = parseInt(document.getElementById('distanceSelect').value);
-      let deliveryFee = 30; 
+      let deliveryFee = 30; // discounted delivery fee
       let grandTotal = baseTotal + deliveryFee;
 
       document.getElementById('checkoutPrice').innerText = "₹" + grandTotal;
       document.getElementById('checkoutSizeText').innerText = `(Size: ${selectedSize}, Qty: ${productQty})`;
+      
+      // Delivery charges & 80->30 discount breakdown shown only here in checkout screen as requested
       document.getElementById('checkoutFeeBreakdown').innerHTML = `📦 <b>ಡೆಲಿವರಿ ಚಾರ್ಜ್ ರೂ.80 ಇದ್ದದ್ದು ಡಿಸ್ಕೌಂಟ್ ಮಾಡಿ ರೂ.30 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಸೇರಿಸಲಾಗಿದೆ.</b><br>(ಪ್ರಾಡಕ್ಟ್ ಬೆಲೆ: ₹${baseTotal} + ಡೆಲಿವರಿ ಚಾರ್ಜ್: ₹30)`;
 
       showScreen('checkoutScreen');

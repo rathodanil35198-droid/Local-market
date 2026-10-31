@@ -4,7 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title id="appTitle">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ಗ್ರಾಹಕರ ಆಪ್ | Customer App</title>
+  
+  <!-- PWA & Mobile App Settings -->
   <link rel="icon" type="image/png" sizes="192x192" href="AR_Taxi_Booking_Go_Fast_512x512.png">
+  <link rel="apple-touch-icon" href="AR_Taxi_Booking_Go_Fast_512x512.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#e65100">
+
+  <!-- Dynamic Web App Manifest -->
+  <script>
+    const manifestData = {
+      "name": "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್",
+      "short_name": "ಶಾಪಿಂಗ್ ಆಪ್",
+      "start_url": "./",
+      "display": "standalone",
+      "background_color": "#f4f7f6",
+      "theme_color": "#e65100",
+      "icons": [
+        { "src": "AR_Taxi_Booking_Go_Fast_512x512.png", "sizes": "192x192", "type": "image/png" },
+        { "src": "AR_Taxi_Booking_Go_Fast_512x512.png", "sizes": "512x512", "type": "image/png" }
+      ]
+    };
+    const stringManifest = JSON.stringify(manifestData);
+    const blob = new Blob([stringManifest], {type: 'application/json'});
+    const manifestURL = URL.createObjectURL(blob);
+    const linkTag = document.createElement('link');
+    linkTag.rel = 'manifest';
+    linkTag.href = manifestURL;
+    document.head.appendChild(linkTag);
+  </script>
 
   <!-- Firebase SDKs -->
   <script type="module">
@@ -53,7 +82,7 @@
     .btn-my-orders { background: var(--secondary); color: #000; border: none; padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
     .btn-pocket { background: #ff9f00; color: #fff; border: none; padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; gap: 2px; }
 
-    .install-banner { background: #fff3e0; border-bottom: 1px solid #ffe0b2; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #e65100; font-weight: bold; }
+    .install-banner { background: #fff3e0; border-bottom: 1px solid #ffe0b2; padding: 8px 12px; display: none; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #e65100; font-weight: bold; }
     .install-btn { background: var(--primary); color: white; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
 
     .search-box { display: flex; background: #fff; border-radius: 6px; padding: 6px 12px; align-items: center; margin-bottom: 8px; border: 1px solid #ddd; }
@@ -176,7 +205,7 @@
     </div>
 
     <!-- App Install Banner -->
-    <div class="install-banner" id="installBanner" style="display:flex;">
+    <div class="install-banner" id="installBanner">
       <span>📱 "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್" ಆಪ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ!</span>
       <button class="install-btn" onclick="triggerAppInstall()">ಇನ್‌ಸ್ಟಾಲ್ (Install App)</button>
     </div>
@@ -235,7 +264,7 @@
           <span class="curr-price" id="detailPrice" style="font-size: 1.2rem; color:var(--success);"></span>
           <span class="old-price" id="detailOldPrice" style="font-size: 0.85rem;"></span>
         </div>
-        <div id="deliveryFeeNotice" style="font-size: 0.7rem; color: #d32f2f; font-weight: bold; margin-top: 2px;"></div>
+        <div id="deliveryFeeNotice" style="font-size: 0.75rem; color: #d32f2f; font-weight: bold; margin-top: 4px; background:#fff3e0; padding:6px; border-radius:4px; border:1px solid #ffe0b2;"></div>
       </div>
 
       <div id="sizeSection" style="margin-top: 8px;">
@@ -289,7 +318,7 @@
           <div style="margin-top: 4px;">
             <span class="curr-price" id="checkoutPrice"></span> <span id="checkoutSizeText" style="font-size:0.75rem; color:#1976d2; font-weight:bold;"></span>
           </div>
-          <div id="checkoutFeeBreakdown" style="font-size: 0.75rem; color: #555; margin-top: 2px;"></div>
+          <div id="checkoutFeeBreakdown" style="font-size: 0.78rem; color: #d32f2f; font-weight: bold; margin-top: 4px; background:#fff3e0; padding:6px; border-radius:4px; border:1px solid #ffe0b2;"></div>
         </div>
       </div>
     </div>
@@ -824,17 +853,17 @@
       let baseTotal = Number(selectedProduct.price) * productQty;
       let distanceKm = parseInt(document.getElementById('distanceSelect').value);
       
-      let deliveryFee = distanceKm > 20 ? 50 : 0;
+      let deliveryFee = distanceKm > 20 ? 30 : 0; // Flipkart style discounted delivery fee (₹80 discounted to ₹30)
       let grandTotal = baseTotal + deliveryFee;
 
       document.getElementById('detailPrice').innerText = "₹" + grandTotal;
       document.getElementById('detailOldPrice').innerText = selectedProduct.oldPrice ? "₹" + (Number(selectedProduct.oldPrice) * productQty) : "";
       
       if (distanceKm > 20) {
-        document.getElementById('deliveryFeeNotice').innerText = `(+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ 30 ಕಿ.ಮೀ ದೂರಕ್ಕೆ ಸೇರಿಸಲಾಗಿದೆ)`;
-        document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ 30 ಕಿ.ಮೀ ದೂರಕ್ಕೆ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ (+₹50).</b>`;
+        document.getElementById('deliveryFeeNotice.innerHTML = `🚚 <b>ಡೆಲಿವರಿ ಚಾರ್ಜ್ ರೂ.80 ಇದ್ದದ್ದು ಡಿಸ್ಕೌಂಟ್ ಮಾಡಿ ರೂ.30 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಸೇರಿಸಲಾಗಿದೆ. (ಒಟ್ಟು ಪ್ರಾಡಕ್ಟ್ ಬೆಲೆ ಜೊತೆಗೆ ₹30 ಸೇರಿಸಲಾಗಿದೆ)</b>`;
+        document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ 30 ಕಿ.ಮೀ ದೂರಕ್ಕೆ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ (+₹30).</b>`;
       } else {
-        document.getElementById('deliveryFeeNotice').innerText = `(20 ಕಿ.ಮೀ ಒಳಗೆ: ಫ್ರೀ ಡೆಲಿವರಿ)`;
+        document.getElementById('deliveryFeeNotice').innerHTML = `🚚 <b>ಡೆಲಿವರಿ ಚಾರ್ಜ್ ರೂ.80 ಇದ್ದದ್ದು ಡಿಸ್ಕೌಂಟ್ ಮಾಡಿ ರೂ.30 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಸೇರಿಸಲಾಗಿದೆ. (ಒಟ್ಟು ಪ್ರಾಡಕ್ಟ್ ಬೆಲೆ ಜೊತೆಗೆ ₹30 ಸೇರಿಸಲಾಗಿದೆ)</b>`;
         document.getElementById('deliveryBadgeText').innerHTML = `🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ!</b>`;
       }
     }
@@ -850,12 +879,12 @@
       
       let baseTotal = Number(selectedProduct.price) * productQty;
       let distanceKm = parseInt(document.getElementById('distanceSelect').value);
-      let deliveryFee = distanceKm > 20 ? 50 : 0;
+      let deliveryFee = distanceKm > 20 ? 30 : 30; // Flipkart style fixed delivery charge ₹30 after discount from ₹80
       let grandTotal = baseTotal + deliveryFee;
 
       document.getElementById('checkoutPrice').innerText = "₹" + grandTotal;
       document.getElementById('checkoutSizeText').innerText = `(Size: ${selectedSize}, Qty: ${productQty})`;
-      document.getElementById('checkoutFeeBreakdown').innerText = distanceKm > 20 ? `(ಪ್ರಾಡಕ್ಟ್ ಬೆಲೆ: ₹${baseTotal} + ಡೆಲಿವರಿ ಚಾರ್ಜ್: ₹50)` : `(ಫ್ರೀ ಡೆಲಿವರಿ)`;
+      document.getElementById('checkoutFeeBreakdown').innerHTML = `📦 <b>ಡೆಲಿವರಿ ಚಾರ್ಜ್ ರೂ.80 ಇದ್ದದ್ದು ಡಿಸ್ಕೌಂಟ್ ಮಾಡಿ ರೂ.30 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಸೇರಿಸಲಾಗಿದೆ.</b><br>(ಪ್ರಾಡಕ್ಟ್ ಬೆಲೆ: ₹${baseTotal} + ಡೆಲಿವರಿ ಚಾರ್ಜ್: ₹30)`;
 
       showScreen('checkoutScreen');
     }
@@ -890,7 +919,7 @@
           let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
           let baseTotal = Number(selectedProduct.price) * productQty;
           let distanceKm = parseInt(document.getElementById('distanceSelect').value);
-          let deliveryFee = distanceKm > 20 ? 50 : 0;
+          let deliveryFee = 30; // Flipkart style discounted delivery fee ₹30
           let grandTotal = baseTotal + deliveryFee;
           let shop = allShopsMap[selectedProduct.shopId];
 

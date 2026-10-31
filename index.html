@@ -210,7 +210,7 @@
 
     <!-- Search Box with Camera Photo Search Icon -->
     <div class="search-box">
-      🔍 <input type="text" id="searchInput" placeholder="ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ..." oninput="filterProducts()">
+      🔍 <input type="text" id="searchInput" placeholder="ಊರು, ತಾಲೂಕು, ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ..." oninput="filterProducts()">
       <span class="camera-search-icon" onclick="openCameraSearch()" title="ಫೋಟೋ ತೆಗೆದು ಹುಡುಕಿ">📷</span>
     </div>
   </header>
@@ -456,7 +456,7 @@
         appTitle: "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ಗ್ರಾಹಕರ ಆಪ್",
         brandTitle: "🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್",
         myOrdersBtn: "📦 ನನ್ನ ಆರ್ಡರ್",
-        searchPlaceholder: "ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ...",
+        searchPlaceholder: "ಊರು, ತಾಲೂಕು, ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ...",
         prodDetailTitle: "ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ",
         shopPrefix: "ಅಂಗಡಿ: ",
         buyNowBtn: "ಈಗ ಖರೀದಿಸಿ (Buy Now)",
@@ -475,7 +475,7 @@
         appTitle: "Namma Ooru Shopping - Customer App",
         brandTitle: "🛍️ Namma Ooru Shopping",
         myOrdersBtn: "📦 My Orders",
-        searchPlaceholder: "Search products or shops...",
+        searchPlaceholder: "Search village, taluk, product or shop...",
         prodDetailTitle: "Product Description",
         shopPrefix: "Shop: ",
         buyNowBtn: "Buy Now",
@@ -650,6 +650,8 @@
         document.getElementById('custName').value = addr.name || '';
         document.getElementById('custPhone').value = addr.phone || '';
         document.getElementById('custVillage').value = addr.village || '';
+        document.getElementById('custTaluk').value = addr.taluk || 'ಶಹಾಪುರ';
+        document.getElementById('custDistrict').value = addr.district || 'ಯಾದಗಿರಿ';
         if (addr.taluk) document.getElementById('filterTaluk').value = addr.taluk;
       }
     }
@@ -693,18 +695,30 @@
       }
     }
 
+    // ಸರ್ಚ್ ಬಾಕ್ಸ್ ಮತ್ತು ಫಿಲ್ಟರ್ ಬಾಕ್ಸ್ ಮೂಲಕ ಅಂಗಡಿಗಳು ಮತ್ತು ವಸ್ತುಗಳನ್ನು ಹುಡುಕುವ ಸುಧಾರಿತ ಫಂಕ್ಷನ್
     function applyLocationFilter() {
-      const searchQ = document.getElementById('searchInput').value.toLowerCase();
-      const talukQ = document.getElementById('filterTaluk').value.toLowerCase().trim();
+      const searchQ = document.getElementById('searchInput').value.toLowerCase().trim();
+      const filterTalukQ = document.getElementById('filterTaluk').value.toLowerCase().trim();
 
       let filtered = allProducts.filter(p => {
         let shop = allShopsMap[p.shopId];
         let shopName = shop ? shop.shopName.toLowerCase() : "";
         let shopTaluk = shop ? (shop.taluk || "").toLowerCase() : "";
         let shopDistrict = shop ? (shop.district || "").toLowerCase() : "";
+        let prodName = p.name.toLowerCase();
 
-        let matchSearch = p.name.toLowerCase().includes(searchQ) || shopName.includes(searchQ);
-        let matchLocation = talukQ === "" || shopTaluk.includes(talukQ) || shopDistrict.includes(talukQ) || shopName.includes(talukQ);
+        // ಸರ್ಚ್ ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಊರು, ತಾಲೂಕು, ಅಂಗಡಿ ಹೆಸರು ಅಥವಾ ಪ್ರಾಡಕ್ಟ್ ಹೆಸರು ಟೈಪ್ ಮಾಡಿದರೆ ಮ್ಯಾಚ್ ಆಗುತ್ತದೆ
+        let matchSearch = searchQ === "" || 
+                          prodName.includes(searchQ) || 
+                          shopName.includes(searchQ) || 
+                          shopTaluk.includes(searchQ) || 
+                          shopDistrict.includes(searchQ);
+
+        // ಸ್ಥಳ/ತಾಲೂಕು ಫಿಲ್ಟರ್ ಬಾಕ್ಸ್ ಮ್ಯಾಚಿಂಗ್
+        let matchLocation = filterTalukQ === "" || 
+                            shopTaluk.includes(filterTalukQ) || 
+                            shopDistrict.includes(filterTalukQ) || 
+                            shopName.includes(filterTalukQ);
 
         return matchSearch && matchLocation;
       });
@@ -715,7 +729,12 @@
     function renderProducts(list) {
       const grid = document.getElementById('productsGrid');
       if (!list || list.length === 0) {
-        grid.innerHTML = `<p style="grid-column: span 2; text-align:center; color:#777; padding:20px;">ಈ ಸ್ಥಳದಲ್ಲಿ ಯಾವುದೇ ಅಂಗಡಿ/ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>`;
+        grid.innerHTML = `
+          <div style="grid-column: span 2; text-align:center; color:#777; padding:25px; background:#fff; border-radius:8px; border:1px solid #ddd;">
+            <p style="font-size:0.95rem; font-weight:bold; color:#e65100; margin-bottom:6px;">🏪 ಯಾವುದೇ ಅಂಗಡಿ ಮಾಲೀಕರು ಲಾಗಿನ್ ಆಗಿಲ್ಲ ಅಥವಾ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ!</p>
+            <p style="font-size:0.8rem; color:#555;">ನೀವು ಹುಡುಕಿದ ಊರು/ತಾಲೂಕಿನಲ್ಲಿ ಹೊಸ ಅಂಗಡಿಗಳು ಬಂದ ತಕ್ಷಣ ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.</p>
+          </div>
+        `;
         return;
       }
       grid.innerHTML = list.map(p => {
@@ -725,6 +744,7 @@
         }
         let shop = allShopsMap[p.shopId];
         let shopName = shop ? shop.shopName : "Namma Ooru Store";
+        let shopLoc = shop ? `${shop.taluk}, ${shop.district}` : "ಶಹಾಪುರ";
 
         return `
           <div class="product-card" onclick="openProductDetail('${p.id}')">
@@ -734,7 +754,7 @@
             </div>
             <div>
               <div class="prod-title">${p.name}</div>
-              <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shopName}</div>
+              <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shopName} (${shopLoc})</div>
               <div class="price-row">
                 <span class="curr-price">₹${p.price}</span>
                 ${p.oldPrice ? `<span class="old-price">₹${p.oldPrice}</span>` : ''}
@@ -877,28 +897,32 @@
       showScreen('checkoutScreen');
     }
 
-    // 15 ಕಿ.ಮೀ ಒಳಗೆ ಇದೆಯೇ ಎಂದು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ಚೆಕ್ ಮಾಡುವ ಫಂಕ್ಷನ್ (Shahapur 15km local check)
+    // ಗ್ರಾಹಕರ ಊರು/ತಾಲೂಕು ಮತ್ತು ಅಂಗಡಿ ಮಾಲೀಕರ ತಾಲೂಕು/ಜಿಲ್ಲೆಯನ್ನು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ತಾಳೆ ನೋಡಿ 15 ಕಿ.ಮೀ ವ್ಯಾಪ್ತಿ ನಿರ್ಧರಿಸುವ ಫಂಕ್ಷನ್
     function isWithin15KmRadius(shop, custTaluk, custVillage, custDistrict) {
-      let sTaluk = (shop ? shop.taluk : "ಶಹಾಪುರ").toLowerCase().trim();
+      let sTaluk = (shop ? shop.taluk : "").toLowerCase().trim();
+      let sDistrict = (shop ? shop.district : "").toLowerCase().trim();
       let cTaluk = custTaluk.toLowerCase().trim();
       let cVillage = custVillage.toLowerCase().trim();
       let cDistrict = custDistrict.toLowerCase().trim();
 
-      // ಯಾದಗಿರಿ ಅಥವಾ ದೂರದ ತಾಲೂಕು/ಜಿಲ್ಲೆಯಾಗಿದ್ದರೆ ಆರ್ಡರ್ ತಡೆಹಿಡಿಯಲಾಗುತ್ತದೆ
-      if (cTaluk.includes("ಯಾದಗಿರಿ") || cTaluk.includes("yadgir") || cDistrict.includes("ಯಾದಗಿರಿ") || cDistrict.includes("yadgir")) {
-        // ಅಂಗಡಿಯೂ ಯಾದಗಿರಿಯಲ್ಲಿದ್ದು 15km Local ಆಗಿದ್ದರೆ ಮಾತ್ರ ಅನುಮತಿ, ಶಹಾಪುರ ಅಂಗಡಿಗೆ ಬರಬಾರದು
-        if (sTaluk.includes("ಶಹಾಪುರ") || sTaluk.includes("shahapur")) {
-          return false;
+      // ಒಂದು ವೇಳೆ ಅಂಗಡಿ ಮತ್ತು ಗ್ರಾಹಕರ ತಾಲೂಕು ಅಥವಾ ಜಿಲ್ಲೆ ಒಂದೇ ಆಗಿದ್ದರೆ ಅಥವಾ ಹತ್ತಿರದ ಸ್ಥಳಗಳಾಗಿದ್ದರೆ ಅನುಮತಿ
+      if (sTaluk !== "" && cTaluk !== "") {
+        if (sTaluk.includes(cTaluk) || cTaluk.includes(sTaluk) || sDistrict.includes(cDistrict) || cDistrict.includes(sDistrict)) {
+          return true;
         }
       }
 
-      // ಶಹಾಪುರ ಮತ್ತು ಹತ್ತಿರದ 15km ಸ್ಥಳಗಳ ಪಟ್ಟಿ
-      const shahapur15km = ["ಶಹಾಪುರ", "shahapur", "shahapura", "ಹೊತ್ತಪೇಟ್", "hottapet", "ಕನ್ಯಾ ಕೊಲ್ಲೂರು", "kanya kollur", "bheemrayangudi", "ಭೀಮರಾಯನಗುಡಿ", "ವಾಡಿ", "wadi"];
+      // ಶಹಾಪುರ ಮತ್ತು ಸುತ್ತಮುತ್ತಲಿನ 15 ಕಿ.ಮೀ ಒಳಗೆ ಬರುವ ಸ್ಥಳಗಳ ಗುಂಪು
+      const localHubs = ["ಶಹಾಪುರ", "shahapur", "shahapura", "ಹೊತ್ತಪೇಟ್", "hottapet", "ಕನ್ಯಾ ಕೊಲ್ಲೂರು", "kanya kollur", "bheemrayangudi", "ಭೀಮರಾಯನಗುಡಿ", "ವಾಡಿ", "wadi"];
+      
+      let isShopInHub = localHubs.some(h => sTaluk.includes(h) || sDistrict.includes(h));
+      let isCustInHub = localHubs.some(h => cTaluk.includes(h) || cVillage.includes(h) || cDistrict.includes(h));
 
-      let matchCust = shahapur15km.some(k => cTaluk.includes(k) || cVillage.includes(k));
-      let matchShop = shahapur15km.some(k => sTaluk.includes(k));
+      if (isShopInHub && isCustInHub) {
+        return true;
+      }
 
-      return (matchCust && matchShop) || (sTaluk === cTaluk);
+      return false;
     }
 
     function confirmOrderWithPopup() {
@@ -916,11 +940,11 @@
 
       let shop = allShopsMap[selectedProduct.shopId];
 
-      // 15 KM ಗಿಂತ ದೂರವಿದ್ದರೆ ಬ್ಲಾಕ್ ಮಾಡಿ ಗ್ರಾಹಕರಿಗೆ ಮಾರ್ಗದರ್ಶನ ನೀಡುವ ಪಾಪ್ ಅಪ್
+      // 15 ಕಿ.ಮೀ ಗಿಂತ ದೂರವಿದ್ದರೆ ಅಥವಾ ಬೇರೆ ಜಿಲ್ಲೆ/ತಾಲೂಕು ಆಗಿದ್ದರೆ ಬ್ಲಾಕ್ ಮಾಡಿ ಪಾಪ್-ಅಪ್ ತೋರಿಸುವುದು
       if (!isWithin15KmRadius(shop, taluk, village, district)) {
         showCustomAlert(
           "ಆರ್ಡರ್ ಲಭ್ಯವಿಲ್ಲ ❌", 
-          "ಕ್ಷಮಿಸಿ! ನಿಮ್ಮ ಊರು 15 ಕಿ.ಮೀ ಗಿಂತ ದೂರದಲ್ಲಿದೆ. ಶಹಾಪುರ ಅಂಗಡಿಗಳಿಂದ ಕೇವಲ 15 ಕಿ.ಮೀ ಒಳಗಿನ ಹಳ್ಳಿಗಳಿಗೆ ಮಾತ್ರ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ.\n\nನಿಮ್ಮ ತಾಲೂಕು/ಜಿಲ್ಲೆಯ ಹೆಸರನ್ನು ಸರ್ಚ್ ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಬರೆದು ಹುಡುಕಿ, ಅಲ್ಲಿರುವ ನಿಮ್ಮ ಹತ್ತಿರದ 15 ಕಿ.ಮೀ ಒಳಗೆ ಇರುವ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಖರೀದಿ ಮಾಡಿ!"
+          "ಕ್ಷಮಿಸಿ! ನಿಮ್ಮ ಊರು 15 ಕಿ.ಮೀ ಗಿಂತ ದೂರದಲ್ಲಿದೆ ಅಥವಾ ಅಂಗಡಿ ಇರುವ ತಾಲೂಕಿಗೆ ಸೇರಿಲ್ಲ. ಅಂಗಡಿಗಳಿಂದ ಕೇವಲ 15 ಕಿ.ಮೀ ಒಳಗಿನ ಸ್ಥಳಗಳಿಗೆ ಮಾತ್ರ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ.\n\nನಿಮ್ಮ ತಾಲೂಕು/ಜಿಲ್ಲೆಯ ಹೆಸರನ್ನು ಸರ್ಚ್ ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಬರೆದು ಹುಡುಕಿ, ಅಲ್ಲಿರುವ ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಖರೀದಿ ಮಾಡಿ!"
         );
         return;
       }

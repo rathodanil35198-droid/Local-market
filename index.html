@@ -230,11 +230,10 @@
     </div>
 
     <div class="filter-box">
-      <span style="font-size:0.75rem; font-weight:bold; color:#e65100;">📍 ದೂರ (ಕಿ.ಮೀ / ಊರು):</span>
-      <input type="text" id="filterTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು/ಸ್ಥಳ" oninput="applyLocationFilter()">
+      <span style="font-size:0.75rem; font-weight:bold; color:#e65100;">📍 ಸ್ಥಳ/ತಾಲೂಕು ಸರ್ಚ್:</span>
+      <input type="text" id="filterTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು/ಸ್ಥಳ ನಮೂದಿಸಿ" oninput="applyLocationFilter()">
       <select id="distanceSelect" onchange="applyLocationFilter()" style="padding:4px; font-size:0.75rem; border:1px solid #ffe0b2; border-radius:4px;">
-        <option value="20">20 ಕಿ.ಮೀ ಒಳಗೆ (Free)</option>
-        <option value="30">30 ಕಿ.ಮೀ ದೂರ (+₹50)</option>
+        <option value="15">15 ಕಿ.ಮೀ ಒಳಗೆ (Local)</option>
       </select>
     </div>
 
@@ -278,7 +277,7 @@
       </div>
 
       <div class="delivery-badge" id="deliveryBadgeText">
-        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ!</b>
+        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (15km ಒಳಗೆ ಮಾತ್ರ)</b>
       </div>
 
       <hr style="margin:15px 0 8px 0; border:0; border-top:1px solid #ddd;">
@@ -293,7 +292,7 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN (Delivery charges & breakdown shown here) -->
+  <!-- CHECKOUT SCREEN -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackScreen('checkoutScreen')">←</span>
@@ -301,12 +300,12 @@
     </div>
     <div style="padding: 15px 15px 160px 15px;">
       <div style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:</h4>
+        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (15 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
         <input type="text" id="custName" placeholder="ಹೆಸರು / Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು / Village" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custDistrict" value="ಯಾದಗಿರಿ" placeholder="ಜಿಲ್ಲೆ" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು / Village (ಉದಾ: ಶಹಾಪುರ ಅಥವಾ ಹತ್ತಿರದ ಹಳ್ಳಿ)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು / Taluk" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custDistrict" value="ಯಾದಗಿರಿ" placeholder="ಜಿಲ್ಲೆ / District" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
       </div>
 
       <div style="display: flex; gap: 12px; align-items: center; border: 1px solid #eee; padding: 10px; border-radius: 8px; background:#fff;">
@@ -316,7 +315,6 @@
           <div style="margin-top: 4px;">
             <span class="curr-price" id="checkoutPrice"></span> <span id="checkoutSizeText" style="font-size:0.75rem; color:#1976d2; font-weight:bold;"></span>
           </div>
-          <!-- Delivery charge breakdown shown here during checkout confirmation -->
           <div id="checkoutFeeBreakdown" style="font-size: 0.78rem; color: #d32f2f; font-weight: bold; margin-top: 4px; background:#fff3e0; padding:6px; border-radius:4px; border:1px solid #ffe0b2;"></div>
         </div>
       </div>
@@ -468,7 +466,7 @@
         myOrdersHeader: "ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)",
         orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು",
         noOrders: "ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
-        orderSuccess: "🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ನಲ್ಲಿ ಖರೀದಿ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು! 1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ. ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಜಮಾ ಆಗಿದೆ.",
+        orderSuccess: "🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ನಲ್ಲಿ ಖರೀದಿ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು! 1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ.",
         confirmPopup: "🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಲು OK ಒತ್ತಿ.",
         fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಊರು ನಮೂದಿಸಿ.",
         selectSizeMsg: "ದಯವಿಟ್ಟು ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ."
@@ -487,7 +485,7 @@
         myOrdersHeader: "My Orders",
         orderDetailsHeader: "Order Details",
         noOrders: "No orders found.",
-        orderSuccess: "🎉 Thank you for purchasing from Namma Ooru Shopping! Your delivery will reach you within 1 to 2 days. Cashback has been credited to your pocket money.",
+        orderSuccess: "🎉 Thank you for purchasing from Namma Ooru Shopping! Delivery in 1 to 2 days.",
         confirmPopup: "🎉 Press OK to confirm your order.",
         fillAll: "Please enter Name, Mobile Number and Village.",
         selectSizeMsg: "Please select a size."
@@ -697,12 +695,18 @@
 
     function applyLocationFilter() {
       const searchQ = document.getElementById('searchInput').value.toLowerCase();
+      const talukQ = document.getElementById('filterTaluk').value.toLowerCase().trim();
 
       let filtered = allProducts.filter(p => {
         let shop = allShopsMap[p.shopId];
         let shopName = shop ? shop.shopName.toLowerCase() : "";
+        let shopTaluk = shop ? (shop.taluk || "").toLowerCase() : "";
+        let shopDistrict = shop ? (shop.district || "").toLowerCase() : "";
+
         let matchSearch = p.name.toLowerCase().includes(searchQ) || shopName.includes(searchQ);
-        return matchSearch;
+        let matchLocation = talukQ === "" || shopTaluk.includes(talukQ) || shopDistrict.includes(talukQ) || shopName.includes(talukQ);
+
+        return matchSearch && matchLocation;
       });
 
       renderProducts(filtered);
@@ -711,7 +715,7 @@
     function renderProducts(list) {
       const grid = document.getElementById('productsGrid');
       if (!list || list.length === 0) {
-        grid.innerHTML = `<p style="grid-column: span 2; text-align:center; color:#777; padding:20px;">ಯಾವುದೇ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>`;
+        grid.innerHTML = `<p style="grid-column: span 2; text-align:center; color:#777; padding:20px;">ಈ ಸ್ಥಳದಲ್ಲಿ ಯಾವುದೇ ಅಂಗಡಿ/ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>`;
         return;
       }
       grid.innerHTML = list.map(p => {
@@ -849,8 +853,6 @@
     function updatePriceDisplay() {
       if (!selectedProduct) return;
       let baseTotal = Number(selectedProduct.price) * productQty;
-      
-      // Product detail screen shows only original product price without delivery fee notice
       document.getElementById('detailPrice').innerText = "₹" + baseTotal;
       document.getElementById('detailOldPrice').innerText = selectedProduct.oldPrice ? "₹" + (Number(selectedProduct.oldPrice) * productQty) : "";
     }
@@ -865,17 +867,38 @@
       document.getElementById('checkoutTitle').innerText = selectedProduct.name;
       
       let baseTotal = Number(selectedProduct.price) * productQty;
-      let distanceKm = parseInt(document.getElementById('distanceSelect').value);
-      let deliveryFee = 30; // discounted delivery fee
+      let deliveryFee = 30; 
       let grandTotal = baseTotal + deliveryFee;
 
       document.getElementById('checkoutPrice').innerText = "₹" + grandTotal;
       document.getElementById('checkoutSizeText').innerText = `(Size: ${selectedSize}, Qty: ${productQty})`;
-      
-      // Delivery charges & 80->30 discount breakdown shown only here in checkout screen as requested
-      document.getElementById('checkoutFeeBreakdown').innerHTML = `📦 <b>ಡೆಲಿವರಿ ಚಾರ್ಜ್ ರೂ.80 ಇದ್ದದ್ದು ಡಿಸ್ಕೌಂಟ್ ಮಾಡಿ ರೂ.30 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಸೇರಿಸಲಾಗಿದೆ.</b><br>(ಪ್ರಾಡಕ್ಟ್ ಬೆಲೆ: ₹${baseTotal} + ಡೆಲಿವರಿ ಚಾರ್ಜ್: ₹30)`;
+      document.getElementById('checkoutFeeBreakdown').innerHTML = `📦 <b>ಡೆಲಿವರಿ ಚಾರ್ಜ್ ರೂ.80 ಇದ್ದದ್ದು ಡಿಸ್ಕೌಂಟ್ ಮಾಡಿ ರೂ.30 ಸೇರಿಸಲಾಗಿದೆ.</b><br>(ಪ್ರಾಡಕ್ಟ್ ಬೆಲೆ: ₹${baseTotal} + ಡೆಲಿವರಿ ಚಾರ್ಜ್: ₹30)`;
 
       showScreen('checkoutScreen');
+    }
+
+    // 15 ಕಿ.ಮೀ ಒಳಗೆ ಇದೆಯೇ ಎಂದು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ಚೆಕ್ ಮಾಡುವ ಫಂಕ್ಷನ್ (Shahapur 15km local check)
+    function isWithin15KmRadius(shop, custTaluk, custVillage, custDistrict) {
+      let sTaluk = (shop ? shop.taluk : "ಶಹಾಪುರ").toLowerCase().trim();
+      let cTaluk = custTaluk.toLowerCase().trim();
+      let cVillage = custVillage.toLowerCase().trim();
+      let cDistrict = custDistrict.toLowerCase().trim();
+
+      // ಯಾದಗಿರಿ ಅಥವಾ ದೂರದ ತಾಲೂಕು/ಜಿಲ್ಲೆಯಾಗಿದ್ದರೆ ಆರ್ಡರ್ ತಡೆಹಿಡಿಯಲಾಗುತ್ತದೆ
+      if (cTaluk.includes("ಯಾದಗಿರಿ") || cTaluk.includes("yadgir") || cDistrict.includes("ಯಾದಗಿರಿ") || cDistrict.includes("yadgir")) {
+        // ಅಂಗಡಿಯೂ ಯಾದಗಿರಿಯಲ್ಲಿದ್ದು 15km Local ಆಗಿದ್ದರೆ ಮಾತ್ರ ಅನುಮತಿ, ಶಹಾಪುರ ಅಂಗಡಿಗೆ ಬರಬಾರದು
+        if (sTaluk.includes("ಶಹಾಪುರ") || sTaluk.includes("shahapur")) {
+          return false;
+        }
+      }
+
+      // ಶಹಾಪುರ ಮತ್ತು ಹತ್ತಿರದ 15km ಸ್ಥಳಗಳ ಪಟ್ಟಿ
+      const shahapur15km = ["ಶಹಾಪುರ", "shahapur", "shahapura", "ಹೊತ್ತಪೇಟ್", "hottapet", "ಕನ್ಯಾ ಕೊಲ್ಲೂರು", "kanya kollur", "bheemrayangudi", "ಭೀಮರಾಯನಗುಡಿ", "ವಾಡಿ", "wadi"];
+
+      let matchCust = shahapur15km.some(k => cTaluk.includes(k) || cVillage.includes(k));
+      let matchShop = shahapur15km.some(k => sTaluk.includes(k));
+
+      return (matchCust && matchShop) || (sTaluk === cTaluk);
     }
 
     function confirmOrderWithPopup() {
@@ -886,8 +909,19 @@
       const taluk = document.getElementById('custTaluk').value.trim();
       const district = document.getElementById('custDistrict').value.trim();
 
-      if (!name || !phone || !village) {
+      if (!name || !phone || !village || !taluk) {
         showCustomAlert("ಮಾಹಿತಿ ಅಪೂರ್ಣ", t.fillAll);
+        return;
+      }
+
+      let shop = allShopsMap[selectedProduct.shopId];
+
+      // 15 KM ಗಿಂತ ದೂರವಿದ್ದರೆ ಬ್ಲಾಕ್ ಮಾಡಿ ಗ್ರಾಹಕರಿಗೆ ಮಾರ್ಗದರ್ಶನ ನೀಡುವ ಪಾಪ್ ಅಪ್
+      if (!isWithin15KmRadius(shop, taluk, village, district)) {
+        showCustomAlert(
+          "ಆರ್ಡರ್ ಲಭ್ಯವಿಲ್ಲ ❌", 
+          "ಕ್ಷಮಿಸಿ! ನಿಮ್ಮ ಊರು 15 ಕಿ.ಮೀ ಗಿಂತ ದೂರದಲ್ಲಿದೆ. ಶಹಾಪುರ ಅಂಗಡಿಗಳಿಂದ ಕೇವಲ 15 ಕಿ.ಮೀ ಒಳಗಿನ ಹಳ್ಳಿಗಳಿಗೆ ಮಾತ್ರ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ.\n\nನಿಮ್ಮ ತಾಲೂಕು/ಜಿಲ್ಲೆಯ ಹೆಸರನ್ನು ಸರ್ಚ್ ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಬರೆದು ಹುಡುಕಿ, ಅಲ್ಲಿರುವ ನಿಮ್ಮ ಹತ್ತಿರದ 15 ಕಿ.ಮೀ ಒಳಗೆ ಇರುವ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಖರೀದಿ ಮಾಡಿ!"
+        );
         return;
       }
 
@@ -907,10 +941,8 @@
 
           let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
           let baseTotal = Number(selectedProduct.price) * productQty;
-          let distanceKm = parseInt(document.getElementById('distanceSelect').value);
           let deliveryFee = 30; 
           let grandTotal = baseTotal + deliveryFee;
-          let shop = allShopsMap[selectedProduct.shopId];
 
           const orderData = {
             orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
@@ -918,7 +950,7 @@
             productPhoto: photos[0] || '',
             totalPrice: grandTotal,
             deliveryFee: deliveryFee,
-            distanceKm: distanceKm,
+            distanceKm: 15,
             shopId: selectedProduct.shopId,
             shopName: shop ? shop.shopName : "Store",
             shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',

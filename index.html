@@ -163,6 +163,10 @@
   <!-- Hidden camera input for photo search -->
   <input type="file" id="cameraSearchInput" accept="image/*" capture="environment" style="display:none;" onchange="handleCameraPhotoSearch(event)">
 
+  <!-- Hidden camera inputs for return/exchange 2 photos -->
+  <input type="file" id="returnPhoto1Input" accept="image/*" capture="environment" style="display:none;" onchange="handleReturnPhoto(1, event)">
+  <input type="file" id="returnPhoto2Input" accept="image/*" capture="environment" style="display:none;" onchange="handleReturnPhoto(2, event)">
+
   <!-- Custom Popup Modal -->
   <div id="customAlertModal">
     <div class="custom-alert-box">
@@ -351,31 +355,56 @@
     <div style="padding: 15px; max-width: 500px; margin: 0 auto;" id="pocketMoneyContent"></div>
   </div>
 
-  <!-- STORE DIRECT EXCHANGE MODAL -->
-  <div id="exchangeModal" class="modal">
-    <div class="modal-box">
-      <div style="font-size: 2rem; margin-bottom: 5px;">⚠️</div>
-      <h3 style="color:#d32f2f; margin-bottom:8px;">ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಆಯ್ಕೆಗಳು</h3>
+  <!-- RETURN / EXCHANGE REASON & PHOTO MODAL -->
+  <div id="returnModal" class="modal">
+    <div class="modal-box" style="text-align:left;">
+      <div style="font-size: 1.8rem; margin-bottom: 5px; text-align:center;">🔄</div>
+      <h3 style="color:var(--danger); margin-bottom:8px; text-align:center;">ವಸ್ತು ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಕಾರಣ</h3>
       
-      <div style="background:#e8f5e9; border:1px solid #c8e6c9; padding:12px; border-radius:8px; font-size:0.83rem; color:#2e7d32; margin-bottom:12px; text-align:left;">
-        <b>1. ನೇರ ಅಂಗಡಿಗೆ ಭೇಟಿ ನೀಡಿ (ಯಾವುದೇ ಚಾರ್ಜ್ ಇಲ್ಲ):</b><br>
-        ಹತ್ತಿರದ ಅಂಗಡಿಗೆ ನೇರವಾಗಿ ಹೋಗಿ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿಕೊಳ್ಳಿ. ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕಾಲ್ ಮಾಡಿ ಮಾತನಾಡಬಹುದು.<br>
-        <div id="directExchangeShopBox" style="margin-top:8px;"></div>
+      <div style="margin-bottom:10px;">
+        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:4px; display:block;">ಏನಾಗಿದೆ? (ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ):</label>
+        <select id="returnReasonSelect" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;">
+          <option value="ಡ್ಯಾಮೇಜ್ ಆಗಿದೆ (Damaged Product)">⚠️ ಡ್ಯಾಮೇಜ್ ಆಗಿದೆ (Damaged Product)</option>
+          <option value="ಸೈಜ್ ತೊಂದರೆ (Size Issue)">📏 ಸೈಜ್ ತೊಂದರೆ (Size Issue)</option>
+          <option value="ರಾಂಗ್ ಆರ್ಡರ್ ಆಗಿದ್ಯಾ (Wrong Order Received)">📦 ರಾಂಗ್ ಆರ್ಡರ್ ಆಗಿದ್ಯಾ (Wrong Order Received)</option>
+          <option value="ವಸ್ತು ಬದಲಾಗಿ ಬಂದಿದೆ / ಚೇಂಜ್ ಆಗಿದೆ (Different Item)">🔄 ವಸ್ತು ಬದಲಾಗಿ ಬಂದಿದೆ / ಚೇಂಜ್ ಆಗಿದೆ (Different Item)</option>
+          <option value="ಇತರ ಕಾರಣ (Other)">✏️ ಇತರ ಕಾರಣ (Other)</option>
+        </select>
       </div>
 
-      <div style="background:#fff3e0; border:1px solid #ffe0b2; padding:12px; border-radius:8px; font-size:0.83rem; color:#e65100; margin-bottom:12px; text-align:left;">
-        <b>2. ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ / ರಿಟರ್ನ್ (ರೂ. 50 ಚಾರ್ಜ್):</b><br>
-        ಡೆಲಿವರಿ ಬಾಯ್ ಬಂದು ವಸ್ತುವನ್ನು ಬದಲಾಯಿಸುತ್ತಾರೆ. ರೂ. 50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಅನ್ವಯಿಸುತ್ತದೆ.<br>
-        <i>ಸೂಚನೆ: ವಸ್ತುವು ಯಾವುದೇ ಡ್ಯಾಮೇಜ್ ಆಗಿರಬಾರದು, ಕಲರ್ ಬದಲಾಗಿರಬಾರದು, ಒರಿಜಿನಲ್ ಪ್ಯಾಕಿಂಗ್ ಮತ್ತು ಬಿಲ್ ಕಡ್ಡಾಯವಾಗಿರಬೇಕು.</i>
+      <div style="margin-bottom:10px;">
+        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:4px; display:block;">📸 ವಸ್ತುವಿನ 2 ಫೋಟೋಗಳನ್ನು ಕ್ಯಾಮೆರಾ ಮೂಲಕ ಅಪ್ಲೋಡ್ ಮಾಡಿ:</label>
+        <div style="display:flex; gap:10px; margin-bottom:8px;">
+          <button type="button" onclick="document.getElementById('returnPhoto1Input').click()" style="flex:1; padding:8px; background:#f0f0f0; border:1px dashed #999; border-radius:6px; font-size:0.75rem; font-weight:bold; cursor:pointer;" id="retBtn1">📷 ಫೋಟೋ 1 ತೆಗೆಯಿರಿ</button>
+          <button type="button" onclick="document.getElementById('returnPhoto2Input').click()" style="flex:1; padding:8px; background:#f0f0f0; border:1px dashed #999; border-radius:6px; font-size:0.75rem; font-weight:bold; cursor:pointer;" id="retBtn2">📷 ಫೋಟೋ 2 ತೆಗೆಯಿರಿ</button>
+        </div>
+        <div id="returnPhotosPreview" style="display:flex; gap:8px;"></div>
       </div>
 
-      <div style="margin-bottom:10px; text-align:left;">
-        <label style="font-size:0.80rem; font-weight:bold; margin-bottom:3px; display:block;">ಕಾರಣ ತಿಳಿಸಿ:</label>
-        <textarea id="exchangeReason" rows="2" placeholder="ಉದಾ: ಸೈಜ್ ಸರಿ ಇಲ್ಲ, ಬಣ್ಣ ಬದಲಾಯಿಸಬೇಕು..." style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.8rem;"></textarea>
+      <div style="margin-bottom:12px;">
+        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:4px; display:block;">ನಿಮಗೆ ಏನು ಬೇಕು? (ಆಯ್ಕೆಮಾಡಿ):</label>
+        <select id="returnPreferenceSelect" onchange="toggleReturnPreference()" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;">
+          <option value="EXCHANGE">🔄 ಎಕ್ಸ್ಚೇಂಜ್ ಬೇಕು (Exchange with another product)</option>
+          <option value="REFUND">💰 ರಿಟರ್ನ್ ಪೇಮೆಂಟ್ ಬೇಕು (Money Refund to UPI)</option>
+        </select>
       </div>
 
-      <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem; margin-bottom:6px;" onclick="submitHomeExchangeRequest()">🏠 ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಬದಲಾಯಿಸಿ (₹50)</button>
-      <button class="btn" style="background:#757575; color:#fff; width:100%; padding:8px; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem;" onclick="closeExchangeModal()">ರದ್ದುಮಾಡಿ</button>
+      <!-- REFUND UPI BOX -->
+      <div id="refundUpiBox" style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #ddd; margin-bottom:12px; display:none;">
+        <label style="font-size:0.78rem; font-weight:bold; color:#333; display:block; margin-bottom:4px;">ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ (ಪೇಮೆಂಟ್ ಪಡೆಯಲು):</label>
+        <input type="text" id="returnUpiId" placeholder="ಉದಾ: mobile@ybl ಅಥವಾ upi@oksbi" style="width:100%; padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.82rem;">
+        <p style="font-size:0.7rem; color:#d32f2f; margin-top:4px;">⚠️ ಯುಪಿಐ ಹಾಕಿ ಸಬ್ಮಿಟ್ ಮಾಡಿದರೆ 24 ಗಂಟೆ ಒಳಗೆ ನಿಮ್ಮ ಅಕೌಂಟಿಗೆ ಪೇಮೆಂಟ್ ಆಗುತ್ತದೆ.</p>
+      </div>
+
+      <!-- EXCHANGE PRODUCTS CATALOG BOX -->
+      <div id="exchangeCatalogBox" style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #ddd; margin-bottom:12px;">
+        <label style="font-size:0.78rem; font-weight:bold; color:var(--primary); display:block; margin-bottom:4px;">ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಅದೇ ಅಂಗಡಿಯ ಇ 0 ಇತರ ವಸ್ತುಗಳು:</label>
+        <div id="exchangeProductsListContainer" style="max-height:140px; overflow-y:auto; border:1px solid #eee; background:#fff; padding:6px; border-radius:4px;"></div>
+        <div id="priceCalculationBox" style="font-size:0.78rem; font-weight:bold; color:#333; margin-top:6px; background:#fff3e0; padding:6px; border-radius:4px; border:1px solid #ffe0b2;"></div>
+      </div>
+
+      <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem; margin-bottom:6px;" onclick="submitReturnExchangeRequest()">ವಿನಂತಿ ಸಬ್ಮಿಟ್ ಮಾಡಿ (Submit)</button>
+      <button class="btn" style="background:#757575; color:#fff; width:100%; padding:8px; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem;" onclick="closeReturnModal()">ರದ್ದುಮಾಡಿ</button>
     </div>
   </div>
 
@@ -391,9 +420,13 @@
     let selectedSize = '';
     let productQty = 1;
     let currentLang = localStorage.getItem('app_lang') || 'kn';
-    let activeExchangeOrder = null;
+    let activeReturnOrder = null;
     let customAlertCallback = null;
     let deferredPrompt = null;
+    
+    let returnPhoto1Base64 = '';
+    let returnPhoto2Base64 = '';
+    let chosenExchangeProduct = null;
 
     function playCoinSound() {
       const sound = document.getElementById('coinSound');
@@ -695,7 +728,6 @@
       }
     }
 
-    // ಸರ್ಚ್ ಬಾಕ್ಸ್ ಮತ್ತು ಫಿಲ್ಟರ್ ಬಾಕ್ಸ್ ಮೂಲಕ ಅಂಗಡಿಗಳು ಮತ್ತು ವಸ್ತುಗಳನ್ನು ಹುಡುಕುವ ಸುಧಾರಿತ ಫಂಕ್ಷನ್
     function applyLocationFilter() {
       const searchQ = document.getElementById('searchInput').value.toLowerCase().trim();
       const filterTalukQ = document.getElementById('filterTaluk').value.toLowerCase().trim();
@@ -707,14 +739,12 @@
         let shopDistrict = shop ? (shop.district || "").toLowerCase() : "";
         let prodName = p.name.toLowerCase();
 
-        // ಸರ್ಚ್ ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಊರು, ತಾಲೂಕು, ಅಂಗಡಿ ಹೆಸರು ಅಥವಾ ಪ್ರಾಡಕ್ಟ್ ಹೆಸರು ಟೈಪ್ ಮಾಡಿದರೆ ಮ್ಯಾಚ್ ಆಗುತ್ತದೆ
         let matchSearch = searchQ === "" || 
                           prodName.includes(searchQ) || 
                           shopName.includes(searchQ) || 
                           shopTaluk.includes(searchQ) || 
                           shopDistrict.includes(searchQ);
 
-        // ಸ್ಥಳ/ತಾಲೂಕು ಫಿಲ್ಟರ್ ಬಾಕ್ಸ್ ಮ್ಯಾಚಿಂಗ್
         let matchLocation = filterTalukQ === "" || 
                             shopTaluk.includes(filterTalukQ) || 
                             shopDistrict.includes(filterTalukQ) || 
@@ -897,7 +927,6 @@
       showScreen('checkoutScreen');
     }
 
-    // ಗ್ರಾಹಕರ ಊರು/ತಾಲೂಕು ಮತ್ತು ಅಂಗಡಿ ಮಾಲೀಕರ ತಾಲೂಕು/ಜಿಲ್ಲೆಯನ್ನು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ತಾಳೆ ನೋಡಿ 15 ಕಿ.ಮೀ ವ್ಯಾಪ್ತಿ ನಿರ್ಧರಿಸುವ ಫಂಕ್ಷನ್
     function isWithin15KmRadius(shop, custTaluk, custVillage, custDistrict) {
       let sTaluk = (shop ? shop.taluk : "").toLowerCase().trim();
       let sDistrict = (shop ? shop.district : "").toLowerCase().trim();
@@ -905,14 +934,12 @@
       let cVillage = custVillage.toLowerCase().trim();
       let cDistrict = custDistrict.toLowerCase().trim();
 
-      // ಒಂದು ವೇಳೆ ಅಂಗಡಿ ಮತ್ತು ಗ್ರಾಹಕರ ತಾಲೂಕು ಅಥವಾ ಜಿಲ್ಲೆ ಒಂದೇ ಆಗಿದ್ದರೆ ಅಥವಾ ಹತ್ತಿರದ ಸ್ಥಳಗಳಾಗಿದ್ದರೆ ಅನುಮತಿ
       if (sTaluk !== "" && cTaluk !== "") {
         if (sTaluk.includes(cTaluk) || cTaluk.includes(sTaluk) || sDistrict.includes(cDistrict) || cDistrict.includes(sDistrict)) {
           return true;
         }
       }
 
-      // ಶಹಾಪುರ ಮತ್ತು ಸುತ್ತಮುತ್ತಲಿನ 15 ಕಿ.ಮೀ ಒಳಗೆ ಬರುವ ಸ್ಥಳಗಳ ಗುಂಪು
       const localHubs = ["ಶಹಾಪುರ", "shahapur", "shahapura", "ಹೊತ್ತಪೇಟ್", "hottapet", "ಕನ್ಯಾ ಕೊಲ್ಲೂರು", "kanya kollur", "bheemrayangudi", "ಭೀಮರಾಯನಗುಡಿ", "ವಾಡಿ", "wadi"];
       
       let isShopInHub = localHubs.some(h => sTaluk.includes(h) || sDistrict.includes(h));
@@ -940,7 +967,6 @@
 
       let shop = allShopsMap[selectedProduct.shopId];
 
-      // 15 ಕಿ.ಮೀ ಗಿಂತ ದೂರವಿದ್ದರೆ ಅಥವಾ ಬೇರೆ ಜಿಲ್ಲೆ/ತಾಲೂಕು ಆಗಿದ್ದರೆ ಬ್ಲಾಕ್ ಮಾಡಿ ಪಾಪ್-ಅಪ್ ತೋರಿಸುವುದು
       if (!isWithin15KmRadius(shop, taluk, village, district)) {
         showCustomAlert(
           "ಆರ್ಡರ್ ಲಭ್ಯವಿಲ್ಲ ❌", 
@@ -968,6 +994,9 @@
           let deliveryFee = 30; 
           let grandTotal = baseTotal + deliveryFee;
 
+          // ಗ್ರಾಹಕರ ವಿಭಿನ್ನ ಡೆಲಿವರಿ ಒಟಿಪಿ (4-ಡಿಜಿಟ್)
+          let custDeliveryOtp = Math.floor(1000 + Math.random() * 9000).toString();
+
           const orderData = {
             orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
             productName: `${selectedProduct.name} [Size: ${selectedSize}, Qty: ${productQty}]`,
@@ -982,6 +1011,7 @@
             shopLocation: shop ? `${shop.taluk}, ${shop.district}` : "ಶಹಾಪುರ",
             shopMapUrl: shop ? (shop.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.shopName + ' ' + shop.taluk)}`) : '#',
             customer: { name, phone, village, taluk, district },
+            deliveryOtp: custDeliveryOtp, // ಗ್ರಾಹಕರ ಡೆಲಿವರಿ ಒಟಿಪಿ
             status: 'STEP_1',
             orderTime: Date.now(),
             timestamp: Date.now()
@@ -1034,8 +1064,8 @@
               } else if (o.status === 'DELIVERED' || o.status === 'STEP_4') {
                 statusText = "ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್ (Delivery Successful - ಪಾಕೆಟ್ ಮನಿಗೆ ಹಣ ಜಮಾ)";
                 statusColor = "var(--success)";
-              } else if (o.isExchangeRequested) {
-                statusText = "ಅಂಗಡಿಯಲ್ಲಿ ಎಕ್ಸ್ಚೇಂಜ್‌ಗೆ ಕೋರಲಾಗಿದೆ";
+              } else if (o.isReturnRequested) {
+                statusText = "ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ";
                 statusColor = "#d32f2f";
               }
 
@@ -1075,12 +1105,12 @@
       let mapUrl = order.shopMapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((order.shopName || '') + ' ' + (order.shopLocation || ''))}`;
 
       let otpBoxHTML = '';
-      if (order.pickupOtp && !isCancelled) {
+      if (order.deliveryOtp && !isCancelled && !isDelivered) {
         otpBoxHTML = `
           <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
             <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):</span>
-            <div style="font-size:1.4rem; font-weight:bold; color:#1b5e20; letter-spacing:3px; margin-top:4px;">${order.pickupOtp}</div>
-            <div style="font-size:0.75rem; color:#555; margin-top:4px;">(ವಸ್ತು ಪಡೆಯುವಾಗ ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಈ ಒಟಿಪಿ ನೀಡಿ)</div>
+            <div style="font-size:1.4rem; font-weight:bold; color:#1b5e20; letter-spacing:3px; margin-top:4px;">${order.deliveryOtp}</div>
+            <div style="font-size:0.75rem; color:#555; margin-top:4px;">(ವಸ್ತು ಮನೆಗೆ ಬಂದಾಗ ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಈ 4-ಡಿಜಿಟ್ ಒಟಿಪಿ ನೀಡಿ ಡೆಲಿವರಿ ಸಕ್ಸಸ್ ಮಾಡಿ)</div>
           </div>
         `;
       }
@@ -1100,7 +1130,7 @@
       } else if (isPickedUp && !isCancelled) {
         contactActionHTML = `
           <div style="background:#e8f5e9; padding:12px; border-radius:8px; border:1px solid #c8e6c9; margin-bottom:15px; font-size:0.82rem;">
-            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">🛵 ಡೆಲಿವರಿ ಬಾಯ್ ವಸ್ತು ತಲುಪಿಸುತ್ತಿದ್ದಾರೆ (1 ರಿಂದ 2 ದಿನಗಳು):</p>
+            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">🛵 ಡೆಲಿವರಿ ಬಾಯ್ ವಸ್ತು ತಲುಪಿಸುತ್ತಿದ್ದಾರೆ:</p>
             <div style="margin-top:8px;">
               <a href="tel:${order.deliveryBoyPhone || '8105010768'}" class="shop-call-btn" style="background:var(--success);">📞 ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಾಲ್ ಮಾಡಿ</a>
             </div>
@@ -1125,18 +1155,29 @@
         `;
       }
 
-      let exchangeButtonHTML = '';
+      let returnSectionHTML = '';
       if (isDelivered) {
         let deliveredTime = order.deliveredTimestamp?.toMillis?.() || order.timestamp || Date.now();
         let hoursPassed = (Date.now() - deliveredTime) / (1000 * 60 * 60);
 
         if (hoursPassed <= 72) {
-          exchangeButtonHTML = `
-            <button class="btn" style="background:var(--danger); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; margin-top:15px; font-size:0.85rem;" onclick='openExchangeModal(${JSON.stringify(order)})'>🔄 ವಸ್ತುವನ್ನು ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿ</button>
-            <p style="font-size:0.7rem; color:#d32f2f; text-align:center; margin-top:4px;">(ಡೆಲಿವರಿ ಆದ 3 ದಿನಗಳ ಒಳಗೆ ಮಾತ್ರ ರಿಟರ್ನ್ ಮಾಡಲು ಅವಕಾಶವಿರುತ್ತದೆ. ರಿಟರ್ನ್ ಮಾಡಿದರೆ ಪಾಕೆಟ್ ಮನಿ ಹಣ ಕಡಿತಗೊಳ್ಳುತ್ತದೆ)</p>
-          `;
+          if (order.isReturnRequested) {
+            returnSectionHTML = `
+              <div style="background:#fff3e0; border:1px solid #ffe0b2; padding:12px; border-radius:8px; margin-top:15px; font-size:0.82rem;">
+                <p style="font-weight:bold; color:#e65100;">🔄 ನಿಮ್ಮ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ!</p>
+                <p style="margin-top:4px;"><b>ಆಯ್ಕೆ:</b> ${order.returnPreference === 'REFUND' ? 'ರಿಟರ್ನ್ ಪೇಮೆಂಟ್ (Refund)' : 'ಎಕ್ಸ್ಚೇಂಜ್ (Exchange)'}</p>
+                <p style="margin-top:2px;"><b>ಸ್ಥಿತಿ:</b> ${order.returnStatus || 'ಪರಿಶೀಲನೆಯಲ್ಲಿದೆ'}</p>
+                ${order.returnPreference === 'REFUND' ? `<p style="margin-top:2px; color:var(--success); font-weight:bold;">✅ ಪೇಮೆಂಟ್ ಸ್ಟೇಟಸ್: 24 ಗಂಟೆ ಒಳಗೆ ಯುಪಿಐ ಗೆ ಜಮಾ ಆಗುತ್ತದೆ.</p>` : ''}
+              </div>
+            `;
+          } else {
+            returnSectionHTML = `
+              <button class="btn" style="background:var(--danger); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; margin-top:15px; font-size:0.85rem;" onclick='openReturnModal(${JSON.stringify(order)})'>🔄 ವಸ್ತುವನ್ನು ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿ</button>
+              <p style="font-size:0.7rem; color:#d32f2f; text-align:center; margin-top:4px;">(ಡೆಲಿವರಿ ಆದ 3 ದಿನಗಳ ಒಳಗೆ ಮಾತ್ರ ರಿಟರ್ನ್ ಮಾಡಲು ಅವಕಾಶವಿರುತ್ತದೆ)</p>
+            `;
+          }
         } else {
-          exchangeButtonHTML = `<p style="font-size:0.75rem; color:#777; text-align:center; margin-top:15px;">ರಿಟರ್ನ್ ಮಾಡುವ ಅವಧಿ (3 ದಿನಗಳು) ಮುಕ್ತಾಯಗೊಂಡಿದೆ.</p>`;
+          returnSectionHTML = `<p style="font-size:0.75rem; color:#777; text-align:center; margin-top:15px;">ರಿಟರ್ನ್ ಮಾಡುವ ಅವಧಿ (3 ದಿನಗಳು) ಮುಕ್ತಾಯಗೊಂಡಿದೆ.</p>`;
         }
       }
 
@@ -1155,41 +1196,33 @@
 
         ${!isCancelled ? `
         <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:15px; margin-bottom:15px;">
-          <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಸ್ಟೇಟಸ್ (1-2 ದಿನಗಳಲ್ಲಿ ತಲುಪುತ್ತದೆ)</h4>
+          <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಸ್ಟೇಟಸ್</h4>
           <div class="timeline">
             <div class="t-item ${t1}"><div class="t-dot"></div><div class="t-title">ಆರ್ಡರ್ ದೃಢೀಕರಿಸಲಾಗಿದೆ</div></div>
             <div class="t-item ${t2}"><div class="t-dot"></div><div class="t-title">ಮಾಲೀಕರಿಂದ ಪ್ಯಾಕಿಂಗ್</div></div>
             <div class="t-item ${t3}"><div class="t-dot"></div><div class="t-title">ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ</div></div>
-            <div class="t-item ${t4}"><div class="t-dot"></div><div class="t-title">ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್ (ಪಾಕೆಟ್ ಮನಿಗೆ ಜಮಾ)</div></div>
+            <div class="t-item ${t4}"><div class="t-dot"></div><div class="t-title">ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್ (ಒಟಿಪಿ ಪರಿಶೀಲಿಸಲಾಗಿದೆ)</div></div>
           </div>
         </div>
         ` : ''}
 
         ${cancelBtnHTML}
-        ${exchangeButtonHTML}
+        ${returnSectionHTML}
       `;
 
       showScreen('orderDetailsScreen');
     }
 
     function cancelOrderPrompt(order) {
-      showCustomAlert("ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ", "ನಿಮಗೆ ನಿಜವಾಗಿಯೂ ಈ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಬೇಕೇ? (ಕ್ಯಾನ್ಸಲ್ ಅಥವಾ ರಿಟರ್ನ್ ಮಾಡಿದರೆ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ರೂ. 50 ಕಡಿತಗೊಳ್ಳುತ್ತದೆ)", true, true, async (confirmed, reason) => {
+      showCustomAlert("ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ", "ನಿಮಗೆ ನಿಜವಾಗಿಯೂ ಈ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಬೇಕೇ?", true, true, async (confirmed, reason) => {
         if (confirmed) {
           try {
-            let phone = localStorage.getItem('customer_phone_key');
-            let userOrdersCount = parseInt(localStorage.getItem('user_orders_count_' + phone) || '1');
-            if (userOrdersCount > 0) localStorage.setItem('user_orders_count_' + phone, userOrdersCount - 1);
-
-            let currentWallet = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
-            let deductedWallet = Math.max(0, currentWallet - 50);
-            localStorage.setItem('user_wallet_' + phone, deductedWallet);
-
             await window.updateDoc(window.doc(window.db, "orders", order.id), {
               status: 'CANCELLED',
               isCancelled: true,
-              cancelReason: reason || "ಗ್ರಾಹಕರಿಂದ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ (-₹50 ಪಾಕೆಟ್ ಮನಿ ಕಡಿತ)"
+              cancelReason: reason || "ಗ್ರಾಹಕರಿಂದ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ"
             });
-            showCustomAlert("ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ", "✅ ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ ಹಾಗೂ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ರೂ. 50 ಕಡಿತಗೊಳಿಸಲಾಗಿದೆ.");
+            showCustomAlert("ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ", "✅ ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕ್ಯಾನ್ಸಲ್ ಆಗಿದೆ.");
             openMyOrdersScreen();
           } catch (e) {
             showCustomAlert("ದೋಷ", "Error: " + e.message);
@@ -1198,47 +1231,141 @@
       });
     }
 
-    function openExchangeModal(order) {
-      activeExchangeOrder = order;
-      let mapUrl = order.shopMapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((order.shopName || '') + ' ' + (order.shopLocation || ''))}`;
-      
-      document.getElementById('directExchangeShopBox').innerHTML = `
-        <b>ಅಂಗಡಿ ಹೆಸರು:</b> ${order.shopName}<br>
-        <b>ಸ್ಥಳ:</b> ${order.shopLocation}<br>
-        <div style="display:flex; gap:8px; margin-top:8px;">
-          <a href="tel:${order.shopPhone || '8105010768'}" class="shop-call-btn">📞 ಅಂಗಡಿಗೆ ಕಾಲ್ ಮಾಡಿ</a>
-          <a href="${mapUrl}" target="_blank" class="shop-map-btn">📍 GPS ಲೊಕೇಶನ್</a>
-        </div>
-      `;
+    // ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಮೋಡಲ್ ಓಪನ್ ಮಾಡುವ ಫಂಕ್ಷನ್
+    function openReturnModal(order) {
+      activeReturnOrder = order;
+      returnPhoto1Base64 = '';
+      returnPhoto2Base64 = '';
+      chosenExchangeProduct = null;
+      document.getElementById('returnPhotosPreview').innerHTML = '';
+      document.getElementById('returnUpiId').value = '';
+      document.getElementById('refundUpiBox').style.display = 'none';
+      document.getElementById('exchangeCatalogBox').style.display = 'block';
 
-      document.getElementById('exchangeModal').style.display = 'flex';
+      // ಅದೇ ಅಂಗಡಿಯ ಇತರ ವಸ್ತುಗಳನ್ನು ಲೋಡ್ ಮಾಡಿ ತೋರಿಸುವುದು
+      const listContainer = document.getElementById('exchangeProductsListContainer');
+      let shopProducts = allProducts.filter(p => p.shopId === order.shopId);
+
+      if (shopProducts.length === 0) {
+        listContainer.innerHTML = `<p style="font-size:0.75rem; color:#777; padding:6px;">ಈ ಅಂಗಡಿಯಲ್ಲಿ ಸದ್ಯಕ್ಕೆ ಬೇರೆ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>`;
+      } else {
+        listContainer.innerHTML = shopProducts.map(p => `
+          <div style="display:flex; align-items:center; gap:8px; padding:6px; border-bottom:1px solid #eee; cursor:pointer;" onclick='selectExchangeProduct(${JSON.stringify(p)})'>
+            <img src="${p.photo || 'https://via.placeholder.com/40'}" style="width:35px; height:35px; object-fit:contain; border-radius:4px;">
+            <div style="flex:1;">
+              <div style="font-size:0.75rem; font-weight:bold;">${p.name}</div>
+              <div style="font-size:0.7rem; color:var(--success);">₹${p.price}</div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      document.getElementById('priceCalculationBox').innerHTML = `ಹಳೆ ಆರ್ಡರ್ ಬೆಲೆ: ₹${order.totalPrice} | ಹೊಸ ವಸ್ತು ಆಯ್ಕೆಮಾಡಿ.`;
+      document.getElementById('returnModal').style.display = 'flex';
     }
 
-    function closeExchangeModal() {
-      document.getElementById('exchangeModal').style.display = 'none';
+    function closeReturnModal() {
+      document.getElementById('returnModal').style.display = 'none';
     }
 
-    async function submitHomeExchangeRequest() {
-      if (!activeExchangeOrder) return;
-      const reason = document.getElementById('exchangeReason').value.trim();
+    function handleReturnPhoto(photoNum, event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        let base64 = e.target.result;
+        if (photoNum === 1) returnPhoto1Base64 = base64;
+        if (photoNum === 2) returnPhoto2Base64 = base64;
+
+        document.getElementById('retBtn' + photoNum).innerText = "✔ ಫೋಟೋ " + photoNum + " ಅಪ್ಲೋಡ್ ಆಗಿದೆ";
+        document.getElementById('retBtn' + photoNum).style.background = "#e8f5e9";
+
+        let previewDiv = document.getElementById('returnPhotosPreview');
+        previewDiv.innerHTML = `
+          ${returnPhoto1Base64 ? `<img src="${returnPhoto1Base64}" style="width:50px; height:50px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">` : ''}
+          ${returnPhoto2Base64 ? `<img src="${returnPhoto2Base64}" style="width:50px; height:50px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">` : ''}
+        `;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function toggleReturnPreference() {
+      let pref = document.getElementById('returnPreferenceSelect').value;
+      if (pref === 'REFUND') {
+        document.getElementById('refundUpiBox').style.display = 'block';
+        document.getElementById('exchangeCatalogBox').style.display = 'none';
+      } else {
+        document.getElementById('refundUpiBox').style.display = 'none';
+        document.getElementById('exchangeCatalogBox').style.display = 'block';
+      }
+    }
+
+    function selectExchangeProduct(prod) {
+      chosenExchangeProduct = prod;
+      let oldPrice = Number(activeReturnOrder.totalPrice);
+      let newPrice = Number(prod.price);
+      let diff = newPrice - oldPrice;
+
+      let calcText = `ಆಯ್ಕೆಮಾಡಿದ ವಸ್ತು: <b>${prod.name}</b> (₹${newPrice})<br>`;
+      if (diff > 0) {
+        calcText += `ಹೆಚ್ಚುವರಿಯಾಗಿ ನೀಡಬೇಕಾದ ಮೊತ್ತ (Plus): <span style="color:var(--danger); font-weight:bold;">₹${diff}</span>`;
+      } else if (diff < 0) {
+        calcText += `ಮರಳಿ ಪಡೆಯಬೇಕಾದ ಮೊತ್ತ (Minus): <span style="color:var(--success); font-weight:bold;">₹${Math.abs(diff)}</span>`;
+      } else {
+        calcText += `ಸಮಾನ ಬೆಲೆಯ ವಸ್ತು (Equal Price)`;
+      }
+
+      document.getElementById('priceCalculationBox').innerHTML = calcText;
+    }
+
+    async function submitReturnExchangeRequest() {
+      if (!activeReturnOrder) return;
+      const reason = document.getElementById('returnReasonSelect').value;
+      const preference = document.getElementById('returnPreferenceSelect').value;
+      const upiId = document.getElementById('returnUpiId').value.trim();
+
+      if (!returnPhoto1Base64 && !returnPhoto2Base64) {
+        showCustomAlert("ಎಚ್ಚರಿಕೆ", "ದಯವಿಟ್ಟು ಕನಿಷ್ಠ 1 ಫೋಟೋ ಕ್ಯಾಮೆರಾ ಮೂಲಕ ಅಪ್ಲೋಡ್ ಮಾಡಿ.");
+        return;
+      }
+
+      if (preference === 'REFUND' && !upiId) {
+        showCustomAlert("ಎಚ್ಚರಿಕೆ", "ದಯವಿಟ್ಟು ನಿಮ್ಮ ಯುಪಿಐ ಐಡಿ (UPI ID) ನಮೂದಿಸಿ.");
+        return;
+      }
+
+      if (preference === 'EXCHANGE' && !chosenExchangeProduct) {
+        showCustomAlert("ಎಚ್ಚರಿಕೆ", "ದಯವಿಟ್ಟು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಪಟ್ಟಿಯಿಂದ ಹೊಸ ವಸ್ತುವನ್ನು ಆಯ್ಕೆಮಾಡಿ.");
+        return;
+      }
 
       try {
-        let phone = localStorage.getItem('customer_phone_key');
-        let currentWallet = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
-        let deductedWallet = Math.max(0, currentWallet - 50);
-        localStorage.setItem('user_wallet_' + phone, deductedWallet);
+        let updatePayload = {
+          isReturnRequested: true,
+          returnReason: reason,
+          returnPhotos: [returnPhoto1Base64, returnPhoto2Base64].filter(Boolean),
+          returnPreference: preference,
+          returnStatus: 'PENDING_APPROVAL',
+          shopNotice: `⚠️ ಗ್ರಾಹಕರು ರಿಟರ್ನ್ ಕೋರಿದ್ದಾರೆ. ಕಾರಣ: ${reason}. ಆಯ್ಕೆ: ${preference}`
+        };
 
-        await window.updateDoc(window.doc(window.db, "orders", activeExchangeOrder.id), {
-          isExchangeRequested: true,
-          exchangeType: 'HOME_EXCHANGE',
-          exchangeFee: 50,
-          exchangeReason: reason || "ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಕೋರಲಾಗಿದೆ (-₹50 ಪಾಕೆಟ್ ಮನಿ ಕಡಿತ)",
-          exchangeStatus: 'PENDING_HOME_EXCHANGE',
-          shopNotice: "⚠️ ಗ್ರಾಹಕರು ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ವಸ್ತುವನ್ನು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಕೋರಿದ್ದಾರೆ (₹50 ಚಾರ್ಜ್ ಅನ್ವಯ)."
-        });
+        if (preference === 'REFUND') {
+          updatePayload.returnUpiId = upiId;
+          updatePayload.refundStatus = 'PENDING_24H_PAYMENT';
+        } else if (preference === 'EXCHANGE') {
+          updatePayload.exchangeProduct = chosenExchangeProduct;
+        }
 
-        showCustomAlert("ಯಶಸ್ವಿ", "✅ ಮನೆಬಾಗಿಲಿಗೆ ಬಂದು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡುವ ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ! ರೂ. 50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಅನ್ವಯಿಸುತ್ತದೆ ಹಾಗೂ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ರೂ. 50 ಕಡಿತಗೊಳಿಸಲಾಗಿದೆ.");
-        closeExchangeModal();
+        await window.updateDoc(window.doc(window.db, "orders", activeReturnOrder.id), updatePayload);
+
+        if (preference === 'REFUND') {
+          showCustomAlert("ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ (Payment Successful)", "✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ಪೇಮೆಂಟ್ ವಿನಂತಿ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ! 24 ಗಂಟೆ ಒಳಗೆ ನಿಮ್ಮ ಯುಪಿಐ ಗೆ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗುತ್ತದೆ.");
+        } else {
+          showCustomAlert("ಯಶಸ್ವಿ", "✅ ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ! ಅಂಗಡಿ ಮಾಲೀಕರು ಪರಿಶೀಲಿಸಿ ಕ್ರಮ ಕೈಗೊಳ್ಳುತ್ತಾರೆ.");
+        }
+
+        closeReturnModal();
         openMyOrdersScreen();
       } catch (e) {
         showCustomAlert("ದೋಷ", "Error: " + e.message);
@@ -1273,7 +1400,7 @@
           <h3 style="font-size:1.1rem; color:var(--primary); margin-bottom:6px;">🎁 ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿ ಬ್ಯಾಲೆನ್ಸ್</h3>
           <div style="font-size:2rem; font-weight:bold; color:var(--success); margin:10px 0;">₹${displayBalance}</div>
           <p style="font-size:0.8rem; color:#666; line-height:1.4;">
-            ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದ ಮೇಲೆ ಈ ಹಣಗಳು ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಕಾಯಂ ಆಗಿ ಜಮಾ ಇರುತ್ತವೆ. ಒಂದು ವೇಳೆ ವಸ್ತು ರಿಟರ್ನ್ ಮಾಡಿದರೆ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಜಮಾ ಆಗಿರುವ ಹಣದಲ್ಲಿ ರೂ. 50 ಕಡಿತಗೊಳ್ಳುತ್ತದೆ.
+            ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದ ಮೇಲೆ ಈ ಹಣಗಳು ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಕಾಯಂ ಆಗಿ ಜಮಾ ಇರುತ್ತವೆ.
           </p>
           ${withdrawSection}
         </div>

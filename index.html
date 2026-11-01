@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" href="logo.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#e65100">
+  <meta name="theme-color" content="#2874f0">
 
   <script>
     const manifestData = {
@@ -17,8 +17,8 @@
       "short_name": "ಶಾಪಿಂಗ್ ಆಪ್",
       "start_url": "./",
       "display": "standalone",
-      "background_color": "#f4f7f6",
-      "theme_color": "#e65100",
+      "background_color": "#f1f3f6",
+      "theme_color": "#2874f0",
       "icons": [
         { "src": "logo.png", "sizes": "192x192", "type": "image/png" },
         { "src": "logo.png", "sizes": "512x512", "type": "image/png" }
@@ -116,7 +116,7 @@
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
     .old-price { font-size: 0.75rem; color: #888; text-decoration: line-through; }
 
-    /* Categories Grid (Flipkart Style) */
+    /* Categories Grid */
     .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px; }
     .category-card { background: #fff; border-radius: 8px; padding: 10px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; border: 1px solid #eee; }
     .category-card img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 6px; }
@@ -153,7 +153,6 @@
     .t-item.completed .t-dot { background: var(--success); }
     .t-item.active .t-dot { background: var(--primary); width: 16px; height: 16px; left: -22px; top: 0; }
     .t-title { font-size: 0.85rem; font-weight: bold; color: #333; }
-    .t-desc { font-size: 0.75rem; color: #666; margin-top: 2px; }
 
     .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 20px; overflow-y: auto; }
     .modal-box { background: #fff; width: 100%; max-width: 380px; padding: 20px; border-radius: 10px; max-height: 90vh; overflow-y: auto; text-align: center; }
@@ -164,24 +163,18 @@
     .custom-alert-box { background: #fff; width: 100%; max-width: 330px; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: scaleUp 0.2s ease; }
     @keyframes scaleUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-    /* Star rating styling */
     .star-rating { display: flex; gap: 6px; justify-content: center; font-size: 1.5rem; cursor: pointer; color: #ccc; margin: 6px 0; }
     .star-rating span.rated { color: #ff9f00; }
   </style>
 </head>
 <body>
 
-  <!-- Audio element for coin drop / background devotional tunes -->
   <audio id="coinSound" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3" preload="auto"></audio>
 
-  <!-- Hidden camera input for photo search -->
   <input type="file" id="cameraSearchInput" accept="image/*" capture="environment" style="display:none;" onchange="handleCameraPhotoSearch(event)">
-
-  <!-- Hidden camera inputs for return/exchange 2 photos -->
   <input type="file" id="returnPhoto1Input" accept="image/*" capture="environment" style="display:none;" onchange="handleReturnPhoto(1, event)">
   <input type="file" id="returnPhoto2Input" accept="image/*" capture="environment" style="display:none;" onchange="handleReturnPhoto(2, event)">
 
-  <!-- Custom Popup Modal -->
   <div id="customAlertModal">
     <div class="custom-alert-box">
       <div id="customAlertIcon" style="font-size: 2.2rem; margin-bottom: 8px;">🎉</div>
@@ -206,7 +199,7 @@
     </div>
   </div>
 
-  <!-- Main Header -->
+  <!-- Header -->
   <header>
     <div class="top-bar">
       <div class="brand-logo-area">
@@ -214,7 +207,7 @@
         <div class="brand-title" id="lblBrand">🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್</div>
       </div>
       <div class="header-btns">
-        <button class="btn-pocket" onclick="openPocketMoneyScreen()">💰 ಪಾಕೆት ಮನಿ</button>
+        <button class="btn-pocket" onclick="openPocketMoneyScreen()">💰 ಪಾಕೆಟ್ ಮನಿ</button>
         <button class="btn-lang" id="langToggleBtn" onclick="toggleLanguage()">English</button>
         <button class="btn-my-orders" id="lblMyOrdersBtn" onclick="openMyOrdersScreen()">📦 ನನ್ನ ಆರ್ಡರ್</button>
       </div>
@@ -255,7 +248,7 @@
     <div id="productsGrid" class="grid-products"></div>
   </div>
 
-  <!-- CATEGORIES VIEW CONTAINER (Flipkart Style Grid) -->
+  <!-- CATEGORIES VIEW CONTAINER -->
   <div class="container" id="categoriesViewContainer" style="display:none;">
     <div style="font-size: 1rem; font-weight: bold; margin: 10px 4px; color: #212121;">ಎಲ್ಲಾ ವರ್ಗಗಳು (All Categories)</div>
     <div class="categories-grid">
@@ -279,7 +272,7 @@
         <img src="https://via.placeholder.com/60?text=📺" alt="Appliances">
         <span>ವಸ್ತುಗಳು</span>
       </div>
-      <div class="category-card" onclick="filterByCategory('सौಂದರ್ಯ')">
+      <div class="category-card" onclick="filterByCategory('ಸೌಂದರ್ಯ')">
         <img src="https://via.placeholder.com/60?text=💄" alt="Beauty">
         <span>ಸೌಂದರ್ಯ ಪ್ರಸಾದನಗಳು</span>
       </div>
@@ -325,7 +318,7 @@
   <!-- PRODUCT DETAIL SCREEN -->
   <div id="productDetailScreen" class="screen">
     <div class="screen-header">
-      <span class="back-btn" onclick="goBackScreen('productDetailScreen')">←</span>
+      <span class="back-btn" onclick="goBackToHome()">←</span>
       <span id="lblProdDetailTitle">ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ</span>
     </div>
     <div style="padding: 12px 12px 220px 12px;">
@@ -377,7 +370,7 @@
   <!-- CHECKOUT SCREEN -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
-      <span class="back-btn" onclick="goBackScreen('checkoutScreen')">←</span>
+      <span class="back-btn" onclick="goBackToHome()">←</span>
       <span id="lblCheckoutHeader">ವಿವರ ಖಚಿತಪಡಿಸಿ (Checkout)</span>
     </div>
     <div style="padding: 15px 15px 160px 15px;">
@@ -409,7 +402,7 @@
   <!-- MY ORDERS SCREEN -->
   <div id="myOrdersScreen" class="screen">
     <div class="screen-header">
-      <span class="back-btn" onclick="goBackScreen('myOrdersScreen')">←</span>
+      <span class="back-btn" onclick="goBackToHome()">←</span>
       <span id="lblMyOrdersHeader">ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)</span>
     </div>
     <div style="padding: 15px 15px 160px 15px;" id="ordersContainer"></div>
@@ -418,7 +411,7 @@
   <!-- ORDER DETAILS STATUS SCREEN -->
   <div id="orderDetailsScreen" class="screen">
     <div class="screen-header">
-      <span class="back-btn" onclick="goBackScreen('orderDetailsScreen')">←</span>
+      <span class="back-btn" onclick="goBackToHome()">←</span>
       <span id="lblOrderDetailsHeader">Order Details</span>
     </div>
     <div style="padding: 15px 15px 160px 15px;" id="orderDetailsContent"></div>
@@ -427,13 +420,13 @@
   <!-- POCKET MONEY SCREEN -->
   <div id="pocketMoneyScreen" class="screen">
     <div class="screen-header">
-      <span class="back-btn" onclick="goBackScreen('pocketMoneyScreen')">←</span>
+      <span class="back-btn" onclick="goBackToHome()">←</span>
       <span>💰 ಪಾಕೆಟ್ ಮನಿ (Pocket Money)</span>
     </div>
     <div style="padding: 15px; max-width: 500px; margin: 0 auto;" id="pocketMoneyContent"></div>
   </div>
 
-  <!-- RETURN / EXCHANGE REASON & PHOTO MODAL -->
+  <!-- RETURN / EXCHANGE MODAL -->
   <div id="returnModal" class="modal">
     <div class="modal-box" style="text-align:left;">
       <div style="font-size: 1.8rem; margin-bottom: 5px; text-align:center;">🔄</div>
@@ -461,14 +454,12 @@
         </select>
       </div>
 
-      <!-- REFUND UPI BOX -->
       <div id="refundUpiBox" style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #ddd; margin-bottom:12px; display:none;">
         <label style="font-size:0.78rem; font-weight:bold; color:#333; display:block; margin-bottom:4px;">ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ (ಪೇಮೆಂಟ್ ಪಡೆಯಲು):</label>
         <input type="text" id="returnUpiId" placeholder="ಉದಾ: mobile@ybl ಅಥವಾ upi@oksbi" style="width:100%; padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.82rem;">
         <p style="font-size:0.7rem; color:#d32f2f; margin-top:4px;">⚠️ ಯುಪಿಐ ಹಾಕಿ ಸಬ್ಮಿಟ್ ಮಾಡಿದರೆ 24 ಗಂಟೆ ಒಳಗೆ ನಿಮ್ಮ ಅಕೌಂಟಿಗೆ ಪೇಮೆಂಟ್ ಆಗುತ್ತದೆ.</p>
       </div>
 
-      <!-- EXCHANGE PRODUCTS CATALOG BOX (ONLY SAME SHOP PRODUCTS) -->
       <div id="exchangeCatalogBox" style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #ddd; margin-bottom:12px;">
         <label style="font-size:0.78rem; font-weight:bold; color:var(--primary); display:block; margin-bottom:4px;">ಅದೇ ಅಂಗಡಿಯ ಇತರೆ ವಸ್ತುಗಳು (ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಆಯ್ಕೆಮಾಡಿ):</label>
         <div id="exchangeProductsListContainer" style="max-height:140px; overflow-y:auto; border:1px solid #eee; background:#fff; padding:6px; border-radius:4px;"></div>
@@ -613,14 +604,17 @@
       window.history.replaceState({ screen: 'main' }, '', '');
 
       window.addEventListener('popstate', (e) => {
-        const screens = ['orderDetailsScreen', 'myOrdersScreen', 'checkoutScreen', 'productDetailScreen', 'pocketMoneyScreen'];
-        let openedScreen = screens.find(id => document.getElementById(id).style.display === 'block');
-        
-        if (openedScreen) {
-          document.getElementById(openedScreen).style.display = 'none';
-        }
+        goBackToHome();
       });
     });
+
+    function goBackToHome() {
+      const screens = ['orderDetailsScreen', 'myOrdersScreen', 'checkoutScreen', 'productDetailScreen', 'pocketMoneyScreen'];
+      screens.forEach(id => {
+        document.getElementById(id).style.display = 'none';
+      });
+      switchNavTab('home');
+    }
 
     function checkIfAlreadyInstalled() {
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
@@ -718,6 +712,11 @@
       const homeCont = document.getElementById('homeViewContainer');
       const catCont = document.getElementById('categoriesViewContainer');
 
+      // Close open sub-screens
+      ['orderDetailsScreen', 'myOrdersScreen', 'checkoutScreen', 'productDetailScreen', 'pocketMoneyScreen'].forEach(id => {
+        document.getElementById(id).style.display = 'none';
+      });
+
       if (tabName === 'home') {
         document.getElementById('navHome').classList.add('active');
         homeCont.style.display = 'block';
@@ -747,13 +746,6 @@
     function showScreen(screenId) {
       window.history.pushState({ screen: screenId }, '', '');
       document.getElementById(screenId).style.display = 'block';
-    }
-
-    function goBackScreen(screenId) {
-      document.getElementById(screenId).style.display = 'none';
-      if (window.history.state && window.history.state.screen === screenId) {
-        window.history.back();
-      }
     }
 
     function toggleLanguage() {
@@ -1088,14 +1080,6 @@
           localStorage.setItem('customer_phone_key', phone);
           localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, taluk, district }));
 
-          let userOrdersCount = parseInt(localStorage.getItem('user_orders_count_' + phone) || '0') + 1;
-          localStorage.setItem('user_orders_count_' + phone, userOrdersCount);
-
-          let cashbackEarned = userOrdersCount === 1 ? 50 : 30;
-          let currentWallet = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
-          let rawWallet = currentWallet + cashbackEarned;
-          localStorage.setItem('user_wallet_' + phone, rawWallet);
-
           let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
           let baseTotal = Number(selectedProduct.price) * productQty;
           let deliveryFee = 30; 
@@ -1126,9 +1110,7 @@
           try {
             await window.addDoc(window.collection(window.db, "orders"), orderData);
             showCustomAlert("ಯಶಸ್ವಿ", t.orderSuccess);
-            document.getElementById('checkoutScreen').style.display = 'none';
-            document.getElementById('productDetailScreen').style.display = 'none';
-            openMyOrdersScreen();
+            goBackToHome();
           } catch (e) {
             showCustomAlert("ದೋಷ", "Error: " + e.message);
           }
@@ -1483,7 +1465,7 @@
           returnPhotos: [returnPhoto1Base64, returnPhoto2Base64].filter(Boolean),
           returnPreference: preference,
           returnStatus: 'PENDING_APPROVAL',
-          shopNotice: `⚠️ ಈ ವಸ್ತುವನ್ನು ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲಾಗಿದೆ. ಕಾರಣ: ${reason}. (ಈ ವಸ್ತುವನ್ನು ಪ್ಯಾಕಿಂಗ್ ಮಾಡಿ)`
+          shopNotice: `⚠️ ಈ ವಸ್ತುವನ್ನು ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲಾಗಿದೆ. ಕಾರಣ: ${reason}.`
         };
 
         if (preference === 'REFUND') {
@@ -1498,14 +1480,9 @@
 
         await window.updateDoc(window.doc(window.db, "orders", activeReturnOrder.id), updatePayload);
 
-        if (preference === 'REFUND') {
-          showCustomAlert("ಯಶಸ್ವಿ", "✅ ರಿಟರ್ನ್ ಪೇಮೆಂಟ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ! 24 ಗಂಟೆ ಒಳಗೆ ನಿಮ್ಮ ಯುಪಿಐ ಪೇಮೆಂಟ್‌ನಲ್ಲಿ ಜಮಾ ಆಗಲಿದೆ (ಪೆಂಡಿಂಗ್ ಸ್ಟೇಟಸ್).");
-        } else {
-          showCustomAlert("ಯಶಸ್ವಿ", "✅ ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ! ಡೆಲಿವರಿ ಬಾಯ್ ಬಂದು ಪಿಕ್ ಮಾಡಿಕೊಳ್ಳುತ್ತಾರೆ.");
-        }
-
+        showCustomAlert("ಯಶಸ್ವಿ", "✅ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ!");
         closeReturnModal();
-        openMyOrdersScreen();
+        goBackToHome(); // ರಿಟರ್ನ್ ಆದ ಮೇಲೆ ನೇರವಾಗಿ ಮುಖಪುಟಕ್ಕೆ (Home Page) ಕಳುಹಿಸುತ್ತದೆ
       } catch (e) {
         showCustomAlert("ದೋಷ", "Error: " + e.message);
       }
@@ -1513,21 +1490,36 @@
 
     function openPocketMoneyScreen() {
       const phone = localStorage.getItem('customer_phone_key') || '';
-      let ordersCount = parseInt(localStorage.getItem('user_orders_count_' + phone) || '0');
-      let displayBalance = parseFloat(localStorage.getItem('user_wallet_' + phone) || '0');
       
-      if (ordersCount >= 11) {
-        displayBalance = Math.max(200, displayBalance);
+      // 1 ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಗೆ ರೂ.20 ಮಾತ್ರ
+      if (phone) {
+        const q = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
+        window.onSnapshot(q, (snapshot) => {
+          let deliveredCount = 0;
+          snapshot.forEach(d => {
+            let o = d.data();
+            if (o.status === 'DELIVERED' || o.status === 'STEP_4' || o.isDelivered) {
+              deliveredCount++;
+            }
+          });
+          
+          let totalBalance = deliveredCount * 20; // 10 ಡೆಲಿವರಿ ಸಕ್ಸಸ್ ಆದರೆ ₹200 ಜಮಾ ಆಗುತ್ತದೆ
+          renderPocketMoneyUI(totalBalance);
+        });
       } else {
-        displayBalance = ordersCount * 30;
+        renderPocketMoneyUI(0);
       }
 
+      showScreen('pocketMoneyScreen');
+    }
+
+    function renderPocketMoneyUI(displayBalance) {
       const container = document.getElementById('pocketMoneyContent');
       
       let withdrawSection = `
         <div style="background:#e8f5e9; border:1px solid #c8e6c9; padding:15px; border-radius:8px; margin-top:15px;">
           <h4 style="color:#2e7d32; font-size:0.95rem; margin-bottom:8px;">💳 ಯುಪಿಐ ಪಿನ್ ಮೂಲಕ ವಿತ್‌ಡ್ರಾ ಮಾಡಿ:</h4>
-          <p style="font-size:0.75rem; color:#555; margin-bottom:8px;">(ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದ ಮೇಲೆ ಮಾತ್ರ ಈ ಹಣಗಳು ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಜಮಾ ಇರುತ್ತವೆ ಮತ್ತು ವಿತ್‌ಡ್ರಾ ಮಾಡಬಹುದು.)</p>
+          <p style="font-size:0.75rem; color:#555; margin-bottom:8px;">(ಡೆಲಿವರಿ ಸಕ್ಸಸ್ ಆದಾಗ ಪ್ರತಿ 1 ಆರ್ಡರ್‌ಗೆ ರೂ. 20 ಜಮಾ ಇರುತ್ತದೆ. 10 ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದಾಗ ರೂ. 200 ಆಗುತ್ತದೆ.)</p>
           <input type="text" id="upiIdInput" placeholder="ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ (ಉದಾ: ybl@upi)" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-bottom:8px; font-size:0.85rem;">
           <input type="password" id="upiPinInput" placeholder="UPI PIN ನಮೂದಿಸಿ" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-bottom:10px; font-size:0.85rem;">
           <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="submitWithdrawRequest(${displayBalance})">ವಿತ್‌ಡ್ರಾ (Withdraw) ಸಬ್ಮಿಟ್ ಮಾಡಿ</button>
@@ -1539,13 +1531,11 @@
           <h3 style="font-size:1.1rem; color:var(--primary); margin-bottom:6px;">🎁 ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿ ಬ್ಯಾಲೆನ್ಸ್</h3>
           <div style="font-size:2rem; font-weight:bold; color:var(--success); margin:10px 0;">₹${displayBalance}</div>
           <p style="font-size:0.8rem; color:#666; line-height:1.4;">
-            ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದ ಮೇಲೆ ಈ ಹಣಗಳು ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಕಾಯಂ ಆಗಿ ಜಮಾ ಇರುತ್ತವೆ.
+            ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದ ಮೇಲೆ ಪ್ರತಿಯೊಂದು ಆರ್ಡರ್‌ಗೆ ರೂ.20 ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಯಲ್ಲಿ ಜಮಾ ಇರುತ್ತದೆ.
           </p>
           ${withdrawSection}
         </div>
       `;
-
-      showScreen('pocketMoneyScreen');
     }
 
     async function submitWithdrawRequest(amount) {
@@ -1559,7 +1549,7 @@
       }
 
       if (amount < 200) {
-        showCustomAlert("ಎಚ್ಚರಿಕೆ", "ವಿತ್‌ಡ್ರಾ ಮಾಡಲು ಕನಿಷ್ಠ ರೂ. 200 ಜಮಾ ಆಗಿರಬೇಕು.");
+        showCustomAlert("ಎಚ್ಚರಿಕೆ", "ವಿತ್‌ಡ್ರಾ ಮಾಡಲು ಕನಿಷ್ಠ ರೂ. 200 ಜಮಾ ಆಗಿರಬೇಕು (10 ಡೆಲಿವರಿ ಸಕ್ಸಸ್ ಆಗಿರಬೇಕು).");
         return;
       }
 
@@ -1575,8 +1565,8 @@
 
       try {
         await window.addDoc(window.collection(window.db, "withdraw_requests"), withdrawData);
-        showCustomAlert("ಯಶಸ್ವಿ", "✅ ನಿಮ್ಮ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿಯನ್ನು ಮಾಸ್ಟರ್ ಪ್ಯಾನೆಲ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದ ಮೇಲೆ ಹಣ ವರ್ಗಾಯಿಸಲ್ಪಡುತ್ತದೆ!");
-        document.getElementById('pocketMoneyScreen').style.display = 'none';
+        showCustomAlert("ಯಶಸ್ವಿ", "✅ ನಿಮ್ಮ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ.");
+        goBackToHome();
       } catch (e) {
         showCustomAlert("ದೋಷ", "Error: " + e.message);
       }

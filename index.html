@@ -356,14 +356,8 @@
       <h3 style="color:var(--danger); margin-bottom:8px; text-align:center;">ವಸ್ತು ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಕಾರಣ</h3>
       
       <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:4px; display:block;">ಏನಾಗಿದೆ? (ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ):</label>
-        <select id="returnReasonSelect" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;">
-          <option value="ಡ್ಯಾಮೇಜ್ ಆಗಿದೆ (Damaged Product)">⚠️ ಡ್ಯಾಮೇಜ್ ಆಗಿದೆ (Damaged Product)</option>
-          <option value="ಸೈಜ್ ತೊಂದರೆ (Size Issue)">📏 ಸೈಜ್ ತೊಂದರೆ (Size Issue)</option>
-          <option value="ರಾಂಗ್ ಆರ್ಡರ್ ಆಗಿದ್ಯಾ (Wrong Order Received)">📦 ರಾಂಗ್ ಆರ್ಡರ್ ಆಗಿದ್ಯಾ (Wrong Order Received)</option>
-          <option value="ವಸ್ತು ಬದಲಾಗಿ ಬಂದಿದೆ / ಚೇಂಜ್ ಆಗಿದೆ (Different Item)">🔄 ವಸ್ತು ಬದಲಾಗಿ ಬಂದಿದೆ / ಚೇಂಜ್ ಆಗಿದೆ (Different Item)</option>
-          <option value="ಇತರ ಕಾರಣ (Other)">✏️ ಇತರ ಕಾರಣ (Other)</option>
-        </select>
+        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:4px; display:block;">ಏನಾಗಿದೆ? (ವಿವರವಾಗಿ ಬರೆಯಿರಿ):</label>
+        <textarea id="returnReasonInput" rows="2" placeholder="ಉದಾ: ಪ್ರಾಡಕ್ಟ್ ಡ್ಯಾಮೇಜ್ ಆಗಿದೆ ಅಥವಾ ಸೈಜ್ ಸರಿ ಇಲ್ಲ..." style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;"></textarea>
       </div>
 
       <div style="margin-bottom:10px;">
@@ -1062,7 +1056,7 @@
                   statusText = "ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ - ನಿಮ್ಮ ಯುಪಿಐಗೆ ಜಮಾ ಆಗಿದೆ ✅";
                   statusColor = "var(--success)";
                 } else {
-                  statusText = "ರಿಟರ್ನ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ - ಡೆಲಿವರಿ ಬಾಯ್ ಬಂದು ಪಿಕ್ ಮಾಡಿಕೊಳ್ಳುತ್ತಾರೆ (ಪೆಂಡಿಂಗ್)";
+                  statusText = "🔄 ರಿಟರ್ನ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ - ಡೆಲಿವರಿ ಬಾಯ್ ಬಂದು ಪಿಕ್ ಮಾಡಿಕೊಳ್ಳುತ್ತಾರೆ";
                   statusColor = "#d32f2f";
                 }
               }
@@ -1169,7 +1163,7 @@
 
             returnSectionHTML = `
               <div style="background:#fff3e0; border:1px solid #ffe0b2; padding:12px; border-radius:8px; margin-top:15px; font-size:0.82rem;">
-                <p style="font-weight:bold; color:#e65100;">🔄 ನಿಮ್ಮ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ! ಡೆಲಿವರಿ ಬಾಯ್ ಬಂದು ಪಿಕ್ ಮಾಡಿಕೊಳ್ಳುತ್ತಾರೆ.</p>
+                <p style="font-weight:bold; color:#e65100;">🔄 ನಿಮ್ಮ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ! ಡೆಲಿವರಿ ಬಾಯ್ ಬಂದು ಪಿಕ್ ಮಾಡಿಕೊಳ್ಳುತ್ತಾರೆ.</p>
                 <p style="margin-top:4px;"><b>ಆಯ್ಕೆ:</b> ${order.returnPreference === 'REFUND' ? 'ರಿಟರ್ನ್ ಪೇಮೆಂಟ್ (Refund)' : 'ಎಕ್ಸ್ಚೇಂಜ್ (Exchange)'}</p>
                 ${order.returnPreference === 'REFUND' ? `<p style="margin-top:6px; color:${refundColor}; font-weight:bold;">💳 ಪೇಮೆಂಟ್ ಸ್ಟೇಟಸ್: ${refundStatusText}</p>` : ''}
               </div>
@@ -1205,7 +1199,7 @@
             <div class="t-item ${t1}"><div class="t-dot"></div><div class="t-title">ಆರ್ಡರ್ ದೃಢೀಕರಿಸಲಾಗಿದೆ</div></div>
             <div class="t-item ${t2}"><div class="t-dot"></div><div class="t-title">ಮಾಲೀಕರಿಂದ ಪ್ಯಾಕಿಂಗ್</div></div>
             <div class="t-item ${t3}"><div class="t-dot"></div><div class="t-title">ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ</div></div>
-            <div class="t-item ${t4}"><div class="t-dot"></div><div class="t-title">ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್</div></div>
+            <div class="t-item ${t4}"><div class="t-dot"></div><div class="t-title">${order.isReturnRequested ? '🔄 ರಿಟರ್ನ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ - ಪಿಕ್‌ಅಪ್ ಬಾಕಿ ಇದೆ' : 'ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್'}</div></div>
           </div>
         </div>
         ` : ''}
@@ -1235,19 +1229,19 @@
       });
     }
 
-    // ಕೇವಲ ಅದೇ ಅಂಗಡಿಯ ವಸ್ತುಗಳು ಮಾತ್ರ ಎಕ್ಸ್ಚೇಂಜ್ ಪಟ್ಟಿಯಲ್ಲಿ ಬರುವಂತೆ ಲೋಡ್ ಮಾಡುವ ಫಂಕ್ಷನ್
+    // ಅದೇ ಅಂಗಡಿಯ ವಸ್ತುಗಳು ಮಾತ್ರ ಎಕ್ಸ್ಚೇಂಜ್ ಪಟ್ಟಿಯಲ್ಲಿ ಬರುವಂತೆ ಲೋಡ್ ಮಾಡುವ ಫಂಕ್ಷನ್
     function openReturnModal(order) {
       activeReturnOrder = order;
       returnPhoto1Base64 = '';
       returnPhoto2Base64 = '';
       chosenExchangeProduct = null;
       document.getElementById('returnPhotosPreview').innerHTML = '';
+      document.getElementById('returnReasonInput').value = '';
       document.getElementById('returnUpiId').value = '';
       document.getElementById('refundUpiBox').style.display = 'none';
       document.getElementById('exchangeCatalogBox').style.display = 'block';
 
       const listContainer = document.getElementById('exchangeProductsListContainer');
-      // ಫಿಲ್ಟರ್ ಮಾಡಿ ಕೇವಲ ಆರ್ಡರ್‌ನಲ್ಲಿರುವ shopId ಗೆ ಸಂಬಂಧಿಸಿದ ವಸ್ತುಗಳನ್ನು ಮಾತ್ರ ತರುವುದು
       let sameShopProducts = allProducts.filter(p => p.shopId === order.shopId && !order.productName.includes(p.name));
 
       if (sameShopProducts.length === 0) {
@@ -1301,7 +1295,7 @@
         document.getElementById('exchangeCatalogBox').style.display = 'none';
         
         let oldPrice = Number(activeReturnOrder.totalPrice);
-        let refundAmount = Math.max(0, oldPrice - 50); // 50 ರೂ ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಮೈನಸ್ ಮಾಡಿ ಗ್ರಾಹಕರಿಗೆ ಸಿಗುವ ಮೊತ್ತ
+        let refundAmount = Math.max(0, oldPrice - 50);
         document.getElementById('priceCalculationBox').innerHTML = `ರಿಟರ್ನ್ ಪೇಮೆಂಟ್: ರೂ.50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಕಡಿತಗೊಳಿಸಿ ನಿಮಗೆ ಬರುವ ಒಟ್ಟು ಮೊತ್ತ: <b>₹${refundAmount}</b>`;
       } else {
         document.getElementById('refundUpiBox').style.display = 'none';
@@ -1311,9 +1305,7 @@
 
     function selectExchangeProduct(prod) {
       chosenExchangeProduct = prod;
-      let oldPrice = Number(activeReturnOrder.totalPrice);
       let newPrice = Number(prod.price);
-      // ಹಳೆ ಅಮೌಂಟ್ ಕಟ್ ಆಗುವುದಿಲ್ಲ, ಹೊಸ ವಸ್ತುವಿನ ಬೆಲೆಗೆ 50 ರೂ ಚಾರ್ಜ್ ಸೇರಿಸಿ ತೋರಿಸುವುದು
       let finalExchangePrice = newPrice + 50;
 
       let calcText = `ಆಯ್ಕೆಮಾಡಿದ ಹೊಸ ವಸ್ತು: <b>${prod.name}</b> (₹${newPrice})<br>`;
@@ -1324,9 +1316,14 @@
 
     async function submitReturnExchangeRequest() {
       if (!activeReturnOrder) return;
-      const reason = document.getElementById('returnReasonSelect').value;
+      const reason = document.getElementById('returnReasonInput').value.trim();
       const preference = document.getElementById('returnPreferenceSelect').value;
       const upiId = document.getElementById('returnUpiId').value.trim();
+
+      if (!reason) {
+        showCustomAlert("ಎಚ್ಚರಿಕೆ", "ದಯವಿಟ್ಟು ವಸ್ತುವಿಗೆ ಏನಾಗಿದೆ ಎಂದು ಕಾರಣ ಬರೆಯಿರಿ.");
+        return;
+      }
 
       if (!returnPhoto1Base64 && !returnPhoto2Base64) {
         showCustomAlert("ಎಚ್ಚರಿಕೆ", "ದಯವಿಟ್ಟು ಕನಿಷ್ಠ 1 ಫೋಟೋ ಕ್ಯಾಮೆರಾ ಮೂಲಕ ಅಪ್ಲೋಡ್ ಮಾಡಿ.");
@@ -1356,11 +1353,11 @@
         if (preference === 'REFUND') {
           updatePayload.returnUpiId = upiId;
           let oldPrice = Number(activeReturnOrder.totalPrice);
-          updatePayload.actualRefundAmount = Math.max(0, oldPrice - 50); // 50 ರೂ ಚಾರ್ಜ್ ಮೈನಸ್ ಮಾಡಿ
+          updatePayload.actualRefundAmount = Math.max(0, oldPrice - 50);
           updatePayload.refundStatus = 'PENDING_24H_PAYMENT';
         } else if (preference === 'EXCHANGE') {
           updatePayload.exchangeProduct = chosenExchangeProduct;
-          updatePayload.exchangeExtraCharge = 50; // ರೂ.50 ಹೆಚ್ಚುವರಿ ಚಾರ್ಜ್ ಸೇರಿಸಲಾಗಿದೆ
+          updatePayload.exchangeExtraCharge = 50;
         }
 
         await window.updateDoc(window.doc(window.db, "orders", activeReturnOrder.id), updatePayload);

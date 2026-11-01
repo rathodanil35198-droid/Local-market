@@ -5,14 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title id="appTitle">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ಗ್ರಾಹಕರ ಆಪ್ | Customer App</title>
   
-  <!-- PWA & Mobile App Settings -->
   <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
   <link rel="apple-touch-icon" href="logo.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#e65100">
 
-  <!-- Dynamic Web App Manifest for Real App Feel -->
   <script>
     const manifestData = {
       "name": "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್",
@@ -206,13 +204,11 @@
       </div>
     </div>
 
-    <!-- App Install Banner for Real App Download -->
     <div class="install-banner" id="installBanner">
       <span>📱 "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್" ಅಸಲಿ ಆಪ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ!</span>
       <button class="install-btn" onclick="triggerAppInstall()">ಇನ್‌ಸ್ಟಾಲ್ (Install App)</button>
     </div>
 
-    <!-- Search Box with Camera Photo Search Icon -->
     <div class="search-box">
       🔍 <input type="text" id="searchInput" placeholder="ಊರು, ತಾಲೂಕು, ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ..." oninput="filterProducts()">
       <span class="camera-search-icon" onclick="openCameraSearch()" title="ಫೋಟೋ ತೆಗೆದು ಹುಡುಕಿ">📷</span>
@@ -220,8 +216,6 @@
   </header>
 
   <div class="container">
-    
-    <!-- Flipkart Style Auto-Scrolling Banner Slider -->
     <div class="hero-slider-container" id="heroSliderContainer">
       <div class="hero-slider-track" id="heroSliderTrack">
         <div class="hero-slide" style="display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #ff9966, #ff5e62); color:white; font-size:1.1rem; font-weight:bold;">
@@ -384,7 +378,7 @@
       <div style="margin-bottom:12px;">
         <label style="font-size:0.8rem; font-weight:bold; margin-bottom:4px; display:block;">ನಿಮಗೆ ಏನು ಬೇಕು? (ಆಯ್ಕೆಮಾಡಿ):</label>
         <select id="returnPreferenceSelect" onchange="toggleReturnPreference()" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;">
-          <option value="EXCHANGE">🔄 ಎಕ್ಸ್ಚೇಂಜ್ ಬೇಕು (Exchange with another product)</option>
+          <option value="EXCHANGE">🔄 ಎಕ್ಸ್ಚೇಂಜ್ ಬೇಕು (Exchange with same shop product)</option>
           <option value="REFUND">💰 ರಿಟರ್ನ್ ಪೇಮೆಂಟ್ ಬೇಕು (Money Refund to UPI)</option>
         </select>
       </div>
@@ -396,9 +390,9 @@
         <p style="font-size:0.7rem; color:#d32f2f; margin-top:4px;">⚠️ ಯುಪಿಐ ಹಾಕಿ ಸಬ್ಮಿಟ್ ಮಾಡಿದರೆ 24 ಗಂಟೆ ಒಳಗೆ ನಿಮ್ಮ ಅಕೌಂಟಿಗೆ ಪೇಮೆಂಟ್ ಆಗುತ್ತದೆ.</p>
       </div>
 
-      <!-- EXCHANGE PRODUCTS CATALOG BOX -->
+      <!-- EXCHANGE PRODUCTS CATALOG BOX (ONLY SAME SHOP PRODUCTS) -->
       <div id="exchangeCatalogBox" style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #ddd; margin-bottom:12px;">
-        <label style="font-size:0.78rem; font-weight:bold; color:var(--primary); display:block; margin-bottom:4px;">ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಅದೇ ಅಂಗಡಿಯ ಇ 0 ಇತರ ವಸ್ತುಗಳು:</label>
+        <label style="font-size:0.78rem; font-weight:bold; color:var(--primary); display:block; margin-bottom:4px;">ಅದೇ ಅಂಗಡಿಯ ಇತರೆ ವಸ್ತುಗಳು (ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಆಯ್ಕೆಮಾಡಿ):</label>
         <div id="exchangeProductsListContainer" style="max-height:140px; overflow-y:auto; border:1px solid #eee; background:#fff; padding:6px; border-radius:4px;"></div>
         <div id="priceCalculationBox" style="font-size:0.78rem; font-weight:bold; color:#333; margin-top:6px; background:#fff3e0; padding:6px; border-radius:4px; border:1px solid #ffe0b2;"></div>
       </div>
@@ -994,7 +988,6 @@
           let deliveryFee = 30; 
           let grandTotal = baseTotal + deliveryFee;
 
-          // ಗ್ರಾಹಕರ ವಿಭಿನ್ನ ಡೆಲಿವರಿ ಒಟಿಪಿ (4-ಡಿಜಿಟ್)
           let custDeliveryOtp = Math.floor(1000 + Math.random() * 9000).toString();
 
           const orderData = {
@@ -1011,7 +1004,7 @@
             shopLocation: shop ? `${shop.taluk}, ${shop.district}` : "ಶಹಾಪುರ",
             shopMapUrl: shop ? (shop.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.shopName + ' ' + shop.taluk)}`) : '#',
             customer: { name, phone, village, taluk, district },
-            deliveryOtp: custDeliveryOtp, // ಗ್ರಾಹಕರ ಡೆಲಿವರಿ ಒಟಿಪಿ
+            deliveryOtp: custDeliveryOtp,
             status: 'STEP_1',
             orderTime: Date.now(),
             timestamp: Date.now()
@@ -1062,11 +1055,16 @@
                 statusText = "ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿಕೊಂಡಿದ್ದಾರೆ";
                 statusColor = "#1565c0";
               } else if (o.status === 'DELIVERED' || o.status === 'STEP_4') {
-                statusText = "ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್ (Delivery Successful - ಪಾಕೆಟ್ ಮನಿಗೆ ಹಣ ಜಮಾ)";
+                statusText = "ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್ (Delivery Successful)";
                 statusColor = "var(--success)";
               } else if (o.isReturnRequested) {
-                statusText = "ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ";
-                statusColor = "#d32f2f";
+                if (o.refundStatus === 'PAID_SUCCESS') {
+                  statusText = "ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ - ನಿಮ್ಮ ಯುಪಿಐಗೆ ಜಮಾ ಆಗಿದೆ ✅";
+                  statusColor = "var(--success)";
+                } else {
+                  statusText = "ರಿಟರ್ನ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ - ಡೆಲಿವರಿ ಬಾಯ್ ಬಂದು ಪಿಕ್ ಮಾಡಿಕೊಳ್ಳುತ್ತಾರೆ (ಪೆಂಡಿಂಗ್)";
+                  statusColor = "#d32f2f";
+                }
               }
 
               return `
@@ -1119,7 +1117,7 @@
       if (isDelivered) {
         contactActionHTML = `
           <div style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #eee; margin-bottom:15px; font-size:0.82rem;">
-            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">✔ ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿ ಪೂರ್ಣಗೊಂಡಿದೆ. ನಿಮ್ಮ ಪಾಕೆಟ್ ಮನಿಗೆ ಹಣ ಜಮಾ ಆಗಿದೆ!</p>
+            <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-bottom:6px;">✔ ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿ ಪೂರ್ಣಗೊಂಡಿದೆ!</p>
             <p><b>ಅಂಗಡಿ ಹೆಸರು:</b> ${order.shopName || 'Namma Store'}</p>
             <div style="display:flex; gap:8px; margin-top:10px;">
               <a href="tel:${order.shopPhone || '8105010768'}" class="shop-call-btn">📞 ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕಾಲ್ ಮಾಡಿ</a>
@@ -1162,12 +1160,18 @@
 
         if (hoursPassed <= 72) {
           if (order.isReturnRequested) {
+            let refundStatusText = "24 ಗಂಟೆ ಒಳಗೆ ನಿಮ್ಮ ಯುಪಿಐಗೆ ಪೇಮೆಂಟ್ ಜಮಾ ಆಗುತ್ತದೆ (ಪೆಂಡಿಂಗ್)";
+            let refundColor = "#e65100";
+            if (order.refundStatus === 'PAID_SUCCESS') {
+              refundStatusText = "ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ - ನಿಮ್ಮ ಯುಪಿಐಯಲ್ಲಿ ಪೇಮೆಂಟ್ ಜಮಾ ಆಗಿದೆ ✅";
+              refundColor = "var(--success)";
+            }
+
             returnSectionHTML = `
               <div style="background:#fff3e0; border:1px solid #ffe0b2; padding:12px; border-radius:8px; margin-top:15px; font-size:0.82rem;">
-                <p style="font-weight:bold; color:#e65100;">🔄 ನಿಮ್ಮ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ!</p>
+                <p style="font-weight:bold; color:#e65100;">🔄 ನಿಮ್ಮ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ! ಡೆಲಿವರಿ ಬಾಯ್ ಬಂದು ಪಿಕ್ ಮಾಡಿಕೊಳ್ಳುತ್ತಾರೆ.</p>
                 <p style="margin-top:4px;"><b>ಆಯ್ಕೆ:</b> ${order.returnPreference === 'REFUND' ? 'ರಿಟರ್ನ್ ಪೇಮೆಂಟ್ (Refund)' : 'ಎಕ್ಸ್ಚೇಂಜ್ (Exchange)'}</p>
-                <p style="margin-top:2px;"><b>ಸ್ಥಿತಿ:</b> ${order.returnStatus || 'ಪರಿಶೀಲನೆಯಲ್ಲಿದೆ'}</p>
-                ${order.returnPreference === 'REFUND' ? `<p style="margin-top:2px; color:var(--success); font-weight:bold;">✅ ಪೇಮೆಂಟ್ ಸ್ಟೇಟಸ್: 24 ಗಂಟೆ ಒಳಗೆ ಯುಪಿಐ ಗೆ ಜಮಾ ಆಗುತ್ತದೆ.</p>` : ''}
+                ${order.returnPreference === 'REFUND' ? `<p style="margin-top:6px; color:${refundColor}; font-weight:bold;">💳 ಪೇಮೆಂಟ್ ಸ್ಟೇಟಸ್: ${refundStatusText}</p>` : ''}
               </div>
             `;
           } else {
@@ -1201,7 +1205,7 @@
             <div class="t-item ${t1}"><div class="t-dot"></div><div class="t-title">ಆರ್ಡರ್ ದೃಢೀಕರಿಸಲಾಗಿದೆ</div></div>
             <div class="t-item ${t2}"><div class="t-dot"></div><div class="t-title">ಮಾಲೀಕರಿಂದ ಪ್ಯಾಕಿಂಗ್</div></div>
             <div class="t-item ${t3}"><div class="t-dot"></div><div class="t-title">ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ</div></div>
-            <div class="t-item ${t4}"><div class="t-dot"></div><div class="t-title">ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್ (ಒಟಿಪಿ ಪರಿಶೀಲಿಸಲಾಗಿದೆ)</div></div>
+            <div class="t-item ${t4}"><div class="t-dot"></div><div class="t-title">ಡೆಲಿವರಿ ಸಕ್ಸಸ್‌ಫುಲ್</div></div>
           </div>
         </div>
         ` : ''}
@@ -1231,7 +1235,7 @@
       });
     }
 
-    // ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಮೋಡಲ್ ಓಪನ್ ಮಾಡುವ ಫಂಕ್ಷನ್
+    // ಕೇವಲ ಅದೇ ಅಂಗಡಿಯ ವಸ್ತುಗಳು ಮಾತ್ರ ಎಕ್ಸ್ಚೇಂಜ್ ಪಟ್ಟಿಯಲ್ಲಿ ಬರುವಂತೆ ಲೋಡ್ ಮಾಡುವ ಫಂಕ್ಷನ್
     function openReturnModal(order) {
       activeReturnOrder = order;
       returnPhoto1Base64 = '';
@@ -1242,14 +1246,14 @@
       document.getElementById('refundUpiBox').style.display = 'none';
       document.getElementById('exchangeCatalogBox').style.display = 'block';
 
-      // ಅದೇ ಅಂಗಡಿಯ ಇತರ ವಸ್ತುಗಳನ್ನು ಲೋಡ್ ಮಾಡಿ ತೋರಿಸುವುದು
       const listContainer = document.getElementById('exchangeProductsListContainer');
-      let shopProducts = allProducts.filter(p => p.shopId === order.shopId);
+      // ಫಿಲ್ಟರ್ ಮಾಡಿ ಕೇವಲ ಆರ್ಡರ್‌ನಲ್ಲಿರುವ shopId ಗೆ ಸಂಬಂಧಿಸಿದ ವಸ್ತುಗಳನ್ನು ಮಾತ್ರ ತರುವುದು
+      let sameShopProducts = allProducts.filter(p => p.shopId === order.shopId && !order.productName.includes(p.name));
 
-      if (shopProducts.length === 0) {
-        listContainer.innerHTML = `<p style="font-size:0.75rem; color:#777; padding:6px;">ಈ ಅಂಗಡಿಯಲ್ಲಿ ಸದ್ಯಕ್ಕೆ ಬೇರೆ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>`;
+      if (sameShopProducts.length === 0) {
+        listContainer.innerHTML = `<p style="font-size:0.75rem; color:#777; padding:6px;">ಈ ಅಂಗಡಿಯಲ್ಲಿ ಸದ್ಯಕ್ಕೆ ಬೇರೆ ಇತರೆ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>`;
       } else {
-        listContainer.innerHTML = shopProducts.map(p => `
+        listContainer.innerHTML = sameShopProducts.map(p => `
           <div style="display:flex; align-items:center; gap:8px; padding:6px; border-bottom:1px solid #eee; cursor:pointer;" onclick='selectExchangeProduct(${JSON.stringify(p)})'>
             <img src="${p.photo || 'https://via.placeholder.com/40'}" style="width:35px; height:35px; object-fit:contain; border-radius:4px;">
             <div style="flex:1;">
@@ -1260,7 +1264,7 @@
         `).join('');
       }
 
-      document.getElementById('priceCalculationBox').innerHTML = `ಹಳೆ ಆರ್ಡರ್ ಬೆಲೆ: ₹${order.totalPrice} | ಹೊಸ ವಸ್ತು ಆಯ್ಕೆಮಾಡಿ.`;
+      document.getElementById('priceCalculationBox').innerHTML = `ಹಳೆ ಆರ್ಡರ್ ಬೆಲೆ: ₹${order.totalPrice} | ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಮೇಲಿನ ಪಟ್ಟಿಯಿಂದ ವಸ್ತು ಆಯ್ಕೆಮಾಡಿ.`;
       document.getElementById('returnModal').style.display = 'flex';
     }
 
@@ -1295,6 +1299,10 @@
       if (pref === 'REFUND') {
         document.getElementById('refundUpiBox').style.display = 'block';
         document.getElementById('exchangeCatalogBox').style.display = 'none';
+        
+        let oldPrice = Number(activeReturnOrder.totalPrice);
+        let refundAmount = Math.max(0, oldPrice - 50); // 50 ರೂ ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಮೈನಸ್ ಮಾಡಿ ಗ್ರಾಹಕರಿಗೆ ಸಿಗುವ ಮೊತ್ತ
+        document.getElementById('priceCalculationBox').innerHTML = `ರಿಟರ್ನ್ ಪೇಮೆಂಟ್: ರೂ.50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಕಡಿತಗೊಳಿಸಿ ನಿಮಗೆ ಬರುವ ಒಟ್ಟು ಮೊತ್ತ: <b>₹${refundAmount}</b>`;
       } else {
         document.getElementById('refundUpiBox').style.display = 'none';
         document.getElementById('exchangeCatalogBox').style.display = 'block';
@@ -1305,16 +1313,11 @@
       chosenExchangeProduct = prod;
       let oldPrice = Number(activeReturnOrder.totalPrice);
       let newPrice = Number(prod.price);
-      let diff = newPrice - oldPrice;
+      // ಹಳೆ ಅಮೌಂಟ್ ಕಟ್ ಆಗುವುದಿಲ್ಲ, ಹೊಸ ವಸ್ತುವಿನ ಬೆಲೆಗೆ 50 ರೂ ಚಾರ್ಜ್ ಸೇರಿಸಿ ತೋರಿಸುವುದು
+      let finalExchangePrice = newPrice + 50;
 
-      let calcText = `ಆಯ್ಕೆಮಾಡಿದ ವಸ್ತು: <b>${prod.name}</b> (₹${newPrice})<br>`;
-      if (diff > 0) {
-        calcText += `ಹೆಚ್ಚುವರಿಯಾಗಿ ನೀಡಬೇಕಾದ ಮೊತ್ತ (Plus): <span style="color:var(--danger); font-weight:bold;">₹${diff}</span>`;
-      } else if (diff < 0) {
-        calcText += `ಮರಳಿ ಪಡೆಯಬೇಕಾದ ಮೊತ್ತ (Minus): <span style="color:var(--success); font-weight:bold;">₹${Math.abs(diff)}</span>`;
-      } else {
-        calcText += `ಸಮಾನ ಬೆಲೆಯ ವಸ್ತು (Equal Price)`;
-      }
+      let calcText = `ಆಯ್ಕೆಮಾಡಿದ ಹೊಸ ವಸ್ತು: <b>${prod.name}</b> (₹${newPrice})<br>`;
+      calcText += `ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಸೇರಿ ಒಟ್ಟು ಪಾವತಿಸಬೇಕಾದ ಮೊತ್ತ: <span style="color:var(--danger); font-weight:bold;">₹${finalExchangePrice} (₹50 ಚಾರ್ಜ್ ಸೇರಿದೆ)</span>`;
 
       document.getElementById('priceCalculationBox').innerHTML = calcText;
     }
@@ -1336,7 +1339,7 @@
       }
 
       if (preference === 'EXCHANGE' && !chosenExchangeProduct) {
-        showCustomAlert("ಎಚ್ಚರಿಕೆ", "ದಯವಿಟ್ಟು ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಪಟ್ಟಿಯಿಂದ ಹೊಸ ವಸ್ತುವನ್ನು ಆಯ್ಕೆಮಾಡಿ.");
+        showCustomAlert("ಎಚ್ಚರಿಕೆ", "ದಯವಿಟ್ಟು ಅದೇ ಅಂಗಡಿಯ ಪಟ್ಟಿಯಿಂದ ಹೊಸ ವಸ್ತುವನ್ನು ಆಯ್ಕೆಮಾಡಿ.");
         return;
       }
 
@@ -1347,22 +1350,25 @@
           returnPhotos: [returnPhoto1Base64, returnPhoto2Base64].filter(Boolean),
           returnPreference: preference,
           returnStatus: 'PENDING_APPROVAL',
-          shopNotice: `⚠️ ಗ್ರಾಹಕರು ರಿಟರ್ನ್ ಕೋರಿದ್ದಾರೆ. ಕಾರಣ: ${reason}. ಆಯ್ಕೆ: ${preference}`
+          shopNotice: `⚠️ ಈ ವಸ್ತುವನ್ನು ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲಾಗಿದೆ. ಕಾರಣ: ${reason}. (ಈ ವಸ್ತುವನ್ನು ಪ್ಯಾಕಿಂಗ್ ಮಾಡಿ)`
         };
 
         if (preference === 'REFUND') {
           updatePayload.returnUpiId = upiId;
+          let oldPrice = Number(activeReturnOrder.totalPrice);
+          updatePayload.actualRefundAmount = Math.max(0, oldPrice - 50); // 50 ರೂ ಚಾರ್ಜ್ ಮೈನಸ್ ಮಾಡಿ
           updatePayload.refundStatus = 'PENDING_24H_PAYMENT';
         } else if (preference === 'EXCHANGE') {
           updatePayload.exchangeProduct = chosenExchangeProduct;
+          updatePayload.exchangeExtraCharge = 50; // ರೂ.50 ಹೆಚ್ಚುವರಿ ಚಾರ್ಜ್ ಸೇರಿಸಲಾಗಿದೆ
         }
 
         await window.updateDoc(window.doc(window.db, "orders", activeReturnOrder.id), updatePayload);
 
         if (preference === 'REFUND') {
-          showCustomAlert("ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ (Payment Successful)", "✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ಪೇಮೆಂಟ್ ವಿನಂತಿ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ! 24 ಗಂಟೆ ಒಳಗೆ ನಿಮ್ಮ ಯುಪಿಐ ಗೆ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗುತ್ತದೆ.");
+          showCustomAlert("ಯಶಸ್ವಿ", "✅ ರಿಟರ್ನ್ ಪೇಮೆಂಟ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ! 24 ಗಂಟೆ ಒಳಗೆ ನಿಮ್ಮ ಯುಪಿಐ ಪೇಮೆಂಟ್‌ನಲ್ಲಿ ಜಮಾ ಆಗಲಿದೆ (ಪೆಂಡಿಂಗ್ ಸ್ಟೇಟಸ್).");
         } else {
-          showCustomAlert("ಯಶಸ್ವಿ", "✅ ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ! ಅಂಗಡಿ ಮಾಲೀಕರು ಪರಿಶೀಲಿಸಿ ಕ್ರಮ ಕೈಗೊಳ್ಳುತ್ತಾರೆ.");
+          showCustomAlert("ಯಶಸ್ವಿ", "✅ ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ! ಡೆಲಿವರಿ ಬಾಯ್ ಬಂದು ಪಿಕ್ ಮಾಡಿಕೊಳ್ಳುತ್ತಾರೆ.");
         }
 
         closeReturnModal();

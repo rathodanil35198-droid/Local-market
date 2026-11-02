@@ -7,31 +7,10 @@
   
   <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
   <link rel="apple-touch-icon" href="logo.png">
+  <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#2874f0">
-
-  <script>
-    const manifestData = {
-      "name": "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್",
-      "short_name": "ಶಾಪಿಂಗ್ ಆಪ್",
-      "start_url": "./",
-      "display": "standalone",
-      "background_color": "#f1f3f6",
-      "theme_color": "#2874f0",
-      "icons": [
-        { "src": "logo.png", "sizes": "192x192", "type": "image/png" },
-        { "src": "logo.png", "sizes": "512x512", "type": "image/png" }
-      ]
-    };
-    const stringManifest = JSON.stringify(manifestData);
-    const blob = new Blob([stringManifest], {type: 'application/json'});
-    const manifestURL = URL.createObjectURL(blob);
-    const linkTag = document.createElement('link');
-    linkTag.rel = 'manifest';
-    linkTag.href = manifestURL;
-    document.head.appendChild(linkTag);
-  </script>
 
   <!-- Firebase SDKs -->
   <script type="module">
@@ -666,6 +645,13 @@
       window.addEventListener('popstate', (e) => {
         goBackToHome();
       });
+
+      // Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('SW Registered!', reg))
+          .catch((err) => console.log('SW Failed!', err));
+      }
     });
 
     function goBackToHome() {
@@ -693,6 +679,7 @@
           deferredPrompt = null;
         });
       } else {
+        // ಒಂದು ವೇಳೆ ಪ್ರಾಂಪ್ಟ್ ಬರದಿದ್ದರೆ ನೇರವಾಗಿ ಬ್ರೌಸರ್ ಮೆನು ಅಥವಾ ಶಾರ್ಟ್‌ಕಟ್ ಓಪನ್ ಮಾಡಲು
         showCustomAlert("ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್", "📱 ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನ ಮೇಲ್ಭಾಗದಲ್ಲಿರುವ ಮೂರು ಚುಕ್ಕೆಗಳ (⋮) ಮೆನು ಕ್ಲಿಕ್ ಮಾಡಿ, ನಂತರ 'Install app' ಅಥವಾ 'Add to Home screen' ಆಯ್ಕೆಮಾಡಿ ನೇರವಾಗಿ ನಿಮ್ಮ ಸ್ಕ್ರೀನ್ ಮೇಲೆ ಪಡೆಯಿರಿ.");
       }
     }

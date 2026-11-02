@@ -80,6 +80,32 @@
     .btn-my-orders { background: var(--secondary); color: #000; border: none; padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
     .btn-pocket { background: #ff9f00; color: #fff; border: none; padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; gap: 2px; }
 
+    /* GLOWING FLOATING SHARE BUTTON */
+    .floating-share-btn {
+      position: fixed;
+      bottom: 80px;
+      right: 15px;
+      width: 48px;
+      height: 48px;
+      background: #25d366;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 999;
+      cursor: pointer;
+      animation: pulseGlow 1.5s infinite;
+      border: 2px solid #fff;
+    }
+    @keyframes pulseGlow {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+      70% { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    }
+
     .install-banner { background: #fff3e0; border-bottom: 1px solid #ffe0b2; padding: 8px 12px; display: none; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #e65100; font-weight: bold; }
     .install-btn { background: var(--primary); color: white; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
 
@@ -184,6 +210,11 @@
 
   <audio id="coinSound" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3" preload="auto"></audio>
 
+  <!-- FLOATING GLOWING SHARE BUTTON -->
+  <div class="floating-share-btn" onclick="shareAppOnWhatsApp()" title="WhatsApp ನಲ್ಲಿ ಶೇರ್ ಮಾಡಿ">
+    💬
+  </div>
+
   <input type="file" id="cameraSearchInput" accept="image/*" capture="environment" style="display:none;" onchange="handleCameraPhotoSearch(event)">
   <input type="file" id="returnPhoto1Input" accept="image/*" capture="environment" style="display:none;" onchange="handleReturnPhoto(1, event)">
   <input type="file" id="returnPhoto2Input" accept="image/*" capture="environment" style="display:none;" onchange="handleReturnPhoto(2, event)">
@@ -261,7 +292,7 @@
     <div id="productsGrid" class="grid-products"></div>
   </div>
 
-  <!-- CATEGORIES VIEW CONTAINER WITH ICONS -->
+  <!-- CATEGORIES VIEW CONTAINER -->
   <div class="container" id="categoriesViewContainer" style="display:none;">
     <div style="font-size: 1rem; font-weight: bold; margin: 10px 4px; color: #212121;">ಎಲ್ಲಾ ವರ್ಗಗಳು (All Categories)</div>
     <div class="categories-grid">
@@ -353,7 +384,6 @@
         </div>
       </div>
 
-      <!-- SINGLE COMPACT VARIANT BOX (FLIPKART STYLE) -->
       <div id="variantSection" style="margin-top: 10px;">
         <label style="font-size: 0.8rem; font-weight: bold;" id="lblVariantTitle">Variant / Size ಆಯ್ಕೆಮಾಡಿ:</label>
         <div class="variant-container" id="variantOptionsContainer"></div>
@@ -382,7 +412,7 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN (CONFIRM ORDER BUTTON PLACED EXACTLY WHERE YOU MARKED IN RED) -->
+  <!-- CHECKOUT SCREEN (WITH PINCODE FIELD) -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
@@ -396,11 +426,11 @@
         <input type="text" id="custName" placeholder="ಹೆಸರು / Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು / Village (ಉದಾ: ಶಹಾಪುರ ಅಥವಾ ಹತ್ತಿರದ ಹಳ್ಳಿ)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode (ಉದಾ: 585223)" maxlength="6" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="text" id="custTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು / Taluk" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="text" id="custDistrict" value="ಯಾದಗಿರಿ" placeholder="ಜಿಲ್ಲೆ / District" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
       </div>
 
-      <!-- CONFIRM ORDER BUTTON PLACED RIGHT BELOW ADDRESS BOX (AS MARKED IN RED IN YOUR PHOTO) -->
       <div style="margin-bottom: 15px;">
         <button class="btn-action btn-buy-now" id="lblConfirmOrderBtn" onclick="confirmOrderWithPopup()" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)</button>
       </div>
@@ -445,15 +475,22 @@
     <div style="padding: 15px; max-width: 500px; margin: 0 auto;" id="pocketMoneyContent"></div>
   </div>
 
-  <!-- RETURN / EXCHANGE MODAL -->
+  <!-- RETURN / EXCHANGE MODAL WITH ENLARGED CATALOG IMAGES & MULTIPLE REASONS -->
   <div id="returnModal" class="modal">
     <div class="modal-box" style="text-align:left;">
       <div style="font-size: 1.8rem; margin-bottom: 5px; text-align:center;">🔄</div>
       <h3 style="color:var(--danger); margin-bottom:8px; text-align:center;">ವಸ್ತು ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಕಾರಣ</h3>
       
       <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:4px; display:block;">ಏನಾಗಿದೆ? (ವಿವರವಾಗಿ ಬರೆಯಿರಿ):</label>
-        <textarea id="returnReasonInput" rows="2" placeholder="ಉದಾ: ಪ್ರಾಡಕ್ಟ್ ಡ್ಯಾಮೇಜ್ ಆಗಿದೆ ಅಥವಾ ಸೈಜ್ ಸರಿ ಇಲ್ಲ..." style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;"></textarea>
+        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:4px; display:block;">ಸಮಸ್ಯೆ ಆಯ್ಕೆಮಾಡಿ (Select Issue):</label>
+        <select id="returnReasonCategorySelect" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem; margin-bottom:6px;" onchange="handleReturnReasonCategoryChange()">
+          <option value="ಸೈಜ್ ತೊಂದರೆ (Size Issue)">📏 ಸೈಜ್ ತೊಂದರೆ (Size Issue)</option>
+          <option value="ಡ್ಯಾಮೇಜ್ ವಸ್ತು (Damaged Item)">💥 ಡ್ಯಾಮೇಜ್ ವಸ್ತು (Damaged Item)</option>
+          <option value="ರಾಂಗ್ ಐಟಂ (Wrong Item)">📦 ರಾಂಗ್ ಐಟಂ (Wrong Item)</option>
+          <option value="ಗುಣಮಟ್ಟ ಸರಿ ಇಲ್ಲ (Poor Quality)">⭐ ಗುಣಮಟ್ಟ ಸರಿ ಇಲ್ಲ (Poor Quality)</option>
+          <option value="ಇತರ ಕಾರಣ (Other Reason)">✏️ ಇತರ ಕಾರಣ (Other Reason)</option>
+        </select>
+        <textarea id="returnReasonInput" rows="2" placeholder="ವಿವರವಾಗಿ ಬರೆಯಿರಿ..." style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;"></textarea>
       </div>
 
       <div style="margin-bottom:10px;">
@@ -479,9 +516,10 @@
         <p style="font-size:0.7rem; color:#d32f2f; margin-top:4px;">⚠️ ಯುಪಿಐ ಹಾಕಿ ಸಬ್ಮಿಟ್ ಮಾಡಿದರೆ 24 ಗಂಟೆ ಒಳಗೆ ನಿಮ್ಮ ಅಕೌಂಟಿಗೆ ಪೇಮೆಂಟ್ ಆಗುತ್ತದೆ.</p>
       </div>
 
+      <!-- ENLARGED CATALOG IMAGES FOR EXCHANGE -->
       <div id="exchangeCatalogBox" style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #ddd; margin-bottom:12px;">
-        <label style="font-size:0.78rem; font-weight:bold; color:var(--primary); display:block; margin-bottom:4px;">ಅದೇ ಅಂಗಡಿಯ ಇತರೆ ವಸ್ತುಗಳು (ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಆಯ್ಕೆಮಾಡಿ):</label>
-        <div id="exchangeProductsListContainer" style="max-height:140px; overflow-y:auto; border:1px solid #eee; background:#fff; padding:6px; border-radius:4px;"></div>
+        <label style="font-size:0.78rem; font-weight:bold; color:var(--primary); display:block; margin-bottom:6px;">ಅದೇ ಅಂಗಡಿಯ ಇತರೆ ವಸ್ತುಗಳು (ದೊಡ್ಡ ಫೋಟೋಗಳೊಂದಿಗೆ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಆಯ್ಕೆಮಾಡಿ):</label>
+        <div id="exchangeProductsListContainer" style="max-height:220px; overflow-y:auto; border:1px solid #eee; background:#fff; padding:6px; border-radius:4px; display:flex; flex-direction:column; gap:8px;"></div>
         <div id="priceCalculationBox" style="font-size:0.78rem; font-weight:bold; color:#333; margin-top:6px; background:#fff3e0; padding:6px; border-radius:4px; border:1px solid #ffe0b2;"></div>
       </div>
 
@@ -517,6 +555,13 @@
         sound.currentTime = 0;
         sound.play().catch(e => console.log("Audio play blocked:", e));
       }
+    }
+
+    function shareAppOnWhatsApp() {
+      const appUrl = window.location.href;
+      const shareText = `🛍️ ಬನ್ನಿ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ ಮೂಲಕ ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ! 1-2 ದಿನಗಳಲ್ಲಿ ಮನೆಗೆ ಡೆಲಿವರಿ ಪಡೆಯಿರಿ.\n\nಲಿಂಕ್ ಇಲ್ಲಿದೆ ನೋಡಿ:\n${appUrl}`;
+      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+      window.open(whatsappUrl, '_blank');
     }
 
     function showCustomAlert(title, msg, isConfirm = false, showCancelForm = false, callback = null) {
@@ -584,7 +629,7 @@
         noOrders: "ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
         orderSuccess: "🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ನಲ್ಲಿ ಖರೀದಿ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು! 1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ.",
         confirmPopup: "🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಲು OK ಒತ್ತಿ.",
-        fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಊರು ನಮೂದಿಸಿ.",
+        fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ, ಪಿನ್ ಕೋಡ್ ಮತ್ತು ಊರು ನಮೂದಿಸಿ.",
         selectSizeMsg: "ದಯವಿಟ್ಟು RAM/Storage ಅಥವಾ ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ."
       },
       en: {
@@ -603,7 +648,7 @@
         noOrders: "No orders found.",
         orderSuccess: "🎉 Thank you for purchasing from Namma Ooru Shopping! Delivery in 1 to 2 days.",
         confirmPopup: "🎉 Press OK to confirm your order.",
-        fillAll: "Please enter Name, Mobile Number and Village.",
+        fillAll: "Please enter Name, Mobile Number, Pincode and Village.",
         selectSizeMsg: "Please select RAM/Storage or size."
       }
     };
@@ -806,6 +851,7 @@
         document.getElementById('custName').value = addr.name || '';
         document.getElementById('custPhone').value = addr.phone || '';
         document.getElementById('custVillage').value = addr.village || '';
+        document.getElementById('custPincode').value = addr.pincode || '';
         document.getElementById('custTaluk').value = addr.taluk || 'ಶಹಾಪುರ';
         document.getElementById('custDistrict').value = addr.district || 'ಯಾದಗಿರಿ';
         if (addr.taluk) document.getElementById('filterTaluk').value = addr.taluk;
@@ -1176,10 +1222,11 @@
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
+      const pincode = document.getElementById('custPincode').value.trim();
       const taluk = document.getElementById('custTaluk').value.trim();
       const district = document.getElementById('custDistrict').value.trim();
 
-      if (!name || !phone || !village || !taluk) {
+      if (!name || !phone || !village || !pincode || !taluk) {
         showCustomAlert("ಮಾಹಿತಿ ಅಪೂರ್ಣ", t.fillAll);
         return;
       }
@@ -1198,7 +1245,7 @@
         if (confirmed) {
           playCoinSound();
           localStorage.setItem('customer_phone_key', phone);
-          localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, taluk, district }));
+          localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, pincode, taluk, district }));
 
           let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
           let pricePerUnit = selectedVariant ? selectedVariant.price : selectedProduct.price;
@@ -1221,7 +1268,7 @@
             deliveryBoyPhone: '8105010768',
             shopLocation: shop ? `${shop.taluk}, ${shop.district}` : "ಶಹಾಪುರ",
             shopMapUrl: shop ? (shop.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.shopName + ' ' + shop.taluk)}`) : '#',
-            customer: { name, phone, village, taluk, district },
+            customer: { name, phone, village, pincode, taluk, district },
             deliveryOtp: custDeliveryOtp,
             status: 'STEP_1',
             orderTime: Date.now(),
@@ -1375,7 +1422,8 @@
       }
 
       let cancelBtnHTML = '';
-      if (!isDelivered && !isCancelled && !order.isReturnRequested) {
+      // SHOW CANCEL BUTTON ONLY IF ORDER IS NOT YET CONFIRMED/PACKED BY SHOP OWNER (STATUS STEP_1)
+      if (!isDelivered && !isCancelled && !order.isReturnRequested && (status === 'STEP_1' || status === 'PENDING')) {
         cancelBtnHTML = `
           <button class="btn" style="background:var(--danger); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; margin-top:12px; font-size:0.85rem;" onclick='cancelOrderPrompt(${JSON.stringify(order)})'>❌ ಆರ್ಡರ್ ರದ್ದುಮಾಡಿ (Cancel Order)</button>
         `;
@@ -1470,7 +1518,8 @@
       returnPhoto2Base64 = '';
       chosenExchangeProduct = null;
       document.getElementById('returnPhotosPreview').innerHTML = '';
-      document.getElementById('returnReasonInput').value = '';
+      document.getElementById('returnReasonCategorySelect').value = 'ಸೈಜ್ ತೊಂದರೆ (Size Issue)';
+      document.getElementById('returnReasonInput').value = 'ಸೈಜ್ ತೊಂದರೆ (Size Issue)';
       document.getElementById('returnUpiId').value = '';
       document.getElementById('refundUpiBox').style.display = 'none';
       document.getElementById('exchangeCatalogBox').style.display = 'block';
@@ -1481,19 +1530,32 @@
       if (sameShopProducts.length === 0) {
         listContainer.innerHTML = `<p style="font-size:0.75rem; color:#777; padding:6px;">ಈ ಅಂಗಡಿಯಲ್ಲಿ ಸದ್ಯಕ್ಕೆ ಬೇರೆ ಇತರೆ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>`;
       } else {
-        listContainer.innerHTML = sameShopProducts.map(p => `
-          <div style="display:flex; align-items:center; gap:8px; padding:8px; border-bottom:1px solid #eee; cursor:pointer;" onclick='selectExchangeProduct(${JSON.stringify(p)})'>
-            <img src="${p.photo || 'https://via.placeholder.com/40'}" style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
-            <div style="flex:1;">
-              <div style="font-size:0.8rem; font-weight:bold; color:#333;">${p.name}</div>
-              <div style="font-size:0.75rem; color:var(--success); font-weight:bold;">₹${p.price}</div>
+        // RENDER ENLARGED CATALOG IMAGES FOR EXCHANGE (SIMILAR TO HOME SCREEN)
+        listContainer.innerHTML = sameShopProducts.map(p => {
+          let displayPhoto = p.photo || 'https://via.placeholder.com/150';
+          if (p.colors && p.colors.length > 0 && p.colors[0].photos && p.colors[0].photos.length > 0) {
+            displayPhoto = p.colors[0].photos[0];
+          }
+          return `
+            <div style="display:flex; align-items:center; gap:12px; padding:10px; border:1px solid #ddd; border-radius:8px; cursor:pointer; background:#fff;" onclick='selectExchangeProduct(${JSON.stringify(p)})'>
+              <img src="${displayPhoto}" style="width:75px; height:75px; object-fit:contain; border-radius:6px; background:#f9f9f9; border:1px solid #eee;">
+              <div style="flex:1;">
+                <div style="font-size:0.88rem; font-weight:bold; color:#333; margin-bottom:4px;">${p.name}</div>
+                <div style="font-size:0.9rem; color:var(--success); font-weight:bold;">₹${p.price}</div>
+                <div style="font-size:0.7rem; color:var(--primary); font-weight:bold; margin-top:2px;">👆 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ</div>
+              </div>
             </div>
-          </div>
-        `).join('');
+          `;
+        }).join('');
       }
 
-      document.getElementById('priceCalculationBox').innerHTML = `ಹಳೆ ಆರ್ಡರ್ ಬೆಲೆ: ₹${order.totalPrice} | ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಮೇಲಿನ ಪಟ್ಟಿಯಿಂದ ವಸ್ತು ಆಯ್ಕೆಮಾಡಿ.`;
+      document.getElementById('priceCalculationBox').innerHTML = `ಹಳೆ ಆರ್ಡರ್ ಬೆಲೆ: ₹${order.totalPrice} | ಮೇಲಿನ ದೊಡ್ಡ ಫೋಟೋಗಳ ಪಟ್ಟಿಯಿಂದ ಹೊಸ ವಸ್ತು ಆಯ್ಕೆಮಾಡಿ.`;
       document.getElementById('returnModal').style.display = 'flex';
+    }
+
+    function handleReturnReasonCategoryChange() {
+      let cat = document.getElementById('returnReasonCategorySelect').value;
+      document.getElementById('returnReasonInput').value = cat;
     }
 
     function closeReturnModal() {
@@ -1582,7 +1644,7 @@
       const upiId = document.getElementById('returnUpiId').value.trim();
 
       if (!reason) {
-        showCustomAlert("ಎಚ್ಚರಿಕೆ", "ದಯವಿಟ್ಟು ವಸ್ತುವಿಗೆ ಏನಾಗಿದೆ ಎಂದು ಕಾರಣ ಬರೆಯಿರಿ.");
+        showCustomAlert("ಎಚ್ಚರಿಕೆ", "ದಯವಿಟ್ಟು ವಸ್ತುವಿಗೆ ಏನಾಗಿದೆ ಎಂದು ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಬರೆಯಿರಿ.");
         return;
       }
 
@@ -1627,7 +1689,7 @@
 
         closeReturnModal();
         goBackToHome();
-        showCustomAlert("ಯಶಸ್ವಿ", "✅ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ!");
+        showCustomAlert("ಯಶಸ್ವಿ", "✅ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ! ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಹಾಗೂ ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ತಿಳಿಸಲಾಗಿದೆ.");
       } catch (e) {
         showCustomAlert("ದೋಷ", "Error: " + e.message);
       }

@@ -125,13 +125,13 @@
     .category-card .cat-icon { font-size: 2.3rem; margin-bottom: 6px; display: block; }
     .category-card span { font-size: 0.78rem; font-weight: bold; color: #333; display: block; }
 
-    /* FLIPKART STYLE VARIANT BOXES */
-    .variant-container { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
-    .variant-box { border: 1px solid #ccc; background: #fff; border-radius: 8px; padding: 8px 12px; cursor: pointer; flex: 1; min-width: 100px; text-align: center; transition: all 0.2s ease; }
+    /* FLIPKART STYLE VARIANT BOXES - SINGLE ROW COMPACT */
+    .variant-container { display: flex; flex-wrap: nowrap; gap: 6px; margin: 8px 0; overflow-x: auto; padding-bottom: 4px; }
+    .variant-box { border: 1px solid #ccc; background: #fff; border-radius: 6px; padding: 6px 8px; cursor: pointer; flex: 1; min-width: 90px; text-align: center; transition: all 0.2s ease; }
     .variant-box.selected { border: 2px solid var(--primary); background: #f0f4ff; }
-    .variant-box .v-title { font-size: 0.8rem; font-weight: bold; color: #212121; }
-    .variant-box .v-price { font-size: 0.78rem; font-weight: bold; color: var(--success); margin-top: 2px; }
-    .variant-box .v-disc { font-size: 0.68rem; color: #388e3c; font-weight: bold; }
+    .variant-box .v-title { font-size: 0.75rem; font-weight: bold; color: #212121; white-space: nowrap; }
+    .variant-box .v-price { font-size: 0.72rem; font-weight: bold; color: var(--success); margin-top: 2px; }
+    .variant-box .v-disc { font-size: 0.62rem; color: #388e3c; font-weight: bold; }
 
     .screen { display: none; background: var(--bg); min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
@@ -324,7 +324,7 @@
     </div>
   </div>
 
-  <!-- PRODUCT DETAIL SCREEN (FLIPKART STYLE VARIANTS & MOBILE SPECS) -->
+  <!-- PRODUCT DETAIL SCREEN -->
   <div id="productDetailScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
@@ -378,14 +378,14 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN (FIXED CONFIRM BUTTON AT THE TOP OF NAVIGATION) -->
+  <!-- CHECKOUT SCREEN (FIXED CONFIRM BUTTON AT THE TOP) -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
       <span id="lblCheckoutHeader">ವಿವರ ಖಚಿತಪಡಿಸಿ (Checkout)</span>
     </div>
     
-    <!-- Confirm Order Button Fixed Header / Top Bar area -->
+    <!-- Confirm Order Button Fixed Header -->
     <div style="position: sticky; top: 48px; z-index: 200; background: #fff; padding: 10px 15px; border-bottom: 1px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
       <button class="btn-action btn-buy-now" id="lblConfirmOrderBtn" onclick="confirmOrderWithPopup()" style="width:100%; padding: 12px; font-size: 1rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)</button>
     </div>
@@ -494,7 +494,7 @@
     let bannerInterval = null;
 
     let selectedProduct = null;
-    let selectedVariant = null; // Holds RAM/Storage or Size
+    let selectedVariant = null;
     let selectedSize = '';
     let productQty = 1;
     let currentLang = localStorage.getItem('app_lang') || 'kn';
@@ -758,7 +758,6 @@
     }
 
     function handleSearchInput() {
-      // Auto switch to home view if user is searching from category tab
       const catCont = document.getElementById('categoriesViewContainer');
       if (catCont.style.display === 'block') {
         switchNavTab('home');
@@ -940,7 +939,6 @@
       document.getElementById('detailShopName').innerText = t.shopPrefix + (shop ? shop.shopName : "Namma Ooru Store");
       document.getElementById('detailShopLocation').innerText = `📍 ಅಂಗಡಿ ಇರುವ ಸ್ಥಳ: ${shop ? shop.taluk + ', ' + shop.district : 'ಶಹಾಪುರ, ಯಾದಗಿರಿ'}`;
 
-      // Detect Mobile or Other Products for FLIPKART STYLE VARIANTS
       const nameLower = selectedProduct.name.toLowerCase();
       const isMobile = nameLower.includes('oppo') || nameLower.includes('vivo') || nameLower.includes('realme') || 
                        nameLower.includes('samsung') || nameLower.includes('redmi') || nameLower.includes('poco') || 
@@ -952,7 +950,6 @@
       if (isMobile) {
         variantTitle.innerText = "Variant (RAM + Storage) ಆಯ್ಕೆಮಾಡಿ:";
         
-        // Custom Variants provided by Shopkeeper or Flipkart Default logic
         let basePrice = Number(selectedProduct.price) || 11999;
         let baseOldPrice = Number(selectedProduct.oldPrice) || basePrice + 2000;
 
@@ -998,7 +995,6 @@
 
       updatePriceDisplay();
 
-      // Load Slider Images
       const sliderTrack = document.getElementById('sliderTrack');
       const thumbnailBar = document.getElementById('thumbnailBar');
 

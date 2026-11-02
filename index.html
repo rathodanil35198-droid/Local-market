@@ -108,7 +108,6 @@
     .grid-products { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
     .product-card { background: #fff; border-radius: 8px; padding: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid #eee; }
     
-    /* FLIPKART STYLE HD PRODUCT CARD IMAGES */
     .img-box { width: 100%; height: 180px; background: #fff; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
     .product-card img { width: 100%; height: 100%; object-fit: cover; }
     
@@ -140,11 +139,11 @@
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .back-btn { font-size: 1.3rem; cursor: pointer; }
 
-    /* FLIPKART STYLE HD SLIDER FOR PRODUCT DETAIL */
+    /* FLIPKART STYLE FULL HD CONTAIN SLIDER FOR PRODUCT DETAIL */
     .slider-container { width: 100%; position: relative; overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #eee; }
     .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .slider-track::-webkit-scrollbar { display: none; }
-    .slider-track img { width: 100%; flex-shrink: 0; height: 280px; object-fit: cover; scroll-snap-align: start; background: #fff; }
+    .slider-track img { width: 100%; flex-shrink: 0; height: 320px; object-fit: contain; scroll-snap-align: start; background: #fff; }
     
     .thumbnail-bar { display: flex; gap: 8px; margin-top: 8px; justify-content: center; overflow-x: auto; padding: 4px; }
     .thumbnail-bar img { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; background: #fff; }
@@ -152,7 +151,7 @@
 
     .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; margin: 8px 0; line-height: 1.4; }
 
-    /* BOTTOM BAR FOR PRODUCT DETAIL WITH HIGHER PADDING TO AVOID OVERLAPPING */
+    /* BOTTOM BAR FOR PRODUCT DETAIL WITH SAFE PADDING */
     .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #e0e0e0; z-index: 300; padding: 14px 15px 30px 15px; box-shadow: 0 -4px 10px rgba(0,0,0,0.1); gap: 10px; }
     .btn-action { flex: 1; padding: 14px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; text-align: center; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.15); }
     .btn-buy-now { background: #ff9f00; color: #fff; }
@@ -335,7 +334,6 @@
       <span class="back-btn" onclick="goBackToHome()">←</span>
       <span id="lblProdDetailTitle">ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ</span>
     </div>
-    <!-- Increased bottom padding to 260px so buttons are fully visible and never overlapped -->
     <div style="padding: 12px 12px 260px 12px;">
       
       <div class="slider-container">
@@ -355,7 +353,7 @@
         </div>
       </div>
 
-      <!-- SINGLE COMPACT VARIANT BOX (FLIPKART STYLE SINGLE SELECT BOX) -->
+      <!-- SINGLE COMPACT VARIANT BOX (FLIPKART STYLE) -->
       <div id="variantSection" style="margin-top: 10px;">
         <label style="font-size: 0.8rem; font-weight: bold;" id="lblVariantTitle">Variant / Size ಆಯ್ಕೆಮಾಡಿ:</label>
         <div class="variant-container" id="variantOptionsContainer"></div>
@@ -384,7 +382,7 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN (CONFIRM ORDER BUTTON PLACED RIGHT BELOW THE SCREEN HEADER / BEFORE THE ADDRESS BOX AS REQUESTED) -->
+  <!-- CHECKOUT SCREEN (CONFIRM ORDER BUTTON PLACED EXACTLY WHERE YOU MARKED IN RED) -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
@@ -393,11 +391,6 @@
 
     <div style="padding: 15px 15px 160px 15px;">
       
-      <!-- CONFIRM ORDER BUTTON PLACED AT THE TOP (EXACTLY WHERE RED LINE MARKED IN USER PHOTO) -->
-      <div style="margin-bottom: 15px;">
-        <button class="btn-action btn-buy-now" id="lblConfirmOrderBtn" onclick="confirmOrderWithPopup()" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)</button>
-      </div>
-
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (15 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
         <input type="text" id="custName" placeholder="ಹೆಸರು / Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
@@ -405,6 +398,11 @@
         <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು / Village (ಉದಾ: ಶಹಾಪುರ ಅಥವಾ ಹತ್ತಿರದ ಹಳ್ಳಿ)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="text" id="custTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು / Taluk" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="text" id="custDistrict" value="ಯಾದಗಿರಿ" placeholder="ಜಿಲ್ಲೆ / District" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+      </div>
+
+      <!-- CONFIRM ORDER BUTTON PLACED RIGHT BELOW ADDRESS BOX (AS MARKED IN RED IN YOUR PHOTO) -->
+      <div style="margin-bottom: 15px;">
+        <button class="btn-action btn-buy-now" id="lblConfirmOrderBtn" onclick="confirmOrderWithPopup()" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)</button>
       </div>
 
       <div style="display: flex; gap: 12px; align-items: center; border: 1px solid #eee; padding: 10px; border-radius: 8px; background:#fff;">
@@ -969,7 +967,6 @@
         selectedVariant = variants[0];
         selectedSize = variants[0].name;
 
-        // SINGLE COMPACT SELECT BOX RENDERING FOR MOBILE RAM/STORAGE
         let dropdownItemsHtml = variants.map((v, idx) => {
           let disc = Math.round(((v.oldPrice - v.price) / v.oldPrice) * 100);
           let isSelClass = idx === 0 ? 'selected' : '';

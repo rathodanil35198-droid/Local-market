@@ -100,7 +100,6 @@
     .filter-box { background: #fff; border: 1px solid #ddd; padding: 8px 12px; border-radius: 8px; margin-bottom: 8px; display: flex; gap: 6px; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
     .filter-box input { flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.8rem; background: #fff; }
 
-    /* Flipkart style bottom navigation */
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; border-top: 1px solid #e0e0e0; z-index: 300; padding: 8px 0; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); }
     .nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; font-size: 0.7rem; color: #555; text-decoration: none; font-weight: 600; }
     .nav-item.active { color: var(--primary); }
@@ -116,7 +115,6 @@
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
     .old-price { font-size: 0.75rem; color: #888; text-decoration: line-through; }
 
-    /* Categories Grid */
     .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px; }
     .category-card { background: #fff; border-radius: 8px; padding: 10px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; border: 1px solid #eee; }
     .category-card img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 6px; }
@@ -392,7 +390,7 @@
         </div>
       </div>
     </div>
-    <div class="bottom-bar" style="z-index: 400; background: #fff; padding: 15px;">
+    <div style="position: fixed; bottom: 65px; left: 0; width: 100%; z-index: 400; background: rgba(255,255,255,0.95); padding: 10px 15px; border-top: 1px solid #ddd; box-shadow: 0 -3px 8px rgba(0,0,0,0.1);">
       <button class="btn-action btn-buy-now" id="lblConfirmOrderBtn" onclick="confirmOrderWithPopup()" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)</button>
     </div>
   </div>
@@ -1137,9 +1135,10 @@
               let statusText = "1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ";
               let statusColor = "var(--primary)";
               let isDelivered = (o.status === 'DELIVERED' || o.status === 'STEP_4' || o.isDelivered);
+              let isCancelled = (o.status === 'CANCELLED' || o.isCancelled);
 
-              if (o.status === 'CANCELLED') {
-                statusText = "ಆರ್ಡರ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ (Cancelled)";
+              if (isCancelled) {
+                statusText = "❌ ಆರ್ಡರ್ ಸಂಪೂರ್ಣ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ (Cancelled)";
                 statusColor = "var(--danger)";
               } else if (o.status === 'CONFIRMED' || o.status === 'STEP_2') {
                 statusText = "ಮಾಲೀಕರಿಂದ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ";
@@ -1165,12 +1164,12 @@
                   <div style="display:flex; gap:12px; align-items:center;">
                     <img src="${o.productPhoto}" style="width:65px; height:65px; object-fit:contain; border-radius:6px; background:#fafafa;">
                     <div style="flex:1;">
-                      <h4 style="font-size:0.85rem;">${o.productName}</h4>
+                      <h4 style="font-size:0.85rem; ${isCancelled ? 'text-decoration:line-through; color:#999;' : ''}">${o.productName}</h4>
                       <p style="font-size:0.9rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${o.totalPrice}</p>
                       <p style="font-size:0.75rem; color:#555; margin-top:2px;"><b>ಸ್ಥಿತಿ:</b> <span style="color:${statusColor}; font-weight:bold;">${statusText}</span></p>
                     </div>
                   </div>
-                  ${isDelivered ? `
+                  ${isDelivered && !isCancelled ? `
                     <div style="margin-top:10px; border-top:1px solid #eee; padding-top:8px; text-align:center;">
                       <span style="font-size:0.75rem; color:#666; font-weight:bold;">ಅನುಭವಕ್ಕೆ ರೇಟಿಂಗ್ ನೀಡಿ (Rate & Review):</span>
                       <div class="star-rating">${starsHtml}</div>
@@ -1201,7 +1200,7 @@
       let t1 = 'completed', t2 = '', t3 = '', t4 = '';
 
       let status = order.status || 'STEP_1';
-      let isCancelled = (status === 'CANCELLED');
+      let isCancelled = (status === 'CANCELLED' || order.isCancelled);
       let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || order.isDelivered);
       let isPickedUp = (status === 'STEP_3' || order.isPickedUp || isDelivered);
       let isPacked = (status === 'STEP_2' || isPickedUp);
@@ -1222,7 +1221,7 @@
       }
 
       let contactActionHTML = '';
-      if (isDelivered) {
+      if (isDelivered && !isCancelled) {
         let currentRating = order.userRating || 0;
         let starsHtml = [1, 2, 3, 4, 5].map(starNum => `
           <span class="${starNum <= currentRating ? 'rated' : ''}" onclick="rateOrder('${order.id}', ${starNum})">★</span>
@@ -1256,15 +1255,15 @@
       let cancelledNoticeHTML = '';
       if (isCancelled) {
         cancelledNoticeHTML = `
-          <div style="background:#ffebee; border:1px solid #ffcdd2; color:#b71c1c; padding:10px; border-radius:8px; font-size:0.85rem; text-align:center; font-weight:bold; margin-bottom:15px;">
-            ❌ ಈ ಆರ್ಡರ್ ರದ್ದುಗೊಂಡಿದೆ.<br>
-            <span style="font-size:0.75rem; font-weight:normal; color:#555;">ಕಾರಣ: ${order.cancelReason || 'ಗ್ರಾಹಕರ ವಿನಂತಿ'}</span>
+          <div style="background:#ffebee; border:2px solid #d32f2f; color:#d32f2f; padding:15px; border-radius:8px; font-size:0.95rem; text-align:center; font-weight:bold; margin-bottom:15px; box-shadow:0 2px 8px rgba(211,47,47,0.2);">
+            ❌ ಈ ಆರ್ಡರ್ ಸಂಪೂರ್ಣವಾಗಿ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ (CANCELLED)<br>
+            <span style="font-size:0.8rem; font-weight:normal; color:#555; display:block; margin-top:6px;">ಕಾರಣ: ${order.cancelReason || 'ಗ್ರಾಹಕರ ವಿನಂತಿ'}</span>
           </div>
         `;
       }
 
       let returnSectionHTML = '';
-      if (isDelivered) {
+      if (isDelivered && !isCancelled) {
         let deliveredTime = order.deliveredTimestamp?.toMillis?.() || order.timestamp || Date.now();
         let hoursPassed = (Date.now() - deliveredTime) / (1000 * 60 * 60);
 
@@ -1290,7 +1289,7 @@
         <div style="display:flex; gap:12px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:15px;">
           <img src="${order.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px;">
           <div style="flex:1;">
-            <h4 style="font-size:0.9rem;">${order.productName}</h4>
+            <h4 style="font-size:0.9rem; ${isCancelled ? 'text-decoration:line-through; color:#999;' : ''}">${order.productName}</h4>
             <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${order.totalPrice}</p>
           </div>
         </div>
@@ -1348,17 +1347,17 @@
       document.getElementById('exchangeCatalogBox').style.display = 'block';
 
       const listContainer = document.getElementById('exchangeProductsListContainer');
-      let sameShopProducts = allProducts.filter(p => p.shopId === order.shopId && !order.productName.includes(p.name));
+      let sameShopProducts = allProducts.filter(p => p.shopId === order.shopId);
 
       if (sameShopProducts.length === 0) {
         listContainer.innerHTML = `<p style="font-size:0.75rem; color:#777; padding:6px;">ಈ ಅಂಗಡಿಯಲ್ಲಿ ಸದ್ಯಕ್ಕೆ ಬೇರೆ ಇತರೆ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>`;
       } else {
         listContainer.innerHTML = sameShopProducts.map(p => `
-          <div style="display:flex; align-items:center; gap:8px; padding:6px; border-bottom:1px solid #eee; cursor:pointer;" onclick='selectExchangeProduct(${JSON.stringify(p)})'>
-            <img src="${p.photo || 'https://via.placeholder.com/40'}" style="width:35px; height:35px; object-fit:contain; border-radius:4px;">
+          <div style="display:flex; align-items:center; gap:8px; padding:8px; border-bottom:1px solid #eee; cursor:pointer;" onclick='selectExchangeProduct(${JSON.stringify(p)})'>
+            <img src="${p.photo || 'https://via.placeholder.com/40'}" style="width:40px; height:40px; object-fit:contain; border-radius:4px;">
             <div style="flex:1;">
-              <div style="font-size:0.75rem; font-weight:bold;">${p.name}</div>
-              <div style="font-size:0.7rem; color:var(--success);">₹${p.price}</div>
+              <div style="font-size:0.8rem; font-weight:bold; color:#333;">${p.name}</div>
+              <div style="font-size:0.75rem; color:var(--success); font-weight:bold;">₹${p.price}</div>
             </div>
           </div>
         `).join('');
@@ -1378,18 +1377,45 @@
 
       const reader = new FileReader();
       reader.onload = function(e) {
-        let base64 = e.target.result;
-        if (photoNum === 1) returnPhoto1Base64 = base64;
-        if (photoNum === 2) returnPhoto2Base64 = base64;
+        const img = new Image();
+        img.src = e.target.result;
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          const MAX_WIDTH = 500;
+          const MAX_HEIGHT = 500;
+          let width = img.width;
+          let height = img.height;
 
-        document.getElementById('retBtn' + photoNum).innerText = "✔ ಫೋಟೋ " + photoNum + " ಅಪ್ಲೋಡ್ ಆಗಿದೆ";
-        document.getElementById('retBtn' + photoNum).style.background = "#e8f5e9";
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
 
-        let previewDiv = document.getElementById('returnPhotosPreview');
-        previewDiv.innerHTML = `
-          ${returnPhoto1Base64 ? `<img src="${returnPhoto1Base64}" style="width:50px; height:50px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">` : ''}
-          ${returnPhoto2Base64 ? `<img src="${returnPhoto2Base64}" style="width:50px; height:50px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">` : ''}
-        `;
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+          let compressedBase64 = canvas.toDataURL('image/jpeg', 0.6);
+
+          if (photoNum === 1) returnPhoto1Base64 = compressedBase64;
+          if (photoNum === 2) returnPhoto2Base64 = compressedBase64;
+
+          document.getElementById('retBtn' + photoNum).innerText = "✔ ಫೋಟೋ " + photoNum + " ಅಪ್ಲೋಡ್ ಆಗಿದೆ";
+          document.getElementById('retBtn' + photoNum).style.background = "#e8f5e9";
+
+          let previewDiv = document.getElementById('returnPhotosPreview');
+          previewDiv.innerHTML = `
+            ${returnPhoto1Base64 ? `<img src="${returnPhoto1Base64}" style="width:50px; height:50px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">` : ''}
+            ${returnPhoto2Base64 ? `<img src="${returnPhoto2Base64}" style="width:50px; height:50px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">` : ''}
+          `;
+        };
       };
       reader.readAsDataURL(file);
     }
@@ -1468,9 +1494,9 @@
 
         await window.updateDoc(window.doc(window.db, "orders", activeReturnOrder.id), updatePayload);
 
-        showCustomAlert("ಯಶಸ್ವಿ", "✅ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ!");
         closeReturnModal();
         goBackToHome();
+        showCustomAlert("ಯಶಸ್ವಿ", "✅ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ!");
       } catch (e) {
         showCustomAlert("ದೋಷ", "Error: " + e.message);
       }
@@ -1552,8 +1578,8 @@
 
       try {
         await window.addDoc(window.collection(window.db, "withdraw_requests"), withdrawData);
-        showCustomAlert("ಯಶಸ್ವಿ", "✅ ನಿಮ್ಮ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ.");
         goBackToHome();
+        showCustomAlert("ಯಶಸ್ವಿ", "✅ ನಿಮ್ಮ ವಿತ್‌ಡ್ರಾ ವಿನಂತಿಯನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ.");
       } catch (e) {
         showCustomAlert("ದೋಷ", "Error: " + e.message);
       }

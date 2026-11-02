@@ -119,10 +119,19 @@
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
     .old-price { font-size: 0.75rem; color: #888; text-decoration: line-through; }
 
+    /* CATEGORIES STYLING */
     .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px; }
-    .category-card { background: #fff; border-radius: 8px; padding: 10px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; border: 1px solid #eee; }
-    .category-card img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 6px; }
+    .category-card { background: #fff; border-radius: 8px; padding: 12px 6px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; border: 1px solid #eee; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .category-card .cat-icon { font-size: 2.3rem; margin-bottom: 6px; display: block; }
     .category-card span { font-size: 0.78rem; font-weight: bold; color: #333; display: block; }
+
+    /* FLIPKART STYLE VARIANT BOXES */
+    .variant-container { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+    .variant-box { border: 1px solid #ccc; background: #fff; border-radius: 8px; padding: 8px 12px; cursor: pointer; flex: 1; min-width: 100px; text-align: center; transition: all 0.2s ease; }
+    .variant-box.selected { border: 2px solid var(--primary); background: #f0f4ff; }
+    .variant-box .v-title { font-size: 0.8rem; font-weight: bold; color: #212121; }
+    .variant-box .v-price { font-size: 0.78rem; font-weight: bold; color: var(--success); margin-top: 2px; }
+    .variant-box .v-disc { font-size: 0.68rem; color: #388e3c; font-weight: bold; }
 
     .screen { display: none; background: var(--bg); min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
@@ -139,7 +148,7 @@
 
     .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; margin: 8px 0; line-height: 1.4; }
 
-    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #e0e0e0; z-index: 300; padding: 12px 15px 20px 15px; box-shadow: 0 -4px 10px rgba(0,0,0,0.1); gap: 10px; }
+    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #e0e0e0; z-index: 300; padding: 10px 15px 15px 15px; box-shadow: 0 -4px 10px rgba(0,0,0,0.1); gap: 10px; }
     .btn-action { flex: 1; padding: 14px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; text-align: center; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.15); }
     .btn-buy-now { background: #ff9f00; color: #fff; }
     .btn-add-cart { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
@@ -219,7 +228,7 @@
     </div>
 
     <div class="search-box">
-      🔍 <input type="text" id="searchInput" placeholder="ಊರು, ತಾಲೂಕು, ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ..." oninput="filterProducts()">
+      🔍 <input type="text" id="searchInput" placeholder="ಊರು, ತಾಲೂಕು, ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ..." oninput="handleSearchInput()">
       <span class="camera-search-icon" onclick="openCameraSearch()" title="ಫೋಟೋ ತೆಗೆದು ಹುಡುಕಿ">📷</span>
     </div>
   </header>
@@ -248,44 +257,44 @@
     <div id="productsGrid" class="grid-products"></div>
   </div>
 
-  <!-- CATEGORIES VIEW CONTAINER -->
+  <!-- CATEGORIES VIEW CONTAINER WITH ICONS -->
   <div class="container" id="categoriesViewContainer" style="display:none;">
     <div style="font-size: 1rem; font-weight: bold; margin: 10px 4px; color: #212121;">ಎಲ್ಲಾ ವರ್ಗಗಳು (All Categories)</div>
     <div class="categories-grid">
       <div class="category-card" onclick="filterByCategory('ಫ್ಯಾಷನ್')">
-        <img src="https://via.placeholder.com/60?text=👗" alt="Fashion">
+        <span class="cat-icon">👗</span>
         <span>ಫ್ಯಾಷನ್</span>
       </div>
       <div class="category-card" onclick="filterByCategory('ಮೊಬೈಲ್')">
-        <img src="https://via.placeholder.com/60?text=📱" alt="Mobiles">
+        <span class="cat-icon">📱</span>
         <span>ಮೊಬೈಲ್‌ಗಳು</span>
       </div>
       <div class="category-card" onclick="filterByCategory('ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್')">
-        <img src="https://via.placeholder.com/60?text=💻" alt="Electronics">
+        <span class="cat-icon">💻</span>
         <span>ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್</span>
       </div>
       <div class="category-card" onclick="filterByCategory('ಮನೆ')">
-        <img src="https://via.placeholder.com/60?text=🛋️" alt="Home">
+        <span class="cat-icon">🛋️</span>
         <span>ಮನೆ</span>
       </div>
       <div class="category-card" onclick="filterByCategory('ವಸ್ತುಗಳು')">
-        <img src="https://via.placeholder.com/60?text=📺" alt="Appliances">
+        <span class="cat-icon">📺</span>
         <span>ವಸ್ತುಗಳು</span>
       </div>
       <div class="category-card" onclick="filterByCategory('ಸೌಂದರ್ಯ')">
-        <img src="https://via.placeholder.com/60?text=💄" alt="Beauty">
-        <span>ಸೌಂದರ್ಯ ಪ್ರಸಾದನಗಳು</span>
+        <span class="cat-icon">💄</span>
+        <span>ಸೌಂದರ್ಯ</span>
       </div>
       <div class="category-card" onclick="filterByCategory('ಕ್ರೀಡೆ')">
-        <img src="https://via.placeholder.com/60?text=🏸" alt="Sports">
-        <span>ಕ್ರೀಡೆ...</span>
+        <span class="cat-icon">🏸</span>
+        <span>ಕ್ರೀಡೆ</span>
       </div>
       <div class="category-card" onclick="filterByCategory('ಕಿರಾಣಿ')">
-        <img src="https://via.placeholder.com/60?text=🛒" alt="Grocery">
+        <span class="cat-icon">🛒</span>
         <span>ಕಿರಾಣಿ ವಸ್ತುಗಳು</span>
       </div>
       <div class="category-card" onclick="filterByCategory('ಸಂಚಾರ')">
-        <img src="https://via.placeholder.com/60?text=✈️" alt="Travel">
+        <span class="cat-icon">✈️</span>
         <span>ಸಂಚಾರ</span>
       </div>
     </div>
@@ -315,7 +324,7 @@
     </div>
   </div>
 
-  <!-- PRODUCT DETAIL SCREEN -->
+  <!-- PRODUCT DETAIL SCREEN (FLIPKART STYLE VARIANTS & MOBILE SPECS) -->
   <div id="productDetailScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
@@ -336,12 +345,14 @@
         <div style="display: flex; align-items: center; gap: 8px;">
           <span class="curr-price" id="detailPrice" style="font-size: 1.2rem; color:var(--success);"></span>
           <span class="old-price" id="detailOldPrice" style="font-size: 0.85rem;"></span>
+          <span id="detailDiscount" class="flipkart-discount" style="font-size:0.85rem;"></span>
         </div>
       </div>
 
-      <div id="sizeSection" style="margin-top: 8px;">
-        <label style="font-size: 0.8rem; font-weight: bold;" id="lblSizeTitle">ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ (Select Size):</label>
-        <div class="size-container" id="sizeOptionsContainer"></div>
+      <!-- RAM/STORAGE (VARIANTS) OR SIZE SECTION -->
+      <div id="variantSection" style="margin-top: 10px;">
+        <label style="font-size: 0.8rem; font-weight: bold;" id="lblVariantTitle">Variant / Size ಆಯ್ಕೆಮಾಡಿ:</label>
+        <div class="variant-container" id="variantOptionsContainer"></div>
       </div>
 
       <div style="display:flex; align-items:center; gap:8px; margin: 8px 0; background:#f8f9fa; padding:6px 8px; border-radius:6px; border:1px solid #eee; font-size:0.85rem;">
@@ -367,13 +378,19 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN -->
+  <!-- CHECKOUT SCREEN (FIXED CONFIRM BUTTON AT THE TOP OF NAVIGATION) -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
       <span id="lblCheckoutHeader">ವಿವರ ಖಚಿತಪಡಿಸಿ (Checkout)</span>
     </div>
-    <div style="padding: 15px 15px 180px 15px;">
+    
+    <!-- Confirm Order Button Fixed Header / Top Bar area -->
+    <div style="position: sticky; top: 48px; z-index: 200; background: #fff; padding: 10px 15px; border-bottom: 1px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
+      <button class="btn-action btn-buy-now" id="lblConfirmOrderBtn" onclick="confirmOrderWithPopup()" style="width:100%; padding: 12px; font-size: 1rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)</button>
+    </div>
+
+    <div style="padding: 15px 15px 120px 15px;">
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (15 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
         <input type="text" id="custName" placeholder="ಹೆಸರು / Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
@@ -393,9 +410,6 @@
           <div id="checkoutFeeBreakdown" style="font-size: 0.78rem; color: #d32f2f; font-weight: bold; margin-top: 4px; background:#fff3e0; padding:6px; border-radius:4px; border:1px solid #ffe0b2;"></div>
         </div>
       </div>
-    </div>
-    <div style="position: fixed; bottom: 65px; left: 0; width: 100%; z-index: 400; background: rgba(255,255,255,0.95); padding: 10px 15px; border-top: 1px solid #ddd; box-shadow: 0 -3px 8px rgba(0,0,0,0.1);">
-      <button class="btn-action btn-buy-now" id="lblConfirmOrderBtn" onclick="confirmOrderWithPopup()" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)</button>
     </div>
   </div>
 
@@ -480,6 +494,7 @@
     let bannerInterval = null;
 
     let selectedProduct = null;
+    let selectedVariant = null; // Holds RAM/Storage or Size
     let selectedSize = '';
     let productQty = 1;
     let currentLang = localStorage.getItem('app_lang') || 'kn';
@@ -565,7 +580,7 @@
         orderSuccess: "🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ನಲ್ಲಿ ಖರೀದಿ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು! 1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ.",
         confirmPopup: "🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಲು OK ಒತ್ತಿ.",
         fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಊರು ನಮೂದಿಸಿ.",
-        selectSizeMsg: "ದಯವಿಟ್ಟು ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ."
+        selectSizeMsg: "ದಯವಿಟ್ಟು RAM/Storage ಅಥವಾ ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ."
       },
       en: {
         appTitle: "Namma Ooru Shopping - Customer App",
@@ -584,7 +599,7 @@
         orderSuccess: "🎉 Thank you for purchasing from Namma Ooru Shopping! Delivery in 1 to 2 days.",
         confirmPopup: "🎉 Press OK to confirm your order.",
         fillAll: "Please enter Name, Mobile Number and Village.",
-        selectSizeMsg: "Please select a size."
+        selectSizeMsg: "Please select RAM/Storage or size."
       }
     };
 
@@ -742,6 +757,15 @@
       filterProducts();
     }
 
+    function handleSearchInput() {
+      // Auto switch to home view if user is searching from category tab
+      const catCont = document.getElementById('categoriesViewContainer');
+      if (catCont.style.display === 'block') {
+        switchNavTab('home');
+      }
+      filterProducts();
+    }
+
     function showScreen(screenId) {
       window.history.pushState({ screen: screenId }, '', '');
       document.getElementById(screenId).style.display = 'block';
@@ -833,12 +857,14 @@
         let shopTaluk = shop ? (shop.taluk || "").toLowerCase() : "";
         let shopDistrict = shop ? (shop.district || "").toLowerCase() : "";
         let prodName = p.name.toLowerCase();
+        let prodCat = (p.category || "").toLowerCase();
 
         let matchSearch = searchQ === "" || 
                           prodName.includes(searchQ) || 
                           shopName.includes(searchQ) || 
                           shopTaluk.includes(searchQ) || 
-                          shopDistrict.includes(searchQ);
+                          shopDistrict.includes(searchQ) ||
+                          prodCat.includes(searchQ);
 
         let matchLocation = filterTalukQ === "" || 
                             shopTaluk.includes(filterTalukQ) || 
@@ -856,8 +882,8 @@
       if (!list || list.length === 0) {
         grid.innerHTML = `
           <div style="grid-column: span 2; text-align:center; color:#777; padding:25px; background:#fff; border-radius:8px; border:1px solid #ddd;">
-            <p style="font-size:0.95rem; font-weight:bold; color:var(--primary); margin-bottom:6px;">🏪 ಯಾವುದೇ ಅಂಗಡಿ ಮಾಲೀಕರು ಲಾಗಿನ್ ಆಗಿಲ್ಲ ಅಥವಾ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ!</p>
-            <p style="font-size:0.8rem; color:#555;">ನೀವು ಹುಡುಕಿದ ಊರು/ತಾಲೂಕಿನಲ್ಲಿ ಹೊಸ ಅಂಗಡಿಗಳು ಬಂದ ತಕ್ಷಣ ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.</p>
+            <p style="font-size:0.95rem; font-weight:bold; color:var(--primary); margin-bottom:6px;">🏪 ಯಾವುದೇ ವಸ್ತುಗಳು ಸಿಗುತ್ತಿಲ್ಲ!</p>
+            <p style="font-size:0.8rem; color:#555;">ನೀವು ಹುಡುಕಿದ ಹೆಸರು, ಊರು ಅಥವಾ ತಾಲೂಕಿನಲ್ಲಿ ಹೊಸ ಅಂಗಡಿಗಳು ಬಂದ ತಕ್ಷಣ ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.</p>
           </div>
         `;
         return;
@@ -883,7 +909,7 @@
               <div class="prod-title">${p.name}</div>
               <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shopName} (${shopLoc})</div>
               <div>
-                <span class="flipkart-rating-badge">3.6 ★ <span style="font-weight:normal; font-size:0.6rem;">| 979</span></span>
+                <span class="flipkart-rating-badge">4.2 ★ <span style="font-weight:normal; font-size:0.6rem;">| Flipkart Verified</span></span>
               </div>
               <div class="price-row" style="align-items:baseline;">
                 <span class="curr-price">₹${p.price}</span>
@@ -913,27 +939,66 @@
       document.getElementById('detailTitle').innerText = selectedProduct.name;
       document.getElementById('detailShopName').innerText = t.shopPrefix + (shop ? shop.shopName : "Namma Ooru Store");
       document.getElementById('detailShopLocation').innerText = `📍 ಅಂಗಡಿ ಇರುವ ಸ್ಥಳ: ${shop ? shop.taluk + ', ' + shop.district : 'ಶಹಾಪುರ, ಯಾದಗಿರಿ'}`;
-      updatePriceDisplay();
 
-      let sizes = ['Standard Size'];
+      // Detect Mobile or Other Products for FLIPKART STYLE VARIANTS
       const nameLower = selectedProduct.name.toLowerCase();
-      
-      if (nameLower.includes('ಪ್ಯಾಂಟ್') || nameLower.includes('pant') || nameLower.includes('trousers') || nameLower.includes('ಜೀನ್ಸ್') || nameLower.includes('jeans')) {
-        sizes = ['28', '30', '32', '34', '36', '38', '40', '42', '44'];
-      } else if (nameLower.includes('ಚಪ್ಪಲಿ') || nameLower.includes('sandal') || nameLower.includes('ಶೂಸ್') || nameLower.includes('shoe') || nameLower.includes('sneakers')) {
-        sizes = ['5', '6', '7', '8', '9', '10', '11', '12'];
-      } else if (nameLower.includes('ಮಕ್ಕಳು') || nameLower.includes('kids') || nameLower.includes('baby') || nameLower.includes('child') || nameLower.includes('ಹುಡುಗಿಯರು party')) {
-        sizes = ['0-6 Months', '6-9 Months', '1-2 Years', '3-5 Years', '6-10 Years', '11-15 Years', '16-20 Years'];
-      } else if (nameLower.includes('ಅಂಗಿ') || nameLower.includes('shirt') || nameLower.includes('t-shirt') || nameLower.includes('tshirt') || nameLower.includes('ಡ್ರೆಸ್') || nameLower.includes('saree') || nameLower.includes('ಸೀರೆ') || nameLower.includes('top')) {
-        sizes = ['S', 'M', 'L', 'XL', 'XXL', 'Free Size'];
+      const isMobile = nameLower.includes('oppo') || nameLower.includes('vivo') || nameLower.includes('realme') || 
+                       nameLower.includes('samsung') || nameLower.includes('redmi') || nameLower.includes('poco') || 
+                       nameLower.includes('iphone') || nameLower.includes('mobile') || nameLower.includes('ಮೊಬೈಲ್');
+
+      const variantTitle = document.getElementById('lblVariantTitle');
+      const variantContainer = document.getElementById('variantOptionsContainer');
+
+      if (isMobile) {
+        variantTitle.innerText = "Variant (RAM + Storage) ಆಯ್ಕೆಮಾಡಿ:";
+        
+        // Custom Variants provided by Shopkeeper or Flipkart Default logic
+        let basePrice = Number(selectedProduct.price) || 11999;
+        let baseOldPrice = Number(selectedProduct.oldPrice) || basePrice + 2000;
+
+        let variants = selectedProduct.variants || [
+          { name: "64 GB + 4 GB", price: basePrice, oldPrice: baseOldPrice },
+          { name: "128 GB + 4 GB", price: basePrice + 1000, oldPrice: baseOldPrice + 1500 },
+          { name: "128 GB + 6 GB", price: basePrice + 2000, oldPrice: baseOldPrice + 2500 }
+        ];
+
+        selectedVariant = variants[0];
+        selectedSize = variants[0].name;
+
+        variantContainer.innerHTML = variants.map((v, idx) => {
+          let disc = Math.round(((v.oldPrice - v.price) / v.oldPrice) * 100);
+          return `
+            <div class="variant-box ${idx === 0 ? 'selected' : ''}" onclick="selectMobileVariant(this, '${encodeURIComponent(JSON.stringify(v))}')">
+              <div class="v-title">${v.name}</div>
+              <div class="v-price">₹${v.price}</div>
+              <div class="v-disc">↓${disc}% (₹${v.oldPrice})</div>
+            </div>
+          `;
+        }).join('');
+
+      } else {
+        variantTitle.innerText = "ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ (Select Size):";
+        let sizes = ['Free Size'];
+        
+        if (nameLower.includes('ಪ್ಯಾಂಟ್') || nameLower.includes('pant') || nameLower.includes('trousers') || nameLower.includes('ಜೀನ್ಸ್') || nameLower.includes('jeans')) {
+          sizes = ['28', '30', '32', '34', '36', '38', '40'];
+        } else if (nameLower.includes('ಚಪ್ಪಲಿ') || nameLower.includes('sandal') || nameLower.includes('ಶೂಸ್') || nameLower.includes('shoe')) {
+          sizes = ['6', '7', '8', '9', '10'];
+        } else if (nameLower.includes('ಅಂಗಿ') || nameLower.includes('shirt') || nameLower.includes('t-shirt') || nameLower.includes('ಡ್ರೆಸ್')) {
+          sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+        }
+
+        selectedVariant = { name: sizes[0], price: selectedProduct.price, oldPrice: selectedProduct.oldPrice };
+        selectedSize = sizes[0];
+
+        variantContainer.innerHTML = sizes.map((s, idx) => `
+          <button class="size-btn ${idx === 0 ? 'selected' : ''}" onclick="selectSize(this, '${s}')">${s}</button>
+        `).join('');
       }
 
-      selectedSize = sizes[0];
-      const sizeContainer = document.getElementById('sizeOptionsContainer');
-      sizeContainer.innerHTML = sizes.map((s, idx) => `
-        <button class="size-btn ${idx === 0 ? 'selected' : ''}" onclick="selectSize(this, '${s}')">${s}</button>
-      `).join('');
+      updatePriceDisplay();
 
+      // Load Slider Images
       const sliderTrack = document.getElementById('sliderTrack');
       const thumbnailBar = document.getElementById('thumbnailBar');
 
@@ -955,6 +1020,50 @@
 
       renderRelatedProducts(selectedProduct.id);
       showScreen('productDetailScreen');
+    }
+
+    function selectMobileVariant(element, variantDataEncoded) {
+      document.querySelectorAll('.variant-box').forEach(b => b.classList.remove('selected'));
+      element.classList.add('selected');
+
+      const variant = JSON.parse(decodeURIComponent(variantDataEncoded));
+      selectedVariant = variant;
+      selectedSize = variant.name;
+      updatePriceDisplay();
+    }
+
+    function selectSize(btn, size) {
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedSize = size;
+      if (selectedVariant) selectedVariant.name = size;
+    }
+
+    function changeQty(val) {
+      productQty += val;
+      if (productQty < 1) productQty = 1;
+      document.getElementById('qtyDisplay').innerText = productQty;
+      updatePriceDisplay();
+    }
+
+    function updatePriceDisplay() {
+      if (!selectedProduct) return;
+      
+      let pricePerUnit = selectedVariant ? selectedVariant.price : selectedProduct.price;
+      let oldPricePerUnit = selectedVariant ? selectedVariant.oldPrice : selectedProduct.oldPrice;
+
+      let baseTotal = Number(pricePerUnit) * productQty;
+      let oldTotal = oldPricePerUnit ? Number(oldPricePerUnit) * productQty : null;
+
+      document.getElementById('detailPrice').innerText = "₹" + baseTotal;
+      document.getElementById('detailOldPrice').innerText = oldTotal ? "₹" + oldTotal : "";
+      
+      if (oldTotal && oldTotal > baseTotal) {
+        let disc = Math.round(((oldTotal - baseTotal) / oldTotal) * 100);
+        document.getElementById('detailDiscount').innerText = `${disc}% off`;
+      } else {
+        document.getElementById('detailDiscount').innerText = '';
+      }
     }
 
     function renderRelatedProducts(currentId) {
@@ -983,7 +1092,7 @@
               <div class="prod-title">${p.name}</div>
               <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shopName}</div>
               <div>
-                <span class="flipkart-rating-badge">3.6 ★ <span style="font-weight:normal; font-size:0.6rem;">| 979</span></span>
+                <span class="flipkart-rating-badge">4.2 ★ <span style="font-weight:normal; font-size:0.6rem;">| Verified</span></span>
               </div>
               <div class="price-row" style="align-items:baseline;">
                 <span class="curr-price">₹${p.price}</span>
@@ -996,26 +1105,6 @@
       }).join('');
     }
 
-    function selectSize(btn, size) {
-      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      selectedSize = size;
-    }
-
-    function changeQty(val) {
-      productQty += val;
-      if (productQty < 1) productQty = 1;
-      document.getElementById('qtyDisplay').innerText = productQty;
-      updatePriceDisplay();
-    }
-
-    function updatePriceDisplay() {
-      if (!selectedProduct) return;
-      let baseTotal = Number(selectedProduct.price) * productQty;
-      document.getElementById('detailPrice').innerText = "₹" + baseTotal;
-      document.getElementById('detailOldPrice').innerText = selectedProduct.oldPrice ? "₹" + (Number(selectedProduct.oldPrice) * productQty) : "";
-    }
-
     function openCheckoutScreen() {
       if (!selectedSize) {
         showCustomAlert("ಎಚ್ಚರಿಕೆ", translations[currentLang].selectSizeMsg);
@@ -1025,13 +1114,14 @@
       document.getElementById('checkoutImg').src = photos[0] || '';
       document.getElementById('checkoutTitle').innerText = selectedProduct.name;
       
-      let baseTotal = Number(selectedProduct.price) * productQty;
+      let pricePerUnit = selectedVariant ? selectedVariant.price : selectedProduct.price;
+      let baseTotal = Number(pricePerUnit) * productQty;
       let deliveryFee = 30; 
       let grandTotal = baseTotal + deliveryFee;
 
       document.getElementById('checkoutPrice').innerText = "₹" + grandTotal;
-      document.getElementById('checkoutSizeText').innerText = `(Size: ${selectedSize}, Qty: ${productQty})`;
-      document.getElementById('checkoutFeeBreakdown').innerHTML = `📦 <b>ಡೆಲಿವರಿ ಚಾರ್ಜ್ ರೂ.80 ಇದ್ದದ್ದು ಡಿಸ್ಕೌಂಟ್ ಮಾಡಿ ರೂ.30 ಸೇರಿಸಲಾಗಿದೆ.</b><br>(ಪ್ರಾಡಕ್ಟ್ ಬೆಲೆ: ₹${baseTotal} + ಡೆಲಿವರಿ ಚಾರ್ಜ್: ₹30)`;
+      document.getElementById('checkoutSizeText').innerText = `(${selectedSize}, Qty: ${productQty})`;
+      document.getElementById('checkoutFeeBreakdown').innerHTML = `📦 <b>ಡೆಲಿವರಿ ಚಾರ್ಜ್ ರೂ.80 ಇದ್ದದ್ದು ಡಿಸ್ಕೌಂಟ್ ಮಾಡಿ ರೂ.30 ಸೇರಿಸಲಾಗಿದೆ.</b><br>(ವಸ್ತುವಿನ ಬೆಲೆ: ₹${baseTotal} + ಡೆಲಿವರಿ ಚಾರ್ಜ್: ₹30)`;
 
       showScreen('checkoutScreen');
     }
@@ -1091,7 +1181,8 @@
           localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, taluk, district }));
 
           let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
-          let baseTotal = Number(selectedProduct.price) * productQty;
+          let pricePerUnit = selectedVariant ? selectedVariant.price : selectedProduct.price;
+          let baseTotal = Number(pricePerUnit) * productQty;
           let deliveryFee = 30; 
           let grandTotal = baseTotal + deliveryFee;
 
@@ -1099,7 +1190,7 @@
 
           const orderData = {
             orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
-            productName: `${selectedProduct.name} [Size: ${selectedSize}, Qty: ${productQty}]`,
+            productName: `${selectedProduct.name} [Variant: ${selectedSize}, Qty: ${productQty}]`,
             productPhoto: photos[0] || '',
             totalPrice: grandTotal,
             deliveryFee: deliveryFee,

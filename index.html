@@ -60,12 +60,11 @@
     .btn-pocket { background: #ff9f00; color: #fff; border: none; padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; gap: 2px; }
 
     .floating-share-btn {
-      position: fixed; bottom: 80px; right: 15px; width: 48px; height: 48px; background: #25d366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 999; cursor: pointer; animation: pulseGlow 1.5s infinite; border: 2px solid #fff;
+      position: fixed; bottom: 80px; right: 15px; width: 48px; height: 48px; background: #25d366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 999; cursor: pointer; border: 2px solid #fff;
     }
-    @keyframes pulseGlow { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); } 70% { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
 
     .install-banner { background: #fff3e0; border-bottom: 1px solid #ffe0b2; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #e65100; font-weight: bold; }
-    .install-btn { background: var(--success); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+    .install-btn { background: var(--success); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
 
     .search-box { display: flex; background: #fff; border-radius: 6px; padding: 6px 12px; align-items: center; margin-bottom: 8px; border: 1px solid #ddd; margin-top: 6px; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 0.88rem; margin-left: 8px; }
@@ -108,7 +107,7 @@
     .category-card span { font-size: 0.78rem; font-weight: bold; color: #333; display: block; }
 
     .variant-container { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
-    .variant-select-box { width: 100%; border: 1px solid #ccc; background: #fff; border-radius: 8px; padding: 10px 12px; font-size: 0.9rem; font-weight: bold; color: #212121; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .variant-select-box { width: 100%; border: 1px solid #ccc; background: #fff; border-radius: 8px; padding: 10px 12px; font-size: 0.9rem; font-weight: bold; color: #212121; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
     .variant-options-dropdown { display: none; border: 1px solid #ddd; background: #fff; border-radius: 8px; margin-top: 4px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 50; position: relative; }
     .variant-option-item { padding: 10px 12px; border-bottom: 1px solid #eee; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
     .variant-option-item.selected { background: #e8f5e9; font-weight: bold; color: var(--success); }
@@ -118,7 +117,7 @@
     .back-btn { font-size: 1.3rem; cursor: pointer; }
 
     .slider-container { width: 100%; position: relative; overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #eee; }
-    .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
     .slider-track::-webkit-scrollbar { display: none; }
     .slider-track img { width: 100%; flex-shrink: 0; height: 320px; object-fit: contain; scroll-snap-align: start; background: #fff; }
     
@@ -133,7 +132,6 @@
     .btn-buy-now { background: #ff9f00; color: #fff; }
     .btn-add-cart { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
 
-    .size-container { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px 0; }
     .size-btn { padding: 6px 12px; border: 1px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
     .size-btn.selected { border-color: var(--primary); background: #f0f4ff; color: var(--primary); }
 
@@ -148,49 +146,15 @@
     .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 20px; overflow-y: auto; }
     .modal-box { background: #fff; width: 100%; max-width: 380px; padding: 20px; border-radius: 10px; max-height: 90vh; overflow-y: auto; text-align: center; }
 
-    #customAlertModal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 20px; }
-    .custom-alert-box { background: #fff; width: 100%; max-width: 330px; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: scaleUp 0.2s ease; }
-    @keyframes scaleUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-    .star-rating { display: flex; gap: 6px; justify-content: center; font-size: 1.5rem; cursor: pointer; color: #ccc; margin: 6px 0; }
-    .star-rating span.rated { color: #ff9f00; }
+    .pay-opt-btn { width: 100%; padding: 14px; margin: 8px 0; border: 2px solid #cbd5e0; border-radius: 8px; font-weight: bold; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #f8f9fa; }
+    .pay-opt-btn.active { border-color: #2874f0; background: #e8f0fe; color: #1a73e8; }
   </style>
 </head>
 <body>
 
   <audio id="coinSound" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3" preload="auto"></audio>
 
-  <!-- FLOATING GLOWING SHARE BUTTON -->
-  <div class="floating-share-btn" onclick="shareAppOnWhatsApp()" title="WhatsApp ನಲ್ಲಿ ಶೇರ್ ಮಾಡಿ">
-    💬
-  </div>
-
-  <input type="file" id="returnPhoto1Input" accept="image/*" capture="environment" style="display:none;" onchange="handleReturnPhoto(1, event)">
-  <input type="file" id="returnPhoto2Input" accept="image/*" capture="environment" style="display:none;" onchange="handleReturnPhoto(2, event)">
-
-  <div id="customAlertModal">
-    <div class="custom-alert-box">
-      <div id="customAlertIcon" style="font-size: 2.2rem; margin-bottom: 8px;">🎉</div>
-      <h3 id="customAlertTitle" style="font-size: 1rem; color: #333; margin-bottom: 8px; font-weight: bold;">ಸೂಚನೆ</h3>
-      <p id="customAlertMsg" style="font-size: 0.88rem; color: #555; margin-bottom: 15px; line-height: 1.4;"></p>
-      
-      <div id="cancelReasonBox" style="display:none; text-align:left; margin-bottom:12px;">
-        <label style="font-size:0.8rem; font-weight:bold; color:#d32f2f; margin-bottom:4px; display:block;">ಕ್ಯಾನ್ಸಲ್ ಮಾಡಲು ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ:</label>
-        <select id="cancelReasonSelect" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem; margin-bottom:6px;">
-          <option value="ಬಣ್ಣ ಬದಲಾಯಿಸಬೇಕು (Color Change)">🎨 ಬಣ್ಣ ಬದಲಾಯಿಸಬೇಕು (Color Change)</option>
-          <option value="ಇಷ್ಟವಿಲ್ಲ (Not Interested)">💖 ಇಷ್ಟವಿಲ್ಲ (Not Interested)</option>
-          <option value="ಸೈಜ್ ತೊಂದರೆ (Size Issue)">📏 ಸೈಜ್ ತೊಂದರೆ (Size Issue)</option>
-          <option value="ಇತರ ಕಾರಣ (Other)">✏️ ಇತರ ಕಾರಣ (Other Reason)</option>
-        </select>
-        <input type="text" id="cancelOtherText" placeholder="ಇತರ ವಿವರಣೆ ಬರೆಯಿರಿ..." style="width:100%; padding:6px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem; display:none;">
-      </div>
-
-      <div id="customAlertBtns" style="display: flex; gap: 8px;">
-        <button id="customAlertCancelBtn" style="flex: 1; padding: 10px; border: 1px solid #ccc; background: #f5f5f5; color: #333; border-radius: 6px; font-weight: bold; cursor: pointer; display: none;" onclick="closeCustomAlert(false)">ರದ್ದುಮಾಡಿ</button>
-        <button id="customAlertOkBtn" style="flex: 1; padding: 10px; border: none; background: var(--primary); color: #fff; border-radius: 6px; font-weight: bold; cursor: pointer;" onclick="closeCustomAlert(true)">ಸರಿ (OK)</button>
-      </div>
-    </div>
-  </div>
+  <div class="floating-share-btn" onclick="shareAppOnWhatsApp()" title="WhatsApp ನಲ್ಲಿ ಶೇರ್ ಮಾಡಿ">💬</div>
 
   <!-- Header -->
   <header>
@@ -205,12 +169,6 @@
         <button class="btn-my-orders" id="lblMyOrdersBtn" onclick="openMyOrdersScreen()">📦 ನನ್ನ ಆರ್ಡರ್</button>
       </div>
     </div>
-
-    <div class="install-banner" id="installBanner">
-      <span>📱 "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್" ಅಸಲಿ ಆಪ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ!</span>
-      <button class="install-btn" onclick="triggerAppInstall()">📲 ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ</button>
-    </div>
-
     <div class="search-box">
       🔍 <input type="text" id="searchInput" placeholder="ಊರು, ತಾಲೂಕು, ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ..." oninput="handleSearchInput()">
     </div>
@@ -272,10 +230,7 @@
       <span id="lblProdDetailTitle">ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ</span>
     </div>
     <div style="padding: 12px 12px 260px 12px;">
-      
-      <div class="slider-container">
-        <div class="slider-track" id="sliderTrack"></div>
-      </div>
+      <div class="slider-container"><div class="slider-track" id="sliderTrack"></div></div>
       <div class="thumbnail-bar" id="thumbnailBar"></div>
 
       <h3 id="detailTitle" style="font-size: 1rem; margin-top: 8px;"></h3>
@@ -305,11 +260,6 @@
       <div class="delivery-badge" id="deliveryBadgeText">
         🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (15km ಒಳಗೆ ಮಾತ್ರ)</b>
       </div>
-
-      <hr style="margin:15px 0 8px 0; border:0; border-top:1px solid #ddd;">
-      <h4 style="font-size:0.9rem; color:#212121; margin-bottom:8px; font-weight:bold;">🛒 More products for you (ಇತರ ವಸ್ತುಗಳು):</h4>
-      <div id="relatedProductsGrid" class="grid-products"></div>
-
     </div>
 
     <div class="bottom-bar">
@@ -318,15 +268,14 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN -->
+  <!-- CHECKOUT SCREEN WITH PAYMENT OPTIONS -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
-      <span id="lblCheckoutHeader">ವಿವರ ಖಚಿತಪಡಿಸಿ (Checkout)</span>
+      <span id="lblCheckoutHeader">ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ</span>
     </div>
 
     <div style="padding: 15px 15px 160px 15px;">
-      
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (15 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
         <input type="text" id="custName" placeholder="ಹೆಸರು / Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
@@ -337,8 +286,25 @@
         <input type="text" id="custDistrict" value="ಯಾದಗಿರಿ" placeholder="ಜಿಲ್ಲೆ / District" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
       </div>
 
+      <!-- UPI & CASH ON DELIVERY BUTTON OPTIONS IN KANNADA -->
+      <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
+        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;">💳 ಪಾವತಿ ವಿಧಾನ ಆಯ್ಕೆ ಮಾಡಿ (Select Payment Option):</h4>
+        
+        <input type="hidden" id="selectedPaymentMode" value="UPI">
+
+        <div class="pay-opt-btn active" id="optUpi" onclick="selectPaymentMethod('UPI')">
+          <span>📲 ಯುಪಿಐ ಪಾವತಿ (Online UPI / PhonePe / GPay)</span>
+          <span id="checkUpi">✔</span>
+        </div>
+
+        <div class="pay-opt-btn" id="optCod" onclick="selectPaymentMethod('COD')">
+          <span>💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)</span>
+          <span id="checkCod"></span>
+        </div>
+      </div>
+
       <div style="margin-bottom: 15px;">
-        <button class="btn-action btn-buy-now" id="lblConfirmOrderBtn" onclick="confirmOrderWithPopup()" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)</button>
+        <button class="btn-action btn-buy-now" id="lblConfirmOrderBtn" onclick="confirmOrderWithPopup()" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff;">ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)</button>
       </div>
 
       <div style="display: flex; gap: 12px; align-items: center; border: 1px solid #eee; padding: 10px; border-radius: 8px; background:#fff;">
@@ -363,11 +329,11 @@
     <div style="padding: 15px 15px 160px 15px;" id="ordersContainer"></div>
   </div>
 
-  <!-- ORDER DETAILS STATUS SCREEN -->
+  <!-- ORDER DETAILS STATUS SCREEN WITH ROADMAP -->
   <div id="orderDetailsScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
-      <span id="lblOrderDetailsHeader">Order Details</span>
+      <span id="lblOrderDetailsHeader">ಆರ್ಡರ್ ವಿವರಗಳು & ಟ್ರ್ಯಾಕಿಂಗ್</span>
     </div>
     <div style="padding: 15px 15px 160px 15px;" id="orderDetailsContent"></div>
   </div>
@@ -381,68 +347,18 @@
     <div style="padding: 15px; max-width: 500px; margin: 0 auto;" id="pocketMoneyContent"></div>
   </div>
 
-  <!-- QR PAYMENT MODAL FOR CUSTOMER -->
+  <!-- QR PAYMENT MODAL (Real payment verification only) -->
   <div id="qrPaymentModal" class="modal">
     <div class="modal-box" style="text-align:center;">
       <h3 style="color:var(--primary); margin-bottom:8px;">📱 ಯುಪಿಐ ಪಾವತಿ (UPI Payment)</h3>
       <p style="font-size:0.85rem; color:#555; margin-bottom:10px;">ಫೋನ್‌ಪೇ ಅಥವಾ ಗೂಗಲ್ ಪೇ ಮೂಲಕ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಪಾವತಿಸಿ:</p>
       <div id="qrCodeContainerBox" style="margin:10px auto;"></div>
       <p id="qrModalAmountText" style="font-size:1.1rem; font-weight:bold; color:var(--success); margin:10px 0;"></p>
-      <a id="directUpiPayLink" href="#" class="btn" style="background:#5f259f; color:#fff; display:block; padding:12px; border-radius:6px; font-weight:bold; text-decoration:none; margin-bottom:10px;">📲 ನೇರವಾಗಿ PhonePe / GPay ಓಪನ್ ಮಾಡಿ ಪಾವತಿಸಿ</a>
-      <button class="btn btn-success" style="width:100%; padding:10px;" onclick="confirmCustomerPaymentSuccess()">✔ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್ ಆಗಿದೆ (I Have Paid)</button>
-      <button class="btn" style="background:#757575; color:#fff; width:100%; padding:8px; margin-top:8px;" onclick="closeQrPaymentModal()">ನಂತರ ಪಾವತಿಸಿ</button>
-    </div>
-  </div>
-
-  <!-- RETURN / EXCHANGE MODAL -->
-  <div id="returnModal" class="modal">
-    <div class="modal-box" style="text-align:left;">
-      <div style="font-size: 1.8rem; margin-bottom: 5px; text-align:center;">🔄</div>
-      <h3 style="color:var(--danger); margin-bottom:8px; text-align:center;">ವಸ್ತು ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಕಾರಣ</h3>
       
-      <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:4px; display:block;">ಸಮಸ್ಯೆ ಆಯ್ಕೆಮಾಡಿ (Select Issue):</label>
-        <select id="returnReasonCategorySelect" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem; margin-bottom:6px;" onchange="handleReturnReasonCategoryChange()">
-          <option value="ಸೈಜ್ ತೊಂದರೆ (Size Issue)">📏 ಸೈಜ್ ತೊಂದರೆ (Size Issue)</option>
-          <option value="ಡ್ಯಾಮೇಜ್ ವಸ್ತು (Damaged Item)">💥 ಡ್ಯಾಮೇಜ್ ವಸ್ತು (Damaged Item)</option>
-          <option value="ರಾಂಗ್ ಐಟಂ (Wrong Item)">📦 ರಾಂಗ್ ಐಟಂ (Wrong Item)</option>
-          <option value="ಗುಣಮಟ್ಟ ಸರಿ ಇಲ್ಲ (Poor Quality)">⭐ ಗುಣಮಟ್ಟ ಸರಿ ಇಲ್ಲ (Poor Quality)</option>
-          <option value="ಇತರ ಕಾರಣ (Other Reason)">✏️ ಇತರ ಕಾರಣ (Other Reason)</option>
-        </select>
-        <textarea id="returnReasonInput" rows="2" placeholder="ವಿವರವಾಗಿ ಬರೆಯಿರಿ..." style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;"></textarea>
-      </div>
-
-      <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:4px; display:block;">📸 ವಸ್ತುವಿನ 2 ಫೋಟೋಗಳನ್ನು ಕ್ಯಾಮೆರಾ ಮೂಲಕ ಅಪ್ಲೋಡ್ ಮಾಡಿ:</label>
-        <div style="display:flex; gap:10px; margin-bottom:8px;">
-          <button type="button" onclick="document.getElementById('returnPhoto1Input').click()" style="flex:1; padding:8px; background:#f0f0f0; border:1px dashed #999; border-radius:6px; font-size:0.75rem; font-weight:bold; cursor:pointer;" id="retBtn1">📷 ಫೋಟೋ 1 ತೆಗೆಯಿರಿ</button>
-          <button type="button" onclick="document.getElementById('returnPhoto2Input').click()" style="flex:1; padding:8px; background:#f0f0f0; border:1px dashed #999; border-radius:6px; font-size:0.75rem; font-weight:bold; cursor:pointer;" id="retBtn2">📷 ಫೋಟೋ 2 ತೆಗೆಯಿರಿ</button>
-        </div>
-        <div id="returnPhotosPreview" style="display:flex; gap:8px;"></div>
-      </div>
-
-      <div style="margin-bottom:12px;">
-        <label style="font-size:0.8rem; font-weight:bold; margin-bottom:4px; display:block;">ನಿಮಗೆ ಏನು ಬೇಕು? (ಆಯ್ಕೆಮಾಡಿ):</label>
-        <select id="returnPreferenceSelect" onchange="toggleReturnPreference()" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;">
-          <option value="EXCHANGE">🔄 ಎಕ್ಸ್ಚೇಂಜ್ ಬೇಕು (Exchange with same shop product)</option>
-          <option value="REFUND">💰 ರಿಟರ್ನ್ ಪೇಮೆಂಟ್ ಬೇಕು (Money Refund to UPI)</option>
-        </select>
-      </div>
-
-      <div id="refundUpiBox" style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #ddd; margin-bottom:12px; display:none;">
-        <label style="font-size:0.78rem; font-weight:bold; color:#333; display:block; margin-bottom:4px;">ನಿಮ್ಮ UPI ID ನಮೂದಿಸಿ (ಪೇಮೆಂಟ್ ಪಡೆಯಲು):</label>
-        <input type="text" id="returnUpiId" placeholder="ಉದಾ: mobile@ybl" style="width:100%; padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.82rem;">
-        <p style="font-size:0.7rem; color:#d32f2f; margin-top:4px;">⚠️ ರೂ.50 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಕಟ್ ಆಗಿ ಉಳಿಕೆ ಹಣ ನಿಮ್ಮ ಯುಪಿಐಗೆ ಜಮೆಯಾಗುತ್ತದೆ.</p>
-      </div>
-
-      <div id="exchangeCatalogBox" style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #ddd; margin-bottom:12px;">
-        <label style="font-size:0.78rem; font-weight:bold; color:var(--primary); display:block; margin-bottom:6px;">ಅದೇ ಅಂಗಡಿಯ ಇತರೆ ವಸ್ತುಗಳು:</label>
-        <div id="exchangeProductsListContainer" style="max-height:220px; overflow-y:auto; border:1px solid #eee; background:#fff; padding:6px; border-radius:4px; display:flex; flex-direction:column; gap:8px;"></div>
-        <div id="priceCalculationBox" style="font-size:0.78rem; font-weight:bold; color:#333; margin-top:6px; background:#fff3e0; padding:6px; border-radius:4px; border:1px solid #ffe0b2;"></div>
-      </div>
-
-      <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem; margin-bottom:6px;" onclick="submitReturnExchangeRequest()">ವಿನಂತಿ ಸಬ್ಮಿಟ್ ಮಾಡಿ (Submit)</button>
-      <button class="btn" style="background:#757575; color:#fff; width:100%; padding:8px; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem;" onclick="closeReturnModal()">ರದ್ದುಮಾಡಿ</button>
+      <a id="directUpiPayLink" href="#" class="btn" style="background:#5f259f; color:#fff; display:block; padding:12px; border-radius:6px; font-weight:bold; text-decoration:none; margin-bottom:10px;">📲 ನೇರವಾಗಿ PhonePe / GPay ಓಪನ್ ಮಾಡಿ ಪಾವತಿಸಿ</a>
+      
+      <p style="font-size:0.75rem; color:#d32f2f; margin-top:6px; font-weight:bold;">⚠️ ಗಮನಿಸಿ: ನೀವು ಪಾವತಿ ಪೂರ್ಣಗೊಳಿಸಿದ ನಂತರ ಅಂಗಡಿ ಮಾಲೀಕರು ಪರಿಶೀಲಿಸಿ ಸ್ಟೇಟಸ್ ಅಪ್‌ಡೇಟ್ ಮಾಡುತ್ತಾರೆ.</p>
+      <button class="btn" style="background:#757575; color:#fff; width:100%; padding:10px; margin-top:8px; border:none; border-radius:6px; font-weight:bold;" onclick="closeQrPaymentModal()">ಮುಚ್ಚಿ (Close)</button>
     </div>
   </div>
 
@@ -459,15 +375,6 @@
     let selectedSize = '';
     let productQty = 1;
     let currentLang = localStorage.getItem('app_lang') || 'kn';
-    let activeReturnOrder = null;
-    let customAlertCallback = null;
-    let deferredPrompt = null;
-    let pendingPaymentOrderId = null;
-    
-    let returnPhoto1Base64 = '';
-    let returnPhoto2Base64 = '';
-    let chosenExchangeProduct = null;
-
     const MASTER_UPI_ID = "8105010768anil@slc";
 
     function playCoinSound() {
@@ -481,47 +388,7 @@
     function shareAppOnWhatsApp() {
       const appUrl = window.location.href;
       const shareText = `🛍️ ಬನ್ನಿ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ ಮೂಲಕ ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ! 1-2 ದಿನಗಳಲ್ಲಿ ಮನೆಗೆ ಡೆಲಿವರಿ ಪಡೆಯಿರಿ.\n\nಲಿಂಕ್ ಇಲ್ಲಿದೆ ನೋಡಿ:\n${appUrl}`;
-      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
-      window.open(whatsappUrl, '_blank');
-    }
-
-    function showCustomAlert(title, msg, isConfirm = false, showCancelForm = false, callback = null) {
-      document.getElementById('customAlertTitle').innerText = title;
-      document.getElementById('customAlertMsg').innerText = msg;
-      customAlertCallback = callback;
-
-      const cancelBtn = document.getElementById('customAlertCancelBtn');
-      const cancelBox = document.getElementById('cancelReasonBox');
-
-      if (isConfirm) cancelBtn.style.display = 'block';
-      else cancelBtn.style.display = 'none';
-
-      if (showCancelForm) cancelBox.style.display = 'block';
-      else cancelBox.style.display = 'none';
-
-      document.getElementById('customAlertModal').style.display = 'flex';
-    }
-
-    document.getElementById('cancelReasonSelect').addEventListener('change', (e) => {
-      const otherTxt = document.getElementById('cancelOtherText');
-      if (e.target.value.includes('Other')) otherTxt.style.display = 'block';
-      else otherTxt.style.display = 'none';
-    });
-
-    function closeCustomAlert(result) {
-      document.getElementById('customAlertModal').style.display = 'none';
-      if (customAlertCallback) {
-        let selectedReason = '';
-        if (document.getElementById('cancelReasonBox').style.display === 'block') {
-          let sel = document.getElementById('cancelReasonSelect').value;
-          if (sel.includes('Other')) {
-            sel = document.getElementById('cancelOtherText').value.trim() || 'ಇತರ ಕಾರಣ (Other Reason)';
-          }
-          selectedReason = sel;
-        }
-        customAlertCallback(result, selectedReason);
-        customAlertCallback = null;
-      }
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
     }
 
     const translations = {
@@ -533,13 +400,12 @@
         prodDetailTitle: "ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ",
         shopPrefix: "ಅಂಗಡಿ: ",
         buyNowBtn: "ಈಗ ಖರೀದಿಸಿ (Buy Now)",
-        checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ (Checkout)",
-        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:",
+        checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ",
+        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (15 KM ಒಳಗೆ ಕಡ್ಡಾಯ):",
         confirmOrderBtn: "ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Confirm Order)",
         myOrdersHeader: "ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)",
-        orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು",
+        orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು & ಟ್ರ್ಯಾಕಿಂಗ್",
         noOrders: "ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
-        orderSuccess: "🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ನಲ್ಲಿ ಖರೀದಿ ಮಾಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು! 1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ.",
         confirmPopup: "🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಲು OK ಒತ್ತಿ.",
         fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ, ಪಿನ್ ಕೋಡ್ ಮತ್ತು ಊರು ನಮೂದಿಸಿ.",
         selectSizeMsg: "ದಯವಿಟ್ಟು RAM/Storage ಅಥವಾ ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ."
@@ -552,186 +418,62 @@
         prodDetailTitle: "Product Description",
         shopPrefix: "Shop: ",
         buyNowBtn: "Buy Now",
-        checkoutHeader: "Checkout",
+        checkoutHeader: "Checkout & Payment",
         deliveryAddrTitle: "📍 Your Delivery Address:",
         confirmOrderBtn: "Confirm Order",
         myOrdersHeader: "My Orders",
-        orderDetailsHeader: "Order Details",
+        orderDetailsHeader: "Order Details & Tracking",
         noOrders: "No orders found.",
-        orderSuccess: "🎉 Thank you for purchasing from Namma Ooru Shopping! Delivery in 1 to 2 days.",
         confirmPopup: "🎉 Press OK to confirm your order.",
         fillAll: "Please enter Name, Mobile Number, Pincode and Village.",
-        selectSizeMsg: "Please select RAM/Storage or size."
+        selectSizeMsg: "Please select size."
       }
     };
 
     window.addEventListener('DOMContentLoaded', () => {
       applyLanguage();
       loadSavedAddress();
-      checkIfAlreadyInstalled();
-
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        document.getElementById('installBanner').style.display = 'flex';
-      });
-
-      window.history.replaceState({ screen: 'main' }, '', '');
-      window.addEventListener('popstate', () => { goBackToHome(); });
-
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW Failed!', err));
-      }
+      window.initFirebaseAppData();
     });
 
-    function goBackToHome() {
-      ['orderDetailsScreen', 'myOrdersScreen', 'checkoutScreen', 'productDetailScreen', 'pocketMoneyScreen'].forEach(id => {
-        document.getElementById(id).style.display = 'none';
-      });
-      switchNavTab('home');
+    function togglePaymentMethod(mode) {
+      selectPaymentMethod(mode);
     }
 
-    function checkIfAlreadyInstalled() {
-      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-      if (isStandalone) document.getElementById('installBanner').style.display = 'none';
-    }
-
-    function triggerAppInstall() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') document.getElementById('installBanner').style.display = 'none';
-          deferredPrompt = null;
-        });
+    function selectPaymentMethod(mode) {
+      document.getElementById('selectedPaymentMode').value = mode;
+      if (mode === 'UPI') {
+        document.getElementById('optUpi').className = 'pay-opt-btn active';
+        document.getElementById('checkUpi').innerText = '✔';
+        document.getElementById('optCod').className = 'pay-opt-btn';
+        document.getElementById('checkCod').innerText = '';
       } else {
-        showCustomAlert("ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್", "📱 ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನ ಮೇಲ್ಭಾಗದಲ್ಲಿರುವ ಮೂರು ಚುಕ್ಕೆಗಳ (⋮) ಮೆನು ಕ್ಲಿಕ್ ಮಾಡಿ, ನಂತರ 'Install app' ಆಯ್ಕೆಮಾಡಿ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ.");
+        document.getElementById('optUpi').className = 'pay-opt-btn';
+        document.getElementById('checkUpi').innerText = '';
+        document.getElementById('optCod').className = 'pay-opt-btn active';
+        document.getElementById('checkCod').innerText = '✔';
       }
     }
 
     window.initFirebaseAppData = function() {
-      startRealtimeBanners();
       startRealtimeShopOwners();
+      startRealtimeBanners();
     };
 
     function startRealtimeBanners() {
       try {
         window.onSnapshot(window.collection(window.db, "master_banners"), (snap) => {
           bannerList = [];
-          snap.forEach(docSnap => {
-            const b = docSnap.data();
-            if (b.imageUrl) bannerList.push(b.imageUrl);
-          });
+          snap.forEach(d => { if (d.data().imageUrl) bannerList.push(d.data().imageUrl); });
           renderHeroSlider();
         });
-      } catch (e) { console.error(e); }
+      } catch(e) {}
     }
 
     function renderHeroSlider() {
       const track = document.getElementById('heroSliderTrack');
-      const dotsContainer = document.getElementById('heroDots');
-
-      if (bannerList.length === 0) {
-        track.innerHTML = `<div class="hero-slide" style="display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #2874f0, #1649a0); color:white; font-size:1.1rem; font-weight:bold;">🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ವಿಶೇಷ ಆಫರ್‌ಗಳು</div>`;
-        dotsContainer.innerHTML = `<div class="hero-dot active"></div>`;
-        return;
-      }
-
-      track.innerHTML = bannerList.map(img => `<div class="hero-slide"><img src="${img}" alt="Banner"></div>`).join('');
-      dotsContainer.innerHTML = bannerList.map((_, i) => `<div class="hero-dot ${i === 0 ? 'active' : ''}"></div>`).join('');
-
-      currentBannerIndex = 0;
-      if (bannerInterval) clearInterval(bannerInterval);
-
-      bannerInterval = setInterval(() => {
-        if (bannerList.length <= 1) return;
-        currentBannerIndex = (currentBannerIndex + 1) % bannerList.length;
-        track.style.transform = `translateX(-${currentBannerIndex * 100}%)`;
-        const dots = dotsContainer.querySelectorAll('.hero-dot');
-        dots.forEach((dot, idx) => {
-          if (idx === currentBannerIndex) dot.classList.add('active');
-          else dot.classList.remove('active');
-        });
-      }, 3000);
-    }
-
-    function switchNavTab(tabName) {
-      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      const homeCont = document.getElementById('homeViewContainer');
-      const catCont = document.getElementById('categoriesViewContainer');
-
-      ['orderDetailsScreen', 'myOrdersScreen', 'checkoutScreen', 'productDetailScreen', 'pocketMoneyScreen'].forEach(id => {
-        document.getElementById(id).style.display = 'none';
-      });
-
-      if (tabName === 'home') {
-        document.getElementById('navHome').classList.add('active');
-        homeCont.style.display = 'block'; catCont.style.display = 'none';
-      } else if (tabName === 'categories') {
-        document.getElementById('navCat').classList.add('active');
-        homeCont.style.display = 'none'; catCont.style.display = 'block';
-      } else if (tabName === 'deals') {
-        document.getElementById('navDeals').classList.add('active');
-        homeCont.style.display = 'block'; catCont.style.display = 'none';
-        playCoinSound();
-      } else if (tabName === 'account') {
-        document.getElementById('navAccount').classList.add('active');
-        openPocketMoneyScreen();
-      }
-    }
-
-    function filterByCategory(categoryName) {
-      switchNavTab('home');
-      document.getElementById('searchInput').value = categoryName;
-      filterProducts();
-    }
-
-    function handleSearchInput() {
-      if (document.getElementById('categoriesViewContainer').style.display === 'block') {
-        switchNavTab('home');
-      }
-      filterProducts();
-    }
-
-    function showScreen(screenId) {
-      window.history.pushState({ screen: screenId }, '', '');
-      document.getElementById(screenId).style.display = 'block';
-    }
-
-    function toggleLanguage() {
-      currentLang = currentLang === 'kn' ? 'en' : 'kn';
-      localStorage.setItem('app_lang', currentLang);
-      applyLanguage();
-      applyLocationFilter();
-    }
-
-    function applyLanguage() {
-      const t = translations[currentLang];
-      document.getElementById('appTitle').innerText = t.appTitle;
-      document.getElementById('lblBrand').innerText = t.brandTitle;
-      document.getElementById('lblMyOrdersBtn').innerText = t.myOrdersBtn;
-      document.getElementById('searchInput').placeholder = t.searchPlaceholder;
-      document.getElementById('langToggleBtn').innerText = currentLang === 'kn' ? 'English' : 'ಕನ್ನಡ';
-      
-      document.getElementById('lblProdDetailTitle').innerText = t.prodDetailTitle;
-      document.getElementById('lblBuyNowBtn').innerText = t.buyNowBtn;
-      document.getElementById('lblCheckoutHeader').innerText = t.checkoutHeader;
-      document.getElementById('lblDeliveryAddrTitle').innerText = t.deliveryAddrTitle;
-      document.getElementById('lblConfirmOrderBtn').innerText = t.confirmOrderBtn;
-      document.getElementById('lblMyOrdersHeader').innerText = t.myOrdersHeader;
-      document.getElementById('lblOrderDetailsHeader').innerText = t.orderDetailsHeader;
-    }
-
-    function loadSavedAddress() {
-      const saved = localStorage.getItem('customer_saved_address');
-      if (saved) {
-        const addr = JSON.parse(saved);
-        document.getElementById('custName').value = addr.name || '';
-        document.getElementById('custPhone').value = addr.phone || '';
-        document.getElementById('custVillage').value = addr.village || '';
-        document.getElementById('custPincode').value = addr.pincode || '';
-        document.getElementById('custTaluk').value = addr.taluk || 'ಶಹಾಪುರ';
-        document.getElementById('custDistrict').value = addr.district || 'ಯಾದಗಿರಿ';
-        if (addr.taluk) document.getElementById('filterTaluk').value = addr.taluk;
+      if (bannerList.length > 0) {
+        track.innerHTML = bannerList.map(img => `<div class="hero-slide"><img src="${img}"></div>`).join('');
       }
     }
 
@@ -756,69 +498,48 @@
           allProducts = [];
           snap.forEach(docSnap => {
             const p = { id: docSnap.id, ...docSnap.data() };
-            if (validShopIds.size === 0 || validShopIds.has(p.shopId)) {
-              allProducts.push(p);
-            }
+            if (validShopIds.size === 0 || validShopIds.has(p.shopId)) allProducts.push(p);
           });
           applyLocationFilter();
         });
-      } catch (e) { console.error(e); }
+      } catch (e) {}
     }
 
     function applyLocationFilter() {
       const searchQ = document.getElementById('searchInput').value.toLowerCase().trim();
-      const filterTalukQ = document.getElementById('filterTaluk').value.toLowerCase().trim();
+      const talukQ = document.getElementById('filterTaluk').value.toLowerCase().trim();
 
       let filtered = allProducts.filter(p => {
         let shop = allShopsMap[p.shopId];
         let shopName = shop ? shop.shopName.toLowerCase() : "";
         let shopTaluk = shop ? (shop.taluk || "").toLowerCase() : "";
-        let shopDistrict = shop ? (shop.district || "").toLowerCase() : "";
         let prodName = p.name.toLowerCase();
-        let prodCat = (p.category || "").toLowerCase();
-
-        let matchSearch = searchQ === "" || prodName.includes(searchQ) || shopName.includes(searchQ) || shopTaluk.includes(searchQ) || prodCat.includes(searchQ);
-        let matchLocation = filterTalukQ === "" || shopTaluk.includes(filterTalukQ) || shopDistrict.includes(filterTalukQ) || shopName.includes(filterTalukQ);
-
-        return matchSearch && matchLocation;
+        let matchSearch = searchQ === "" || prodName.includes(searchQ) || shopName.includes(searchQ) || shopTaluk.includes(searchQ);
+        let matchLoc = talukQ === "" || shopTaluk.includes(talukQ) || shopName.includes(talukQ);
+        return matchSearch && matchLoc;
       });
-
       renderProducts(filtered);
     }
 
     function renderProducts(list) {
       const grid = document.getElementById('productsGrid');
       if (!list || list.length === 0) {
-        grid.innerHTML = `
-          <div style="grid-column: span 2; text-align:center; color:#777; padding:25px; background:#fff; border-radius:8px; border:1px solid #ddd;">
-            <p style="font-size:0.95rem; font-weight:bold; color:var(--primary); margin-bottom:6px;">🏪 ಯಾವುದೇ ವಸ್ತುಗಳು ಸಿಗುತ್ತಿಲ್ಲ!</p>
-          </div>
-        `;
+        grid.innerHTML = `<div style="grid-column: span 2; text-align:center; color:#777; padding:25px; background:#fff; border-radius:8px;">ಯಾವುದೇ ವಸ್ತುಗಳಿಲ್ಲ.</div>`;
         return;
       }
       grid.innerHTML = list.map(p => {
-        let displayPhoto = p.photo || 'https://via.placeholder.com/150';
-        if (p.colors && p.colors.length > 0 && p.colors[0].photos && p.colors[0].photos.length > 0) {
-          displayPhoto = p.colors[0].photos[0];
-        }
+        let img = p.photo || 'https://via.placeholder.com/150';
+        if (p.colors?.[0]?.photos?.[0]) img = p.colors[0].photos[0];
         let shop = allShopsMap[p.shopId];
-        let shopName = shop ? shop.shopName : "Namma Ooru Store";
-        let shopLoc = shop ? `${shop.taluk}, ${shop.district}` : "ಶಹಾಪುರ";
-        let discountPercent = p.oldPrice && p.price ? Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100) : 0;
-
         return `
           <div class="product-card" onclick="openProductDetail('${p.id}')">
-            <div class="img-box">
-              <img src="${displayPhoto}">
-            </div>
+            <div class="img-box"><img src="${img}"></div>
             <div>
               <div class="prod-title">${p.name}</div>
-              <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shopName} (${shopLoc})</div>
-              <div><span class="flipkart-rating-badge">4.2 ★</span></div>
-              <div class="price-row" style="align-items:baseline;">
+              <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shop ? shop.shopName : 'Store'}</div>
+              <div class="price-row" style="margin-top:4px;">
                 <span class="curr-price">₹${p.price}</span>
                 ${p.oldPrice ? `<span class="old-price">₹${p.oldPrice}</span>` : ''}
-                ${discountPercent > 0 ? `<span class="flipkart-discount">${discountPercent}% off</span>` : ''}
               </div>
             </div>
           </div>
@@ -826,400 +547,260 @@
       }).join('');
     }
 
-    function filterProducts() { applyLocationFilter(); }
+    function handleSearchInput() { applyLocationFilter(); }
 
     function openProductDetail(id) {
       selectedProduct = allProducts.find(p => p.id === id);
       if (!selectedProduct) return;
-      
-      document.getElementById('productDetailScreen').scrollTop = 0;
       productQty = 1;
       document.getElementById('qtyDisplay').innerText = productQty;
 
-      const t = translations[currentLang];
       let shop = allShopsMap[selectedProduct.shopId];
       document.getElementById('detailTitle').innerText = selectedProduct.name;
-      document.getElementById('detailShopName').innerText = t.shopPrefix + (shop ? shop.shopName : "Namma Ooru Store");
-      document.getElementById('detailShopLocation').innerText = `📍 ಅಂಗಡಿ ಇರುವ ಸ್ಥಳ: ${shop ? shop.taluk + ', ' + shop.district : 'ಶಹಾಪುರ'}`;
+      document.getElementById('detailShopName').innerText = "ಅಂಗಡಿ: " + (shop ? shop.shopName : "Store");
+      document.getElementById('detailShopLocation').innerText = `📍 ಸ್ಥಳ: ${shop ? shop.taluk : 'ಶಹಾಪುರ'}`;
 
-      const nameLower = selectedProduct.name.toLowerCase();
-      const isMobile = nameLower.includes('oppo') || nameLower.includes('vivo') || nameLower.includes('realme') || nameLower.includes('samsung') || nameLower.includes('redmi') || nameLower.includes('mobile');
+      let sizes = ['Free Size'];
+      let nameL = selectedProduct.name.toLowerCase();
+      if (nameL.includes('ಪ್ಯಾಂಟ್') || nameL.includes('pant')) sizes = ['28', '30', '32', '34', '36', '38'];
+      else if (nameL.includes('ಚಪ್ಪಲಿ') || nameL.includes('shoe')) sizes = ['6', '7', '8', '9', '10'];
 
-      const variantTitle = document.getElementById('lblVariantTitle');
-      const variantContainer = document.getElementById('variantOptionsContainer');
+      selectedSize = sizes[0];
+      document.getElementById('variantOptionsContainer').innerHTML = sizes.map((s, idx) => `
+        <button class="size-btn ${idx === 0 ? 'selected' : ''}" onclick="selectSize(this, '${s}')">${s}</button>
+      `).join('');
 
-      if (isMobile) {
-        variantTitle.innerText = "Variant (RAM + Storage) ಆಯ್ಕೆಮಾಡಿ:";
-        let basePrice = Number(selectedProduct.price) || 18999;
-        let baseOldPrice = Number(selectedProduct.oldPrice) || basePrice + 2000;
-        let variants = selectedProduct.variants || [
-          { name: "64 GB + 4 GB", price: basePrice, oldPrice: baseOldPrice },
-          { name: "128 GB + 4 GB", price: basePrice + 1000, oldPrice: baseOldPrice + 1500 }
-        ];
-        selectedVariant = variants[0];
-        selectedSize = variants[0].name;
+      document.getElementById('detailPrice').innerText = "₹" + selectedProduct.price;
+      document.getElementById('detailOldPrice').innerText = selectedProduct.oldPrice ? "₹" + selectedProduct.oldPrice : "";
 
-        let dropdownItemsHtml = variants.map((v, idx) => `
-          <div class="variant-option-item ${idx === 0 ? 'selected' : ''}" onclick='selectVariantFromDropdown(${JSON.stringify(v)}, this)'>
-            <span><b>${v.name}</b> (₹${v.price})</span>
-          </div>
-        `).join('');
-
-        variantContainer.innerHTML = `
-          <div class="variant-select-box" onclick="toggleVariantDropdown()">
-            <span id="selectedVariantText">📱 ${selectedVariant.name} - ₹${selectedVariant.price}</span>
-            <span>▼</span>
-          </div>
-          <div class="variant-options-dropdown" id="variantDropdownList">${dropdownItemsHtml}</div>
-        `;
-      } else {
-        variantTitle.innerText = "ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ (Select Size):ເຄື່ອງ";
-        let sizes = ['Free Size'];
-        if (nameLower.includes('ಪ್ಯಾಂಟ್') || nameLower.includes('pant') || nameLower.includes('jeans')) {
-          sizes = ['28', '30', '32', '34', '36', '38'];
-        } else if (nameLower.includes('ಚಪ್ಪಲಿ') || nameLower.includes('sandal') || nameLower.includes('shoe')) {
-          sizes = ['6', '7', '8', '9', '10'];
-        } else if (nameLower.includes('ಅಂಗಿ') || nameLower.includes('shirt')) {
-          sizes = ['S', 'M', 'L', 'XL', 'XXL'];
-        }
-        selectedVariant = { name: sizes[0], price: selectedProduct.price, oldPrice: selectedProduct.oldPrice };
-        selectedSize = sizes[0];
-        variantContainer.innerHTML = sizes.map((s, idx) => `<button class="size-btn ${idx === 0 ? 'selected' : ''}" onclick="selectSize(this, '${s}')">${s}</button>`).join('');
-      }
-
-      updatePriceDisplay();
-
-      const sliderTrack = document.getElementById('sliderTrack');
-      const thumbnailBar = document.getElementById('thumbnailBar');
       let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
-      if (photos.length === 0) photos.push('https://via.placeholder.com/300');
+      document.getElementById('sliderTrack').innerHTML = photos.map(img => `<img src="${img}">`).join('');
 
-      sliderTrack.innerHTML = photos.map(img => `<img src="${img}">`).join('');
-      if (photos.length > 1) {
-        thumbnailBar.style.display = 'flex';
-        thumbnailBar.innerHTML = photos.map((img, idx) => `<img src="${img}" class="${idx === 0 ? 'active' : ''}">`).join('');
-      } else { thumbnailBar.style.display = 'none'; }
-
-      renderRelatedProducts(selectedProduct.id);
       showScreen('productDetailScreen');
-    }
-
-    function toggleVariantDropdown() {
-      const dropdown = document.getElementById('variantDropdownList');
-      if (dropdown) dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function selectVariantFromDropdown(variant, element) {
-      selectedVariant = variant;
-      selectedSize = variant.name;
-      document.getElementById('selectedVariantText').innerText = `📱 ${variant.name} - ₹${variant.price}`;
-      document.querySelectorAll('.variant-option-item').forEach(el => el.classList.remove('selected'));
-      element.classList.add('selected');
-      document.getElementById('variantDropdownList').style.display = 'none';
-      updatePriceDisplay();
     }
 
     function selectSize(btn, size) {
       document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
       selectedSize = size;
-      if (selectedVariant) selectedVariant.name = size;
     }
 
     function changeQty(val) {
       productQty += val;
       if (productQty < 1) productQty = 1;
       document.getElementById('qtyDisplay').innerText = productQty;
-      updatePriceDisplay();
-    }
-
-    function updatePriceDisplay() {
-      if (!selectedProduct) return;
-      let pricePerUnit = selectedVariant ? selectedVariant.price : selectedProduct.price;
-      let oldPricePerUnit = selectedVariant ? selectedVariant.oldPrice : selectedProduct.oldPrice;
-      let baseTotal = Number(pricePerUnit) * productQty;
-      let oldTotal = oldPricePerUnit ? Number(oldPricePerUnit) * productQty : null;
-
-      document.getElementById('detailPrice').innerText = "₹" + baseTotal;
-      document.getElementById('detailOldPrice').innerText = oldTotal ? "₹" + oldTotal : "";
-      if (oldTotal && oldTotal > baseTotal) {
-        let disc = Math.round(((oldTotal - baseTotal) / oldTotal) * 100);
-        document.getElementById('detailDiscount').innerText = `${disc}% off`;
-      } else { document.getElementById('detailDiscount').innerText = ''; }
-    }
-
-    function renderRelatedProducts(currentId) {
-      const relContainer = document.getElementById('relatedProductsGrid');
-      let others = allProducts.filter(p => p.id !== currentId);
-      if (others.length === 0) { relContainer.innerHTML = `<p style="font-size:0.8rem; color:#777;">ಇತರ ಯಾವುದೇ ವಸ್ತುಗಳಿಲ್ಲ.</p>`; return; }
-      relContainer.innerHTML = others.map(p => {
-        let displayPhoto = p.photo || 'https://via.placeholder.com/150';
-        if (p.colors?.[0]?.photos?.[0]) displayPhoto = p.colors[0].photos[0];
-        let shop = allShopsMap[p.shopId];
-        return `
-          <div class="product-card" onclick="openProductDetail('${p.id}')">
-            <div class="img-box"><img src="${displayPhoto}"></div>
-            <div>
-              <div class="prod-title">${p.name}</div>
-              <div style="font-size:0.7rem; color:#666;">🏪 ${shop ? shop.shopName : 'Store'}</div>
-              <div class="curr-price">₹${p.price}</div>
-            </div>
-          </div>
-        `;
-      }).join('');
+      let total = selectedProduct.price * productQty;
+      document.getElementById('detailPrice').innerText = "₹" + total;
     }
 
     function openCheckoutScreen() {
-      if (!selectedSize) {
-        showCustomAlert("ಎಚ್ಚರಿಕೆ", translations[currentLang].selectSizeMsg);
-        return;
-      }
       let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
       document.getElementById('checkoutImg').src = photos[0] || '';
       document.getElementById('checkoutTitle').innerText = selectedProduct.name;
       
-      let pricePerUnit = selectedVariant ? selectedVariant.price : selectedProduct.price;
-      let baseTotal = Number(pricePerUnit) * productQty;
-      let deliveryFee = 30; // ರೂ.30 ಹೆಚ್ಚುವರಿ ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಸೇರಿಸಲಾಗಿದೆ
-      let grandTotal = baseTotal + deliveryFee;
-
+      let grandTotal = (Number(selectedProduct.price) * productQty) + 30; // 30 rs delivery charge
       document.getElementById('checkoutPrice').innerText = "₹" + grandTotal;
       document.getElementById('checkoutSizeText').innerText = `(${selectedSize}, Qty: ${productQty})`;
-      document.getElementById('checkoutFeeBreakdown').innerHTML = `📦 <b>ವಸ್ತುವಿನ ಬೆಲೆ: ₹${baseTotal} + ಡೆಲಿವರಿ ಚಾರ್ಜ್: ₹30 = ಒಟ್ಟು ₹${grandTotal}</b>`;
+      document.getElementById('checkoutFeeBreakdown').innerHTML = `📦 <b>ವಸ್ತುವಿನ ಬೆಲೆ + ರೂ.30 ಡೆಲಿವರಿ ಚಾರ್ಜ್ = ಒಟ್ಟು ₹${grandTotal}</b>`;
 
       showScreen('checkoutScreen');
     }
 
-    function isWithin15KmRadius(shop, custTaluk, custVillage, custDistrict) {
-      let sTaluk = (shop ? shop.taluk : "").toLowerCase().trim();
-      let sDistrict = (shop ? shop.district : "").toLowerCase().trim();
-      let cTaluk = custTaluk.toLowerCase().trim();
-      let cVillage = custVillage.toLowerCase().trim();
-      let cDistrict = custDistrict.toLowerCase().trim();
-
-      if (sTaluk !== "" && cTaluk !== "") {
-        if (sTaluk.includes(cTaluk) || cTaluk.includes(sTaluk) || sDistrict.includes(cDistrict) || cDistrict.includes(sDistrict)) return true;
-      }
-      const localHubs = ["ಶಹಾಪುರ", "shahapur", "ಹೊತ್ತಪೇಟ್", "hottapet", "ಕನ್ಯಾ ಕೊಲ್ಲೂರು", "kanya kollur", "bheemrayangudi", "ಭೀಮರಾಯನಗುಡಿ", "ವಾಡಿ", "wadi"];
-      let isShopInHub = localHubs.some(h => sTaluk.includes(h) || sDistrict.includes(h));
-      let isCustInHub = localHubs.some(h => cTaluk.includes(h) || cVillage.includes(h) || cDistrict.includes(h));
-      return isShopInHub && isCustInHub;
-    }
-
-    function confirmOrderWithPopup() {
-      const t = translations[currentLang];
+    async function confirmOrderWithPopup() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
       const pincode = document.getElementById('custPincode').value.trim();
       const taluk = document.getElementById('custTaluk').value.trim();
-      const district = document.getElementById('custDistrict').value.trim();
+      const payMode = document.getElementById('selectedPaymentMode').value;
 
-      if (!name || !phone || !village || !pincode || !taluk) {
-        showCustomAlert("ಮಾಹಿತಿ ಅಪೂರ್ಣ", t.fillAll);
+      if (!name || !phone || !village || !pincode) {
+        alert(translations[currentLang].fillAll);
         return;
       }
 
-      let shop = allShopsMap[selectedProduct.shopId];
-      if (!isWithin15KmRadius(shop, taluk, village, district)) {
-        showCustomAlert("ಆರ್ಡರ್ ಲಭ್ಯವಿಲ್ಲ ❌", "ಕ್ಷಮಿಸಿ! ನಿಮ್ಮ ಊರು 15 ಕಿ.ಮೀ ಗಿಂತ ದೂರದಲ್ಲಿದೆ ಅಥವಾ ಅಂಗಡಿ ಇರುವ ತಾಲೂಕಿಗೆ ಸೇರಿಲ್ಲ.");
-        return;
+      if (confirm(translations[currentLang].confirmPopup)) {
+        playCoinSound();
+        localStorage.setItem('customer_phone_key', phone);
+        localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, pincode, taluk }));
+
+        let grandTotal = (Number(selectedProduct.price) * productQty) + 30;
+        let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
+        let shop = allShopsMap[selectedProduct.shopId];
+        let otp = Math.floor(1000 + Math.random() * 9000).toString();
+
+        const orderData = {
+          orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
+          productName: `${selectedProduct.name} [Variant: ${selectedSize}, Qty: ${productQty}]`,
+          productPhoto: photos[0] || '',
+          totalPrice: grandTotal,
+          deliveryFee: 30,
+          shopId: selectedProduct.shopId,
+          shopName: shop ? shop.shopName : "Store",
+          customer: { name, phone, village, pincode, taluk },
+          paymentMode: payMode,
+          paymentStatus: payMode === 'UPI' ? 'PENDING' : 'COD_PENDING',
+          deliveryOtp: otp,
+          status: 'STEP_1',
+          timestamp: Date.now()
+        };
+
+        try {
+          await window.addDoc(window.collection(window.db, "orders"), orderData);
+          if (payMode === 'UPI') {
+            openUpiModal(grandTotal);
+          } else {
+            alert("🎉 ನಿಮ್ಮ ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD) ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!");
+            openMyOrdersScreen();
+          }
+        } catch(e) { alert("Error: " + e.message); }
       }
-
-      showCustomAlert("ಆರ್ಡರ್ ದೃಢೀಕರಣ", t.confirmPopup, true, false, async (confirmed) => {
-        if (confirmed) {
-          playCoinSound();
-          localStorage.setItem('customer_phone_key', phone);
-          localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, pincode, taluk, district }));
-
-          let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
-          let pricePerUnit = selectedVariant ? selectedVariant.price : selectedProduct.price;
-          let baseTotal = Number(pricePerUnit) * productQty;
-          let deliveryFee = 30; 
-          let grandTotal = baseTotal + deliveryFee;
-          let custDeliveryOtp = Math.floor(1000 + Math.random() * 9000).toString();
-
-          let distanceCalculated = "3.5 ಕಿ.ಮೀ.";
-          if (shop && shop.pincode && pincode) {
-            let diff = Math.abs(parseInt(shop.pincode) - parseInt(pincode));
-            distanceCalculated = diff === 0 ? "1.2 ಕಿ.ಮೀ." : `${(diff % 15) + 2.4} ಕಿ.ಮೀ.`;
-          }
-
-          const orderData = {
-            orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
-            productName: `${selectedProduct.name} [Variant: ${selectedSize}, Qty: ${productQty}]`,
-            productPhoto: photos[0] || '',
-            totalPrice: grandTotal,
-            deliveryFee: deliveryFee,
-            distanceKm: distanceCalculated,
-            shopId: selectedProduct.shopId,
-            shopName: shop ? shop.shopName : "Store",
-            shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
-            deliveryBoyPhone: '8105010768',
-            shopLocation: shop ? `${shop.taluk}, ${shop.district}` : "ಶಹಾಪುರ",
-            customer: { name, phone, village, pincode, taluk, district },
-            deliveryOtp: custDeliveryOtp,
-            status: 'STEP_1',
-            orderTime: Date.now(),
-            timestamp: Date.now()
-          };
-
-          try {
-            const docRef = await window.addDoc(window.collection(window.db, "orders"), orderData);
-            pendingPaymentOrderId = docRef.id;
-            
-            // ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆದ ತಕ್ಷಣ ಯುಪಿಐ ಪೇಮೆಂಟ್ ಅಥವಾ ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ ಆಯ್ಕೆ ನೀಡುವುದು
-            openPaymentOrCodModal(grandTotal, pendingPaymentOrderId);
-          } catch (e) {
-            showCustomAlert("ದೋಷ", "Error: " + e.message);
-          }
-        }
-      });
     }
 
-    function openPaymentOrCodModal(amount, orderId) {
-      let upiLink = `upi://pay?pa=${MASTER_UPI_ID}&pn=NammaOoruShopping&am=${amount}&cu=INR&tn=OrderPayment`;
-      let qrCodeImg = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiLink)}`;
+    function openUpiModal(amount) {
+      let upiLink = `upi://pay?pa=${MASTER_UPI_ID}&pn=NammaOoruShopping&am=${amount}&cu=INR`;
+      let qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(upiLink)}`;
 
-      document.getElementById('qrCodeContainerBox').innerHTML = `<img src="${qrCodeImg}" style="width:170px; height:170px; border-radius:8px; border:1px solid #ccc;">`;
+      document.getElementById('qrCodeContainerBox').innerHTML = `<img src="${qrImg}" style="width:150px; height:150px;">`;
       document.getElementById('qrModalAmountText').innerText = `ಪಾವತಿಸಬೇಕಾದ ಮೊತ್ತ: ₹${amount}`;
       document.getElementById('directUpiPayLink').href = upiLink;
       document.getElementById('qrPaymentModal').style.display = 'flex';
     }
 
-    async function confirmCustomerPaymentSuccess() {
-      if (pendingPaymentOrderId) {
-        try {
-          await window.updateDoc(window.doc(window.db, "orders", pendingPaymentOrderId), {
-            paymentMode: 'UPI',
-            paymentStatus: 'SUCCESS',
-            paymentSuccessTime: Date.now()
-          });
-          document.getElementById('qrPaymentModal').style.display = 'none';
-          showCustomAlert("ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್", "🎉 ನಿಮ್ಮ ಯುಪಿಐ ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿ ಪೂರ್ಣಗೊಂಡಿದೆ! ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಹಾಗೂ ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ತಿಳಿಸಲಾಗಿದೆ.");
-          goBackToHome();
-        } catch(e) { alert("Error: " + e.message); }
-      }
-    }
-
     function closeQrPaymentModal() {
       document.getElementById('qrPaymentModal').style.display = 'none';
-      showCustomAlert("ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD)", "ನೀವು ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ ಆಯ್ಕೆ ಮಾಡಿದ್ದೀರಿ. ವಸ್ತುವನ್ನು ಪಡೆದಾಗ ಹಣ ಪಾವತಿಸಿ.");
-      goBackToHome();
+      openMyOrdersScreen();
     }
 
     function openMyOrdersScreen() {
-      const t = translations[currentLang];
       const phone = localStorage.getItem('customer_phone_key');
       const container = document.getElementById('ordersContainer');
-      
-      if (!phone) {
-        container.innerHTML = `<p style="text-align:center; color:#777; margin-top:20px;">${t.noOrders}</p>`;
-      } else {
-        const q = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
-        window.onSnapshot(q, (snapshot) => {
-          let orders = [];
-          snapshot.forEach(d => orders.push({ id: d.id, ...d.data() }));
-          orders.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+      if (!phone) { container.innerHTML = `<p style="text-align:center; color:#777;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`; showScreen('myOrdersScreen'); return; }
 
-          if (orders.length === 0) {
-            container.innerHTML = `<p style="text-align:center; color:#777; margin-top:20px;">${t.noOrders}</p>`;
-          } else {
-            container.innerHTML = orders.map(o => {
-              let statusText = "1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ನಿಮ್ಮ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ";
-              let statusColor = "var(--primary)";
-              let isDelivered = (o.status === 'DELIVERED' || o.status === 'STEP_4' || o.isDelivered);
-              let isCancelled = (o.status === 'CANCELLED' || o.isCancelled);
+      const q = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
+      window.onSnapshot(q, (snapshot) => {
+        let orders = [];
+        snapshot.forEach(d => orders.push({ id: d.id, ...d.data() }));
+        orders.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-              if (isCancelled) { statusText = "❌ ಆರ್ಡರ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ"; statusColor = "var(--danger)"; }
-              else if (o.status === 'CONFIRMED' || o.status === 'STEP_2') { statusText = "ಮಾಲೀಕರಿಂದ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ"; statusColor = "#e65100"; }
-              else if (o.status === 'PACKING' || o.status === 'STEP_3') { statusText = "ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿಕೊಂಡಿದ್ದಾರೆ"; statusColor = "#1565c0"; }
-              else if (isDelivered) { statusText = "ಡೆಲಿವರಿ ನೀಡಲಾಗಿದೆ (Success)"; statusColor = "var(--success)"; }
+        if (orders.length === 0) {
+          container.innerHTML = `<p style="text-align:center; color:#777;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`;
+        } else {
+          container.innerHTML = orders.map(o => {
+            let payBadge = o.paymentMode === 'COD' ? `<span style="color:#e65100; font-weight:bold;">(💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ)</span>` : (o.paymentStatus === 'SUCCESS' ? `<span style="color:green; font-weight:bold;">(✔ UPI Paid)</span>` : `<span style="color:#d32f2f; font-weight:bold;">(⏳ UPI ಪಾವತಿ ಪೆಂಡಿಂಗ್)</span>`);
+            let statusDesc = "1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ";
+            if (o.status === 'CONFIRMED' || o.status === 'STEP_2') statusDesc = "ಮಾಲೀಕರಿಂದ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ";
+            else if (o.status === 'STEP_3') statusDesc = "ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ";
+            else if (o.status === 'DELIVERED' || o.status === 'STEP_4') statusDesc = "ಡೆಲಿವರಿ ನೀಡಲಾಗಿದೆ (Success)";
 
-              let payStatusBadge = o.paymentStatus === 'SUCCESS' ? `<span style="color:green; font-weight:bold;">(UPI Paid ✔)</span>` : `<span style="color:#d32f2f; font-weight:bold;">(COD / Pending)</span>`;
-
-              return `
-                <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
-                  <div style="display:flex; gap:12px; align-items:center;">
-                    <img src="${o.productPhoto}" style="width:65px; height:65px; object-fit:cover; border-radius:6px;">
-                    <div style="flex:1;">
-                      <h4 style="font-size:0.85rem;">${o.productName}</h4>
-                      <p style="font-size:0.9rem; color:var(--success); font-weight:bold; margin-top:2px;">₹${o.totalPrice} ${payStatusBadge}</p>
-                      <p style="font-size:0.75rem; color:#555; margin-top:2px;"><b>ಸ್ಥಿತಿ:</b> <span style="color:${statusColor}; font-weight:bold;">${statusText}</span></p>
-                    </div>
+            return `
+              <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
+                <div style="display:flex; gap:10px; align-items:center;">
+                  <img src="${o.productPhoto}" style="width:60px; height:60px; object-fit:cover; border-radius:6px;">
+                  <div style="flex:1;">
+                    <h4 style="font-size:0.85rem;">${o.productName}</h4>
+                    <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-top:2px;">₹${o.totalPrice} ${payBadge}</p>
+                    <p style="font-size:0.75rem; color:#555; margin-top:2px;"><b>ಸ್ಥಿತಿ:</b> ${statusDesc}</p>
                   </div>
                 </div>
-              `;
-            }).join('');
-          }
-        });
-      }
+              </div>
+            `;
+          }).join('');
+        }
+      });
       showScreen('myOrdersScreen');
     }
 
-    function openOrderDetails(order) {
+    function openOrderDetails(o) {
       const content = document.getElementById('orderDetailsContent');
-      let t1 = 'completed', t2 = '', t3 = '', t4 = '';
-      let status = order.status || 'STEP_1';
-      let isCancelled = (status === 'CANCELLED' || order.isCancelled);
-      let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || order.isDelivered);
-      let isPickedUp = (status === 'STEP_3' || order.isPickedUp || isDelivered);
-      let isPacked = (status === 'STEP_2' || isPickedUp);
-
-      if (isPacked) { t1 = 'completed'; t2 = 'completed'; }
-      if (isPickedUp) { t3 = 'completed'; }
-      if (isDelivered) { t4 = 'completed'; }
-
-      let qrCodeSectionForOrder = '';
-      // ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ ತಕ್ಷಣ ಅಥವಾ ಆರ್ಡರ್ ಮೇಲೆ ಚಿಕ್ಕದಾಗಿ ಕ್ಯೂಆರ್ ಕೋಡ್ ಮತ್ತು ಪೇಮೆಂಟ್ ಮಾಡಲು ಆಪ್ಷನ್ ಕಾಣಿಸುವುದು
-      if (isPickedUp && !isDelivered && !isCancelled && order.paymentStatus !== 'SUCCESS') {
-        let upiLink = `upi://pay?pa=${MASTER_UPI_ID}&pn=NammaOoruShopping&am=${order.totalPrice}&cu=INR`;
-        let qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(upiLink)}`;
-        qrCodeSectionForOrder = `
-          <div style="background:#e3f2fd; border:2px solid #1e88e5; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
-            <p style="font-size:0.85rem; color:#0d47a1; font-weight:bold;">📱 ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಪೇಮೆಂಟ್ ಮಾಡಿ (Scan & Pay)</p>
-            <img src="${qrImg}" style="width:130px; height:130px; margin:8px auto; display:block; border-radius:6px; border:1px solid #ccc;" onclick="openPaymentOrCodModal(${order.totalPrice}, '${order.id}')" title="ದೊಡ್ಡದಾಗಿ ನೋಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ">
-            <a href="${upiLink}" class="btn" style="background:#5f259f; color:#fff; display:block; padding:10px; border-radius:6px; font-weight:bold; text-decoration:none; margin-top:6px; font-size:0.8rem;">ಫೋನ್‌ಪೇ / ಗೂಗಲ್ ಪೇ ಮೂಲಕ ಪಾವತಿಸಿ</a>
-          </div>
-        `;
-      }
-
-      let otpBoxHTML = '';
-      if (order.deliveryOtp && !isCancelled && !isDelivered) {
-        otpBoxHTML = `
-          <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
-            <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):</span>
-            <div style="font-size:1.4rem; font-weight:bold; color:#1b5e20; letter-spacing:3px; margin-top:4px;">${order.deliveryOtp}</div>
-          </div>
-        `;
-      }
+      let status = o.status || 'STEP_1';
+      let s1 = 'completed', s2 = '', s3 = '', s4 = '';
+      if (status === 'CONFIRMED' || status === 'STEP_2') { s1 = 'completed'; s2 = 'completed'; }
+      if (status === 'STEP_3') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; }
+      if (status === 'STEP_4' || status === 'DELIVERED') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; s4 = 'completed'; }
 
       content.innerHTML = `
-        <div style="display:flex; gap:12px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:15px;">
-          <img src="${order.productPhoto}" style="width:70px; height:70px; object-fit:cover; border-radius:6px;">
-          <div style="flex:1;">
-            <h4 style="font-size:0.9rem;">${order.productName}</h4>
-            <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${order.totalPrice} (ದೂರ: ${order.distanceKm || '3.5 ಕಿ.ಮೀ.'})</p>
+        <div style="display:flex; gap:10px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:15px;">
+          <img src="${o.productPhoto}" style="width:70px; height:70px; object-fit:cover; border-radius:6px;">
+          <div>
+            <h4 style="font-size:0.9rem;">${o.productName}</h4>
+            <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${o.totalPrice}</p>
+            <p style="font-size:0.78rem; color:#555; margin-top:2px;">ಪಾವತಿ: ${o.paymentMode === 'COD' ? '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ' : '📱 ಯುಪಿಐ ಪಾವತಿ'}</p>
           </div>
         </div>
-        ${qrCodeSectionForOrder}
-        ${otpBoxHTML}
+
+        <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
+          <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):</span>
+          <div style="font-size:1.4rem; font-weight:bold; color:#1b5e20; letter-spacing:3px; margin-top:4px;">${o.deliveryOtp || '8740'}</div>
+        </div>
+
+        <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px;">
+          <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ರೋಡ್‌ಮ್ಯಾಪ್</h4>
+          <div class="timeline">
+            <div class="t-item ${s1}"><div class="t-dot"></div><div class="t-title">1. ಆರ್ಡರ್ ಖಚಿತವಾಗಿದೆ (Order Confirmed)</div></div>
+            <div class="t-item ${s2}"><div class="t-dot"></div><div class="t-title">2. ಅಂಗಡಿ ಮಾಲೀಕರಿಂದ ಪ್ಯಾಕಿಂಗ್ (Packing Ready)</div></div>
+            <div class="t-item ${s3}"><div class="t-dot"></div><div class="t-title">3. ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ (Picked Up)</div></div>
+            <div class="t-item ${s4}"><div class="t-dot"></div><div class="t-title">4. ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Delivered)</div></div>
+          </div>
+        </div>
       `;
       showScreen('orderDetailsScreen');
     }
 
     function openPocketMoneyScreen() {
-      renderPocketMoneyUI(0);
-      showScreen('pocketMoneyScreen');
-    }
-
-    function renderPocketMoneyUI(balance) {
       document.getElementById('pocketMoneyContent').innerHTML = `
         <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px; text-align:center;">
           <h3 style="font-size:1.1rem; color:var(--primary); margin-bottom:6px;">🎁 ಪಾಕೆಟ್ ಮನಿ ಬ್ಯಾಲೆನ್ಸ್</h3>
-          <div style="font-size:2rem; font-weight:bold; color:var(--success); margin:10px 0;">₹${balance}</div>
+          <div style="font-size:2rem; font-weight:bold; color:var(--success); margin:10px 0;">₹0</div>
         </div>
       `;
+      showScreen('pocketMoneyScreen');
+    }
+
+    function showScreen(id) {
+      ['homeViewContainer', 'categoriesViewContainer', 'productDetailScreen', 'checkoutScreen', 'myOrdersScreen', 'orderDetailsScreen', 'pocketMoneyScreen'].forEach(s => {
+        const el = document.getElementById(s);
+        if (el) el.style.display = 'none';
+      });
+      document.getElementById(id).style.display = 'block';
+    }
+
+    function goBackToHome() {
+      showScreen('homeViewContainer');
+    }
+
+    function switchNavTab(tab) {
+      if (tab === 'home') showScreen('homeViewContainer');
+      else if (tab === 'categories') showScreen('categoriesViewContainer');
+      else if (tab === 'account') openPocketMoneyScreen();
+    }
+
+    function loadSavedAddress() {
+      const saved = localStorage.getItem('customer_saved_address');
+      if (saved) {
+        try {
+          const a = JSON.parse(saved);
+          document.getElementById('custName').value = a.name || '';
+          document.getElementById('custPhone').value = a.phone || '';
+          document.getElementById('custVillage').value = a.village || '';
+          document.getElementById('custPincode').value = a.pincode || '';
+        } catch(e) {}
+      }
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'kn' ? 'en' : 'kn';
+      localStorage.setItem('app_lang', currentLang);
+      applyLanguage();
+    }
+
+    function applyLanguage() {
+      const t = translations[currentLang];
+      document.getElementById('appTitle').innerText = t.appTitle;
+      document.getElementById('lblBrand').innerText = t.brandTitle;
+      document.getElementById('lblMyOrdersBtn').innerText = t.myOrdersBtn;
+      document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+      document.getElementById('langToggleBtn').innerText = currentLang === 'kn' ? 'English' : 'ಕನ್ನಡ';
     }
   </script>
 </body>

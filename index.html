@@ -18,7 +18,7 @@
   <!-- Firebase SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, updateDoc, doc, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, updateDoc, doc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAm3HFKu101wex1b025-zJZ2BJ_o1Xvw",
@@ -38,6 +38,7 @@
     window.onSnapshot = onSnapshot;
     window.updateDoc = updateDoc;
     window.doc = doc;
+    window.getDoc = getDoc;
     window.query = query;
     window.where = where;
 
@@ -133,9 +134,21 @@
 
     .custom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 15px; }
     .custom-modal-content { background: #fff; border-radius: 12px; max-width: 420px; width: 100%; padding: 18px; max-height: 90vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+    /* Server Down / Maintenance Overlay */
+    #serverDownOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 99999; display: none; justify-content: center; align-items: center; padding: 20px; text-align: center; color: white; }
   </style>
 </head>
 <body>
+
+  <!-- Server Down / Maintenance Overlay -->
+  <div id="serverDownOverlay">
+    <div style="background:#fff; color:#333; padding:25px; border-radius:12px; max-width:350px; width:100%;">
+      <div style="font-size:3rem; margin-bottom:10px;">⚠️</div>
+      <h3 style="color:#d32f2f; margin-bottom:8px;">ಸರ್ವರ್ ತಾತ್ಕಾಲಿಕವಾಗಿ ಬಂದ್ ಆಗಿದೆ</h3>
+      <p style="font-size:0.85rem; color:#666; line-height:1.4;" id="serverDownMsg">ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಸಿಸ್ಟಮ್ ಆಫ್ ಮಾಡಲಾಗಿದೆ ಅಥವಾ ನಿಮ್ಮ ಖಾತೆಯನ್ನು ತೆಗೆದುಹಾಕಲಾಗಿದೆ. ದಯವಿಟ್ಟು ಮಾಸ್ಟರ್ ಅನ್ನು ಸಂಪರ್ಕಿಸಿ.</p>
+    </div>
+  </div>
 
   <audio id="coinSound" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3" preload="auto"></audio>
 
@@ -368,7 +381,6 @@
         <input type="text" id="customerUpiIdInput" placeholder="ಉದಾ: 8105010768@ybl ಅಥವಾ PhonePe ನಂಬರ್" style="width:100%; padding:8px; margin-top:4px; border:1px solid var(--primary); border-radius:6px; font-size:0.85rem; background:#f0f4ff;">
       </div>
 
-      <!-- TWO PHOTOS UPLOAD SECTION -->
       <div style="margin-bottom:10px;">
         <label style="font-size:0.8rem; font-weight:bold;">4. ವಸ್ತುವಿನ ಮೊದಲನೇ ಫೋಟೋ (Photo 1):</label>
         <input type="file" id="returnPhotoInput1" accept="image/*" capture="environment" style="width:100%; margin-top:2px; font-size:0.8rem;" onchange="previewReturnPhoto1(event)">
@@ -386,7 +398,6 @@
       </div>
 
       <div id="returnDeductionNotice" style="background:#fff3e0; border:1px solid #ffe0b2; padding:10px; border-radius:6px; font-size:0.78rem; color:#d32f2f; margin-bottom:15px; line-height:1.4;">
-        <!-- Filled dynamically -->
       </div>
 
       <div style="display:flex; gap:8px;">
@@ -484,6 +495,8 @@
     window.addEventListener('DOMContentLoaded', () => {
       applyLanguage();
       loadSavedAddress();
+      checkAppLiveStatus();
+      verifyCustomerExistsInFirebase();
       window.initFirebaseAppData();
 
       window.addEventListener('focus', () => {
@@ -504,6 +517,35 @@
         }
       });
     });
+
+    // 1. ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್ ಆನ್/ಆಫ್ ಸ್ಟೇಟಸ್ ಚೆಕ್ ಮಾಡುವುದು
+    function checkAppLiveStatus() {
+      window.onSnapshot(window.doc(window.db, "settings", "instapp_control"), (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          if (data.isOnline === false) {
+            document.getElementById('serverDownMsg').innerText = "ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಇನ್‌ಸ್ಟಾಪ್ ಸಿಸ್ಟಮ್ ಅನ್ನು ಬಂದ್ (OFF) ಮಾಡಲಾಗಿದೆ. ದಯವಿಟ್ಟು ನಂತರ ಪ್ರಯತ್ನಿಸಿ.";
+            document.getElementById('serverDownOverlay').style.display = 'flex';
+          } else {
+            document.getElementById('serverDownOverlay').style.display = 'none';
+          }
+        }
+      });
+    }
+
+    // 2. ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಲ್ಲಿ ಗ್ರಾಹಕರನ್ನು ಡಿಲೀಟ್ ಮಾಡಿದ್ದರೆ ಆಪ್ ಬ್ಲಾಕ್ ಮಾಡುವುದು
+    async function verifyCustomerExistsInFirebase() {
+      const savedPhone = localStorage.getItem('customer_phone_key');
+      if (!savedPhone) return;
+      try {
+        const deletedDoc = await window.getDoc(window.doc(window.db, "customers_meta", savedPhone));
+        if (deletedDoc.exists() && deletedDoc.data().deleted === true) {
+          localStorage.removeItem('customer_phone_key');
+          document.getElementById('serverDownMsg').innerText = "ನಿಮ್ಮ ಗ್ರಾಹಕರ ಖಾತೆಯನ್ನು ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಸಂಪೂರ್ಣವಾಗಿ ಡಿಲೀಟ್ ಮಾಡಲಾಗಿದೆ.";
+          document.getElementById('serverDownOverlay').style.display = 'flex';
+        }
+      } catch(e) { console.log(e); }
+    }
 
     function selectPaymentMethod(mode) {
       document.getElementById('selectedPaymentMode').value = mode;

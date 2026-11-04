@@ -47,32 +47,31 @@
     html, body { width: 100%; min-height: 100vh; background-color: var(--bg); color: var(--text); overflow-x: hidden; }
     body { padding-bottom: 120px; }
 
-    header { background-color: var(--primary); color: white; padding: 10px 14px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    header { background-color: var(--primary); color: white; padding: 8px 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
     
-    .brand-logo-area { display: flex; align-items: center; gap: 8px; }
-    .app-logo { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; background: #fff; }
-    .brand-title { font-size: 1.05rem; font-weight: bold; font-style: italic; }
+    .brand-logo-area { display: flex; align-items: center; gap: 6px; }
+    .app-logo { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; background: #fff; }
+    .brand-title { font-size: 0.95rem; font-weight: bold; font-style: italic; }
     
-    .header-btns { display: flex; gap: 5px; align-items: center; }
-    .btn-lang { background: #fff; color: var(--primary); border: none; padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
-    .btn-my-orders { background: var(--secondary); color: #000; border: none; padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
-    .btn-pocket { background: #ff9f00; color: #fff; border: none; padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; gap: 2px; }
+    .header-btns { display: flex; gap: 4px; align-items: center; }
+    .btn-lang { background: #fff; color: var(--primary); border: none; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
+    .btn-pocket { background: #ff9f00; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; gap: 2px; }
 
     .floating-share-btn {
       position: fixed; bottom: 80px; right: 15px; width: 48px; height: 48px; background: #25d366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 999; cursor: pointer; border: 2px solid #fff;
     }
 
-    .search-box { display: flex; background: #fff; border-radius: 6px; padding: 6px 12px; align-items: center; margin-bottom: 8px; border: 1px solid #ddd; margin-top: 6px; }
-    .search-box input { border: none; outline: none; width: 100%; font-size: 0.88rem; margin-left: 8px; }
+    .search-box { display: flex; background: #fff; border-radius: 6px; padding: 6px 10px; align-items: center; border: 1px solid #ddd; margin-top: 4px; }
+    .search-box input { border: none; outline: none; width: 100%; font-size: 0.85rem; margin-left: 6px; }
 
-    .hero-slider-container { width: 100%; height: 150px; position: relative; overflow: hidden; border-radius: 8px; margin-bottom: 10px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .hero-slider-container { width: 100%; height: 140px; position: relative; overflow: hidden; border-radius: 8px; margin-bottom: 10px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
     .hero-slider-track { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
     .hero-slide { min-width: 100%; height: 100%; flex-shrink: 0; }
     .hero-slide img { width: 100%; height: 100%; object-fit: cover; }
 
     .container { padding: 8px 8px 100px 8px; max-width: 500px; margin: 0 auto; }
-    .filter-box { background: #fff; border: 1px solid #ddd; padding: 8px 12px; border-radius: 8px; margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
+    .filter-box { background: #fff; border: 1px solid #ddd; padding: 8px 10px; border-radius: 8px; margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
     .filter-box input { flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.8rem; background: #fff; }
 
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; border-top: 1px solid #e0e0e0; z-index: 300; padding: 8px 0; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); }
@@ -83,12 +82,10 @@
     .grid-products { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
     .product-card { background: #fff; border-radius: 8px; padding: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid #eee; }
     
-    .img-box { width: 100%; height: 180px; background: #fff; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+    .img-box { width: 100%; height: 160px; background: #fff; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
     .product-card img { width: 100%; height: 100%; object-fit: cover; }
     
     .prod-title { font-size: 0.8rem; font-weight: 600; margin-top: 6px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.5em; color: #333; }
-    .flipkart-discount { color: #388e3c; font-weight: bold; font-size: 0.82rem; }
-
     .price-row { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
     .old-price { font-size: 0.75rem; color: #888; text-decoration: line-through; }
@@ -100,17 +97,17 @@
     .slider-container { width: 100%; position: relative; overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #eee; }
     .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
     .slider-track::-webkit-scrollbar { display: none; }
-    .slider-track img { width: 100%; flex-shrink: 0; height: 320px; object-fit: contain; scroll-snap-align: start; background: #fff; }
+    .slider-track img { width: 100%; flex-shrink: 0; height: 280px; object-fit: contain; scroll-snap-align: start; background: #fff; }
     
     .thumbnail-bar { display: flex; gap: 8px; margin-top: 8px; justify-content: center; overflow-x: auto; padding: 4px; }
-    .thumbnail-bar img { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; background: #fff; }
+    .thumbnail-bar img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; }
 
     .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; margin: 8px 0; line-height: 1.4; }
 
-    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #e0e0e0; z-index: 300; padding: 14px 15px 30px 15px; box-shadow: 0 -4px 10px rgba(0,0,0,0.1); gap: 10px; }
+    /* Flipkart style bottom bar fully visible */
+    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; border-top: 1px solid #e0e0e0; z-index: 300; padding: 12px 15px 25px 15px; box-shadow: 0 -4px 10px rgba(0,0,0,0.1); gap: 10px; }
     .btn-action { flex: 1; padding: 14px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; text-align: center; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.15); }
     .btn-buy-now { background: #ff9f00; color: #fff; }
-    .btn-add-cart { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
 
     .size-btn { padding: 6px 12px; border: 1px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
     .size-btn.selected { border-color: var(--primary); background: #f0f4ff; color: var(--primary); }
@@ -126,8 +123,11 @@
     .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 20px; overflow-y: auto; }
     .modal-box { background: #fff; width: 100%; max-width: 380px; padding: 20px; border-radius: 10px; max-height: 90vh; overflow-y: auto; text-align: center; }
 
-    .pay-opt-btn { width: 100%; padding: 14px; margin: 8px 0; border: 2px solid #cbd5e0; border-radius: 8px; font-weight: bold; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #f8f9fa; }
-    .pay-opt-btn.active { border-color: #2874f0; background: #e8f0fe; color: #1a73e8; }
+    .pay-opt-box { background: #fff; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px; overflow: hidden; }
+    .pay-opt-header { padding: 14px; font-weight: bold; font-size: 0.95rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #fafafa; border-bottom: 1px solid #eee; }
+    .pay-opt-content { padding: 12px; display: none; background: #fff; }
+    .pay-opt-box.active .pay-opt-content { display: block; }
+    .pay-opt-box.active .pay-opt-header { background: #e8f0fe; color: var(--primary); }
   </style>
 </head>
 <body>
@@ -140,13 +140,12 @@
   <header>
     <div class="top-bar">
       <div class="brand-logo-area">
-        <img src="logo.png" class="app-logo" alt="Logo" onerror="this.src='https://via.placeholder.com/36?text=🛍️'">
+        <img src="logo.png" class="app-logo" alt="Logo" onerror="this.src='https://via.placeholder.com/32?text=🛍️'">
         <div class="brand-title" id="lblBrand">🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್</div>
       </div>
       <div class="header-btns">
         <button class="btn-pocket" onclick="openPocketMoneyScreen()">💰 ಪಾಕೆಟ್ ಮನಿ</button>
         <button class="btn-lang" id="langToggleBtn" onclick="toggleLanguage()">English</button>
-        <button class="btn-my-orders" id="lblMyOrdersBtn" onclick="openMyOrdersScreen()">📦 ನನ್ನ ಆರ್ಡರ್</button>
       </div>
     </div>
     <div class="search-box">
@@ -196,7 +195,7 @@
       <span class="back-btn" onclick="goBackToHome()">←</span>
       <span id="lblProdDetailTitle">ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ</span>
     </div>
-    <div style="padding: 12px 12px 260px 12px;">
+    <div style="padding: 12px 12px 140px 12px;">
       <div class="slider-container"><div class="slider-track" id="sliderTrack"></div></div>
       <div class="thumbnail-bar" id="thumbnailBar"></div>
 
@@ -213,7 +212,7 @@
 
       <div id="variantSection" style="margin-top: 10px;">
         <label style="font-size: 0.8rem; font-weight: bold;" id="lblVariantTitle">Variant / Size ಆಯ್ಕೆಮಾಡಿ:</label>
-        <div class="variant-container" id="variantOptionsContainer" style="display:flex; gap:6px; margin-top:4px;"></div>
+        <div class="variant-container" id="variantOptionsContainer" style="display:flex; gap:6px; margin-top:4px; flex-wrap:wrap;"></div>
       </div>
 
       <div style="display:flex; align-items:center; gap:8px; margin: 8px 0; background:#f8f9fa; padding:6px 8px; border-radius:6px; border:1px solid #eee; font-size:0.85rem;">
@@ -233,14 +232,14 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN WITH PAYMENT OPTIONS -->
+  <!-- CHECKOUT SCREEN WITH FLIPKART STYLE PAYMENT OPTIONS -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
-      <span id="lblCheckoutHeader">ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ</span>
+      <span id="lblCheckoutHeader">3 ನೇ ಹಂತ - ಪಾವತಿ (Payment)</span>
     </div>
 
-    <div style="padding: 15px 15px 160px 15px;">
+    <div style="padding: 15px 15px 140px 15px;">
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (15 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
         <input type="text" id="custName" placeholder="ಹೆಸರು / Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
@@ -251,25 +250,35 @@
         <input type="text" id="custDistrict" value="ಯಾದಗಿರಿ" placeholder="ಜಿಲ್ಲೆ / District" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
       </div>
 
-      <!-- UPI & CASH ON DELIVERY BUTTON OPTIONS IN KANNADA -->
+      <!-- FLIPKART STYLE PAYMENT ACCORDION -->
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;">💳 ಪಾವತಿ ವಿಧಾನ ಆಯ್ಕೆ ಮಾಡಿ (Select Payment Option):</h4>
+        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:10px;">💳 ಪಾವತಿ ವಿಧಾನ ಆಯ್ಕೆ ಮಾಡಿ (Select Payment Option):</h4>
         
         <input type="hidden" id="selectedPaymentMode" value="UPI">
 
-        <div class="pay-opt-btn active" id="optUpi" onclick="selectPaymentMethod('UPI')">
-          <span>📲 ಯುಪಿಐ ಪಾವತಿ (Online UPI / PhonePe / GPay - Up to ₹20,000)</span>
-          <span id="checkUpi">✔</span>
+        <!-- UPI Option -->
+        <div class="pay-opt-box active" id="boxUpi">
+          <div class="pay-opt-header" onclick="selectPaymentAccordion('UPI')">
+            <span>📲 UPI (ಯಾವುದೇ UPI ಆಪ್ ಬಳಸಿ ಪಾವತಿಸಿ - ರೂ.20,000 ವರೆಗೆ)</span>
+            <span>▼</span>
+          </div>
+          <div class="pay-opt-content">
+            <p style="font-size:0.8rem; color:#555; margin-bottom:10px;">ಫೋನ್‌ಪೇ, ಗೂಗಲ್ ಪೇ ಅಥವಾ ಕ್ಯೂಆರ್ ಕೋಡ್ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಪಾವತಿಸಿ.</p>
+            <button class="btn" style="background:#ff9f00; color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="initiateOrderProcess()">ಯುಪಿಐ ಮೂಲಕ ಪಾವತಿಸಿ & ಆರ್ಡರ್ ಮಾಡಿ</button>
+          </div>
         </div>
 
-        <div class="pay-opt-btn" id="optCod" onclick="selectPaymentMethod('COD')">
-          <span>💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)</span>
-          <span id="checkCod"></span>
+        <!-- Cash on Delivery Option -->
+        <div class="pay-opt-box" id="boxCod">
+          <div class="pay-opt-header" onclick="selectPaymentAccordion('COD')">
+            <span>💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)</span>
+            <span>▼</span>
+          </div>
+          <div class="pay-opt-content">
+            <p style="font-size:0.8rem; color:#555; margin-bottom:10px;">ನಿರ್ವಹಣೆ ಶುಲ್ಕ ರೂ.30 ಅನ್ವಯಿಸುತ್ತದೆ. ಡೆಲಿವರಿ ಪಡೆಯುವಾಗ ನಗದು ನೀಡಿ.</p>
+            <button class="btn" style="background:#ff9f00; color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="showCodConfirmationModal()">ಆರ್ಡರ್ ದೃಢೀಕರಿಸಿ (Place Order)</button>
+          </div>
         </div>
-      </div>
-
-      <div style="margin-bottom: 15px;">
-        <button class="btn-action btn-buy-now" id="lblConfirmOrderBtn" onclick="initiateOrderProcess()" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff;">ಮುಂದುವರಿಸಿ & ಪಾವತಿಸಿ (Proceed to Pay)</button>
       </div>
 
       <div style="display: flex; gap: 12px; align-items: center; border: 1px solid #eee; padding: 10px; border-radius: 8px; background:#fff;">
@@ -291,7 +300,7 @@
       <span class="back-btn" onclick="goBackToHome()">←</span>
       <span id="lblMyOrdersHeader">ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)</span>
     </div>
-    <div style="padding: 15px 15px 160px 15px;" id="ordersContainer"></div>
+    <div style="padding: 15px 15px 140px 15px;" id="ordersContainer"></div>
   </div>
 
   <!-- ORDER DETAILS STATUS SCREEN WITH ROADMAP -->
@@ -300,7 +309,7 @@
       <span class="back-btn" onclick="goBackToHome()">←</span>
       <span id="lblOrderDetailsHeader">ಆರ್ಡರ್ ವಿವರಗಳು & ಟ್ರ್ಯಾಕಿಂಗ್</span>
     </div>
-    <div style="padding: 15px 15px 160px 15px;" id="orderDetailsContent"></div>
+    <div style="padding: 15px 15px 140px 15px;" id="orderDetailsContent"></div>
   </div>
 
   <!-- POCKET MONEY SCREEN -->
@@ -312,7 +321,7 @@
     <div style="padding: 15px; max-width: 500px; margin: 0 auto;" id="pocketMoneyContent"></div>
   </div>
 
-  <!-- QR PAYMENT MODAL (Only saves order in database AFTER successful payment confirmation) -->
+  <!-- QR PAYMENT MODAL (Only saves order AFTER successful payment) -->
   <div id="qrPaymentModal" class="modal">
     <div class="modal-box" style="text-align:center;">
       <h3 style="color:var(--primary); margin-bottom:8px;">📱 ಯುಪಿಐ ಪಾವತಿ (UPI Payment)</h3>
@@ -326,6 +335,16 @@
       
       <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:12px; margin-top:10px; border:none; border-radius:6px; font-weight:bold; font-size:1rem;" onclick="verifyAndSaveOrderAfterPayment()">✔ ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Confirm Payment & Place Order)</button>
       <button class="btn" style="background:#757575; color:#fff; width:100%; padding:10px; margin-top:8px; border:none; border-radius:6px; font-weight:bold;" onclick="closeQrPaymentModal(false)">ಪಾವತಿ ಮಾಡಿಲ್ಲ / ರದ್ದುಮಾಡಿ (Cancel)</button>
+    </div>
+  </div>
+
+  <!-- COD CONFIRMATION MODAL -->
+  <div id="codConfirmModal" class="modal">
+    <div class="modal-box" style="text-align:center;">
+      <h3 style="color:var(--primary); margin-bottom:8px;">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ ಆರ್ಡರ್ ದೃಢೀಕರಿಸಿ</h3>
+      <p style="font-size:0.85rem; color:#555; margin-bottom:15px;">ನೀವು ಆರ್ಡರ್ ಡೆಲಿವರಿ ಪಡೆಯುವಾಗ ನಗದು ಅಥವಾ UPI ಮೂಲಕ ಪಾವತಿಸಿ.</p>
+      <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:12px; margin-bottom:8px; border:none; border-radius:6px; font-weight:bold;" onclick="confirmCodOrder()">ಆರ್ಡರ್ ದೃಢೀಕರಿಸಿ (Confirm Order)</button>
+      <button class="btn" style="background:#757575; color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="document.getElementById('codConfirmModal').style.display='none'">ರದ್ದುಗೊಳಿಸಿ (Cancel)</button>
     </div>
   </div>
 
@@ -359,7 +378,6 @@
       kn: {
         appTitle: "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ಗ್ರಾಹಕರ ಆಪ್",
         brandTitle: "🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್",
-        myOrdersBtn: "📦 ನನ್ನ ಆರ್ಡರ್",
         searchPlaceholder: "ಊರು, ತಾಲೂಕು, ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ...",
         prodDetailTitle: "ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ",
         fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ, ಪಿನ್ ಕೋಡ್ ಮತ್ತು ಊರು ನಮೂದಿಸಿ."
@@ -367,7 +385,6 @@
       en: {
         appTitle: "Namma Ooru Shopping - Customer App",
         brandTitle: "🛍️ Namma Ooru Shopping",
-        myOrdersBtn: "📦 My Orders",
         searchPlaceholder: "Search village, taluk, product or shop...",
         prodDetailTitle: "Product Description",
         fillAll: "Please enter Name, Mobile Number, Pincode and Village."
@@ -378,20 +395,39 @@
       applyLanguage();
       loadSavedAddress();
       window.initFirebaseAppData();
+
+      // Mobile back button handler so app doesn't close completely
+      window.history.pushState({ screen: 'home' }, '', '');
+      window.addEventListener('popstate', (e) => {
+        const qrModal = document.getElementById('qrPaymentModal');
+        const codModal = document.getElementById('codConfirmModal');
+        if (qrModal && qrModal.style.display === 'flex') {
+          qrModal.style.display = 'none';
+          window.history.pushState({ screen: 'home' }, '', '');
+          return;
+        }
+        if (codModal && codModal.style.display === 'flex') {
+          codModal.style.display = 'none';
+          window.history.pushState({ screen: 'home' }, '', '');
+          return;
+        }
+
+        const activeScreen = ['productDetailScreen', 'checkoutScreen', 'myOrdersScreen', 'orderDetailsScreen', 'pocketMoneyScreen'].find(s => document.getElementById(s).style.display === 'block');
+        if (activeScreen) {
+          showScreen('homeViewContainer');
+          window.history.pushState({ screen: 'home' }, '', '');
+        }
+      });
     });
 
-    function selectPaymentMethod(mode) {
+    function selectPaymentAccordion(mode) {
       document.getElementById('selectedPaymentMode').value = mode;
       if (mode === 'UPI') {
-        document.getElementById('optUpi').className = 'pay-opt-btn active';
-        document.getElementById('checkUpi').innerText = '✔';
-        document.getElementById('optCod').className = 'pay-opt-btn';
-        document.getElementById('checkCod').innerText = '';
+        document.getElementById('boxUpi').className = 'pay-opt-box active';
+        document.getElementById('boxCod').className = 'pay-opt-box';
       } else {
-        document.getElementById('optUpi').className = 'pay-opt-btn';
-        document.getElementById('checkUpi').innerText = '';
-        document.getElementById('optCod').className = 'pay-opt-btn active';
-        document.getElementById('checkCod').innerText = '✔';
+        document.getElementById('boxUpi').className = 'pay-opt-box';
+        document.getElementById('boxCod').className = 'pay-opt-box active';
       }
     }
 
@@ -551,7 +587,6 @@
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
       const pincode = document.getElementById('custPincode').value.trim();
-      const payMode = document.getElementById('selectedPaymentMode').value;
 
       if (!name || !phone || !village || !pincode) {
         alert(translations[currentLang].fillAll);
@@ -562,12 +597,7 @@
       localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, pincode }));
 
       let grandTotal = (Number(selectedProduct.price) * productQty) + 30;
-
-      if (payMode === 'UPI') {
-        openUpiModal(grandTotal);
-      } else {
-        saveOrderToDatabase('COD_PENDING');
-      }
+      openUpiModal(grandTotal);
     }
 
     function openUpiModal(amount) {
@@ -584,13 +614,30 @@
       document.getElementById('qrPaymentModal').style.display = 'none';
       if (!isPaid) {
         alert("❌ ಯುಪಿಐ ಪಾವತಿ ಮಾಡದ ಕಾರಣ ಆರ್ಡರ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ.");
-        showScreen('checkoutScreen');
       }
     }
 
     async function verifyAndSaveOrderAfterPayment() {
       document.getElementById('qrPaymentModal').style.display = 'none';
       await saveOrderToDatabase('SUCCESS');
+    }
+
+    function showCodConfirmationModal() {
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const village = document.getElementById('custVillage').value.trim();
+      const pincode = document.getElementById('custPincode').value.trim();
+
+      if (!name || !phone || !village || !pincode) {
+        alert(translations[currentLang].fillAll);
+        return;
+      }
+      document.getElementById('codConfirmModal').style.display = 'flex';
+    }
+
+    async function confirmCodOrder() {
+      document.getElementById('codConfirmModal').style.display = 'none';
+      await saveOrderToDatabase('COD_PENDING');
     }
 
     async function saveOrderToDatabase(paymentStatusVal) {
@@ -761,7 +808,6 @@
       const t = translations[currentLang];
       document.getElementById('appTitle').innerText = t.appTitle;
       document.getElementById('lblBrand').innerText = t.brandTitle;
-      document.getElementById('lblMyOrdersBtn').innerText = t.myOrdersBtn;
       document.getElementById('searchInput').placeholder = t.searchPlaceholder;
       document.getElementById('langToggleBtn').innerText = currentLang === 'kn' ? 'English' : 'ಕನ್ನಡ';
     }

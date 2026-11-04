@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title id="appTitle">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ಗ್ರಾಹಕರ ಆಪ್ | Customer App</title>
+  <title id="appTitle">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ಗ್ರಾಹಕರ ಆಪ್ | Namma Ooru Shopping App</title>
   
+  <!-- SEO Meta Tags for Google Search Optimization -->
+  <meta name="description" content="ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ - ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ. Namma Ooru Shopping, Ooru Shopping, Shopping App in Shahapur Yadgir.">
+  <meta name="keywords" content="ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್, ಊರ್ ಶಾಪಿಂಗ್, ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್, ಶಾಪಿಂಗ್ ಆಪ್, ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್, Namma Ooru Shopping, Ooru Shopping, Shopping App, Namma Ooru Shopping App">
+
   <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
   <link rel="apple-touch-icon" href="logo.png">
   <link rel="manifest" href="manifest.json">
@@ -83,7 +87,7 @@
     .product-card { background: #fff; border-radius: 8px; padding: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid #eee; }
     
     .img-box { width: 100%; height: 160px; background: #fff; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
-    .product-card img { width: 100%; height: 100%; object-fit: cover; }
+    .product-card img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
     
     .prod-title { font-size: 0.8rem; font-weight: 600; margin-top: 6px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.5em; color: #333; }
     .price-row { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
@@ -100,7 +104,7 @@
     .slider-track img { width: 100%; flex-shrink: 0; height: 280px; object-fit: contain; scroll-snap-align: start; background: #fff; }
     
     .thumbnail-bar { display: flex; gap: 8px; margin-top: 8px; justify-content: center; overflow-x: auto; padding: 4px; }
-    .thumbnail-bar img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; }
+    .thumbnail-bar img { width: 50px; height: 50px; object-fit: contain; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; background: #fff; }
 
     .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; margin: 8px 0; line-height: 1.4; }
 
@@ -119,9 +123,6 @@
     .t-item.completed .t-dot { background: var(--success); }
     .t-item.active .t-dot { background: var(--primary); width: 16px; height: 16px; left: -22px; top: 0; }
     .t-title { font-size: 0.85rem; font-weight: bold; color: #333; }
-
-    .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 20px; overflow-y: auto; }
-    .modal-box { background: #fff; width: 100%; max-width: 380px; padding: 20px; border-radius: 10px; max-height: 90vh; overflow-y: auto; text-align: center; }
 
     .pay-opt-btn { width: 100%; padding: 12px 14px; margin: 6px 0; border: 2px solid #cbd5e0; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #f8f9fa; }
     .pay-opt-btn.active { border-color: #2874f0; background: #e8f0fe; color: #1a73e8; }
@@ -224,9 +225,9 @@
         🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (15km ಒಳಗೆ ಮಾತ್ರ)</b>
       </div>
 
-      <!-- Flipkart Style Similar Products Section -->
+      <!-- Flipkart Style Similar Products Section from SAME SHOP -->
       <div style="margin-top: 20px;">
-        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom: 10px;" id="lblSimilarProducts">🛍️ ಇತ್ತೀಚಿನ ಇತರ ವಸ್ತುಗಳು (Similar Products):</h4>
+        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom: 10px;" id="lblSimilarProducts">🛍️ ಈ ಅಂಗಡಿಯ ಇತರ ವಸ್ತುಗಳು (More from this Store):</h4>
         <div id="relatedProductsGrid" class="grid-products"></div>
       </div>
     </div>
@@ -277,7 +278,7 @@
       </div>
 
       <div style="display: flex; gap: 12px; align-items: center; border: 1px solid #eee; padding: 10px; border-radius: 8px; background:#fff;">
-        <img id="checkoutImg" src="" style="width: 70px; height: 70px; object-fit: cover; border-radius: 6px;">
+        <img id="checkoutImg" src="" style="width: 70px; height: 70px; object-fit: contain; border-radius: 6px; background:#fff;">
         <div style="flex: 1;">
           <h4 id="checkoutTitle" style="font-size: 0.85rem;"></h4>
           <div style="margin-top: 4px;">
@@ -314,17 +315,6 @@
       <span id="lblPocketMoneyHeader">💰 ಪಾಕೆಟ್ ಮನಿ (Pocket Money)</span>
     </div>
     <div style="padding: 15px; max-width: 500px; margin: 0 auto;" id="pocketMoneyContent"></div>
-  </div>
-
-  <!-- UPI PAYMENT VERIFICATION MODAL -->
-  <div id="upiVerifyModal" class="modal">
-    <div class="modal-box" style="text-align:center;">
-      <h3 style="color:var(--primary); margin-bottom:8px;" id="lblUpiVerifyTitle">📱 ಯುಪಿಐ ಪಾವತಿ ಪರಿಶೀಲನೆ</h3>
-      <p style="font-size:0.85rem; color:#555; margin-bottom:12px;" id="lblUpiVerifyDesc">ನೀವು ಯುಪಿಐ ಆಪ್‌ನಲ್ಲಿ ಯಶಸ್ವಿಯಾಗಿ ಪಾವತಿ ಪೂರ್ಣಗೊಳಿಸಿದ್ದೀರಾ?</p>
-      
-      <button class="btn" style="background:var(--success); color:#fff; width:100%; padding:12px; margin-bottom:8px; border:none; border-radius:6px; font-weight:bold; font-size:0.95rem;" onclick="confirmUpiPaymentSuccess()" id="lblUpiSuccessBtn">✔ ಹೌದು, ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Payment Done)</button>
-      <button class="btn" style="background:var(--danger); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold;" onclick="cancelUpiPayment()" id="lblUpiCancelBtn">❌ ಪಾವತಿ ವಿಫಲ / ರದ್ದುಗೊಳಿಸಿ (Failed / Cancel)</button>
-    </div>
   </div>
 
   <script>
@@ -368,7 +358,7 @@
         variantTitle: "Variant / Size ಆಯ್ಕೆಮಾಡಿ:",
         qtyLabel: "ಸರಕು ಪ್ರಮಾಣ (Quantity):",
         deliveryBadge: "🚚 1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (15km ಒಳಗೆ ಮಾತ್ರ)",
-        similarProducts: "🛍️ ಇತ್ತೀಚಿನ ಇತರ ವಸ್ತುಗಳು (Similar Products):",
+        similarProducts: "🛍️ ಈ ಅಂಗಡಿಯ ಇತರ ವಸ್ತುಗಳು (More from this Store):",
         addToCart: "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ",
         buyNow: "ಖರೀದಿಸಿ (Buy Now)",
         checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ",
@@ -379,10 +369,6 @@
         proceedPaymentBtn: "ಮುಂದುವರಿಸಿ & ಪಾವತಿಸಿ (Proceed to Pay)",
         myOrdersHeader: "ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)",
         orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು & ಟ್ರ್ಯಾಕಿಂಗ್",
-        upiVerifyTitle: "📱 ಯುಪಿಐ ಪಾವತಿ ಪರಿಶೀಲನೆ",
-        upiVerifyDesc: "ನೀವು ಯುಪಿಐ ಆಪ್‌ನಲ್ಲಿ ಯಶಸ್ವಿಯಾಗಿ ಪಾವತಿ ಪೂರ್ಣಗೊಳಿಸಿದ್ದೀರಾ?",
-        upiSuccessBtn: "✔ ಹೌದು, ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Payment Done)",
-        upiCancelBtn: "❌ ಪಾವತಿ ವಿಫಲ / ರದ್ದುಗೊಳಿಸಿ (Failed / Cancel)",
         fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ, ಪಿನ್ ಕೋಡ್ ಮತ್ತು ಊರು ನಮೂದಿಸಿ."
       },
       en: {
@@ -397,7 +383,7 @@
         variantTitle: "Select Variant / Size:",
         qtyLabel: "Quantity:",
         deliveryBadge: "🚚 Delivery within 1-2 days! (Within 15km only)",
-        similarProducts: "🛍️ Similar Products:",
+        similarProducts: "🛍️ More from this Store:",
         addToCart: "Add to Cart",
         buyNow: "Buy Now",
         checkoutHeader: "Confirm Details & Payment",
@@ -408,10 +394,6 @@
         proceedPaymentBtn: "Proceed to Pay",
         myOrdersHeader: "My Orders",
         orderDetailsHeader: "Order Details & Tracking",
-        upiVerifyTitle: "📱 UPI Payment Verification",
-        upiVerifyDesc: "Did you complete the payment successfully in your UPI app?",
-        upiSuccessBtn: "✔ Yes, Payment Done",
-        upiCancelBtn: "❌ Payment Failed / Cancel",
         fillAll: "Please enter Name, Mobile Number, Pincode and Village."
       }
     };
@@ -421,16 +403,17 @@
       loadSavedAddress();
       window.initFirebaseAppData();
 
-      // Mobile back button handler
+      window.addEventListener('focus', () => {
+        const pendingUpi = localStorage.getItem('pending_upi_order');
+        if (pendingUpi) {
+          localStorage.removeItem('pending_upi_order');
+          alert(currentLang === 'kn' ? "❌ ಪಾವತಿ ಪೂರ್ಣಗೊಳ್ಳದ ಕಾರಣ ಆರ್ಡರ್ ರದ್ದುಗೊಂಡಿದೆ." : "❌ Order cancelled as payment was not completed.");
+          showScreen('homeViewContainer');
+        }
+      });
+
       window.history.pushState({ screen: 'home' }, '', '');
       window.addEventListener('popstate', (e) => {
-        const upiModal = document.getElementById('upiVerifyModal');
-        if (upiModal && upiModal.style.display === 'flex') {
-          upiModal.style.display = 'none';
-          window.history.pushState({ screen: 'home' }, '', '');
-          return;
-        }
-
         const activeScreen = ['productDetailScreen', 'checkoutScreen', 'myOrdersScreen', 'orderDetailsScreen', 'pocketMoneyScreen'].find(s => document.getElementById(s).style.display === 'block');
         if (activeScreen) {
           showScreen('homeViewContainer');
@@ -550,8 +533,11 @@
     function renderRelatedProducts(list) {
       const grid = document.getElementById('relatedProductsGrid');
       if (!grid) return;
-      let filtered = list.filter(p => !selectedProduct || p.id !== selectedProduct.id);
-      if (filtered.length === 0) filtered = list;
+      // Show products ONLY from the SAME shop as the selected product
+      let filtered = list.filter(p => selectedProduct && p.shopId === selectedProduct.shopId && p.id !== selectedProduct.id);
+      if (filtered.length === 0) {
+        filtered = list.filter(p => p.id !== (selectedProduct ? selectedProduct.id : ''));
+      }
 
       grid.innerHTML = filtered.slice(0, 4).map(p => {
         let img = p.photo || 'https://via.placeholder.com/150';
@@ -598,7 +584,7 @@
       document.getElementById('detailOldPrice').innerText = selectedProduct.oldPrice ? "₹" + selectedProduct.oldPrice : "";
 
       let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
-      document.getElementById('sliderTrack').innerHTML = photos.map(img => `<img src="${img}">`).join('');
+      document.getElementById('sliderTrack').innerHTML = photos.map(img => `<img src="${img}" style="object-fit:contain; background:#fff;">`).join('');
 
       renderRelatedProducts(allProducts);
       showScreen('productDetailScreen');
@@ -651,25 +637,12 @@
       let grandTotal = (Number(selectedProduct.price) * productQty) + 30;
 
       if (payMode === 'UPI') {
+        localStorage.setItem('pending_upi_order', 'true');
         let upiUrl = `upi://pay?pa=${MASTER_UPI_ID}&pn=NammaOoruShopping&am=${grandTotal}&cu=INR`;
         window.location.href = upiUrl;
-        setTimeout(() => {
-          document.getElementById('upiVerifyModal').style.display = 'flex';
-        }, 1500);
       } else {
         saveOrderToDatabase('COD_PENDING');
       }
-    }
-
-    function confirmUpiPaymentSuccess() {
-      document.getElementById('upiVerifyModal').style.display = 'none';
-      saveOrderToDatabase('SUCCESS');
-    }
-
-    function cancelUpiPayment() {
-      document.getElementById('upiVerifyModal').style.display = 'none';
-      alert(currentLang === 'kn' ? "❌ ಪಾವತಿ ಸಫಲವಾಗದ ಕಾರಣ ಆರ್ಡರ್ ರದ್ದುಗೊಂಡಿದೆ." : "❌ Order cancelled due to failed payment.");
-      showScreen('checkoutScreen');
     }
 
     async function saveOrderToDatabase(paymentStatusVal) {
@@ -693,6 +666,7 @@
         distanceCalc = diff === 0 ? "1.2 ಕಿ.ಮೀ." : `${(diff % 15) + 2.0} ಕಿ.ಮೀ.`;
       }
 
+      // ENSURE THE ORDER GOES DIRECTLY TO THE CORRECT SELECTED SHOP ID
       const orderData = {
         orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
         productName: `${selectedProduct.name} [Variant: ${selectedSize}, Qty: ${productQty}]`,
@@ -700,7 +674,7 @@
         totalPrice: grandTotal,
         deliveryFee: 30,
         distanceKm: distanceCalc,
-        shopId: selectedProduct.shopId,
+        shopId: selectedProduct.shopId, // Direct to selected item's shop
         shopName: shop ? shop.shopName : "Store",
         shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
         customer: { name, phone, village, pincode, taluk, district },
@@ -729,7 +703,6 @@
         snapshot.forEach(d => orders.push({ id: d.id, ...d.data() }));
         orders.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-        // Filter out failed UPI payments so they never appear in history
         let validOrders = orders.filter(o => o.paymentStatus !== 'FAILED' && o.paymentStatus !== 'CANCELLED');
 
         if (validOrders.length === 0) {
@@ -744,7 +717,7 @@
             return `
               <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
                 <div style="display:flex; gap:10px; align-items:center;">
-                  <img src="${o.productPhoto}" style="width:60px; height:60px; object-fit:cover; border-radius:6px;">
+                  <img src="${o.productPhoto}" style="width:60px; height:60px; object-fit:contain; border-radius:6px; background:#fff;">
                   <div style="flex:1;">
                     <h4 style="font-size:0.85rem;">${o.productName}</h4>
                     <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-top:2px;">₹${o.totalPrice} ${payBadge}</p>
@@ -775,7 +748,7 @@
 
       content.innerHTML = `
         <div style="display:flex; gap:10px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:15px;">
-          <img src="${o.productPhoto}" style="width:70px; height:70px; object-fit:cover; border-radius:6px;">
+          <img src="${o.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px; background:#fff;">
           <div>
             <h4 style="font-size:0.9rem;">${o.productName}</h4>
             <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${o.totalPrice} ${distanceText}</p>
@@ -874,10 +847,6 @@
       document.getElementById('lblMyOrdersHeader').innerText = t.myOrdersHeader;
       document.getElementById('lblOrderDetailsHeader').innerText = t.orderDetailsHeader;
       document.getElementById('lblPocketMoneyHeader').innerText = t.pocketMoney;
-      document.getElementById('lblUpiVerifyTitle').innerText = t.upiVerifyTitle;
-      document.getElementById('lblUpiVerifyDesc').innerText = t.upiVerifyDesc;
-      document.getElementById('lblUpiSuccessBtn').innerText = t.upiSuccessBtn;
-      document.getElementById('lblUpiCancelBtn').innerText = t.upiCancelBtn;
       document.getElementById('langToggleBtn').innerText = currentLang === 'kn' ? 'English' : 'ಕನ್ನಡ';
     }
   </script>

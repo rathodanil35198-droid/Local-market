@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title id="appTitle">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ಗ್ರಾಹಕರ ಆಪ್ | Namma Ooru Shopping App</title>
   
-  <!-- SEO Meta Tags for Google Search Optimization -->
   <meta name="description" content="ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ - ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ. Namma Ooru Shopping, Ooru Shopping, Shopping App in Shahapur Yadgir.">
   <meta name="keywords" content="ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್, ಊರ್ ಶಾಪಿಂಗ್, ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್, ಶಾಪಿಂಗ್ ಆಪ್, ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್, Namma Ooru Shopping, Ooru Shopping, Shopping App, Namma Ooru Shopping App">
 
@@ -78,7 +77,6 @@
     .filter-box { background: #fff; border: 1px solid #ddd; padding: 8px 10px; border-radius: 8px; margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
     .filter-box input { flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.8rem; background: #fff; }
 
-    /* Category horizontal scroll bar with boxes */
     .categories-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 10px 0; scrollbar-width: none; }
     .categories-scroll::-webkit-scrollbar { display: none; }
     .cat-chip { background: #fff; border: 1px solid #ddd; padding: 8px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; white-space: nowrap; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); color: #333; }
@@ -132,6 +130,9 @@
 
     .pay-opt-btn { width: 100%; padding: 12px 14px; margin: 6px 0; border: 2px solid #cbd5e0; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #f8f9fa; }
     .pay-opt-btn.active { border-color: #2874f0; background: #e8f0fe; color: #1a73e8; }
+
+    .custom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 15px; }
+    .custom-modal-content { background: #fff; border-radius: 12px; max-width: 420px; width: 100%; padding: 18px; max-height: 90vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
   </style>
 </head>
 <body>
@@ -167,7 +168,7 @@
       </div>
     </div>
 
-    <!-- Category Boxes Scroll Bar (20+ Categories) -->
+    <!-- Category Boxes Scroll Bar -->
     <div class="categories-scroll" id="categoriesScrollContainer">
       <div class="cat-chip active" onclick="filterByCategory('')">🌟 ಎಲ್ಲಾ (All)</div>
       <div class="cat-chip" onclick="filterByCategory('ಬಟ್ಟೆ')">👔 ಬಟ್ಟೆಗಳು</div>
@@ -250,7 +251,6 @@
         🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (15km ಒಳಗೆ ಮಾತ್ರ)</b>
       </div>
 
-      <!-- Flipkart Style Similar Products Section from SAME SHOP -->
       <div style="margin-top: 20px;">
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom: 10px;" id="lblSimilarProducts">🛍️ ಈ ಅಂಗಡಿಯ ಇತರ ವಸ್ತುಗಳು (More from this Store):</h4>
         <div id="relatedProductsGrid" class="grid-products"></div>
@@ -342,12 +342,59 @@
     <div style="padding: 15px; max-width: 500px; margin: 0 auto;" id="pocketMoneyContent"></div>
   </div>
 
+  <!-- ADVANCED RETURN FORM MODAL WITH UPI ID INPUT -->
+  <div id="returnModal" class="custom-modal">
+    <div class="custom-modal-content">
+      <h3 style="color:var(--danger); margin-bottom:10px; font-size:1.05rem;" id="lblReturnTitle">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಅರ್ಜಿ</h3>
+      
+      <div style="margin-bottom:10px;">
+        <label style="font-size:0.8rem; font-weight:bold;">1. ರಿಟರ್ನ್‌ ಮಾಡಲು ಪ್ರಮುಖ ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ:</label>
+        <select id="returnReasonSelect" style="width:100%; padding:8px; margin-top:4px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;">
+          <option value="📦 ವಸ್ತು ಹಾನಿಯಾಗಿದೆ (Item Damaged)">📦 ವಸ್ತು ಹಾನಿಯಾಗಿದೆ (Item Damaged)</option>
+          <option value="📏 ಸೈಜ್ ವ್ಯತ್ಯಾಸವಿದೆ (Size Issue)">📏 ಸೈಜ್ ವ್ಯತ್ಯಾಸವಿದೆ (Size Issue)</option>
+          <option value="❌ ತಪ್ಪಾದ ವಸ್ತು ಬಂದಿದೆ (Wrong Item Delivered)">❌ ತಪ್ಪಾದ ವಸ್ತು ಬಂದಿದೆ (Wrong Item Delivered)</option>
+          <option value="🎨 ಬಣ್ಣ/ವಿನ್ಯಾಸ ಬೇರೆಯಾಗಿದೆ (Color Mismatch)">🎨 ಬಣ್ಣ/ವಿನ್ಯಾಸ ಬೇರೆಯಾಗಿದೆ (Color Mismatch)</option>
+          <option value="❓ ಇತರೆ ತೊಂದರೆ (Other Reason)">❓ ಇತರೆ ತೊಂದರೆ (Other Reason)</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <label style="font-size:0.8rem; font-weight:bold;">2. ಸವಿಸ್ತಾರ ಕಾರಣ ಬರೆಯಿರಿ:</label>
+        <textarea id="returnCommentText" rows="2" placeholder="ಏನು ತೊಂದರೆಯಾಗಿದೆ ಎಂದು ಇಲ್ಲಿ ಬರೆಯಿರಿ..." style="width:100%; padding:8px; margin-top:4px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;"></textarea>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <label style="font-size:0.8rem; font-weight:bold; color:var(--primary);">3. ಹಣ ಪಡೆಯಲು ನಿಮ್ಮ UPI ID / PhonePe / GPay ಸಂಖ್ಯೆ ನಮೂದಿಸಿ:</label>
+        <input type="text" id="customerUpiIdInput" placeholder="ಉದಾ: 8105010768@ybl ಅಥವಾ PhonePe ನಂಬರ್" style="width:100%; padding:8px; margin-top:4px; border:1px solid var(--primary); border-radius:6px; font-size:0.85rem; background:#f0f4ff;">
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <label style="font-size:0.8rem; font-weight:bold;">4. ವಸ್ತುವಿನ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ (Capture/Photo):</label>
+        <input type="file" id="returnPhotoInput" accept="image/*" capture="environment" style="width:100%; margin-top:4px; font-size:0.8rem;" onchange="previewReturnPhoto(event)">
+        <div id="returnPhotoPreview" style="margin-top:6px; display:none;">
+          <img id="previewImgTag" src="" style="width:80px; height:80px; object-fit:cover; border-radius:6px; border:1px solid #ccc;">
+        </div>
+      </div>
+
+      <div id="returnDeductionNotice" style="background:#fff3e0; border:1px solid #ffe0b2; padding:10px; border-radius:6px; font-size:0.78rem; color:#d32f2f; margin-bottom:15px; line-height:1.4;">
+        <!-- Filled dynamically -->
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <button onclick="closeReturnModal()" style="flex:1; padding:10px; background:#666; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕ್ಯಾನ್ಸಲ್ (Cancel)</button>
+        <button onclick="submitOrderReturnForm()" style="flex:1; padding:10px; background:var(--danger); color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕನ್ಫರ್ಮ್ ರಿಟರ್ನ್</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     let allProducts = [];
     let allShopsMap = {};
     let validShopIds = new Set();
     let bannerList = [];
     let currentCategoryFilter = '';
+    let activeReturnOrderId = null;
+    let returnBase64Photo = '';
 
     let selectedProduct = null;
     let selectedSize = '';
@@ -752,7 +799,7 @@
               `<span style="color:#e65100; font-weight:bold;">(${currentLang === 'kn' ? '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ' : '💵 Cash on Delivery'})</span>` : 
               `<span style="color:green; font-weight:bold;">(${currentLang === 'kn' ? '✔ UPI ಪೇಮೆಂಟ್ ಸಕ್ಸೆಸ್' : '✔ UPI Payment Success'})</span>`;
             
-            let statusText = o.isReturned ? `<span style="color:red; font-weight:bold;">(↩ ರಿಟರ್ನ್ ಮಾಡಲಾಗಿದೆ)</span>` : (o.status === 'DELIVERED' ? `<span style="color:green; font-weight:bold;">(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)</span>` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
+            let statusText = o.isReturned ? `<span style="color:red; font-weight:bold;">(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ)</span>` : (o.status === 'DELIVERED' ? `<span style="color:green; font-weight:bold;">(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)</span>` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
             return `
               <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
                 <div style="display:flex; gap:10px; align-items:center;">
@@ -786,6 +833,16 @@
       let otpLabel = currentLang === 'kn' ? '🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):' : '🔑 Your Delivery OTP:';
       let roadmapTitle = currentLang === 'kn' ? '📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ರೋಡ್‌ಮ್ಯಾಪ್' : '📦 Order Tracking Roadmap';
 
+      // Return refund message status for customer
+      let returnStatusHtml = '';
+      if (o.isReturned) {
+        if (o.returnPaymentStatus === 'SUCCESS') {
+          returnStatusHtml = `<div style="color:green; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#e8f5e9; padding:8px; border-radius:6px;">✔ ಪೇಮೆಂಟ್ ಆಗಿದೆ: ನಿಮ್ಮ UPI ಅಕೌಂಟಿನಲ್ಲಿ ರಿಫಂಡ್ ಹಣ ಜಮಾ ಆಗಿದೆ!</div>`;
+        } else {
+          returnStatusHtml = `<div style="color:#d32f2f; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#fff3e0; padding:8px; border-radius:6px;">⏳ 24 ಗಂಟೆ ಒಳಗೆ UPI ಪೇಮೆಂಟ್ ಆಗುತ್ತದೆ (Pending Amount)</div>`;
+        }
+      }
+
       content.innerHTML = `
         <div style="display:flex; gap:10px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:15px;">
           <img src="${o.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px; background:#fff;">
@@ -799,7 +856,7 @@
         <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
           <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">${otpLabel}</span>
           <div style="font-size:1.4rem; font-weight:bold; color:#1b5e20; letter-spacing:3px; margin-top:4px;">${o.deliveryOtp || '8740'}</div>
-          ${o.isReturned ? `<div style="color:red; font-weight:bold; margin-top:8px;">⚠️ ಈ ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಲಾಗಿದೆ (Returned)</div>` : ``}
+          ${returnStatusHtml}
         </div>
 
         <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px; margin-bottom:15px;">
@@ -813,7 +870,7 @@
         </div>
 
         ${!o.isReturned ? `
-          <button onclick="requestOrderReturn('${o.id}')" style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">
+          <button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">
             🔄 ಈ ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಿ (Return Order)
           </button>
         ` : ``}
@@ -821,18 +878,73 @@
       showScreen('orderDetailsScreen');
     }
 
-    async function requestOrderReturn(orderFirestoreId) {
-      if (confirm(currentLang === 'kn' ? "ಖಂಡಿತವಾಗಿ ಈ ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಲು ಬಯಸುತ್ತೀರಾ?" : "Do you want to return this order?")) {
-        try {
-          await window.updateDoc(window.doc(window.db, "orders", orderFirestoreId), {
-            isReturned: true,
-            status: 'RETURNED'
-          });
-          alert(currentLang === 'kn' ? "✅ ಆರ್ಡರ್ ರಿಟರ್ನ್ ವಿನಂತಿ ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ!" : "✅ Return request sent to delivery boy!");
-          openMyOrdersScreen();
-        } catch(e) {
-          alert("Error: " + e.message);
-        }
+    function openReturnModal(order) {
+      activeReturnOrderId = order.id;
+      returnBase64Photo = '';
+      document.getElementById('returnCommentText').value = '';
+      document.getElementById('customerUpiIdInput').value = '';
+      document.getElementById('returnPhotoInput').value = '';
+      document.getElementById('returnPhotoPreview').style.display = 'none';
+
+      let totalPaid = Number(order.totalPrice || 629);
+      let refundAmt = totalPaid - 80; // 30 delivery + 50 return charge = 80
+
+      document.getElementById('returnDeductionNotice').innerHTML = `
+        ⚠️ <b>ಗಮನಿಸಿ (Return Charge Policy):</b><br>
+        ನೀವು ಪಾವತಿಸಿದ ಮೊತ್ತ: <b>₹${totalPaid}</b><br>
+        - ಡೆಲಿವರಿ ಚಾರ್ಜ್: <b>₹30</b><br>
+        - ರಿಟರ್ನ್ ಚಾರ್ಜ್ (ಕಡಿತ): <b>₹50</b><br>
+        👉 ಒಟ್ಟು ₹80 ಕಡಿತಗೊಂಡು ನಿಮಗೆ ಮರಳಿಸುವ ಮೊತ್ತ: <b style="color:green; font-size:0.9rem;">₹${refundAmt}</b>
+      `;
+
+      document.getElementById('returnModal').style.display = 'flex';
+    }
+
+    function closeReturnModal() {
+      document.getElementById('returnModal').style.display = 'none';
+    }
+
+    function previewReturnPhoto(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          returnBase64Photo = e.target.result;
+          document.getElementById('previewImgTag').src = returnBase64Photo;
+          document.getElementById('returnPhotoPreview').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    async function submitOrderReturnForm() {
+      if (!activeReturnOrderId) return;
+      const reasonSelect = document.getElementById('returnReasonSelect').value;
+      const commentText = document.getElementById('returnCommentText').value.trim();
+      const customerUpi = document.getElementById('customerUpiIdInput').value.trim();
+
+      if (!customerUpi) {
+        alert(currentLang === 'kn' ? "ದಯವಿಟ್ಟು ನಿಮ್ಮ UPI ID ಅಥವಾ PhonePe ನಂಬರ್ ನಮೂದಿಸಿ." : "Please enter your UPI ID or PhonePe number.");
+        return;
+      }
+
+      try {
+        await window.updateDoc(window.doc(window.db, "orders", activeReturnOrderId), {
+          isReturned: true,
+          status: 'RETURN_REQUESTED',
+          returnReason: reasonSelect,
+          returnComment: commentText,
+          customerUpiId: customerUpi,
+          returnPhoto: returnBase64Photo,
+          returnPaymentStatus: 'PENDING',
+          returnTimestamp: Date.now()
+        });
+
+        alert(currentLang === 'kn' ? "✅ ರಿಟರ್ನ್ ಅರ್ಜಿ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ! ಡೆಲಿವರಿ ಬಾಯ್ ಒಟಿಪಿ ಪಡೆದು ಕನ್ಫರ್ಮ್ ಮಾಡಿದ ನಂತರ 24 ಗಂಟೆಗಳಲ್ಲಿ ಹಣ ಜಮಾ ಆಗುತ್ತದೆ." : "✅ Return request submitted!");
+        closeReturnModal();
+        openMyOrdersScreen();
+      } catch(e) {
+        alert("Error: " + e.message);
       }
     }
 

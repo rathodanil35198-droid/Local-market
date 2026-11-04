@@ -52,6 +52,7 @@
     html, body { width: 100%; height: 100%; overflow-x: hidden; background-color: var(--bg); color: var(--text); padding: 8px; }
     .container { width: 100%; max-width: 500px; margin: 0 auto; background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 30px; }
 
+    /* --- ಕಲರ್‌ಫುಲ್ ಮಿಂಚುವ ಸ್ಪಲ್ಯಾಶ್ ಸ್ಕ್ರೀನ್ --- */
     #splashScreen {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: linear-gradient(-45deg, #1e88e5, #00c853, #ff6d00, #aa00ff, #29b6f6);
@@ -69,8 +70,10 @@
       display: flex; justify-content: center; align-items: center;
     }
     .splash-logo-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 28px; }
+
     @keyframes pulseGlow { 0% { transform: scale(0.98); box-shadow: 0 0 15px rgba(255,255,255,0.6); } 100% { transform: scale(1.05); box-shadow: 0 0 35px rgba(255,255,255,1), 0 0 50px rgba(255,215,0,0.8); } }
     @keyframes zoomIn { 0% { opacity: 0; transform: scale(0.5); } 100% { opacity: 1; transform: scale(1); } }
+
     .splash-text { color: #ffffff; margin-top: 25px; font-size: 1.4rem; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.4); }
 
     header { background-color: var(--primary); color: white; padding: 12px 15px; text-align: center; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
@@ -121,6 +124,7 @@
     .order-item.archived { border-left-color: #9e9e9e; background: #f1f1f1; opacity: 0.85; }
     .order-item.return-alert { border-left-color: var(--danger); background: #ffebee; }
 
+    /* 📍 ಗ್ರಾಹಕರ ಸಂಪೂರ್ಣ ವಿಳಾಸದ ಬಾಕ್ಸ್ */
     .cust-address-box {
       background: #e8f5e9; border: 1px dashed #2e7d32; border-radius: 8px; padding: 10px; margin: 8px 0; font-size: 0.85rem; line-height: 1.4; color: #1b5e20;
     }
@@ -131,6 +135,7 @@
 </head>
 <body>
 
+  <!-- 🌈 ಅತ್ಯಂತ ಆಕರ್ಷಕ ಕಲರ್‌ಫುಲ್ ಸ್ಪಲ್ಯಾಶ್ ಸ್ಕ್ರೀನ್ -->
   <div id="splashScreen">
     <div class="splash-logo-box">
       <img src="logo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/180/1e88e5/ffffff?text=SHOP+PANEL'">
@@ -166,6 +171,7 @@
       </div>
     </div>
 
+    <!-- PRINT / SHARE MODAL -->
     <div id="printModal" class="modal">
       <div class="modal-content-box" style="text-align: left; max-width: 400px;">
         <h3 style="color: var(--primary); text-align: center; margin-bottom: 10px;">🧾 ಆರ್ಡರ್ ಪ್ರಿಂಟ್ ವಿವರಗಳು</h3>
@@ -224,13 +230,8 @@
           </div>
           <div class="form-group" style="flex:1;">
             <label>ತಾಲೂಕು (Select Taluk):</label>
-            <input type="text" id="taluk" value="ಶಹಾಪುರ" placeholder="ಉದಾ: ಶಹಾಪುರ" required>
+            <input type="text" id="taluk" value="ಶಹಾಪುರ" placeholder="ಉದಾ: ಶಹಾಪುರ, ಶೋರಾಪುರ, ಜೇವರ್ಗಿ" required>
           </div>
-        </div>
-
-        <div class="form-group">
-          <label>ಪಿನ್ ಕೋಡ್ (Pin Code):</label>
-          <input type="number" id="pincode" required placeholder="ಉದಾ: 585287">
         </div>
 
         <div class="form-group">
@@ -249,7 +250,7 @@
         <div class="id-card-details">
           <h3 id="displayShopName">ಅಂಗಡಿ ಹೆಸರು</h3>
           <p>ಮಾಲೀಕರು: <span id="displayOwnerName"></span> (<span id="displayShopType"></span>)</p>
-          <p>ಸ್ಥಳ: <span id="displayLocation"></span> | Pin: <span id="displayPincode"></span></p>
+          <p>ಸ್ಥಳ: <span id="displayLocation"></span></p>
           <div class="id-number">ID: <span id="displayId">0000</span></div>
         </div>
       </div>
@@ -417,6 +418,7 @@
       }
     }
 
+    /* 🚨 6 ಬಾರಿ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಜೋರಾಗಿ ಮೊಳಗುವ ಆರ್ಡರ್ ಸೈರನ್ ಶಬ್ದ */
     function playAlarmSound6Times() {
       let count = 0;
       const interval = setInterval(() => {
@@ -455,6 +457,7 @@
       window.open(whatsappUrl, '_blank');
     }
 
+    /* 👠 👞 ಚಪ್ಪಲಿ / ಶೂ 6 ರಿಂದ 14 ನಂಬರ್ ಸೈಜ್ ಆಯ್ಕೆ ವ್ಯವಸ್ಥೆ */
     function renderDynamicUploadForm() {
       const container = document.getElementById('dynamicUploadFormFields');
       const shopTypeSelect = document.getElementById('shopType');
@@ -556,7 +559,6 @@
         shopType: document.getElementById('shopType').value,
         district: document.getElementById('district').value.trim(),
         taluk: document.getElementById('taluk').value.trim(),
-        pincode: document.getElementById('pincode').value.trim(),
         photo: photoBase64 || 'https://via.placeholder.com/100',
         isPaid: true
       };
@@ -608,7 +610,6 @@
       document.getElementById('displayOwnerName').innerText = shopOwner.name;
       document.getElementById('displayShopType').innerText = shopOwner.shopType;
       document.getElementById('displayLocation').innerText = `${shopOwner.taluk}, ${shopOwner.district}`;
-      document.getElementById('displayPincode').innerText = shopOwner.pincode || '585287';
       document.getElementById('displayId').innerText = shopOwner.id;
       if (shopOwner.photo) document.getElementById('displayShopPhoto').src = shopOwner.photo;
     }
@@ -682,6 +683,7 @@
       renderPaymentsLedger(myOrders);
     }
 
+    /* 📦 ಗ್ರಾಹಕರ ಸಂಪೂರ್ಣ ಅಡ್ರೆಸ್ ಮತ್ತು ಪೇಮೆಂಟ್ ಮೆಸೇಜ್ ಸಿಗುವ ಆರ್ಡರ್ ಡಿಸ್ಪ್ಲೇ */
     function renderOrders(orders) {
       const listDiv = document.getElementById('shopOrdersList');
       if (orders.length === 0) {
@@ -693,7 +695,6 @@
         let orderStatus = o.status || 'STEP_1';
         let actionButtonHTML = '';
         let returnAlertBanner = '';
-        let otpDisplayBox = '';
         let paymentStatusBanner = '';
 
         if (o.isReturnRequested) {
@@ -704,30 +705,25 @@
           `;
         }
 
+        if (orderStatus === 'PACKING') {
+          paymentStatusBanner = `
+            <div style="background:#fff3e0; border:1.5px solid #ff9800; border-radius:6px; padding:8px; margin-top:8px; text-align:center;">
+              <span style="color:#e65100; font-weight:bold; font-size:0.8rem;">⏳ ಈ ಆರ್ಡರ್‌ನ ಪೇಮೆಂಟ್ ಪೆಂಡಿಂಗ್ ಇದೆ. 24 ಗಂಟೆಯೊಳಗೆ ನಿಮ್ಮ ಖಾತೆಗೆ ಹಣ ಜಮೆಯಾಗುತ್ತದೆ.</span>
+            </div>
+          `;
+        }
+
         if (orderStatus === 'STEP_1') {
           actionButtonHTML = `<button onclick="updateOrderStatus('${o.docId}', 'CONFIRMED')" class="btn-confirm">✅ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ</button>`;
         } else if (orderStatus === 'CONFIRMED' || orderStatus === 'STEP_2') {
           let generatedOtp = o.pickupOtp || Math.floor(1000 + Math.random() * 9000).toString();
           actionButtonHTML = `
             <button onclick="openPrintModalForOrder('${o.docId}', '${o.orderId}', '${o.productName}', '${o.totalPrice}', '${o.customer?.name}', '${o.customer?.phone}', '${o.customer?.village || o.customer?.address}')" class="btn-print">🖨️ ಪ್ರಿಂಟ್ & ಶೇರ್ ಮಾಡಿ</button>
-            <button onclick="updateOrderStatus('${o.docId}', 'STEP_3', '${generatedOtp}')" class="btn-pack" style="margin-top:6px;">📦 ಪ್ಯಾಕಿಂಗ್ ಆಗಿದೆ (ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಳಿಸಿ)</button>
-          `;
-        } else if (orderStatus === 'STEP_3') {
-          otpDisplayBox = `
-            <div style="background:#e3f2fd; border:2px solid #1e88e5; border-radius:8px; padding:10px; margin-top:8px; text-align:center;">
-              <p style="font-size:0.8rem; color:#1565c0; font-weight:bold;">🔑 ಡೆಲಿವರಿ ಪಿಕಪ್ ಒಟಿಪಿ (Pickup OTP):</p>
-              <div style="font-size:1.4rem; font-weight:bold; color:#0d47a1; letter-spacing:2px; margin:4px 0;">${o.pickupOtp || '2275'}</div>
-              <p style="font-size:0.75rem; color:#555;">ಡೆಲಿವರಿ ಬಾಯ್ ಒಟಿಪಿ ಹಾಕಿ ಪಿಕಪ್ ಕಂಪ್ಲೀಟ್ ಮಾಡಿದ ತಕ್ಷಣ 24 ಗಂಟೆಯ ಪೇಮೆಂಟ್ ಪ್ರಕ್ರಿಯೆ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ.</p>
-            </div>
-          `;
-        } else if (orderStatus === 'STEP_4' || orderStatus === 'DELIVERED') {
-          paymentStatusBanner = `
-            <div style="background:#fff3e0; border:1.5px solid #ff9800; border-radius:6px; padding:8px; margin-top:8px; text-align:center;">
-              <span style="color:#e65100; font-weight:bold; font-size:0.8rem;">⏳ ಈ ಆರ್ಡರ್‌ನ ಪೇಮೆಂಟ್ ಪೆಂಡಿಂಗ್ ಇದೆ. 24 ಗಂಟೆಯೊಳಗೆ "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್" ಕಂಪನಿ ಯುಪಿಐ ಮೂಲಕ ನಿಮ್ಮ ಖಾತೆಗೆ ಹಣ ಜಮೆಯಾಗುತ್ತದೆ.</span>
-            </div>
+            <button onclick="updateOrderStatus('${o.docId}', 'PACKING', '${generatedOtp}')" class="btn-pack" style="margin-top:6px;">📦 ಪ್ಯಾಕಿಂಗ್ ಆಗಿದೆ (ಫೈನಲ್ ಡೆಲಿವರಿಗೆ ಕಳಿಸಿ)</button>
           `;
         }
 
+        /* 🏠 ಗ್ರಾಹಕರ ಸಂಪೂರ್ಣ ವಿಳಾಸದ ಡೀಟೇಲ್ಸ್ */
         const custName = o.customer?.name || 'ಗ್ರಾಹಕರು';
         const custPhone = o.customer?.phone || 'ಸಂಖ್ಯೆ ಇಲ್ಲ';
         const custVillage = o.customer?.village || o.customer?.address || 'ವಿಳಾಸ ಲಭ್ಯವಿಲ್ಲ';
@@ -736,23 +732,11 @@
         const custLandmark = o.customer?.landmark ? ` (ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್: ${o.customer.landmark})` : '';
         const custPincode = o.customer?.pincode ? ` - ${o.customer.pincode}` : '';
 
-        // ಜಿಪಿಎಸ್ ದೂರದ ಅಂದಾಜು ಲೆಕ್ಕಾಚಾರ (GPS Distance Calculation)
-        let distanceKm = "3.5 ಕಿ.ಮೀ.";
-        if (shopOwner.pincode && o.customer?.pincode) {
-          let diff = Math.abs(parseInt(shopOwner.pincode) - parseInt(o.customer.pincode));
-          distanceKm = diff === 0 ? "1.2 ಕಿ.ಮೀ." : `${(diff % 15) + 2.4} ಕಿ.ಮೀ.`;
-        }
-
-        let paymentModeBadge = o.paymentMode === 'COD' ? 
-          `<span style="background:#ffebee; color:#c62828; padding:2px 6px; border-radius:4px; font-weight:bold;">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD)</span>` : 
-          `<span style="background:#e8f5e9; color:#2e7d32; padding:2px 6px; border-radius:4px; font-weight:bold;">🟢 UPI ಪೇಮೆಂಟ್ (ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್)</span>`;
-
         return `
           <div class="order-item ${o.isReturnRequested ? 'return-alert' : ''}">
             ${returnAlertBanner}
-            <div style="background:#e3f2fd; border-radius:6px; padding:6px; margin-bottom:8px; text-align:space-between; display:flex; justify-content:space-between; align-items:center;">
+            <div style="background:#e3f2fd; border-radius:6px; padding:6px; margin-bottom:8px; text-align:center;">
               <span style="font-size:0.75rem; color:#1565c0; font-weight:bold;">ಆರ್ಡರ್ ಐಡಿ: ${o.orderId || 'OD000000'}</span>
-              ${paymentModeBadge}
             </div>
             <div style="display:flex; gap:10px; align-items:center;">
               <img src="${o.productPhoto}" style="width:65px; height:65px; object-fit:cover; border-radius:6px;">
@@ -763,18 +747,16 @@
             </div>
             
             <div class="cust-address-box">
-              <p style="font-weight:bold; font-size:0.9rem; color:#1b5e20;">📍 ಗ್ರಾಹಕರ ಪೂರ್ಣ ವಿಳಾಸ & ಜಿಪಿಎಸ್ ದೂರ:</p>
+              <p style="font-weight:bold; font-size:0.9rem; color:#1b5e20;">📍 ಗ್ರಾಹಕರ ಪೂರ್ಣ ವಿಳಾಸ (Full Customer Address):</p>
               <p><b>ಹೆಸರು:</b> ${custName}</p>
               <p><b>ಮೊಬೈಲ್ ನಂಬರ್:</b> ${custPhone}</p>
               <p><b>ವಿಳಾಸ:</b> ${custVillage}${custLandmark}</p>
-              <p><b>ತಾಲೂಕು/ಜಿಲ್ಲೆ/ಪಿನ್:</b> ${custTaluk}, ${custDistrict} ${custPincode}</p>
-              <p style="margin-top:4px; color:#0d47a1; font-weight:bold;">📏 ಅಂಗಡಿಯಿಂದ ದೂರ: ${distanceKm}</p>
+              <p><b>ತಾಲೂಕು/ಜಿಲ್ಲೆ:</b> ${custTaluk}, ${custDistrict} ${custPincode}</p>
             </div>
 
             <a href="tel:${custPhone}" class="btn-call-cust">📞 ಗ್ರಾಹಕರಿಗೆ ಕಾಲ್ ಮಾಡಿ</a>
             <p style="margin-top:6px; font-size:0.75rem; color:#666;"><b>ಪ್ರಸ್ತುತ ಸ್ಥಿತಿ:</b> ${orderStatus}</p>
             ${actionButtonHTML}
-            ${otpDisplayBox}
             ${paymentStatusBanner}
           </div>
         `;
@@ -832,10 +814,11 @@
       }
     }
 
+    /* 💵 ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಲೆಕ್ಕಾಚಾರ (₹1000 ಒಳಗೆ ₹100 ಚಾರ್ಜ್, ₹1000 ಮೇಲ್ಪಟ್ಟು ₹50 ಹೆಚ್ಚುವರಿ) */
     function renderPaymentsLedger(orders) {
       const summaryDiv = document.getElementById('paymentLedgerSummary');
       const listDiv = document.getElementById('shopPaymentsList');
-      const delivered = orders.filter(o => o.status === 'DELIVERED' || o.status === 'STEP_4' || o.status === 'RETURN_COMPLETED');
+      const delivered = orders.filter(o => o.status === 'DELIVERED' || o.status === 'STEP_4');
       
       let totalSales = 0;
       let totalDeliveryCharges = 0;
@@ -853,18 +836,17 @@
       let netPayable = Math.round((totalSales * 0.85) - totalDeliveryCharges);
 
       summaryDiv.innerHTML = `
-        <p><b>ಕಂಪನಿ ಯುಪಿಐ (ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್):</b> <span style="color:#1565c0; font-weight:bold;">nammaurushop@ybl</span></p>
         <p><b>ಒಟ್ಟು ಡೆಲಿವರಿ ಆದ ಒಟ್ಟು ಆನ್‌ಲೈನ್ ಮಾರಾಟ:</b> ₹${totalSales}</p>
         <p><b>ಡೆಲಿವರಿ ಬಾಯ್ ಒಟ್ಟು ಚಾರ್ಜ್:</b> ₹${totalDeliveryCharges}</p>
-        <p><b>15% ಕಮಿಷನ್ & ಚಾರ್ಜ್ ಹೋಗಿ ನಿಮ್ಮ ನಿವ್ವಳ ಲಾಭ:</b> <span style="color:#2e7d32; font-weight:bold; font-size:1.1rem;">₹${netPayable}</span></p>
+        <p><b>15% ಕಮಿಷನ್ & ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಹೋಗಿ ನಿಮ್ಮ ನಿವ್ವಳ ಲಾಭ:</b> <span style="color:#2e7d32; font-weight:bold; font-size:1.1rem;">₹${netPayable}</span></p>
       `;
       listDiv.innerHTML = delivered.map(o => {
         let price = Number(o.totalPrice || 0);
         let delCharge = price <= 1000 ? 100 : 50;
         return `
           <div class="order-item" style="border-left-color: var(--success);">
-            <p><b>${o.productName}</b> - ಬೆಲೆ: ₹${price} <span style="color:green; font-weight:bold;">(ಪೇಮೆಂಟ್ ಸಕ್ಸೆಸ್ ✔)</span></p>
-            <p style="font-size:0.75rem; color:#555;">ಡೆಲಿವರಿ ಬಾಯ್ ಚಾರ್ಜ್ ಕಡಿತ: ₹${delCharge} | ಪೇಮೆಂಟ್ ಮೋಡ್: ${o.paymentMode || 'UPI'}</p>
+            <p><b>${o.productName}</b> - ಬೆಲೆ: ₹${price}</p>
+            <p style="font-size:0.75rem; color:#555;">ಡೆಲಿವರಿ ಬಾಯ್ ಚಾರ್ಜ್ ಕಡಿತ: ₹${delCharge}</p>
           </div>
         `;
       }).join('') || '<p style="font-size:0.8rem; color:#777;">ಯಾವುದೇ ಪೇಮೆಂಟ್ ಹಿಸ್ಟರಿ ಇಲ್ಲ.</p>';
@@ -882,16 +864,14 @@
 
     function renderArchivedOrders(orders) {
       const listDiv = document.getElementById('shopArchivedOrdersList');
-      const archived = orders.filter(o => o.status === 'DELIVERED' || o.status === 'STEP_4' || o.status === 'RETURN_COMPLETED');
-      listDiv.innerHTML = archived.map(o => `<div class="order-item archived"><p><b>${o.productName}</b> - ₹${o.totalPrice} <span style="color:green; font-weight:bold;">(ಪೇಮೆಂಟ್ ಸಕ್ಸೆಸ್ ✔ - ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ UPI)</span></p></div>`).join('') || '<p style="font-size:0.8rem; color:#777;">ಯಾವುದೇ ಹಳೆಯ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>';
+      const archived = orders.filter(o => o.status === 'DELIVERED' || o.status === 'RETURN_COMPLETED');
+      listDiv.innerHTML = archived.map(o => `<div class="order-item archived"><p><b>${o.productName}</b> - ₹${o.totalPrice}</p></div>`).join('') || '<p style="font-size:0.8rem; color:#777;">ಯಾವುದೇ ಹಳೆಯ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>';
     }
 
     async function updateOrderStatus(orderId, newStatus, existingOtp) {
       try {
         let updateData = { status: newStatus };
-        if (newStatus === 'STEP_3') {
-          updateData.pickupOtp = existingOtp;
-        }
+        if (newStatus === 'PACKING') updateData.pickupOtp = existingOtp;
         await window.updateDoc(window.doc(window.db, "orders", orderId), updateData);
         alert("✅ ಯಶಸ್ವಿಯಾಗಿ ಅಪ್‌ಡೇಟ್ ಆಗಿದೆ!");
       } catch (e) { alert("ದೋಷ: " + e.message); }
@@ -916,7 +896,6 @@
         shopType: shopOwner.shopType,
         taluk: shopOwner.taluk,
         district: shopOwner.district,
-        pincode: shopOwner.pincode,
         name: finalName,
         footwearSize: footwearSize,
         price: price,

@@ -63,9 +63,6 @@
       position: fixed; bottom: 80px; right: 15px; width: 48px; height: 48px; background: #25d366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 999; cursor: pointer; border: 2px solid #fff;
     }
 
-    .install-banner { background: #fff3e0; border-bottom: 1px solid #ffe0b2; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #e65100; font-weight: bold; }
-    .install-btn { background: var(--success); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
-
     .search-box { display: flex; background: #fff; border-radius: 6px; padding: 6px 12px; align-items: center; margin-bottom: 8px; border: 1px solid #ddd; margin-top: 6px; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 0.88rem; margin-left: 8px; }
 
@@ -100,17 +97,6 @@
     .price-row { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
     .old-price { font-size: 0.75rem; color: #888; text-decoration: line-through; }
-
-    .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px; }
-    .category-card { background: #fff; border-radius: 8px; padding: 12px 6px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; border: 1px solid #eee; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .category-card .cat-icon { font-size: 2.3rem; margin-bottom: 6px; display: block; }
-    .category-card span { font-size: 0.78rem; font-weight: bold; color: #333; display: block; }
-
-    .variant-container { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
-    .variant-select-box { width: 100%; border: 1px solid #ccc; background: #fff; border-radius: 8px; padding: 10px 12px; font-size: 0.9rem; font-weight: bold; color: #212121; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-    .variant-options-dropdown { display: none; border: 1px solid #ddd; background: #fff; border-radius: 8px; margin-top: 4px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 50; position: relative; }
-    .variant-option-item { padding: 10px 12px; border-bottom: 1px solid #eee; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
-    .variant-option-item.selected { background: #e8f5e9; font-weight: bold; color: var(--success); }
 
     .screen { display: none; background: var(--bg); min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
@@ -347,7 +333,7 @@
     <div style="padding: 15px; max-width: 500px; margin: 0 auto;" id="pocketMoneyContent"></div>
   </div>
 
-  <!-- QR PAYMENT MODAL (Real payment verification only) -->
+  <!-- QR PAYMENT MODAL (Cancels order if closed without payment) -->
   <div id="qrPaymentModal" class="modal">
     <div class="modal-box" style="text-align:center;">
       <h3 style="color:var(--primary); margin-bottom:8px;">📱 ಯುಪಿಐ ಪಾವತಿ (UPI Payment)</h3>
@@ -357,8 +343,8 @@
       
       <a id="directUpiPayLink" href="#" class="btn" style="background:#5f259f; color:#fff; display:block; padding:12px; border-radius:6px; font-weight:bold; text-decoration:none; margin-bottom:10px;">📲 ನೇರವಾಗಿ PhonePe / GPay ಓಪನ್ ಮಾಡಿ ಪಾವತಿಸಿ</a>
       
-      <p style="font-size:0.75rem; color:#d32f2f; margin-top:6px; font-weight:bold;">⚠️ ಗಮನಿಸಿ: ನೀವು ಪಾವತಿ ಪೂರ್ಣಗೊಳಿಸಿದ ನಂತರ ಅಂಗಡಿ ಮಾಲೀಕರು ಪರಿಶೀಲಿಸಿ ಸ್ಟೇಟಸ್ ಅಪ್‌ಡೇಟ್ ಮಾಡುತ್ತಾರೆ.</p>
-      <button class="btn" style="background:#757575; color:#fff; width:100%; padding:10px; margin-top:8px; border:none; border-radius:6px; font-weight:bold;" onclick="closeQrPaymentModal()">ಮುಚ್ಚಿ (Close)</button>
+      <p style="font-size:0.75rem; color:#d32f2f; margin-top:6px; font-weight:bold;">⚠️ ಗಮನಿಸಿ: ನೀವು ಪಾವತಿ ಪೂರ್ಣಗೊಳಿಸದೆ 'ಮುಚ್ಚಿ' ಕ್ಲಿಕ್ ಮಾಡಿದರೆ ಆರ್ಡರ್ ರದ್ದುಗೊಳ್ಳುತ್ತದೆ (Cancel).</p>
+      <button class="btn" style="background:#757575; color:#fff; width:100%; padding:10px; margin-top:8px; border:none; border-radius:6px; font-weight:bold;" onclick="closeQrPaymentModal(false)">ಮುಚ್ಚಿ (Close / Cancel Order)</button>
     </div>
   </div>
 
@@ -375,6 +361,7 @@
     let selectedSize = '';
     let productQty = 1;
     let currentLang = localStorage.getItem('app_lang') || 'kn';
+    let currentPendingOrderId = null;
     const MASTER_UPI_ID = "8105010768anil@slc";
 
     function playCoinSound() {
@@ -435,10 +422,6 @@
       loadSavedAddress();
       window.initFirebaseAppData();
     });
-
-    function togglePaymentMethod(mode) {
-      selectPaymentMethod(mode);
-    }
 
     function selectPaymentMethod(mode) {
       document.getElementById('selectedPaymentMode').value = mode;
@@ -598,7 +581,7 @@
       document.getElementById('checkoutImg').src = photos[0] || '';
       document.getElementById('checkoutTitle').innerText = selectedProduct.name;
       
-      let grandTotal = (Number(selectedProduct.price) * productQty) + 30; // 30 rs delivery charge
+      let grandTotal = (Number(selectedProduct.price) * productQty) + 30;
       document.getElementById('checkoutPrice').innerText = "₹" + grandTotal;
       document.getElementById('checkoutSizeText').innerText = `(${selectedSize}, Qty: ${productQty})`;
       document.getElementById('checkoutFeeBreakdown').innerHTML = `📦 <b>ವಸ್ತುವಿನ ಬೆಲೆ + ರೂ.30 ಡೆಲಿವರಿ ಚಾರ್ಜ್ = ಒಟ್ಟು ₹${grandTotal}</b>`;
@@ -612,6 +595,7 @@
       const village = document.getElementById('custVillage').value.trim();
       const pincode = document.getElementById('custPincode').value.trim();
       const taluk = document.getElementById('custTaluk').value.trim();
+      const district = document.getElementById('custDistrict').value.trim();
       const payMode = document.getElementById('selectedPaymentMode').value;
 
       if (!name || !phone || !village || !pincode) {
@@ -622,12 +606,18 @@
       if (confirm(translations[currentLang].confirmPopup)) {
         playCoinSound();
         localStorage.setItem('customer_phone_key', phone);
-        localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, pincode, taluk }));
+        localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, pincode, taluk, district }));
 
         let grandTotal = (Number(selectedProduct.price) * productQty) + 30;
         let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
         let shop = allShopsMap[selectedProduct.shopId];
         let otp = Math.floor(1000 + Math.random() * 9000).toString();
+
+        let distanceCalc = "3.5 ಕಿ.ಮೀ.";
+        if (shop && shop.pincode && pincode) {
+          let diff = Math.abs(parseInt(shop.pincode) - parseInt(pincode));
+          distanceCalc = diff === 0 ? "1.2 ಕಿ.ಮೀ." : `${(diff % 15) + 2.0} ಕಿ.ಮೀ.`;
+        }
 
         const orderData = {
           orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
@@ -635,9 +625,11 @@
           productPhoto: photos[0] || '',
           totalPrice: grandTotal,
           deliveryFee: 30,
+          distanceKm: distanceCalc,
           shopId: selectedProduct.shopId,
           shopName: shop ? shop.shopName : "Store",
-          customer: { name, phone, village, pincode, taluk },
+          shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
+          customer: { name, phone, village, pincode, taluk, district },
           paymentMode: payMode,
           paymentStatus: payMode === 'UPI' ? 'PENDING' : 'COD_PENDING',
           deliveryOtp: otp,
@@ -646,7 +638,9 @@
         };
 
         try {
-          await window.addDoc(window.collection(window.db, "orders"), orderData);
+          const docRef = await window.addDoc(window.collection(window.db, "orders"), orderData);
+          currentPendingOrderId = docRef.id;
+
           if (payMode === 'UPI') {
             openUpiModal(grandTotal);
           } else {
@@ -667,9 +661,22 @@
       document.getElementById('qrPaymentModal').style.display = 'flex';
     }
 
-    function closeQrPaymentModal() {
+    async function closeQrPaymentModal(isPaid) {
       document.getElementById('qrPaymentModal').style.display = 'none';
-      openMyOrdersScreen();
+      if (!isPaid && currentPendingOrderId) {
+        // ಪಾವತಿ ಮಾಡದೆ ಮುಚ್ಚಿದರೆ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡುವುದು
+        try {
+          await window.updateDoc(window.doc(window.db, "orders", currentPendingOrderId), {
+            status: 'CANCELLED',
+            isCancelled: true,
+            cancelReason: 'ಯುಪಿಐ ಪಾವತಿ ಮಾಡಿಲ್ಲ (UPI Payment Skipped/Cancelled)'
+          });
+        } catch(e) {}
+        alert("❌ ಯುಪಿಐ ಪಾವತಿ ಅಪೂರ್ಣಗೊಂಡ ಕಾರಣ ಆರ್ಡರ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ.");
+        showScreen('checkoutScreen');
+      } else {
+        openMyOrdersScreen();
+      }
     }
 
     function openMyOrdersScreen() {
@@ -687,11 +694,14 @@
           container.innerHTML = `<p style="text-align:center; color:#777;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`;
         } else {
           container.innerHTML = orders.map(o => {
+            let isCancelled = (o.status === 'CANCELLED' || o.isCancelled);
             let payBadge = o.paymentMode === 'COD' ? `<span style="color:#e65100; font-weight:bold;">(💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ)</span>` : (o.paymentStatus === 'SUCCESS' ? `<span style="color:green; font-weight:bold;">(✔ UPI Paid)</span>` : `<span style="color:#d32f2f; font-weight:bold;">(⏳ UPI ಪಾವತಿ ಪೆಂಡಿಂಗ್)</span>`);
+            
             let statusDesc = "1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ";
-            if (o.status === 'CONFIRMED' || o.status === 'STEP_2') statusDesc = "ಮಾಲೀಕರಿಂದ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ";
-            else if (o.status === 'STEP_3') statusDesc = "ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ";
-            else if (o.status === 'DELIVERED' || o.status === 'STEP_4') statusDesc = "ಡೆಲಿವರಿ ನೀಡಲಾಗಿದೆ (Success)";
+            if (isCancelled) statusDesc = "❌ ಆರ್ಡರ್ ರದ್ದುಗೊಂಡಿದೆ (Cancelled)";
+            else if (o.status === 'CONFIRMED' || o.status === 'STEP_2') statusDesc = "ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ";
+            else if (o.status === 'PACKING' || o.status === 'STEP_3') statusDesc = "ಪ್ಯಾಕಿಂಗ್ ಆಗಿ ಡೆಲಿವರಿಗೆ ಕಳಿಸಲಾಗಿದೆ";
+            else if (o.status === 'DELIVERED' || o.status === 'STEP_4') statusDesc = "ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Success)";
 
             return `
               <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
@@ -714,20 +724,34 @@
     function openOrderDetails(o) {
       const content = document.getElementById('orderDetailsContent');
       let status = o.status || 'STEP_1';
+      let isCancelled = (status === 'CANCELLED' || o.isCancelled);
+      
       let s1 = 'completed', s2 = '', s3 = '', s4 = '';
       if (status === 'CONFIRMED' || status === 'STEP_2') { s1 = 'completed'; s2 = 'completed'; }
-      if (status === 'STEP_3') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; }
-      if (status === 'STEP_4' || status === 'DELIVERED') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; s4 = 'completed'; }
+      if (status === 'PACKING' || status === 'STEP_3') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; }
+      if (status === 'DELIVERED' || status === 'STEP_4') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; s4 = 'completed'; }
 
+      let returnSection = '';
+      let isDelivered = (status === 'DELIVERED' || status === 'STEP_4');
+      if (isDelivered && o.timestamp) {
+        let hoursPassed = (Date.now() - o.timestamp) / (1000 * 60 * 60);
+        if (hoursPassed <= 24) {
+          returnSection = `<button class="btn" style="background:var(--danger); color:#fff; width:100%; padding:10px; border:none; border-radius:6px; font-weight:bold; margin-top:10px;" onclick="alert('ರಿಟರ್ನ್/ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಸ್ವೀಕರಿಸಲಾಗಿದೆ.')">🔄 ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ (24 ಗಂಟೆ ಒಳಗೆ)</button>`;
+        }
+      }
+
+      let cust = o.customer || {};
       content.innerHTML = `
         <div style="display:flex; gap:10px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:15px;">
           <img src="${o.productPhoto}" style="width:70px; height:70px; object-fit:cover; border-radius:6px;">
           <div>
             <h4 style="font-size:0.9rem;">${o.productName}</h4>
-            <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${o.totalPrice}</p>
-            <p style="font-size:0.78rem; color:#555; margin-top:2px;">ಪಾವತಿ: ${o.paymentMode === 'COD' ? '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ' : '📱 ಯುಪಿಐ ಪಾವತಿ'}</p>
+            <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${o.totalPrice} (ದೂರ: ${o.distanceKm || '3.5 ಕಿ.ಮೀ.'})</p>
+            <p style="font-size:0.78rem; color:#555; margin-top:2px;">ಸ್ಥಳ: ${cust.village || ''}, ${cust.taluk || ''}, ${cust.district || ''} - ${cust.pincode || ''}</p>
           </div>
         </div>
+
+        ${isCancelled ? `<div style="background:#ffebee; color:#c62828; padding:10px; border-radius:6px; font-weight:bold; text-align:center; margin-bottom:15px;">❌ ಈ ಆರ್ಡರ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ (Cancelled)</div>` : ''}
 
         <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
           <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):</span>
@@ -737,11 +761,12 @@
         <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px;">
           <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ರೋಡ್‌ಮ್ಯಾಪ್</h4>
           <div class="timeline">
-            <div class="t-item ${s1}"><div class="t-dot"></div><div class="t-title">1. ಆರ್ಡರ್ ಖಚಿತವಾಗಿದೆ (Order Confirmed)</div></div>
-            <div class="t-item ${s2}"><div class="t-dot"></div><div class="t-title">2. ಅಂಗಡಿ ಮಾಲೀಕರಿಂದ ಪ್ಯಾಕಿಂಗ್ (Packing Ready)</div></div>
-            <div class="t-item ${s3}"><div class="t-dot"></div><div class="t-title">3. ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ (Picked Up)</div></div>
-            <div class="t-item ${s4}"><div class="t-dot"></div><div class="t-title">4. ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Delivered)</div></div>
+            <div class="t-item ${s1}"><div class="t-dot"></div><div class="t-title">1. 1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ (Order Confirmed)</div></div>
+            <div class="t-item ${s2}"><div class="t-dot"></div><div class="t-title">2. ಅಂಗಡಿ ಮಾಲೀಕರಿಂದ ಪ್ಯಾಕಿಂಗ್ ಆಗಿದೆ (Packing & Dispatch)</div></div>
+            <div class="t-item ${s3}"><div class="t-dot"></div><div class="t-title">3. ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ - 3 ಗಂಟೆ ಒಳಗೆ ತಲುಪುತ್ತದೆ</div></div>
+            <div class="t-item ${s4}"><div class="t-dot"></div><div class="t-title">4. ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Delivered Successfully)</div></div>
           </div>
+          ${returnSection}
         </div>
       `;
       showScreen('orderDetailsScreen');

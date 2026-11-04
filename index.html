@@ -78,6 +78,12 @@
     .filter-box { background: #fff; border: 1px solid #ddd; padding: 8px 10px; border-radius: 8px; margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
     .filter-box input { flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.8rem; background: #fff; }
 
+    /* Category horizontal scroll bar with boxes */
+    .categories-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 10px 0; scrollbar-width: none; }
+    .categories-scroll::-webkit-scrollbar { display: none; }
+    .cat-chip { background: #fff; border: 1px solid #ddd; padding: 8px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; white-space: nowrap; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); color: #333; }
+    .cat-chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; border-top: 1px solid #e0e0e0; z-index: 300; padding: 6px 0; box-shadow: 0 -2px 5px rgba(0,0,0,0.08); }
     .nav-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; font-size: 0.7rem; color: #555; text-decoration: none; font-weight: 600; }
     .nav-item.active { color: var(--primary); }
@@ -161,6 +167,22 @@
       </div>
     </div>
 
+    <!-- Category Boxes Scroll Bar (20+ Categories) -->
+    <div class="categories-scroll" id="categoriesScrollContainer">
+      <div class="cat-chip active" onclick="filterByCategory('')">🌟 ಎಲ್ಲಾ (All)</div>
+      <div class="cat-chip" onclick="filterByCategory('ಬಟ್ಟೆ')">👔 ಬಟ್ಟೆಗಳು</div>
+      <div class="cat-chip" onclick="filterByCategory('ಚಪ್ಪಲಿ')">🩴 ಚಪ್ಪಲಿ</div>
+      <div class="cat-chip" onclick="filterByCategory('ಶೂಸ್')">👞 ಶೂಸ್</div>
+      <div class="cat-chip" onclick="filterByCategory('ಸ್ಯಾಂಡಲ್')">👡 ಸ್ಯಾಂಡಲ್</div>
+      <div class="cat-chip" onclick="filterByCategory('ಶರ್ಟ್')">👕 ಶರ್ಟ್ ಸೆಟ್</div>
+      <div class="cat-chip" onclick="filterByCategory('ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್')">💻 ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್</div>
+      <div class="cat-chip" onclick="filterByCategory('ಗಿಫ್ಟ್')">🎁 ಗಿಫ್ಟ್ ಐಟಂ</div>
+      <div class="cat-chip" onclick="filterByCategory('ಸೀರೆ')">🥻 ಸೀರೆಗಳು</div>
+      <div class="cat-chip" onclick="filterByCategory('ಡ್ರೆಸ್')">👗 ಡ್ರೆಸ್</div>
+      <div class="cat-chip" onclick="filterByCategory('ಮಕ್ಕಳ ಡ್ರೆಸ್')">👶 ಮಕ್ಕಳ ಡ್ರೆಸ್</div>
+      <div class="cat-chip" onclick="filterByCategory('ಮೊಬೈಲ್')">📱 ಮೊಬೈಲ್</div>
+    </div>
+
     <div class="filter-box">
       <span style="font-size:0.75rem; font-weight:bold; color:var(--primary);" id="lblLocationFilter">📍 ಸ್ಥಳ/ತಾಲೂಕು ಸರ್ಚ್:</span>
       <input type="text" id="filterTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು/ಸ್ಥಳ ನಮೂದಿಸಿ" oninput="applyLocationFilter()">
@@ -172,10 +194,13 @@
   <!-- CATEGORIES VIEW CONTAINER -->
   <div class="container" id="categoriesViewContainer" style="display:none;">
     <div style="font-size: 1rem; font-weight: bold; margin: 10px 4px; color: #212121;" id="lblAllCategories">ಎಲ್ಲಾ ವರ್ಗಗಳು (All Categories)</div>
-    <div class="categories-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:10px;">
-      <div class="category-card" onclick="filterByCategory('ಫ್ಯಾಷನ್')" style="background:#fff; padding:15px; border-radius:8px; text-align:center; border:1px solid #ddd; cursor:pointer;"><span style="font-size:1.5rem;">👗</span><br><span style="font-size:0.8rem; font-weight:bold;">ಫ್ಯಾಷನ್</span></div>
-      <div class="category-card" onclick="filterByCategory('ಮೊಬೈಲ್')" style="background:#fff; padding:15px; border-radius:8px; text-align:center; border:1px solid #ddd; cursor:pointer;"><span style="font-size:1.5rem;">📱</span><br><span style="font-size:0.8rem; font-weight:bold;">ಮೊಬೈಲ್‌ಗಳು</span></div>
-      <div class="category-card" onclick="filterByCategory('ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್')" style="background:#fff; padding:15px; border-radius:8px; text-align:center; border:1px solid #ddd; cursor:pointer;"><span style="font-size:1.5rem;">💻</span><br><span style="font-size:0.8rem; font-weight:bold;">ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್</span></div>
+    <div class="categories-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:10px;" id="fullCategoriesGrid">
+      <div class="category-card" onclick="filterByCategory('ಬಟ್ಟೆ')" style="background:#fff; padding:15px; border-radius:8px; text-align:center; border:1px solid #ddd; cursor:pointer;"><span style="font-size:1.5rem;">👔</span><br><span style="font-size:0.8rem; font-weight:bold;">ಬಟ್ಟೆಗಳು</span></div>
+      <div class="category-card" onclick="filterByCategory('ಮೊಬೈಲ್')" style="background:#fff; padding:15px; border-radius:8px; text-align:center; border:1px solid #ddd; cursor:pointer;"><span style="font-size:1.5rem;">📱</span><br><span style="font-size:0.8rem; font-weight:bold;">ಮೊಬೈಲ್</span></div>
+      <div class="category-card" onclick="filterByCategory('ಚಪ್ಪಲಿ')" style="background:#fff; padding:15px; border-radius:8px; text-align:center; border:1px solid #ddd; cursor:pointer;"><span style="font-size:1.5rem;">🩴</span><br><span style="font-size:0.8rem; font-weight:bold;">ಚಪ್ಪಲಿ</span></div>
+      <div class="category-card" onclick="filterByCategory('ಶೂಸ್')" style="background:#fff; padding:15px; border-radius:8px; text-align:center; border:1px solid #ddd; cursor:pointer;"><span style="font-size:1.5rem;">👞</span><br><span style="font-size:0.8rem; font-weight:bold;">ಶೂಸ್</span></div>
+      <div class="category-card" onclick="filterByCategory('ಸೀರೆ')" style="background:#fff; padding:15px; border-radius:8px; text-align:center; border:1px solid #ddd; cursor:pointer;"><span style="font-size:1.5rem;">🥻</span><br><span style="font-size:0.8rem; font-weight:bold;">ಸೀರೆಗಳು</span></div>
+      <div class="category-card" onclick="filterByCategory('ಮಕ್ಕಳ ಡ್ರೆಸ್')" style="background:#fff; padding:15px; border-radius:8px; text-align:center; border:1px solid #ddd; cursor:pointer;"><span style="font-size:1.5rem;">👶</span><br><span style="font-size:0.8rem; font-weight:bold;">ಮಕ್ಕಳ ಡ್ರೆಸ್</span></div>
     </div>
   </div>
 
@@ -299,7 +324,7 @@
     <div style="padding: 15px 15px 140px 15px;" id="ordersContainer"></div>
   </div>
 
-  <!-- ORDER DETAILS STATUS SCREEN WITH ROADMAP -->
+  <!-- ORDER DETAILS STATUS SCREEN WITH ROADMAP & RETURN BUTTON -->
   <div id="orderDetailsScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
@@ -322,6 +347,7 @@
     let allShopsMap = {};
     let validShopIds = new Set();
     let bannerList = [];
+    let currentCategoryFilter = '';
 
     let selectedProduct = null;
     let selectedSize = '';
@@ -487,6 +513,16 @@
       } catch (e) {}
     }
 
+    function filterByCategory(cat) {
+      currentCategoryFilter = cat;
+      document.querySelectorAll('.cat-chip').forEach(el => {
+        if (el.innerText.includes(cat) || (cat === '' && el.innerText.includes('ಎಲ್ಲಾ'))) el.classList.add('active');
+        else el.classList.remove('active');
+      });
+      applyLocationFilter();
+      showScreen('homeViewContainer');
+    }
+
     function applyLocationFilter() {
       const searchQ = document.getElementById('searchInput').value.toLowerCase().trim();
       const talukQ = document.getElementById('filterTaluk').value.toLowerCase().trim();
@@ -496,9 +532,13 @@
         let shopName = shop ? shop.shopName.toLowerCase() : "";
         let shopTaluk = shop ? (shop.taluk || "").toLowerCase() : "";
         let prodName = p.name.toLowerCase();
-        let matchSearch = searchQ === "" || prodName.includes(searchQ) || shopName.includes(searchQ) || shopTaluk.includes(searchQ);
+        let prodCat = (p.category || "").toLowerCase();
+
+        let matchSearch = searchQ === "" || prodName.includes(searchQ) || shopName.includes(searchQ) || shopTaluk.includes(searchQ) || prodCat.includes(searchQ);
         let matchLoc = talukQ === "" || shopTaluk.includes(talukQ) || shopName.includes(talukQ);
-        return matchSearch && matchLoc;
+        let matchCat = currentCategoryFilter === "" || prodCat.includes(currentCategoryFilter.toLowerCase()) || prodName.includes(currentCategoryFilter.toLowerCase());
+
+        return matchSearch && matchLoc && matchCat;
       });
       renderProducts(filtered);
       renderRelatedProducts(filtered);
@@ -533,7 +573,6 @@
     function renderRelatedProducts(list) {
       const grid = document.getElementById('relatedProductsGrid');
       if (!grid) return;
-      // Show products ONLY from the SAME shop as the selected product
       let filtered = list.filter(p => selectedProduct && p.shopId === selectedProduct.shopId && p.id !== selectedProduct.id);
       if (filtered.length === 0) {
         filtered = list.filter(p => p.id !== (selectedProduct ? selectedProduct.id : ''));
@@ -666,7 +705,6 @@
         distanceCalc = diff === 0 ? "1.2 ಕಿ.ಮೀ." : `${(diff % 15) + 2.0} ಕಿ.ಮೀ.`;
       }
 
-      // ENSURE THE ORDER GOES DIRECTLY TO THE CORRECT SELECTED SHOP ID
       const orderData = {
         orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
         productName: `${selectedProduct.name} [Variant: ${selectedSize}, Qty: ${productQty}]`,
@@ -674,7 +712,7 @@
         totalPrice: grandTotal,
         deliveryFee: 30,
         distanceKm: distanceCalc,
-        shopId: selectedProduct.shopId, // Direct to selected item's shop
+        shopId: selectedProduct.shopId,
         shopName: shop ? shop.shopName : "Store",
         shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
         customer: { name, phone, village, pincode, taluk, district },
@@ -682,6 +720,7 @@
         paymentStatus: paymentStatusVal,
         deliveryOtp: otp,
         status: 'STEP_1',
+        isReturned: false,
         timestamp: Date.now()
       };
 
@@ -713,7 +752,7 @@
               `<span style="color:#e65100; font-weight:bold;">(${currentLang === 'kn' ? '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ' : '💵 Cash on Delivery'})</span>` : 
               `<span style="color:green; font-weight:bold;">(${currentLang === 'kn' ? '✔ UPI ಪೇಮೆಂಟ್ ಸಕ್ಸೆಸ್' : '✔ UPI Payment Success'})</span>`;
             
-            let statusText = currentLang === 'kn' ? 'ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ' : 'Status: Order Confirmed';
+            let statusText = o.isReturned ? `<span style="color:red; font-weight:bold;">(↩ ರಿಟರ್ನ್ ಮಾಡಲಾಗಿದೆ)</span>` : (o.status === 'DELIVERED' ? `<span style="color:green; font-weight:bold;">(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)</span>` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
             return `
               <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
                 <div style="display:flex; gap:10px; align-items:center;">
@@ -735,11 +774,12 @@
     function openOrderDetails(o) {
       const content = document.getElementById('orderDetailsContent');
       let status = o.status || 'STEP_1';
+      if (o.isReturned) status = 'RETURNED';
       
       let s1 = 'completed', s2 = '', s3 = '', s4 = '';
       if (status === 'CONFIRMED' || status === 'STEP_2') { s1 = 'completed'; s2 = 'completed'; }
       if (status === 'PACKING' || status === 'STEP_3') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; }
-      if (status === 'DELIVERED' || status === 'STEP_4') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; }
+      if (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; s4 = 'completed'; }
 
       let cust = o.customer || {};
       let distanceText = currentLang === 'kn' ? `(ದೂರ: ${o.distanceKm || '3.5 ಕಿ.ಮೀ.'})` : `(Distance: ${o.distanceKm || '3.5 km'})`;
@@ -759,19 +799,41 @@
         <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
           <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">${otpLabel}</span>
           <div style="font-size:1.4rem; font-weight:bold; color:#1b5e20; letter-spacing:3px; margin-top:4px;">${o.deliveryOtp || '8740'}</div>
+          ${o.isReturned ? `<div style="color:red; font-weight:bold; margin-top:8px;">⚠️ ಈ ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಲಾಗಿದೆ (Returned)</div>` : ``}
         </div>
 
-        <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px;">
+        <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px; margin-bottom:15px;">
           <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">${roadmapTitle}</h4>
           <div class="timeline">
             <div class="t-item ${s1}"><div class="t-dot"></div><div class="t-title">1. ${currentLang === 'kn' ? '1 ರಿಂದ 2 ದಿನಗಳಲ್ಲಿ ಡೆಲಿವರಿ ತಲುಪುತ್ತದೆ' : 'Delivery in 1-2 days'}</div></div>
             <div class="t-item ${s2}"><div class="t-dot"></div><div class="t-title">2. ${currentLang === 'kn' ? 'ಅಂಗಡಿ ಮಾಲೀಕರಿಂದ ಪ್ಯಾಕಿಂಗ್ ಆಗಿದೆ' : 'Packed by shop owner'}</div></div>
             <div class="t-item ${s3}"><div class="t-dot"></div><div class="t-title">3. ${currentLang === 'kn' ? 'ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ' : 'Picked up by delivery boy'}</div></div>
-            <div class="t-item ${s4}"><div class="t-dot"></div><div class="t-title">4. ${currentLang === 'kn' ? 'ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ' : 'Delivered successfully'}</div></div>
+            <div class="t-item ${s4}"><div class="t-dot"></div><div class="t-title">4. ${currentLang === 'kn' ? 'ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Delivered)' : 'Delivered successfully'}</div></div>
           </div>
         </div>
+
+        ${!o.isReturned ? `
+          <button onclick="requestOrderReturn('${o.id}')" style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">
+            🔄 ಈ ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಿ (Return Order)
+          </button>
+        ` : ``}
       `;
       showScreen('orderDetailsScreen');
+    }
+
+    async function requestOrderReturn(orderFirestoreId) {
+      if (confirm(currentLang === 'kn' ? "ಖಂಡಿತವಾಗಿ ಈ ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಲು ಬಯಸುತ್ತೀರಾ?" : "Do you want to return this order?")) {
+        try {
+          await window.updateDoc(window.doc(window.db, "orders", orderFirestoreId), {
+            isReturned: true,
+            status: 'RETURNED'
+          });
+          alert(currentLang === 'kn' ? "✅ ಆರ್ಡರ್ ರಿಟರ್ನ್ ವಿನಂತಿ ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ!" : "✅ Return request sent to delivery boy!");
+          openMyOrdersScreen();
+        } catch(e) {
+          alert("Error: " + e.message);
+        }
+      }
     }
 
     function openPocketMoneyScreen() {

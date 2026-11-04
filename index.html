@@ -168,7 +168,6 @@
       </div>
     </div>
 
-    <!-- Category Boxes Scroll Bar -->
     <div class="categories-scroll" id="categoriesScrollContainer">
       <div class="cat-chip active" onclick="filterByCategory('')">🌟 ಎಲ್ಲಾ (All)</div>
       <div class="cat-chip" onclick="filterByCategory('ಬಟ್ಟೆ')">👔 ಬಟ್ಟೆಗಳು</div>
@@ -228,6 +227,8 @@
       <p id="detailShopName" style="color: #666; font-size: 0.75rem; margin-top: 2px;"></p>
       <p id="detailShopLocation" style="color: var(--primary); font-size: 0.75rem; font-weight: bold; margin-top: 2px;"></p>
       
+      <div id="detailRamStorageBox" style="margin-top:6px; font-size:0.8rem; font-weight:bold; color:#1976d2; background:#e3f2fd; padding:6px 8px; border-radius:4px; display:inline-block;"></div>
+
       <div style="margin-top: 6px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <span class="curr-price" id="detailPrice" style="font-size: 1.2rem; color:var(--success);"></span>
@@ -236,7 +237,7 @@
       </div>
 
       <div id="variantSection" style="margin-top: 10px;">
-        <label style="font-size: 0.8rem; font-weight: bold;" id="lblVariantTitle">Variant / Size ಆಯ್ಕೆಮಾಡಿ:</label>
+        <label style="font-size: 0.8rem; font-weight: bold;" id="lblVariantTitle">Variant / Size / RAM ಆಯ್ಕೆಮಾಡಿ:</label>
         <div class="variant-container" id="variantOptionsContainer" style="display:flex; gap:6px; margin-top:4px; flex-wrap:wrap;"></div>
       </div>
 
@@ -281,7 +282,6 @@
         <input type="text" id="custDistrict" value="ಯಾದಗಿರಿ" placeholder="ಜಿಲ್ಲೆ / District" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
       </div>
 
-      <!-- PAYMENT METHOD SELECTION -->
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblPaymentMethodTitle">💳 ಪಾವತಿ ವಿಧಾನ ಆಯ್ಕೆ ಮಾಡಿ:</h4>
         
@@ -342,7 +342,7 @@
     <div style="padding: 15px; max-width: 500px; margin: 0 auto;" id="pocketMoneyContent"></div>
   </div>
 
-  <!-- ADVANCED RETURN FORM MODAL WITH UPI ID INPUT -->
+  <!-- ADVANCED RETURN FORM MODAL WITH 2 PHOTOS & CLEAR KANNADA MESSAGES -->
   <div id="returnModal" class="custom-modal">
     <div class="custom-modal-content">
       <h3 style="color:var(--danger); margin-bottom:10px; font-size:1.05rem;" id="lblReturnTitle">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಅರ್ಜಿ</h3>
@@ -368,11 +368,20 @@
         <input type="text" id="customerUpiIdInput" placeholder="ಉದಾ: 8105010768@ybl ಅಥವಾ PhonePe ನಂಬರ್" style="width:100%; padding:8px; margin-top:4px; border:1px solid var(--primary); border-radius:6px; font-size:0.85rem; background:#f0f4ff;">
       </div>
 
+      <!-- TWO PHOTOS UPLOAD SECTION -->
+      <div style="margin-bottom:10px;">
+        <label style="font-size:0.8rem; font-weight:bold;">4. ವಸ್ತುವಿನ ಮೊದಲನೇ ಫೋಟೋ (Photo 1):</label>
+        <input type="file" id="returnPhotoInput1" accept="image/*" capture="environment" style="width:100%; margin-top:2px; font-size:0.8rem;" onchange="previewReturnPhoto1(event)">
+        <div id="returnPhotoPreview1" style="margin-top:4px; display:none;">
+          <img id="previewImgTag1" src="" style="width:60px; height:60px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">
+        </div>
+      </div>
+
       <div style="margin-bottom:12px;">
-        <label style="font-size:0.8rem; font-weight:bold;">4. ವಸ್ತುವಿನ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ (Capture/Photo):</label>
-        <input type="file" id="returnPhotoInput" accept="image/*" capture="environment" style="width:100%; margin-top:4px; font-size:0.8rem;" onchange="previewReturnPhoto(event)">
-        <div id="returnPhotoPreview" style="margin-top:6px; display:none;">
-          <img id="previewImgTag" src="" style="width:80px; height:80px; object-fit:cover; border-radius:6px; border:1px solid #ccc;">
+        <label style="font-size:0.8rem; font-weight:bold;">5. ವಸ್ತುವಿನ ಎರಡನೇ ಫೋಟೋ (Photo 2):</label>
+        <input type="file" id="returnPhotoInput2" accept="image/*" capture="environment" style="width:100%; margin-top:2px; font-size:0.8rem;" onchange="previewReturnPhoto2(event)">
+        <div id="returnPhotoPreview2" style="margin-top:4px; display:none;">
+          <img id="previewImgTag2" src="" style="width:60px; height:60px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">
         </div>
       </div>
 
@@ -394,7 +403,8 @@
     let bannerList = [];
     let currentCategoryFilter = '';
     let activeReturnOrderId = null;
-    let returnBase64Photo = '';
+    let returnBase64Photo1 = '';
+    let returnBase64Photo2 = '';
 
     let selectedProduct = null;
     let selectedSize = '';
@@ -428,9 +438,9 @@
         allCategories: "ಎಲ್ಲಾ ವರ್ಗಗಳು (All Categories)",
         navHome: "ಹೋಮ್", navCat: "ಕ್ಯಾಟಗರಿಗಳು", navAcc: "ಅಕೌಂಟ್", navOrders: "ಆರ್ಡರ್ಸ್",
         prodDetailTitle: "ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ",
-        variantTitle: "Variant / Size ಆಯ್ಕೆಮಾಡಿ:",
+        variantTitle: "Variant / Size / RAM ಆಯ್ಕೆಮಾಡಿ:",
         qtyLabel: "ಸರಕು ಪ್ರಮಾಣ (Quantity):",
-        deliveryBadge: "🚚 1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (15km ಒಳಗೆ ಮಾತ್ರ)",
+        deliveryBadge: "🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (15km ಒಳಗೆ ಮಾತ್ರ)</b>",
         similarProducts: "🛍️ ಈ ಅಂಗಡಿಯ ಇತರ ವಸ್ತುಗಳು (More from this Store):",
         addToCart: "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ",
         buyNow: "ಖರೀದಿಸಿ (Buy Now)",
@@ -453,7 +463,7 @@
         allCategories: "All Categories",
         navHome: "Home", navCat: "Categories", navAcc: "Account", navOrders: "Orders",
         prodDetailTitle: "Product Description",
-        variantTitle: "Select Variant / Size:",
+        variantTitle: "Select Variant / Size / RAM:",
         qtyLabel: "Quantity:",
         deliveryBadge: "🚚 Delivery within 1-2 days! (Within 15km only)",
         similarProducts: "🛍️ More from this Store:",
@@ -656,10 +666,25 @@
       document.getElementById('detailShopName').innerText = (currentLang === 'kn' ? "ಅಂಗಡಿ: " : "Store: ") + (shop ? shop.shopName : "Store");
       document.getElementById('detailShopLocation').innerText = (currentLang === 'kn' ? "📍 ಸ್ಥಳ: " : "📍 Location: ") + (shop ? shop.taluk : 'ಶಹಾಪುರ');
 
+      const ramStorageBox = document.getElementById('detailRamStorageBox');
+      if (selectedProduct.ram || selectedProduct.storage || selectedProduct.ramStorage) {
+        ramStorageBox.style.display = 'inline-block';
+        ramStorageBox.innerText = `📱 RAM/Storage: ${selectedProduct.ram || ''} ${selectedProduct.storage || selectedProduct.ramStorage || ''}`;
+      } else {
+        ramStorageBox.style.display = 'none';
+      }
+
       let sizes = ['Free Size'];
       let nameL = selectedProduct.name.toLowerCase();
-      if (nameL.includes('ಪ್ಯಾಂಟ್') || nameL.includes('pant')) sizes = ['28', '30', '32', '34', '36', '38'];
-      else if (nameL.includes('ಚಪ್ಪಲಿ') || nameL.includes('shoe')) sizes = ['6', '7', '8', '9', '10'];
+      if (selectedProduct.variants && selectedProduct.variants.length > 0) {
+        sizes = selectedProduct.variants;
+      } else if (nameL.includes('ಪ್ಯಾಂಟ್') || nameL.includes('pant')) {
+        sizes = ['28', '30', '32', '34', '36', '38'];
+      } else if (nameL.includes('ಚಪ್ಪಲಿ') || nameL.includes('shoe')) {
+        sizes = ['6', '7', '8', '9', '10'];
+      } else if (nameL.includes('ram') || nameL.includes('oppo') || nameL.includes('vivo') || nameL.includes('mobile')) {
+        sizes = ['4GB RAM / 64GB', '6GB RAM / 128GB', '8GB RAM / 128GB'];
+      }
 
       selectedSize = sizes[0];
       document.getElementById('variantOptionsContainer').innerHTML = sizes.map((s, idx) => `
@@ -833,7 +858,6 @@
       let otpLabel = currentLang === 'kn' ? '🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):' : '🔑 Your Delivery OTP:';
       let roadmapTitle = currentLang === 'kn' ? '📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ರೋಡ್‌ಮ್ಯಾಪ್' : '📦 Order Tracking Roadmap';
 
-      // Return refund message status for customer
       let returnStatusHtml = '';
       if (o.isReturned) {
         if (o.returnPaymentStatus === 'SUCCESS') {
@@ -880,17 +904,20 @@
 
     function openReturnModal(order) {
       activeReturnOrderId = order.id;
-      returnBase64Photo = '';
+      returnBase64Photo1 = '';
+      returnBase64Photo2 = '';
       document.getElementById('returnCommentText').value = '';
       document.getElementById('customerUpiIdInput').value = '';
-      document.getElementById('returnPhotoInput').value = '';
-      document.getElementById('returnPhotoPreview').style.display = 'none';
+      document.getElementById('returnPhotoInput1').value = '';
+      document.getElementById('returnPhotoInput2').value = '';
+      document.getElementById('returnPhotoPreview1').style.display = 'none';
+      document.getElementById('returnPhotoPreview2').style.display = 'none';
 
       let totalPaid = Number(order.totalPrice || 629);
-      let refundAmt = totalPaid - 80; // 30 delivery + 50 return charge = 80
+      let refundAmt = totalPaid - 80;
 
       document.getElementById('returnDeductionNotice').innerHTML = `
-        ⚠️ <b>ಗಮನಿಸಿ (Return Charge Policy):</b><br>
+        ⚠️ <b>ರಿಟರ್ನ್ ಶುಲ್ಕದ ವಿವರ (Return Charge Policy):</b><br>
         ನೀವು ಪಾವತಿಸಿದ ಮೊತ್ತ: <b>₹${totalPaid}</b><br>
         - ಡೆಲಿವರಿ ಚಾರ್ಜ್: <b>₹30</b><br>
         - ರಿಟರ್ನ್ ಚಾರ್ಜ್ (ಕಡಿತ): <b>₹50</b><br>
@@ -902,18 +929,53 @@
 
     function closeReturnModal() {
       document.getElementById('returnModal').style.display = 'none';
+      showScreen('homeViewContainer');
     }
 
-    function previewReturnPhoto(event) {
+    function compressImage(file, callback) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          const maxDim = 600;
+          if (width > height) {
+            if (width > maxDim) { height *= maxDim / width; width = maxDim; }
+          } else {
+            if (height > maxDim) { width *= maxDim / height; height = maxDim; }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          callback(canvas.toDataURL('image/jpeg', 0.6));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function previewReturnPhoto1(event) {
       const file = event.target.files[0];
       if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          returnBase64Photo = e.target.result;
-          document.getElementById('previewImgTag').src = returnBase64Photo;
-          document.getElementById('returnPhotoPreview').style.display = 'block';
-        };
-        reader.readAsDataURL(file);
+        compressImage(file, (compressedDataUrl) => {
+          returnBase64Photo1 = compressedDataUrl;
+          document.getElementById('previewImgTag1').src = returnBase64Photo1;
+          document.getElementById('returnPhotoPreview1').style.display = 'block';
+        });
+      }
+    }
+
+    function previewReturnPhoto2(event) {
+      const file = event.target.files[0];
+      if (file) {
+        compressImage(file, (compressedDataUrl) => {
+          returnBase64Photo2 = compressedDataUrl;
+          document.getElementById('previewImgTag2').src = returnBase64Photo2;
+          document.getElementById('returnPhotoPreview2').style.display = 'block';
+        });
       }
     }
 
@@ -924,7 +986,7 @@
       const customerUpi = document.getElementById('customerUpiIdInput').value.trim();
 
       if (!customerUpi) {
-        alert(currentLang === 'kn' ? "ದಯವಿಟ್ಟು ನಿಮ್ಮ UPI ID ಅಥವಾ PhonePe ನಂಬರ್ ನಮೂದಿಸಿ." : "Please enter your UPI ID or PhonePe number.");
+        alert("ದಯವಿಟ್ಟು ಹಣ ಪಡೆಯಲು ನಿಮ್ಮ UPI ID ಅಥವಾ PhonePe ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ.");
         return;
       }
 
@@ -935,16 +997,17 @@
           returnReason: reasonSelect,
           returnComment: commentText,
           customerUpiId: customerUpi,
-          returnPhoto: returnBase64Photo,
+          returnPhoto1: returnBase64Photo1,
+          returnPhoto2: returnBase64Photo2,
           returnPaymentStatus: 'PENDING',
           returnTimestamp: Date.now()
         });
 
-        alert(currentLang === 'kn' ? "✅ ರಿಟರ್ನ್ ಅರ್ಜಿ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ! ಡೆಲಿವರಿ ಬಾಯ್ ಒಟಿಪಿ ಪಡೆದು ಕನ್ಫರ್ಮ್ ಮಾಡಿದ ನಂತರ 24 ಗಂಟೆಗಳಲ್ಲಿ ಹಣ ಜಮಾ ಆಗುತ್ತದೆ." : "✅ Return request submitted!");
+        alert("✅ ರಿಟರ್ನ್ ಅರ್ಜಿ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ! ಡೆಲಿವರಿ ಬಾಯ್ ಒಟಿಪಿ ಪಡೆದು ಕನ್ಫರ್ಮ್ ಮಾಡಿದ ನಂತರ 24 ಗಂಟೆಗಳಲ್ಲಿ ಹಣ ಜಮಾ ಆಗುತ್ತದೆ.");
         closeReturnModal();
         openMyOrdersScreen();
       } catch(e) {
-        alert("Error: " + e.message);
+        alert("ದೋಷ ಸಂಭವಿಸಿದೆ: " + e.message);
       }
     }
 

@@ -61,7 +61,7 @@
     .header-btns { display: flex; gap: 4px; align-items: center; }
     .btn-lang { background: #fff; color: var(--primary); border: none; padding: 4px 6px; border-radius: 4px; font-weight: bold; font-size: 0.65rem; cursor: pointer; }
     .btn-pocket { background: #ff9f00; color: #fff; border: none; padding: 4px 6px; border-radius: 4px; font-weight: bold; font-size: 0.65rem; cursor: pointer; display: flex; align-items: center; gap: 2px; }
-    .btn-install { background: #388e3c; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.65rem; cursor: pointer; display: flex; align-items: center; gap: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+    .btn-install { background: #388e3c; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.65rem; cursor: pointer; display: none; align-items: center; gap: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
 
     .floating-share-btn {
       position: fixed; bottom: 85px; right: 15px; width: 44px; height: 44px; background: #25d366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 999; cursor: pointer; border: 2px solid #fff;
@@ -426,11 +426,28 @@
     const MASTER_UPI_ID = "8105010768anil@slc";
     let deferredPrompt = null;
 
+    // ಮೊಬೈಲ್‌ನಲ್ಲಿ ಆಪ್ ಈಗಾಗಲೇ ಇನ್‌ಸ್ಟಾಲ್ ಆಗಿದ್ದರೆ (Standalone mode) ಬಟನ್ ಅನ್ನು ಕಂಪ್ಲೀಟ್ ಆಗಿ ಮರೆಮಾಡುವುದು
+    function checkIsAppInstalled() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      const isAlreadyInstalled = localStorage.getItem('app_installed_status') === 'true';
+
+      if (isStandalone || isAlreadyInstalled) {
+        const btn = document.getElementById('installAppBtn');
+        if (btn) btn.style.display = 'none';
+      }
+    }
+
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      const installBtn = document.getElementById('installAppBtn');
-      if (installBtn) installBtn.style.display = 'inline-flex';
+      
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      const isAlreadyInstalled = localStorage.getItem('app_installed_status') === 'true';
+
+      if (!isStandalone && !isAlreadyInstalled) {
+        const installBtn = document.getElementById('installAppBtn');
+        if (installBtn) installBtn.style.display = 'inline-flex';
+      }
     });
 
     async function installAppPrompt() {
@@ -439,6 +456,9 @@
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
           console.log('User accepted the install prompt');
+          localStorage.setItem('app_installed_status', 'true');
+          const btn = document.getElementById('installAppBtn');
+          if (btn) btn.style.display = 'none';
         }
         deferredPrompt = null;
       } else {
@@ -447,6 +467,12 @@
           "To install app, tap the three dots (⋮) menu on your browser and select 'Install app' or 'Add to Home screen'.");
       }
     }
+
+    window.addEventListener('appinstalled', () => {
+      localStorage.setItem('app_installed_status', 'true');
+      const btn = document.getElementById('installAppBtn');
+      if (btn) btn.style.display = 'none';
+    });
 
     function playCoinSound() {
       const sound = document.getElementById('coinSound');
@@ -524,6 +550,7 @@
       loadSavedAddress();
       checkAppLiveStatus();
       verifyCustomerExistsInFirebase();
+      checkIsAppInstalled();
       window.initFirebaseAppData();
 
       window.addEventListener('focus', () => {

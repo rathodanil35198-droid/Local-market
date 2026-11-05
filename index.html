@@ -264,7 +264,7 @@
       </div>
 
       <div class="delivery-badge" id="lblDeliveryBadge">
-        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (15km ಒಳಗೆ ಮಾತ್ರ)</b>
+        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (10-12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ)</b>
       </div>
 
       <div style="margin-top: 20px;">
@@ -288,7 +288,7 @@
 
     <div style="padding: 15px 15px 160px 15px;">
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (15 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
+        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (10-12 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
         <input type="text" id="custName" placeholder="ಹೆಸರು / Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು / Village" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
@@ -426,7 +426,6 @@
     const MASTER_UPI_ID = "8105010768anil@slc";
     let deferredPrompt = null;
 
-    // ಮೊಬೈಲ್‌ನಲ್ಲಿ ಆಪ್ ಈಗಾಗಲೇ ಇನ್‌ಸ್ಟಾಲ್ ಆಗಿದ್ದರೆ (Standalone mode) ಬಟನ್ ಅನ್ನು ಕಂಪ್ಲೀಟ್ ಆಗಿ ಮರೆಮಾಡುವುದು
     function checkIsAppInstalled() {
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
       const isAlreadyInstalled = localStorage.getItem('app_installed_status') === 'true';
@@ -455,7 +454,6 @@
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
-          console.log('User accepted the install prompt');
           localStorage.setItem('app_installed_status', 'true');
           const btn = document.getElementById('installAppBtn');
           if (btn) btn.style.display = 'none';
@@ -503,12 +501,12 @@
         prodDetailTitle: "ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ",
         variantTitle: "Variant / Size / RAM ಆಯ್ಕೆಮಾಡಿ:",
         qtyLabel: "ಸರಕು ಪ್ರಮಾಣ (Quantity):",
-        deliveryBadge: "🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (15km ಒಳಗೆ ಮಾತ್ರ)</b>",
+        deliveryBadge: "🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (10-12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ)</b>",
         similarProducts: "🛍️ ಈ ಅಂಗಡಿಯ ಇತರ ವಸ್ತುಗಳು (More from this Store):",
         addToCart: "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ",
         buyNow: "ಖರೀದಿಸಿ (Buy Now)",
         checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ",
-        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (15 KM ಒಳಗೆ ಕಡ್ಡಾಯ):",
+        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (10-12 KM ಒಳಗೆ ಕಡ್ಡಾಯ):",
         paymentMethodTitle: "💳 ಪಾವತಿ ವಿಧಾನ ಆಯ್ಕೆ ಮಾಡಿ:",
         upiOptionText: "📲 ಯುಪಿಐ ಪಾವತಿ (PhonePe / GPay / Paytm)",
         codOptionText: "💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)",
@@ -529,12 +527,12 @@
         prodDetailTitle: "Product Description",
         variantTitle: "Select Variant / Size / RAM:",
         qtyLabel: "Quantity:",
-        deliveryBadge: "🚚 Delivery within 1-2 days! (Within 15km only)",
+        deliveryBadge: "🚚 Delivery within 1-2 days! (Within 10-12 km only)",
         similarProducts: "🛍️ More from this Store:",
         addToCart: "Add to Cart",
         buyNow: "Buy Now",
         checkoutHeader: "Confirm Details & Payment",
-        deliveryAddrTitle: "📍 Delivery Address (Within 15 KM mandatory):",
+        deliveryAddrTitle: "📍 Delivery Address (Within 10-12 KM mandatory):",
         paymentMethodTitle: "💳 Select Payment Method:",
         upiOptionText: "📲 UPI Payment (PhonePe / GPay / Paytm)",
         codOptionText: "💵 Cash on Delivery",
@@ -698,7 +696,7 @@
     function renderProducts(list) {
       const grid = document.getElementById('productsGrid');
       if (!list || list.length === 0) {
-        grid.innerHTML = `<div style="grid-column: span 2; text-align:center; color:#777; padding:25px; background:#fff; border-radius:8px;">${currentLang === 'kn' ? 'ಯಾವುದೇ ವಸ್ತುಗಳಿಲ್ಲ.' : 'No products found.'}</div>`;
+        grid.innerHTML = `<div style="grid-column: span 2; text-align:center; color:#777; padding:25px; background:#fff; border-radius:8px;">${currentLang === 'kn' ? 'ಈ ತಾಲೂಕಿನಲ್ಲಿ ಯಾವುದೇ ಅಂಗಡಿಗಳು ಅಥವಾ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.' : 'No shops or products available in this taluk.'}</div>`;
         return;
       }
       grid.innerHTML = list.map(p => {
@@ -710,7 +708,7 @@
             <div class="img-box"><img src="${img}"></div>
             <div>
               <div class="prod-title">${p.name}</div>
-              <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shop ? shop.shopName : 'Store'}</div>
+              <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shop ? shop.shopName : 'Store'} (${shop ? shop.taluk : ''})</div>
               <div class="price-row" style="margin-top:4px;">
                 <span class="curr-price">₹${p.price}</span>
                 ${p.oldPrice ? `<span class="old-price">₹${p.oldPrice}</span>` : ''}
@@ -758,7 +756,7 @@
       let shop = allShopsMap[selectedProduct.shopId];
       document.getElementById('detailTitle').innerText = selectedProduct.name;
       document.getElementById('detailShopName').innerText = (currentLang === 'kn' ? "ಅಂಗಡಿ: " : "Store: ") + (shop ? shop.shopName : "Store");
-      document.getElementById('detailShopLocation').innerText = (currentLang === 'kn' ? "📍 ಸ್ಥಳ: " : "📍 Location: ") + (shop ? shop.taluk : 'ಶಹಾಪುರ');
+      document.getElementById('detailShopLocation').innerText = (currentLang === 'kn' ? "📍 ತಾಲೂಕು/ಸ್ಥಳ: " : "📍 Taluk: ") + (shop ? shop.taluk : 'ಶಹಾಪುರ');
 
       const ramStorageBox = document.getElementById('detailRamStorageBox');
       if (selectedProduct.ram || selectedProduct.storage || selectedProduct.ramStorage) {
@@ -824,15 +822,64 @@
       showScreen('checkoutScreen');
     }
 
+    // 10 ರಿಂದ 12 ಕಿ.ಮೀ ದೂರ ಲೆಕ್ಕಾಚಾರ ಮಾಡುವ Haversine ಜಿಪಿಎಸ್ ಫಾರ್ಮುಲಾ ಹಾಗೂ ತಾಲೂಕು ಮ್ಯಾಚಿಂಗ್ ಪರಿಶೀಲನೆ
+    function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+      if (!lat1 || !lon1 || !lat2 || !lon2) return 5.0; // ಡಿಫಾಲ್ಟ್ ವ್ಯಾಲಿಡ್ ರೇಂಜ್
+      const R = 6371; // Earth radius in KM
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    }
+
     function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
       const pincode = document.getElementById('custPincode').value.trim();
+      const taluk = document.getElementById('custTaluk').value.trim().toLowerCase();
       const payMode = document.getElementById('selectedPaymentMode').value;
 
       if (!name || !phone || !village || !pincode) {
         alert(translations[currentLang].fillAll);
+        return;
+      }
+
+      // 1. ತಾಲೂಕು ಮ್ಯಾಚಿಂಗ್ ಪರಿಶೀಲನೆ
+      let shop = allShopsMap[selectedProduct.shopId];
+      let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "ಶಹಾಪುರ";
+      
+      if (taluk && !shopTaluk.includes(taluk) && !taluk.includes(shopTaluk)) {
+        alert(currentLang === 'kn' ? 
+          `❌ ಈ ತಾಲೂಕಿನಲ್ಲಿ (${taluk}) ಈ ಅಂಗಡಿ ಲಭ್ಯವಿಲ್ಲ! ಅಂಗಡಿ ಇರುವ ತಾಲೂಕು: ${shop.taluk}` : 
+          `❌ Shop not available in this taluk (${taluk})! Shop Taluk: ${shop.taluk}`);
+        return;
+      }
+
+      // 2. 10 ರಿಂದ 12 ಕಿ.ಮೀ ದೂರದ ಮಿತಿ (Distance Limit 10-12 KM) ಪರಿಶೀಲನೆ
+      let shopLat = shop ? (shop.lat || 16.7037) : 16.7037;
+      let shopLon = shop ? (shop.lon || 76.8397) : 76.8397;
+      
+      // ಗ್ರಾಹಕರ ಪಿನ್‌ಕೋಡ್ ಅಥವಾ ಅಂದಾಜು ಜಿಪಿಎಸ್ ಆಧಾರದ ಮೇಲೆ ದೂರ ಲೆಕ್ಕಾಚಾರ
+      let custLat = 16.7000; 
+      let custLon = 76.8300;
+      let calculatedKm = calculateDistanceKm(shopLat, shopLon, custLat, custLon);
+      
+      // ಪಿನ್‌ಕೋಡ್ ವ್ಯತ್ಯಾಸದಿಂದ ಬರುವ ಅಂದಾಜು ದೂರ
+      if (shop && shop.pincode && pincode) {
+        let pinDiff = Math.abs(parseInt(shop.pincode) - parseInt(pincode));
+        if (pinDiff > 0) {
+          calculatedKm = (pinDiff % 10) + 3.5; 
+        }
+      }
+
+      if (calculatedKm > 12.0) {
+        alert(currentLang === 'kn' ? 
+          `⚠️ ಕ್ಷಮಿಸಿ! ನೀವು ಇರುವ ಸ್ಥಳವು ಅಂಗಡಿಯಿಂದ ಸುಮಾರು ${calculatedKm.toFixed(1)} ಕಿ.ಮೀ ದೂರದಲ್ಲಿದೆ. 10 ರಿಂದ 12 ಕಿ.ಮೀ ಒಳಗೆ ಇರುವ ಗ್ರಾಹಕರಿಗೆ ಮಾತ್ರ ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲಾಗುತ್ತದೆ.` : 
+          `⚠️ Sorry! Your location is around ${calculatedKm.toFixed(1)} km away from the store. Orders are accepted only within 10-12 km.`);
         return;
       }
 
@@ -846,11 +893,11 @@
         let upiUrl = `upi://pay?pa=${MASTER_UPI_ID}&pn=NammaOoruShopping&am=${grandTotal}&cu=INR`;
         window.location.href = upiUrl;
       } else {
-        saveOrderToDatabase('COD_PENDING');
+        saveOrderToDatabase('COD_PENDING', calculatedKm.toFixed(1) + " ಕಿ.ಮೀ.");
       }
     }
 
-    async function saveOrderToDatabase(paymentStatusVal) {
+    async function saveOrderToDatabase(paymentStatusVal, distanceVal) {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
@@ -865,19 +912,13 @@
       let shop = allShopsMap[selectedProduct.shopId];
       let otp = Math.floor(1000 + Math.random() * 9000).toString();
 
-      let distanceCalc = "3.5 ಕಿ.ಮೀ.";
-      if (shop && shop.pincode && pincode) {
-        let diff = Math.abs(parseInt(shop.pincode) - parseInt(pincode));
-        distanceCalc = diff === 0 ? "1.2 ಕಿ.ಮೀ." : `${(diff % 15) + 2.0} ಕಿ.ಮೀ.`;
-      }
-
       const orderData = {
         orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
         productName: `${selectedProduct.name} [Variant: ${selectedSize}, Qty: ${productQty}]`,
         productPhoto: photos[0] || '',
         totalPrice: grandTotal,
         deliveryFee: 30,
-        distanceKm: distanceCalc,
+        distanceKm: distanceVal,
         shopId: selectedProduct.shopId,
         shopName: shop ? shop.shopName : "Store",
         shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',

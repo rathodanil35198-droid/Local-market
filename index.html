@@ -324,6 +324,11 @@
         <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode" maxlength="6" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="text" id="custTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು / Taluk" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="text" id="custDistrict" value="ಯಾದಗಿರಿ" placeholder="ಜಿಲ್ಲೆ / District" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        
+        <!-- ಜಿಪಿಎಸ್ ಲೊಕೇಶನ್ ಬಟನ್ -->
+        <button type="button" onclick="fetchCustomerGpsLocation()" style="width:100%; padding:9px; background:#1976d2; color:#fff; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem; cursor:pointer; margin-top:6px; display:flex; align-items:center; justify-content:center; gap:5px;">
+          📍 GPS ಮೂಲಕ ನನ್ನ ಲೊಕೇಶನ್ ಹಾಕಿ
+        </button>
       </div>
 
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
@@ -457,13 +462,12 @@
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
       const isInstalledStorage = localStorage.getItem('app_installed_status') === 'true';
 
-      // ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಆಗಿಲ್ಲದಿದ್ದರೆ (ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಓಪನ್ ಆಗಿದ್ದರೆ) ಕಡ್ಡಾಯವಾಗಿ ಲಾಗಿನ್ ಸ್ಕ್ರೀನ್ ತೋರಿಸಿ
-      if (!isStandalone && !isInstalledStorage) {
+      // ಲಾಗಿನ್ ಕೀ ಇಲ್ಲದಿದ್ದರೆ ಕಡ್ಡಾಯವಾಗಿ ಲಾಗಿನ್ ಸ್ಕ್ರೀನ್ ತೋರಿಸಿ (ಮಾಯವಾಗುವುದಿಲ್ಲ)
+      if (!savedPhone) {
         document.getElementById('customerLoginOverlay').style.display = 'flex';
-      } else if (savedPhone) {
-        document.getElementById('customerLoginOverlay').style.display = 'none';
       } else {
-        document.getElementById('customerLoginOverlay').style.display = 'flex';
+        document.getElementById('customerLoginOverlay').style.display = 'none';
+        loadSavedAddress();
       }
       checkInstallStatusAndButton();
     }
@@ -793,6 +797,24 @@
       showScreen('checkoutScreen');
     }
 
+    function fetchCustomerGpsLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            document.getElementById('custVillage').value = `GPS Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}`;
+            alert("✅ ನಿಮ್ಮ GPS ಲೊಕೇಶನ್ ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ!");
+          },
+          (error) => {
+            alert("❌ GPS ಲೊಕೇಶನ್ ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಬ್ರೌಸರ್ ಅನುಮತಿ ಪರಿಶೀಲಿಸಿ.");
+          }
+        );
+      } else {
+        alert("ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ GPS ಬೆಂಬಲವಿಲ್ಲ.");
+      }
+    }
+
     function calculateDistanceKm(lat1, lon1, lat2, lon2) {
       if (!lat1 || !lon1 || !lat2 || !lon2) return 5.0;
       const R = 6371;
@@ -871,7 +893,7 @@
         totalPrice: grandTotal,
         deliveryFee: 30,
         distanceKm: distanceVal,
-        shopId: selectedProduct.shopId,
+        shopId: selectedProduct.shopId, // ನಿರ್ದಿಷ್ಟ ಅಂಗಡಿ ಐಡಿ (ಬೇರೆ ಅಂಗಡಿಗೆ ಹೋಗುವುದಿಲ್ಲ)
         shopName: shop ? shop.shopName : "Store",
         shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
         customer: { name, phone, village, pincode, taluk, district },
@@ -887,7 +909,9 @@
       };
 
       try {
-        await window.addDoc(window.collection(window.db, "orders"), orderData);
+        // addDoc ಬದಲು ನಿರ್ದಿಷ್ಟ ID ಬಳಸಿ ಸೇವ್ ಮಾಡುವುದರಿಂದ ಆರ್ಡರ್ ಓವರ್‌ರೈಟ್ ಅಥವಾ ಡಿಲೀಟ್ ಆಗುವುದಿಲ್ಲ
+        const uniqueDocId = orderData.orderId;
+        await window.setDoc(window.doc(window.db, "orders", uniqueDocId), orderData);
         alert("🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!");
         openMyOrdersScreen();
       } catch(e) { alert("Error: " + e.message); }
@@ -987,7 +1011,8 @@
           <div>
             <h4 style="font-size:0.9rem;">${o.productName}</h4>
             <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${o.totalPrice} ${distanceText}</p>
-            <p style="font-size:0.78rem; color:#555; margin-top:2px;">${cust.village || ''}, ${cust.taluk || ''} - ${cust.pincode || ''}</p>
+            <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ಗ್ರಾಹಕರ ಹೆಸರು:</b> ${cust.name || ''} | <b>ಫೋನ್:</b> ${cust.phone || ''}</p>
+            <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ವಿಳಾಸ:</b> ${cust.village || ''}, ${cust.taluk || ''} - ${cust.pincode || ''}</p>
           </div>
         </div>
 
@@ -1079,6 +1104,7 @@
     function previewReturnPhoto2(event) {
       const file = event.target.files[0];
       if (file) {
+        compressId = event.target.files[0];
         compressImage(file, (compressedDataUrl) => {
           returnBase64Photo2 = compressedDataUrl;
           document.getElementById('previewImgTag2').src = returnBase64Photo2;
@@ -1181,7 +1207,7 @@
       document.getElementById('lblVariantTitle').innerText = t.variantTitle;
       document.getElementById('lblQtyLabel').childNodes[0].nodeValue = t.qtyLabel;
       document.getElementById('lblDeliveryBadge').innerHTML = t.deliveryBadge;
-      document.getElementById('lblAddToCartBtn').innerText = t.addToCart;
+      document.getElementById('lblAddToCartBtn').innerText, t.addToCart;
       document.getElementById('lblBuyNowBtn').innerText = t.buyNow;
       document.getElementById('lblCheckoutHeader').innerText = t.checkoutHeader;
       document.getElementById('lblDeliveryAddrTitle').innerText = t.deliveryAddrTitle;

@@ -57,6 +57,13 @@
     .header-btns { display: flex; gap: 4px; align-items: center; }
     .btn-lang { background: #fff; color: var(--primary); border: none; padding: 4px 6px; border-radius: 4px; font-weight: bold; font-size: 0.65rem; cursor: pointer; }
     .btn-pocket { background: #ff9f00; color: #fff; border: none; padding: 4px 6px; border-radius: 4px; font-weight: bold; font-size: 0.65rem; cursor: pointer; display: flex; align-items: center; gap: 2px; }
+    
+    .install-btn { background: #2e7d32; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.68rem; cursor: pointer; display: inline-flex; align-items: center; gap: 2px; animation: pulseInstall 1.5s infinite; }
+    @keyframes pulseInstall {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.7); }
+      70% { transform: scale(1.03); box-shadow: 0 0 0 6px rgba(46, 125, 50, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(46, 125, 50, 0); }
+    }
 
     .floating-share-btn {
       position: fixed; bottom: 85px; right: 15px; width: 44px; height: 44px; background: #25d366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 999; cursor: pointer; border: 2px solid #fff;
@@ -190,6 +197,7 @@
         <div class="brand-title" id="lblBrand">🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್</div>
       </div>
       <div class="header-btns">
+        <button id="topInstallBtn" class="install-btn" onclick="installAppPrompt()">📲 ಇನ್‌ಸ್ಟಾಲ್</button>
         <button class="btn-pocket" onclick="openPocketMoneyScreen()" id="lblPocketMoney">💰 ಪಾಕೆಟ್</button>
         <button class="btn-lang" id="langToggleBtn" onclick="toggleLanguage()">English</button>
       </div>
@@ -433,11 +441,14 @@
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
       const isInstalledStorage = localStorage.getItem('app_installed_status') === 'true';
       const installBtn = document.getElementById('loginInstallAppBtn');
+      const topInstallBtn = document.getElementById('topInstallBtn');
 
       if (isStandalone || isInstalledStorage) {
         if (installBtn) installBtn.style.display = 'none';
+        if (topInstallBtn) topInstallBtn.style.display = 'none';
       } else {
         if (installBtn) installBtn.style.display = 'inline-flex';
+        if (topInstallBtn) topInstallBtn.style.display = 'inline-flex';
       }
     }
 
@@ -493,7 +504,9 @@
         if (outcome === 'accepted') {
           localStorage.setItem('app_installed_status', 'true');
           const btn = document.getElementById('loginInstallAppBtn');
+          const topBtn = document.getElementById('topInstallBtn');
           if (btn) btn.style.display = 'none';
+          if (topBtn) topBtn.style.display = 'none';
         }
         deferredPrompt = null;
       } else {
@@ -504,7 +517,9 @@
     window.addEventListener('appinstalled', () => {
       localStorage.setItem('app_installed_status', 'true');
       const btn = document.getElementById('loginInstallAppBtn');
+      const topBtn = document.getElementById('topInstallBtn');
       if (btn) btn.style.display = 'none';
+      if (topBtn) topBtn.style.display = 'none';
     });
 
     function playCoinSound() {

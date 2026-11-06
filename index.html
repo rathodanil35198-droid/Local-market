@@ -72,7 +72,7 @@
     .search-box { display: flex; background: #fff; border-radius: 6px; padding: 6px 10px; align-items: center; border: 1px solid #ddd; margin-top: 4px; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 0.85rem; margin-left: 6px; }
 
-    .hero-slider-container { width: 100%; height: 140px; position: relative; overflow: hidden; border-radius: 8px; margin-bottom: 10px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .hero-slider-container { width: 100%; height: 140px; position: relative; overflow: hidden; border-radius: 8px; margin-bottom: 10px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer; }
     .hero-slider-track { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
     .hero-slide { min-width: 100%; height: 100%; flex-shrink: 0; }
     .hero-slide img { width: 100%; height: 100%; object-fit: cover; }
@@ -124,6 +124,9 @@
     .size-btn { padding: 6px 12px; border: 1px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
     .size-btn.selected { border-color: var(--primary); background: #f0f4ff; color: var(--primary); }
 
+    .color-btn { padding: 5px 10px; border: 2px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+    .color-btn.selected { border-color: var(--primary); background: #f0f4ff; color: var(--primary); }
+
     .timeline { position: relative; padding-left: 20px; margin: 15px 0; }
     .timeline::before { content: ''; position: absolute; left: 7px; top: 5px; bottom: 5px; width: 2px; background: #e0e0e0; }
     .t-item { position: relative; margin-bottom: 15px; }
@@ -137,7 +140,7 @@
     .custom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 15px; }
     .custom-modal-content { background: #fff; border-radius: 12px; max-width: 420px; width: 100%; padding: 18px; max-height: 90vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-    /* ಲಾಗಿನ್ ಸ್ಕ್ರೀನ್ ಸ್ಟೈಲ್ */
+    /* ಲಾಗಿನ್ ಸ್ಕ್ರೀನ್ ಸ್ಟೈಲ್ - ಯಾವಾಗಲೂ ಲಾಗಿನ್ ಆಗುವವರೆಗೆ ಇರುತ್ತದೆ */
     #customerLoginOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: linear-gradient(135deg, #2874f0, #1649a0);
@@ -162,7 +165,7 @@
     </div>
   </div>
 
-  <!-- ಗ್ರಾಹಕರಿಗೆ ಒಮ್ಮೆ ಮಾತ್ರ ಬರುವ ಲಾಗಿನ್ ಸ್ಕ್ರೀನ್ -->
+  <!-- ಗ್ರಾಹಕರಿಗೆ ಲಾಗಿನ್ ಸ್ಕ್ರೀನ್ (ಲಾಗಿನ್ ಆಗದಿದ್ದರೆ ಅಥವಾ ಮರೆಯಾಗದಂತೆ ಸರಿಪಡಿಸಲಾಗಿದೆ) ಹಾಗೂ ಇನ್‌ಸ್ಟಾಲ್ ಬಟನ್ -->
   <div id="customerLoginOverlay">
     <div class="login-box">
       <div style="font-size: 2.5rem; margin-bottom: 5px;">🛍️</div>
@@ -181,7 +184,8 @@
 
       <button onclick="handleCustomerLogin()" style="width:100%; padding:11px; background:var(--primary); color:#fff; border:none; border-radius:6px; font-size:0.95rem; font-weight:bold; cursor:pointer; margin-bottom:8px;">ಲಾಗಿನ್ ಮಾಡಿ (Login)</button>
       
-      <button id="loginInstallAppBtn" onclick="installAppPrompt()" style="width:100%; padding:10px; background:#388e3c; color:#fff; border:none; border-radius:6px; font-size:0.85rem; font-weight:bold; cursor:pointer; display:none; align-items:center; justify-content:center; gap:6px;">📲 ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ (Install App)</button>
+      <!-- ಲಾಗಿನ್ ಮುಖಪುಟದಲ್ಲೇ ಇನ್‌ಸ್ಟಾಲ್ ಬಟನ್ ಒದಗಿಸಲಾಗಿದೆ -->
+      <button id="loginInstallAppBtn" onclick="installAppPrompt()" style="width:100%; padding:10px; background:#388e3c; color:#fff; border:none; border-radius:6px; font-size:0.85rem; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">📲 ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ (Install App)</button>
     </div>
   </div>
 
@@ -209,6 +213,7 @@
 
   <!-- HOME VIEW CONTAINER -->
   <div class="container" id="homeViewContainer">
+    <!-- ಆಟೋಮ್ಯಾಟಿಕ್ ಸ್ಲೈಡ್ ಆಗುವ ಮತ್ತು ಕ್ಲಿಕ್ ಮಾಡಿದರೆ ಸಂಬಂಧಿತ ವಸ್ತುಗಳನ್ನು ತೋರಿಸುವ ಜಾಹೀರಾತು ಬ್ಯಾನರ್ -->
     <div class="hero-slider-container" id="heroSliderContainer">
       <div class="hero-slider-track" id="heroSliderTrack">
         <div class="hero-slide" style="display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #2874f0, #1649a0); color:white; font-size:1.1rem; font-weight:bold;">
@@ -283,6 +288,12 @@
           <span class="curr-price" id="detailPrice" style="font-size: 1.2rem; color:var(--success);"></span>
           <span class="old-price" id="detailOldPrice" style="font-size: 0.85rem;"></span>
         </div>
+      </div>
+
+      <!-- ಬಣ್ಣದ ಆಯ್ಕೆ (Color / Variant Selection) -->
+      <div id="colorVariantSection" style="margin-top: 10px; display:none;">
+        <label style="font-size: 0.8rem; font-weight: bold;" id="lblColorTitle">ಬಣ್ಣ ಆಯ್ಕೆಮಾಡಿ (Select Color):</label>
+        <div class="color-container" id="colorOptionsContainer" style="display:flex; gap:6px; margin-top:4px; flex-wrap:wrap;"></div>
       </div>
 
       <div id="variantSection" style="margin-top: 10px;">
@@ -429,9 +440,13 @@
 
     let selectedProduct = null;
     let selectedSize = '';
+    let selectedColorName = '';
+    let selectedColorPhoto = '';
     let productQty = 1;
     let currentLang = localStorage.getItem('app_lang') || 'kn';
     let deferredPrompt = null;
+    let bannerSlideIndex = 0;
+    let bannerIntervalId = null;
 
     window.addEventListener('DOMContentLoaded', () => {
       checkCustomerLoginStatus();
@@ -452,16 +467,13 @@
         if (installBtn) installBtn.style.display = 'none';
         if (topInstallBtn) topInstallBtn.style.display = 'none';
       } else {
-        if (installBtn) installBtn.style.display = 'inline-flex';
+        if (installBtn) installBtn.style.display = 'flex';
         if (topInstallBtn) topInstallBtn.style.display = 'inline-flex';
       }
     }
 
     function checkCustomerLoginStatus() {
       const savedPhone = localStorage.getItem('customer_phone_key');
-      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-      const isInstalledStorage = localStorage.getItem('app_installed_status') === 'true';
-
       // ಲಾಗಿನ್ ಕೀ ಇಲ್ಲದಿದ್ದರೆ ಕಡ್ಡಾಯವಾಗಿ ಲಾಗಿನ್ ಸ್ಕ್ರೀನ್ ತೋರಿಸಿ (ಮಾಯವಾಗುವುದಿಲ್ಲ)
       if (!savedPhone) {
         document.getElementById('customerLoginOverlay').style.display = 'flex';
@@ -559,7 +571,6 @@
         variantTitle: "Variant / Size / RAM ಆಯ್ಕೆಮಾಡಿ:",
         qtyLabel: "ಸರಕು ಪ್ರಮಾಣ (Quantity):",
         deliveryBadge: "🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (10-12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ)</b>",
-        similarProducts: "🛍️ ಈ ಅಂಗಡಿಯ ಇತರ ವಸ್ತುಗಳು (More from this Store):",
         addToCart: "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ",
         buyNow: "ಖರೀದಿಸಿ (Buy Now)",
         checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ",
@@ -583,7 +594,6 @@
         variantTitle: "Select Variant / Size / RAM:",
         qtyLabel: "Quantity:",
         deliveryBadge: "🚚 Delivery within 1-2 days! (Within 10-12 km only)",
-        similarProducts: "🛍️ More from this Store:",
         addToCart: "Add to Cart",
         buyNow: "Buy Now",
         checkoutHeader: "Confirm Details & Payment",
@@ -633,7 +643,10 @@
       try {
         window.onSnapshot(window.collection(window.db, "master_banners"), (snap) => {
           bannerList = [];
-          snap.forEach(d => { if (d.data().imageUrl) bannerList.push(d.data().imageUrl); });
+          snap.forEach(d => { 
+            let data = d.data();
+            if (data.imageUrl) bannerList.push(data); 
+          });
           renderHeroSlider();
         });
       } catch(e) {}
@@ -642,7 +655,35 @@
     function renderHeroSlider() {
       const track = document.getElementById('heroSliderTrack');
       if (bannerList.length > 0) {
-        track.innerHTML = bannerList.map(img => `<div class="hero-slide"><img src="${img}" style="width:100%; height:100%; object-fit:cover;"></div>`).join('');
+        track.innerHTML = bannerList.map((b, index) => `
+          <div class="hero-slide" onclick="handleBannerClick(${index})">
+            <img src="${b.imageUrl}" style="width:100%; height:100%; object-fit:cover;">
+          </div>
+        `).join('');
+        startBannerAutoSlide();
+      }
+    }
+
+    function startBannerAutoSlide() {
+      if (bannerIntervalId) clearInterval(bannerIntervalId);
+      if (bannerList.length <= 1) return;
+      bannerIntervalId = setInterval(() => {
+        const track = document.getElementById('heroSliderTrack');
+        if (!track) return;
+        bannerSlideIndex = (bannerSlideIndex + 1) % bannerList.length;
+        track.style.transform = `translateX(-${bannerSlideIndex * 100}%)`;
+      }, 3000);
+    }
+
+    function handleBannerClick(index) {
+      let b = bannerList[index];
+      if (!b) return;
+      if (b.targetCategory) {
+        filterByCategory(b.targetCategory);
+      } else if (b.targetProductId) {
+        openProductDetail(b.targetProductId);
+      } else {
+        alert("ಈ ಜಾಹೀರಾತಿನಲ್ಲಿ ಯಾವುದೇ ನಿರ್ದಿಷ್ಟ ಲಿಂಕ್ ಇಲ್ಲ.");
       }
     }
 
@@ -755,6 +796,25 @@
         ramStorageBox.style.display = 'none';
       }
 
+      // ಬಣ್ಣಗಳ ನಿರ್ವಹಣೆ (Colors / Variants)
+      const colorSection = document.getElementById('colorVariantSection');
+      const colorContainer = document.getElementById('colorOptionsContainer');
+      if (selectedProduct.colors && selectedProduct.colors.length > 0) {
+        colorSection.style.display = 'block';
+        selectedColorName = selectedProduct.colors[0].colorName || 'Default';
+        selectedColorPhoto = selectedProduct.colors[0].photos?.[0] || selectedProduct.photo;
+        
+        colorContainer.innerHTML = selectedProduct.colors.map((c, idx) => `
+          <button class="color-btn ${idx === 0 ? 'selected' : ''}" onclick='selectColorOption(${JSON.stringify(c)})'>
+            🎨 ${c.colorName}
+          </button>
+        `).join('');
+      } else {
+        colorSection.style.display = 'none';
+        selectedColorName = '';
+        selectedColorPhoto = selectedProduct.photo;
+      }
+
       let sizes = ['Free Size'];
       let nameL = selectedProduct.name.toLowerCase();
       if (selectedProduct.variants && selectedProduct.variants.length > 0) {
@@ -773,10 +833,25 @@
       document.getElementById('detailPrice').innerText = "₹" + selectedProduct.price;
       document.getElementById('detailOldPrice').innerText = selectedProduct.oldPrice ? "₹" + selectedProduct.oldPrice : "";
 
-      let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
-      document.getElementById('sliderTrack').innerHTML = photos.map(img => `<img src="${img}" style="object-fit:contain; background:#fff;">`).join('');
-
+      updateDetailSliderPhotos();
       showScreen('productDetailScreen');
+    }
+
+    function selectColorOption(colorObj) {
+      selectedColorName = colorObj.colorName;
+      if (colorObj.photos && colorObj.photos.length > 0) {
+        selectedColorPhoto = colorObj.photos[0];
+      }
+      document.querySelectorAll('.color-btn').forEach(b => {
+        if (b.innerText.includes(colorObj.colorName)) b.classList.add('selected');
+        else b.classList.remove('selected');
+      });
+      updateDetailSliderPhotos(colorObj.photos);
+    }
+
+    function updateDetailSliderPhotos(customPhotos) {
+      let photos = customPhotos || selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
+      document.getElementById('sliderTrack').innerHTML = photos.map(img => `<img src="${img}" style="object-fit:contain; background:#fff;">`).join('');
     }
 
     function selectSize(btn, size) {
@@ -877,7 +952,7 @@
 
       playCoinSound();
       let grandTotal = (Number(selectedProduct.price) * productQty) + 30;
-      let photos = selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
+      let finalPhoto = selectedColorPhoto || selectedProduct.photo;
       let shop = allShopsMap[selectedProduct.shopId];
       let otp = Math.floor(1000 + Math.random() * 9000).toString();
 
@@ -886,10 +961,17 @@
       let deliveryDateObj = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000);
       let deliveryDateStr = deliveryDateObj.toLocaleDateString('en-GB');
 
+      // ಆಯ್ಕೆ ಮಾಡಿದ ಬಣ್ಣ ಮತ್ತು ಫೋಟೋ ನೇರವಾಗಿ ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಗೋಚರಿಸುವಂತೆ ಸೇರಿಸಲಾಗಿದೆ
+      let productTitleStr = `${selectedProduct.name} [Size: ${selectedSize}, Qty: ${productQty}]`;
+      if (selectedColorName) {
+        productTitleStr = `${selectedProduct.name} [Color: ${selectedColorName}, Size: ${selectedSize}, Qty: ${productQty}]`;
+      }
+
       const orderData = {
         orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
-        productName: `${selectedProduct.name} [Variant: ${selectedSize}, Qty: ${productQty}]`,
-        productPhoto: photos[0] || '',
+        productName: productTitleStr,
+        productPhoto: finalPhoto,
+        selectedColor: selectedColorName || 'Standard',
         totalPrice: grandTotal,
         deliveryFee: 30,
         distanceKm: distanceVal,
@@ -909,7 +991,6 @@
       };
 
       try {
-        // addDoc ಬದಲು ನಿರ್ದಿಷ್ಟ ID ಬಳಸಿ ಸೇವ್ ಮಾಡುವುದರಿಂದ ಆರ್ಡರ್ ಓವರ್‌ರೈಟ್ ಅಥವಾ ಡಿಲೀಟ್ ಆಗುವುದಿಲ್ಲ
         const uniqueDocId = orderData.orderId;
         await window.setDoc(window.doc(window.db, "orders", uniqueDocId), orderData);
         alert("🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!");
@@ -1104,7 +1185,6 @@
     function previewReturnPhoto2(event) {
       const file = event.target.files[0];
       if (file) {
-        compressId = event.target.files[0];
         compressImage(file, (compressedDataUrl) => {
           returnBase64Photo2 = compressedDataUrl;
           document.getElementById('previewImgTag2').src = returnBase64Photo2;
@@ -1207,7 +1287,7 @@
       document.getElementById('lblVariantTitle').innerText = t.variantTitle;
       document.getElementById('lblQtyLabel').childNodes[0].nodeValue = t.qtyLabel;
       document.getElementById('lblDeliveryBadge').innerHTML = t.deliveryBadge;
-      document.getElementById('lblAddToCartBtn').innerText, t.addToCart;
+      document.getElementById('lblAddToCartBtn').innerText = t.addToCart;
       document.getElementById('lblBuyNowBtn').innerText = t.buyNow;
       document.getElementById('lblCheckoutHeader').innerText = t.checkoutHeader;
       document.getElementById('lblDeliveryAddrTitle').innerText = t.deliveryAddrTitle;

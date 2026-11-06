@@ -426,7 +426,20 @@
       checkAppLiveStatus();
       verifyCustomerExistsInFirebase();
       window.initFirebaseAppData();
+      checkInstallStatusAndButton();
     });
+
+    function checkInstallStatusAndButton() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      const isInstalledStorage = localStorage.getItem('app_installed_status') === 'true';
+      const installBtn = document.getElementById('loginInstallAppBtn');
+
+      if (isStandalone || isInstalledStorage) {
+        if (installBtn) installBtn.style.display = 'none';
+      } else {
+        if (installBtn) installBtn.style.display = 'inline-flex';
+      }
+    }
 
     function checkCustomerLoginStatus() {
       const savedPhone = localStorage.getItem('customer_phone_key');
@@ -434,6 +447,7 @@
         document.getElementById('customerLoginOverlay').style.display = 'none';
       } else {
         document.getElementById('customerLoginOverlay').style.display = 'flex';
+        checkInstallStatusAndButton();
       }
     }
 
@@ -469,12 +483,7 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-      const isAlreadyInstalled = localStorage.getItem('app_installed_status') === 'true';
-      if (!isStandalone && !isAlreadyInstalled) {
-        const installBtn = document.getElementById('loginInstallAppBtn');
-        if (installBtn) installBtn.style.display = 'inline-flex';
-      }
+      checkInstallStatusAndButton();
     });
 
     async function installAppPrompt() {
@@ -675,7 +684,7 @@
       const talukVal = document.getElementById('filterTaluk').value.trim() || "ಶಹಾಪುರ";
       if (!list || list.length === 0) {
         grid.innerHTML = `<div style="grid-column: span 2; text-align:center; color:#d32f2f; padding:25px; background:#fff; border-radius:8px; font-weight:bold; font-size:0.9rem;">
-          ❌ ಈ ತಾಲೂಕಿನಲ್ಲಿ (${talukVal}) ಈ ಅಂಗಡಿ ಲಭ್ಯವಿಲ್ಲ!<br><br>
+          ❌ ಈ ತಾಲೂಕಿನಲ್ಲಿ (${talukVal}) ಈ ವಸ್ತು ಇಲ್ಲ!<br><br>
           ಈ ತಾಲೂಕಿಗೆ ಅಂಗಡಿಗಳು ಬಂದು ಅಂದ್ರೆ ನಾವು ನಿಮಗೆ ತಿಳಿಸುತ್ತೇವೆ ನಂತರ ಟ್ರೈ ಮಾಡಿ.
         </div>`;
         return;
@@ -829,6 +838,11 @@
       let shop = allShopsMap[selectedProduct.shopId];
       let otp = Math.floor(1000 + Math.random() * 9000).toString();
 
+      let now = new Date();
+      let orderDateStr = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      let deliveryDateObj = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000);
+      let deliveryDateStr = deliveryDateObj.toLocaleDateString('en-GB');
+
       const orderData = {
         orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
         productName: `${selectedProduct.name} [Variant: ${selectedSize}, Qty: ${productQty}]`,
@@ -844,6 +858,8 @@
         paymentStatus: paymentStatusVal,
         deliveryOtp: otp,
         status: 'STEP_1',
+        orderDate: orderDateStr,
+        expectedDeliveryDate: deliveryDateStr,
         isCancelled: false,
         isReturned: false,
         timestamp: Date.now()
@@ -887,6 +903,8 @@
         } else {
           container.innerHTML = validOrders.map(o => {
             let payBadge = `(💵 COD)`;
+            let dateStr = o.orderDate ? `📅 ಆರ್ಡರ್ ದಿನಾಂಕ: ${o.orderDate}` : '';
+            let expDelivery = o.expectedDeliveryDate ? `<br>🚚 ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ ದಿನಾಂಕ: ${o.expectedDeliveryDate}` : '';
             let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ)` : (o.status === 'DELIVERED' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
             return `
               <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
@@ -895,7 +913,8 @@
                   <div style="flex:1;">
                     <h4 style="font-size:0.85rem;">${o.productName}</h4>
                     <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-top:2px;">₹${o.totalPrice} ${payBadge}</p>
-                    <p style="font-size:0.75rem; color:#555; margin-top:2px;"><b>${statusText}</b></p>
+                    <p style="font-size:0.75rem; color:#555; margin-top:2px;">${dateStr}${expDelivery}</p>
+                    <p style="font-size:0.75rem; color:#333; margin-top:2px;"><b>${statusText}</b></p>
                   </div>
                 </div>
               </div>
@@ -925,7 +944,7 @@
         if (o.returnPaymentStatus === 'SUCCESS') {
           returnStatusHtml = `<div style="color:green; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#e8f5e9; padding:8px; border-radius:6px;">✔ ಮೂರನೇ ಹಂತದಲ್ಲಿ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್ ಫುಲ್: ನಿಮ್ಮ ಯುಪಿಐ ಅಕೌಂಟಿಗೆ ಹಣವನ್ನು ಪೇಮೆಂಟ್ ಕಳುಹಿಸಲಾಗಿದೆ!</div>`;
         } else {
-          returnStatusHtml = `<div style="color:#d32f2f; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#fff3e0; padding:8px; border-radius:6px;">⏳ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ಡೆಲಿವರಿ ಬಾಯ್ ಒಟಿಪಿ ಪಡೆದು ಪಿಕ್ ಅಪ್ ಒತ್ತಿದರೆ ರಿಟರ್ನ್ ಕಂಪ್ಲೀಟ್ ಆಗುತ್ತದೆ. ನಿಮ್ಮ ಹಣವನ್ನು 24 ಗಂಟೆಯೊಳಗೆ ಪೇಮೆಂಟ್ ಆಗುತ್ತದೆ. (Pending Amount)</div>`;
+          returnStatusHtml = `<div style="color:#d32f2f; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#fff3e0; padding:8px; border-radius:6px;">⏳ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ರಿಟರ್ನ್ ದಿನಾಂಕ ಹಾಗೂ ವಿನಂತಿ ಸ್ವೀಕರಿಸಲಾಗಿದೆ. ನಿಮ್ಮ ಹಣವನ್ನು 24 ಗಂಟೆಯೊಳಗೆ ಪೇಮೆಂಟ್ ಆಗುತ್ತದೆ.</div>`;
         }
       }
 
@@ -933,8 +952,16 @@
       let timePassedHours = (Date.now() - (o.timestamp || Date.now())) / (1000 * 60 * 60);
       let showReturnBtn = isDelivered && timePassedHours <= 24 && !o.isReturned;
 
+      let dateDetailsBox = `
+        <div style="background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:12px; font-size:0.82rem; color:#444;">
+          📅 <b>ಆರ್ಡರ್ ಮಾಡಿದ ದಿನಾಂಕ:</b> ${o.orderDate || 'N/A'}<br>
+          🚚 <b>ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ ದಿನಾಂಕ:</b> ${o.expectedDeliveryDate || 'N/A'}<br>
+          ${o.returnTimestamp ? `🔄 <b>ರಿಟರ್ನ್ ವಿನಂತಿ ದಿನಾಂಕ:</b> ${new Date(o.returnTimestamp).toLocaleDateString('en-GB')}<br>` : ''}
+        </div>
+      `;
+
       content.innerHTML = `
-        <div style="display:flex; gap:10px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:15px;">
+        <div style="display:flex; gap:10px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:12px;">
           <img src="${o.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px; background:#fff;">
           <div>
             <h4 style="font-size:0.9rem;">${o.productName}</h4>
@@ -942,6 +969,8 @@
             <p style="font-size:0.78rem; color:#555; margin-top:2px;">${cust.village || ''}, ${cust.taluk || ''} - ${cust.pincode || ''}</p>
           </div>
         </div>
+
+        ${dateDetailsBox}
 
         <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
           <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):</span>
@@ -1059,7 +1088,7 @@
           returnTimestamp: Date.now()
         });
 
-        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ಡೆಲಿವರಿ ಬಾಯ್ ಒಟಿಪಿ ಪಡೆದು ಪಿಕ್ ಅಪ್ ಒತ್ತಿದರೆ ರಿಟರ್ನ್ ಕಂಪ್ಲೀಟ್ ಆಗುತ್ತದೆ. ನಿಮ್ಮ ಹಣವನ್ನು 24 ಗಂಟೆಯೊಳಗೆ ಪೇಮೆಂಟ್ ಆಗುತ್ತದೆ.");
+        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಮತ್ತು ದಿನಾಂಕವನ್ನು ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ನಿಮ್ಮ ಹಣವನ್ನು 24 ಗಂಟೆಯೊಳಗೆ ಪೇಮೆಂಟ್ ಆಗುತ್ತದೆ.");
         closeReturnModal();
         openMyOrdersScreen();
       } catch(e) {

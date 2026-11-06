@@ -454,12 +454,18 @@
 
     function checkCustomerLoginStatus() {
       const savedPhone = localStorage.getItem('customer_phone_key');
-      if (savedPhone) {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      const isInstalledStorage = localStorage.getItem('app_installed_status') === 'true';
+
+      // ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಆಗಿಲ್ಲದಿದ್ದರೆ (ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಓಪನ್ ಆಗಿದ್ದರೆ) ಕಡ್ಡಾಯವಾಗಿ ಲಾಗಿನ್ ಸ್ಕ್ರೀನ್ ತೋರಿಸಿ
+      if (!isStandalone && !isInstalledStorage) {
+        document.getElementById('customerLoginOverlay').style.display = 'flex';
+      } else if (savedPhone) {
         document.getElementById('customerLoginOverlay').style.display = 'none';
       } else {
         document.getElementById('customerLoginOverlay').style.display = 'flex';
-        checkInstallStatusAndButton();
       }
+      checkInstallStatusAndButton();
     }
 
     async function handleCustomerLogin() {

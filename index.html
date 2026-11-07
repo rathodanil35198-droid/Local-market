@@ -200,7 +200,6 @@
         <div class="brand-title" id="lblBrand">🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್</div>
       </div>
       <div class="header-btns">
-        <!-- ಮುಖಪುಟದಲ್ಲೂ ಯಾವಾಗಲೂ ಕಾಣುವಂತೆ ಇನ್‌ಸ್ಟಾಲ್ ಬಟನ್ ಸರಿಪಡಿಸಲಾಗಿದೆ -->
         <button id="topInstallBtn" class="install-btn" onclick="installAppPrompt()">📲 ಇನ್‌ಸ್ಟಾಲ್</button>
         <button class="btn-pocket" onclick="openPocketMoneyScreen()" id="lblPocketMoney">💰 ಪಾಕೆಟ್</button>
         <button class="btn-lang" id="langToggleBtn" onclick="toggleLanguage()">English</button>
@@ -335,7 +334,7 @@
         <input type="text" id="custDistrict" value="ಯಾದಗಿರಿ" placeholder="ಜಿಲ್ಲೆ / District" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
         <button type="button" onclick="fetchCustomerGpsLocation()" style="width:100%; padding:9px; background:#1976d2; color:#fff; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem; cursor:pointer; margin-top:6px; display:flex; align-items:center; justify-content:center; gap:5px;">
-          📍 GPS ಮೂಲಕ ನನ್ನ ಲೊಕೇಶನ್ ಹಾಕಿ
+          📍 GPS ಮೂಲಕ ನನ್ನ ಲೊಕೇಶನ್ ಆಟೋಮ್ಯಾಟಿಕ್ ಹಾಕಿ
         </button>
       </div>
 
@@ -387,12 +386,14 @@
       <h3 style="color:var(--danger); margin-bottom:10px; font-size:1.05rem;" id="lblReturnTitle">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಅರ್ಜಿ</h3>
       
       <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold;">1. ರಿಟರ್ನ್‌ ಮಾಡಲು ಪ್ರಮುಖ ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ:</label>
-        <select id="returnReasonSelect" style="width:100%; padding:8px; margin-top:4px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;">
+        <label style="font-size:0.8rem; font-weight:bold;">1. ರಿಟರ್ನ್‌ ಮಾಡಲು ಪ್ರಮುಖ ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಬರೆಯಿರಿ:</label>
+        <select id="returnReasonSelect" style="width:100%; padding:8px; margin-top:4px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;" onchange="checkCustomReturnReason(this)">
           <option value="📦 ವಸ್ತು ಹಾನಿಯಾಗಿದೆ (Item Damaged)">📦 ವಸ್ತು ಹಾನಿಯಾಗಿದೆ (Item Damaged)</option>
           <option value="📏 ಸೈಜ್ ವ್ಯತ್ಯಾಸವಿದೆ (Size Issue)">📏 ಸೈಜ್ ವ್ಯತ್ಯಾಸವಿದೆ (Size Issue)</option>
           <option value="❌ ತಪ್ಪಾದ ವಸ್ತು ಬಂದಿದೆ (Wrong Item Delivered)">❌ ತಪ್ಪಾದ ವಸ್ತು ಬಂದಿದೆ (Wrong Item Delivered)</option>
+          <option value="other">✍️ ಸ್ವತಃ ಕಾರಣ ಬರೆಯಿರಿ (Type Custom Reason)</option>
         </select>
+        <input type="text" id="customReturnReasonInput" placeholder="ಇಲ್ಲಿ ಕಾರಣ ಟೈಪ್ ಮಾಡಿ..." style="width:100%; padding:8px; margin-top:6px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem; display:none;">
       </div>
 
       <div style="margin-bottom:10px;">
@@ -457,7 +458,6 @@
       const installBtn = document.getElementById('loginInstallAppBtn');
       const topInstallBtn = document.getElementById('topInstallBtn');
 
-      // ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಈಗಾಗಲೇ ಇನ್‌ಸ್ಟಾಲ್ ಆಗಿಲ್ಲದಿದ್ದರೆ ಇನ್‌ಸ್ಟಾಲ್ ಬಟನ್ ಯಾವಾಗಲೂ ಗೋಚರಿಸುವಂತೆ ಮಾಡಲಾಗಿದೆ
       if (isStandalone) {
         if (installBtn) installBtn.style.display = 'none';
         if (topInstallBtn) topInstallBtn.style.display = 'none';
@@ -745,7 +745,7 @@
       if (!list || list.length === 0) {
         grid.innerHTML = `<div style="grid-column: span 2; text-align:center; color:#d32f2f; padding:25px; background:#fff; border-radius:8px; font-weight:bold; font-size:0.9rem;">
           ❌ ಈ ತಾಲೂಕಿನಲ್ಲಿ (${talukVal}) ಈ ವಸ್ತು ಇಲ್ಲ!<br><br>
-          ಈ ತಾಲೂಕಿಗೆ ಅಂಗಡಿಗಳು ಬಂದು ಅಂದ್ರೆ ನಾವು ನಿಮಗೆ ತಿಳಿಸುತ್ತೇವೆ ನಂತರ ಟ್ರೈ ಮಾಡಿ.
+          ಈ ತಾಲೂಕಿನ ಅಂಗಡಿಗಳು ನಮ್ಮ ಪ್ಯಾನಲ್‌ನಲ್ಲಿ ಇನ್ನೂ ಲಭ್ಯವಿಲ್ಲ ಇದ್ದರೆ ನಾವು ನಿಮಗೆ ತಿಳಿಸುತ್ತೇವೆ.
         </div>`;
         return;
       }
@@ -872,14 +872,14 @@
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             document.getElementById('custVillage').value = `GPS Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}`;
-            alert("✅ ನಿಮ್ಮ GPS ಲೊಕೇಶನ್ ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ!");
+            alert("📍 ನಿಮ್ಮ GPS ಲೊಕೇಶನ್ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಪಿನ್ ಕ್ಯಾಚ್ ಮಾಡಲಾಗಿದೆ!");
           },
           (error) => {
-            alert("❌ GPS ಲೊಕೇಶನ್ ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಬ್ರೌಸರ್ ಅನುಮತಿ ಪರಿಶೀಲಿಸಿ.");
+            alert("ಜಿಪಿಎಸ್ ಲೊಕೇಶನ್ ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಜಿಪಿಎಸ್ ಆನ್ ಮಾಡಿ.");
           }
         );
       } else {
-        alert("ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ GPS ಬೆಂಬಲವಿಲ್ಲ.");
+        alert("ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಜಿಪಿಎಸ್ ಸೌಲಭ್ಯವಿಲ್ಲ.");
       }
     }
 
@@ -911,7 +911,7 @@
       let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "ಶಹಾಪುರ";
       
       if (taluk && !shopTaluk.includes(taluk) && !taluk.includes(shopTaluk)) {
-        alert(`❌ ಈ ತಾಲೂಕಿನಲ್ಲಿ (${taluk}) ಈ ಅಂಗಡಿ ಲಭ್ಯವಿಲ್ಲ!\n\nಈ ತಾಲೂಕಿಗೆ ಅಂಗಡಿಗಳು ಬಂದು ಅಂದ್ರೆ ನಾವು ನಿಮಗೆ ತಿಳಿಸುತ್ತೇವೆ ನಂತರ ಟ್ರೈ ಮಾಡಿ.`);
+        alert(`❌ ಈ ತಾಲೂಕಿನ ಅಂಗಡಿಗಳು ನಮ್ಮ ಪ್ಯಾನಲ್‌ನಲ್ಲಿ ಇನ್ನೂ ಲಭ್ಯವಿಲ್ಲ ಇದ್ದರೆ ನಾವು ನಿಮಗೆ ತಿಳಿಸುತ್ತೇವೆ.`);
         return;
       }
 
@@ -925,7 +925,7 @@
       }
 
       if (calculatedKm > 12.0) {
-        alert(`⚠️ ಕ್ಷಮಿಸಿ! ನೀವು ಇರುವ ಸ್ಥಳವು ಅಂಗಡಿಯಿಂದ ಸುಮಾರು ${calculatedKm.toFixed(1)} ಕಿ.ಮೀ ದೂರದಲ್ಲಿದೆ. 10 ರಿಂದ 12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲಾಗುತ್ತದೆ.`);
+        alert(`⚠️ ಕ್ಷಮಿಸಿ! ನೀವು ಇರುವ ಸ್ಥಳವು ಅಂಗಡಿಯಿಂದ ಸುಮಾರು ${calculatedKm.toFixed(1)} ಕಿ.ಮೀ ದೂರದಲ್ಲಿದೆ. 12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗುತ್ತದೆ.`);
         return;
       }
 
@@ -1023,7 +1023,7 @@
             let payBadge = `(💵 COD)`;
             let dateStr = o.orderDate ? `📅 ಆರ್ಡರ್ ದಿನಾಂಕ: ${o.orderDate}` : '';
             let expDelivery = o.expectedDeliveryDate ? `<br>🚚 ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ ದಿನಾಂಕ: ${o.expectedDeliveryDate}` : '';
-            let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ)` : (o.status === 'DELIVERED' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
+            let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ)` : (o.status === 'DELIVERED' || o.status === 'STEP_4' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
             return `
               <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
                 <div style="display:flex; gap:10px; align-items:center;">
@@ -1057,22 +1057,65 @@
       
       let showCancelBtn = (status === 'STEP_1' || status === 'PENDING') && !o.isReturned;
 
+      let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED');
+      
+      // ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದರೆ ಓಟಿಪಿ ಸಂಪೂರ್ಣವಾಗಿ ಮಾಯವಾಗಿರಬೇಕು
+      let otpBoxHtml = '';
+      if (!isDelivered) {
+        otpBoxHtml = `
+          <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
+            <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):</span>
+            <div style="font-size:1.4rem; font-weight:bold; color:#1b5e20; letter-spacing:3px; margin-top:4px;">${o.deliveryOtp || '8740'}</div>
+          </div>
+        `;
+      }
+
       let returnStatusHtml = '';
       if (o.isReturned) {
         if (o.returnPaymentStatus === 'SUCCESS') {
           returnStatusHtml = `<div style="color:green; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#e8f5e9; padding:8px; border-radius:6px;">✔ ಮೂರನೇ ಹಂತದಲ್ಲಿ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್ ಫುಲ್: ನಿಮ್ಮ ಯುಪಿಐ ಅಕೌಂಟಿಗೆ ಹಣವನ್ನು ಪೇಮೆಂಟ್ ಕಳುಹಿಸಲಾಗಿದೆ!</div>`;
         } else {
-          returnStatusHtml = `<div style="color:#d32f2f; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#fff3e0; padding:8px; border-radius:6px;">⏳ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ರಿಟರ್ನ್ ದಿನಾಂಕ ಹಾಗೂ ವಿನಂತಿ ಸ್ವೀಕರಿಸಲಾಗಿದೆ. ನಿಮ್ಮ ಹಣವನ್ನು 24 ಗಂಟೆಯೊಳಗೆ ಪೇಮೆಂಟ್ ಆಗುತ್ತದೆ.</div>`;
+          // ರಿಟರ್ನ್ ಮಾಡುವಾಗ ಓಟಿಪಿ ಬದಲಾಗಿ ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕಪ್ ಸಂದೇಶ ಮತ್ತು 24 ಗಂಟೆಯೊಳಗೆ ಪೇಮೆಂಟ್ ಆಗುವ ಸಂದೇಶ
+          returnStatusHtml = `
+            <div style="background:#fff3e0; border:2px solid #ffb74d; border-radius:8px; padding:12px; margin-bottom:12px; font-size:0.82rem; color:#d84315; line-height:1.5;">
+              • ಡೆಲಿವರಿ ಬಾಯ್ ನಿಮ್ಮ ಆಪ್‌ ಅನ್ನು ರಿಟರ್ನ್ ಕಳಿಸಲಾಗಿದೆ.<br>
+              • ಡೆಲಿವರಿ ಬಾಯ್ ಕಾಲ್ ಮಾಡಿ ನಿಮ್ಮ ಪಿಕಪ್ ಅನ್ನು ತಗೋತಾರೆ. ನಿಮ್ಮ ವಸ್ತುವಿನ ವರ್ಜಿನಲ್ ಪ್ಯಾಕಿಂಗ್ ಮತ್ತೆ ವಸ್ತು ಕರೆಕ್ಟಾಗಿ ನೀವು ಹತ್ತಿರ ಸೆಟ್ಕೊಳ್ಳಿ.<br>
+              • ಡೆಲಿವರಿ ಬಾಯ್ ಓಟಿಪಿದು ಪಿಕಪ್ ಬಟನ್ ಒತ್ತಿದ ಮೇಲೆ ನಿಮ್ಮ ರಿಟರ್ನ್ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ. 24 ಗಂಟೆ ಒಳಗೆ ಪೇಮೆಂಟ್ ಅನ್ನು ಆಗುತ್ತದೆ.
+            </div>
+          `;
         }
       }
 
-      let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED');
       let timePassedHours = (Date.now() - (o.timestamp || Date.now())) / (1000 * 60 * 60);
       let showReturnBtn = isDelivered && timePassedHours <= 24 && !o.isReturned;
 
+      // ಅಂಗಡಿಯವರು ರಿಟರ್ನ್ ಪಾಲಿಸಿ ಸೆಟ್ ಮಾಡಿದ್ದರೆ ಅದಕ್ಕೆ ತಕ್ಕಂತೆ ಬಟನ್ ತೋರಿಸುವುದು
+      let shopObj = allShopsMap[o.shopId];
+      let shopReturnPolicy = shopObj ? shopObj.returnPolicy : 'RETURN_AVAILABLE'; 
+      //shopReturnPolicy values: 'RETURN_AVAILABLE', 'EXCHANGE_ONLY', 'NO'
+
+      let returnButtonHtml = '';
+      if (showReturnBtn) {
+        if (shopReturnPolicy === 'NO') {
+          returnButtonHtml = `<div style="color:#d32f2f; font-weight:bold; font-size:0.85rem; text-align:center; padding:10px; background:#ffebee; border-radius:6px;">❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return / Final Sale)</div>`;
+        } else if (shopReturnPolicy === 'EXCHANGE_ONLY') {
+          returnButtonHtml = `
+            <button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:#ff9800; color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">
+              🩱 ಈ ವಸ್ತುವಿಗೆ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿ (Exchange Only)
+            </button>
+          `;
+        } else {
+          returnButtonHtml = `
+            <button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">
+              🔄 ಈ ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಿ (Return Order)
+            </button>
+          `;
+        }
+      }
+
       let dateDetailsBox = `
         <div style="background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:12px; font-size:0.82rem; color:#444;">
-          📅 <b>ಆರ್ಡರ್ ಮಾಡಿದ ದಿನಾಂಕ:</b> ${o.orderDate || 'N/A'}<br>
+          📅 <b>ಆರ್ಡರ್ ಮಾಡಿದ ದಿನಾಂಕ & ಸಮಯ:</b> ${o.orderDate || 'N/A'}<br>
           🚚 <b>ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ ದಿನಾಂಕ:</b> ${o.expectedDeliveryDate || 'N/A'}<br>
           ${o.returnTimestamp ? `🔄 <b>ರಿಟರ್ನ್ ವಿನಂತಿ ದಿನಾಂಕ:</b> ${new Date(o.returnTimestamp).toLocaleDateString('en-GB')}<br>` : ''}
         </div>
@@ -1090,12 +1133,8 @@
         </div>
 
         ${dateDetailsBox}
-
-        <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
-          <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):</span>
-          <div style="font-size:1.4rem; font-weight:bold; color:#1b5e20; letter-spacing:3px; margin-top:4px;">${o.deliveryOtp || '8740'}</div>
-          ${returnStatusHtml}
-        </div>
+        ${otpBoxHtml}
+        ${returnStatusHtml}
 
         <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px; margin-bottom:15px;">
           <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ರೋಡ್‌ಮ್ಯಾಪ್</h4>
@@ -1113,11 +1152,7 @@
           </button>
         ` : ''}
 
-        ${showReturnBtn ? `
-          <button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">
-            🔄 ಈ ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಿ (Return Order)
-          </button>
-        ` : ''}
+        ${returnButtonHtml}
       `;
       showScreen('orderDetailsScreen');
     }
@@ -1131,7 +1166,20 @@
       document.getElementById('returnPhotoInput2').value = '';
       document.getElementById('returnPhotoPreview1').style.display = 'none';
       document.getElementById('returnPhotoPreview2').style.display = 'none';
+      document.getElementById('customReturnReasonInput').style.display = 'none';
+      document.getElementById('customReturnReasonInput').value = '';
       document.getElementById('returnModal').style.display = 'flex';
+    }
+
+    function checkCustomReturnReason(selectEl) {
+      const customInput = document.getElementById('customReturnReasonInput');
+      if (selectEl.value === 'other') {
+        customInput.style.display = 'block';
+        customInput.focus();
+      } else {
+        customInput.style.display = 'none';
+        customInput.value = '';
+      }
     }
 
     function closeReturnModal() {
@@ -1187,13 +1235,25 @@
 
     async function submitOrderReturnForm() {
       if (!activeReturnOrderId) return;
-      const reasonSelect = document.getElementById('returnReasonSelect').value;
-      const customerUpi = document.getElementById('customerUpiIdInput').value.trim();
+      let reasonSelect = document.getElementById('returnReasonSelect').value;
+      const customReasonInput = document.getElementById('customReturnReasonInput').value.trim();
+      if (reasonSelect === 'other') {
+        if (!customReasonInput) {
+          alert("ದಯವಿಟ್ಟು ರಿಟರ್ನ್‌ಗೆ ಕಾರಣವನ್ನು ಟೈಪ್ ಮಾಡಿ.");
+          return;
+        }
+        reasonSelect = customReasonInput;
+      }
 
+      const customerUpi = document.getElementById('customerUpiIdInput').value.trim();
       if (!customerUpi) {
         alert("ದಯವಿಟ್ಟು ಹಣ ಪಡೆಯಲು ನಿಮ್ಮ UPI ID ಅಥವಾ PhonePe ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ.");
         return;
       }
+
+      // ಪಾಪ್ ಅಪ್ ಸಂದೇಶದಲ್ಲಿ ಗ್ರಾಹಕರಿಗೆ ರಿಟರ್ನ್ ಮಾಡಿದಾಗ ರೂ.50 ಅಥವಾ ರೂ.80 ಚಾರ್ಜಸ್ ಕಟ್ ಆಗುವ ಮಾಹಿತಿ
+      let confirmMsg = "ರಿಟರ್ನ್ ಮಾಡಿದಾಗ ರೂ.50 ಅಥವಾ ರೂ.80 ಡೆಲಿವರಿ ಚಾರ್ಜಸ್ ಕಟ್ ಆಗುತ್ತದೆ (ವಸ್ತುವಿನ ಮೊತ್ತದಿಂದ ಮೈನಸ್ ಆಗಿ ನಿಮ್ಮ ಯುಪಿಐಗೆ ಉಳಿದ ಹಣ ಜಮಾ ಆಗುತ್ತದೆ).\n\nಕನ್ಫರ್ಮ್ ಮಾಡಲು ಸರಿ ಒತ್ತಿ.";
+      if (!confirm(confirmMsg)) return;
 
       try {
         await window.updateDoc(window.doc(window.db, "orders", activeReturnOrderId), {
@@ -1207,7 +1267,7 @@
           returnTimestamp: Date.now()
         });
 
-        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಮತ್ತು ದಿನಾಂಕವನ್ನು ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ನಿಮ್ಮ ಹಣವನ್ನು 24 ಗಂಟೆಯೊಳಗೆ ಪೇಮೆಂಟ್ ಆಗುತ್ತದೆ.");
+        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ನಿಮ್ಮ ಹಣವನ್ನು 24 ಗಂಟೆಯೊಳಗೆ ಪೇಮೆಂಟ್ ಆಗುತ್ತದೆ.");
         closeReturnModal();
         openMyOrdersScreen();
       } catch(e) {

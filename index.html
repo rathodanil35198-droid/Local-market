@@ -72,10 +72,11 @@
     .search-box { display: flex; background: #fff; border-radius: 6px; padding: 6px 10px; align-items: center; border: 1px solid #ddd; margin-top: 4px; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 0.85rem; margin-left: 6px; }
 
-    .hero-slider-container { width: 100%; height: 140px; position: relative; overflow: hidden; border-radius: 8px; margin-bottom: 10px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer; }
+    /* ಜಾಹೀರಾತು ಬ್ಯಾನರ್ ಕಟ್ ಆಗದೆ ಪೂರ್ತಿಯಾಗಿ ಕಾಣಲು object-fit: contain ಮತ್ತು background ಹಾಕಲಾಗಿದೆ */
+    .hero-slider-container { width: 100%; height: 180px; position: relative; overflow: hidden; border-radius: 8px; margin-bottom: 10px; background: #fff; border: 1px solid #ddd; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer; }
     .hero-slider-track { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
-    .hero-slide { min-width: 100%; height: 100%; flex-shrink: 0; }
-    .hero-slide img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-slide { min-width: 100%; height: 100%; flex-shrink: 0; background: #fff; display: flex; align-items: center; justify-content: center; }
+    .hero-slide img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
 
     .container { padding: 8px 8px 110px 8px; max-width: 500px; margin: 0 auto; }
     .filter-box { background: #fff; border: 1px solid #ddd; padding: 8px 10px; border-radius: 8px; margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
@@ -94,7 +95,8 @@
     .grid-products { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
     .product-card { background: #fff; border-radius: 8px; padding: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid #eee; }
     
-    .img-box { width: 100%; height: 160px; background: #fff; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+    /* ಪ್ರಾಡಕ್ಟ್ ಫೋಟೋ ಕಟ್ ಆಗದೆ ಪೂರ್ತಿಯಾಗಿ ಕಾಣಲು object-fit: contain */
+    .img-box { width: 100%; height: 160px; background: #fff; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid #eee; }
     .product-card img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
     
     .prod-title { font-size: 0.8rem; font-weight: 600; margin-top: 6px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.5em; color: #333; }
@@ -462,7 +464,6 @@
       window.initFirebaseAppData();
       checkInstallStatusAndButton();
 
-      // ಮೊಬೈಲ್ ಬ್ಯಾಕ್ ಬಟನ್ ಒತ್ತಿದಾಗ ಆಪ್ ಮುಚ್ಚಿಹೋಗದೆ ಹಿಂದಿನ ಸ್ಕ್ರೀನ್‌ಗೆ ಬರುವುದು
       window.addEventListener('popstate', (event) => {
         event.preventDefault();
         const detailScr = document.getElementById('productDetailScreen');
@@ -682,7 +683,7 @@
       if (bannerList.length > 0) {
         track.innerHTML = bannerList.map((b, index) => `
           <div class="hero-slide" onclick="handleBannerClick(${index})">
-            <img src="${b.imageUrl}" style="width:100%; height:100%; object-fit:cover;">
+            <img src="${b.imageUrl}" style="width:100%; height:100%; object-fit:contain; background:#fff;">
           </div>
         `).join('');
         startBannerAutoSlide();
@@ -810,10 +811,9 @@
 
       let shop = allShopsMap[selectedProduct.shopId];
       document.getElementById('detailTitle').innerText = selectedProduct.name;
-      document.getElementById('detailShopName').innerText = "ಅಂಗಡಿ:ಗೊಂಡಿದೆ: " + (shop ? shop.shopName : "Store");
+      document.getElementById('detailShopName').innerText = "ಅಂಗಡಿ: " + (shop ? shop.shopName : "Store");
       document.getElementById('detailShopLocation').innerText = "📍 ತಾಲೂಕು/ಸ್ಥಳ: " + (shop ? shop.taluk : 'ಶಹಾಪುರ');
 
-      // ಅಂಗಡಿಯವರು ಸೆಟ್ ಮಾಡಿರುವ ರಿಟರ್ನ್ ಮಾಹಿತಿ ಪ್ರಾಡಕ್ಟ್ ಮೇಲೆ ತೋರಿಸುವುದು
       let returnPolicyVal = shop ? (shop.returnPolicy || 'RETURN_AVAILABLE') : 'RETURN_AVAILABLE';
       let returnPolicyText = "🔄 ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇದೆ";
       if (returnPolicyVal === 'NO') returnPolicyText = "❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ";
@@ -846,7 +846,6 @@
         selectedColorPhoto = selectedProduct.photo;
       }
 
-      // ವಿವಿಧ ವಿಧದ ವಸ್ತುಗಳಿಗೆ ತಕ್ಕಂತೆ ಸೈಜ್ ಆಪ್ಷನ್‌ಗಳು
       let sizes = ['Free Size'];
       let nameL = selectedProduct.name.toLowerCase();
       let catL = (selectedProduct.category || '').toLowerCase();
@@ -1018,7 +1017,7 @@
         totalPrice: grandTotal,
         deliveryFee: 30,
         distanceKm: distanceVal,
-        shopId: selectedProduct.shopId, // ನಿರ್ದಿಷ್ಟ ಅಂಗಡಿಗೆ ಮಾತ್ರ ಆರ್ಡರ್ ಹೋಗುವುದು
+        shopId: selectedProduct.shopId,
         shopName: shop ? shop.shopName : "Store",
         shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
         customer: { name, phone, village, pincode, taluk, district },
@@ -1109,7 +1108,6 @@
       let showCancelBtn = (status === 'STEP_1' || status === 'PENDING') && !o.isReturned;
       let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED');
       
-      // ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆದರೆ ಅಥವಾ ರಿಟರ್ನ್ ವಿನಂತಿ ಇದ್ದರೆ ಡೆಲಿವರಿ ಒಟಿಪಿ ಸಂಪೂರ್ಣವಾಗಿ ಮಾಯವಾಗಿರಬೇಕು
       let otpBoxHtml = '';
       if (!isDelivered && !o.isReturned) {
         otpBoxHtml = `
@@ -1125,7 +1123,6 @@
         if (o.returnPaymentStatus === 'SUCCESS') {
           returnStatusHtml = `<div style="color:green; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#e8f5e9; padding:8px; border-radius:6px;">✔ ಮೂರನೇ ಹಂತದಲ್ಲಿ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್ ಫುಲ್: ನಿಮ್ಮ ಯುಪಿಐ ಅಕೌಂಟಿಗೆ ಹಣವನ್ನು ಪೇಮೆಂಟ್ ಕಳುಹಿಸಲಾಗಿದೆ!</div>`;
         } else {
-          // ರಿಟರ್ನ್ ಮಾಡಿದಾಗ ಒಟಿಪಿ ಬದಲಾಗಿ ಹೊಸ ಪಿಕಪ್ ಒಟಿಪಿ / ಸಂದೇಶ ಕಾಣಿಸುವುದು
           returnStatusHtml = `
             <div style="background:#fff3e0; border:2px solid #ffb74d; border-radius:8px; padding:12px; margin-bottom:12px; font-size:0.82rem; color:#d84315; line-height:1.5;">
               🔑 <b>ರಿಟರ್ನ್ / ಪಿಕಪ್ ಒಟಿಪಿ:</b> <span style="font-size:1.2rem; font-weight:bold; color:#d32f2f;">${o.returnOtp || '9234'}</span><br>
@@ -1137,7 +1134,6 @@
         }
       }
 
-      // 12 ಗಂಟೆಯೊಳಗೆ ಮಾತ್ರ ರಿಟರ್ನ್ ಬಟನ್ ಕಾಣಿಸುವುದು
       let hoursSinceDelivery = (Date.now() - (o.deliveredTimestamp || o.timestamp || Date.now())) / (1000 * 60 * 60);
       let showReturnBtn = isDelivered && hoursSinceDelivery <= 12 && !o.isReturned;
 
@@ -1171,7 +1167,6 @@
         </div>
       `;
 
-      // ರಿಟರ್ನ್ ಮಾಡಿದರೆ ಕೆಳಗಿನ ರೋಡ್‌ಮ್ಯಾಪ್ ಕಾಣಿಸಬಾರದು
       let roadmapHtml = '';
       if (!o.isReturned) {
         roadmapHtml = `
@@ -1322,7 +1317,6 @@
         return;
       }
 
-      // ಪಾಪ್ ಅಪ್ ಸಂದೇಶದಲ್ಲಿ ರೂ.50 ಅಥವಾ ರೂ.80 ಕಡಿತದ ವಿವರಣೆ
       let confirmMsg = "ರಿಟರ್ನ್ ಮಾಡಿದಾಗ ರೂ.50 ಅಥವಾ ರೂ.80 ಡೆಲಿವರಿ ಚಾರ್ಜಸ್ ಕಟ್ ಆಗುತ್ತದೆ (ವಸ್ತುವಿನ ಮೊತ್ತದಿಂದ ಮೈನಸ್ ಆಗಿ ನಿಮ್ಮ ಯುಪಿಐ ಅಥವಾ ಕ್ಯೂಆರ್ ಕೋಡ್‌ಗೆ ಉಳಿದ ಹಣ ಜಮಾ ಆಗುತ್ತದೆ).\n\nಕನ್ಫರ್ಮ್ ಮಾಡಲು ಸರಿ ಒತ್ತಿ.";
       if (!confirm(confirmMsg)) return;
 

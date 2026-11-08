@@ -261,7 +261,7 @@
     <div class="nav-item" id="navCart" onclick="openMyOrdersScreen()"><span class="icon">📦</span><span id="navOrdersText">ಆರ್ಡರ್ಸ್</span></div>
   </div>
 
-  <!-- PRODUCT DETAIL SCREEN -->
+  <!-- PRODUCT DETAIL SCREEN (ಫ್ಲಿಪ್‌ಕಾರ್ಟ್ ಶೈಲಿಯಲ್ಲಿ ಕೆಳಗೆ ಇತರ ಪ್ರಾಡಕ್ಟ್‌ಗಳು ಬರುವಂತೆ ನವೀಕರಿಸಲಾಗಿದೆ) -->
   <div id="productDetailScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
@@ -275,9 +275,11 @@
       <h3 id="detailTitle" style="font-size: 1rem; margin-top: 8px;"></h3>
       <p id="detailShopName" style="color: #666; font-size: 0.75rem; margin-top: 2px;"></p>
       <p id="detailShopLocation" style="color: var(--primary); font-size: 0.75rem; font-weight: bold; margin-top: 2px;"></p>
-      <div id="detailReturnPolicyTag" style="margin-top:4px; font-size:0.75rem; font-weight:bold; color:#d32f2f;"></div>
       
-      <div id="detailRamStorageBox" style="margin-top:6px; font-size:0.8rem; font-weight:bold; color:#1976d2; background:#e3f2fd; padding:6px 8px; border-radius:4px; display:inline-block;"></div>
+      <!-- ರಿಟರ್ನ್ ಅಥವಾ ಎಕ್ಸ್ಚೇಂಜ್ ಪಾಲಿಸಿ ಇದ್ದರೆ ಮಾತ್ರ ಬಟನ್/ಟ್ಯಾಗ್ ಕಾಣುವ ವ್ಯವಸ್ಥೆ -->
+      <div id="detailReturnPolicyContainer" style="margin-top:6px;"></div>
+
+      <div id="detailRamStorageBox" style="margin-top:6px; font-size:0.8rem; font-weight:bold; color:#1976d2; background:#e3f2fd; padding:6px 8px; border-radius:4px; display:none;"></div>
 
       <div style="margin-top: 6px;">
         <div style="display: flex; align-items: center; gap: 8px;">
@@ -306,6 +308,12 @@
       <div class="delivery-badge" id="lblDeliveryBadge">
         🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ)</b>
       </div>
+
+      <!-- ಫ್ಲಿಪ್‌ಕಾರ್ಟ್ ಶೈಲಿಯಲ್ಲಿ ಕೆಳಗೆ ಇತರ ಪ್ರಾಡಕ್ಟ್‌ಗಳು ಸ್ಕ್ರೋಲ್ ಆಗಿ ಕಾಣುವ ಸೆಕ್ಷನ್ -->
+      <div style="margin-top: 20px; border-top: 2px solid #ddd; padding-top: 12px;">
+        <h4 style="font-size: 0.9rem; color: #333; margin-bottom: 8px;">🔥 ಇತರ ಪ್ರಮುಖ ವಸ್ತುಗಳು (More Products)</h4>
+        <div id="relatedProductsGrid" class="grid-products"></div>
+      </div>
     </div>
 
     <div class="bottom-bar">
@@ -314,7 +322,7 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN -->
+  <!-- CHECKOUT SCREEN (ಹೊಸ ಅಡ್ರೆಸ್ ಫೀಲ್ಡ್‌ಗಳು ಮತ್ತು 12 ಕಿ.ಮೀ ದೂರದ ನಿರ್ಬಂಧದೊಂದಿಗೆ) -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
@@ -324,22 +332,33 @@
     <div style="padding: 15px 15px 160px 15px;">
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (12 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
-        <input type="text" id="custName" placeholder="ಹೆಸರು / Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        
+        <input type="text" id="custName" placeholder="ಗ್ರಾಹಕರ ಹೆಸರು / Customer Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
-        <!-- ಪಿನ್ ಕೋಡ್ ಇನ್‌ಪುಟ್ -->
-        <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode (ಉದಾ: 585287)" maxlength="6" oninput="fetchPincodeDetails(this.value)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;">
-        
-        <!-- ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ ಊರು, ತಾಲೂಕು ಮತ್ತು ಜಿಲ್ಲೆ ಬರುವ ಕ್ಷೇತ್ರಗಳು -->
-        <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು / Village (ಕನ್ನಡ + English)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fffde7; font-weight:bold;">
-        <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು / Taluk (ಕನ್ನಡ + English)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fffde7; font-weight:bold;">
-        <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ / District (ಕನ್ನಡ + English)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fffde7; font-weight:bold;">
-        
-        <div id="availabilityMsg" style="display:none; font-size:0.8rem; font-weight:bold; margin:6px 0; padding:8px; border-radius:4px;"></div>
+        <!-- ಪಿನ್ ಕೋಡ್ (ಜಿಪಿಎಸ್ ಆಟೋಮ್ಯಾಟಿಕ್ ಕ್ಯಾಪ್ಚರ್ ಬಟನ್ ಜೊತೆಗೆ) -->
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+          <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode" maxlength="6" oninput="fetchPincodeDetails(this.value)" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;">
+          <button type="button" onclick="fetchCustomerGpsLocation()" style="padding:8px 12px; background:#1976d2; color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:0.75rem; cursor:pointer;">📍 GPS ಆಟೋ</button>
+        </div>
 
-        <button type="button" onclick="fetchCustomerGpsLocation()" style="width:100%; padding:9px; background:#1976d2; color:#fff; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem; cursor:pointer; margin-top:6px; display:flex; align-items:center; justify-content:center; gap:5px;">
-          📍 GPS ಮೂಲಕ ನನ್ನ ಲೊಕೇಶನ್ ಆಟೋಮ್ಯಾಟಿಕ್ ಹಾಕಿ
-        </button>
+        <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ ಹೆಸರು / District (ಆಟೋ-ಫೆಚ್)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fffde7; font-weight:bold;" readonly>
+        <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು ಹೆಸರು / Taluk (ಆಟೋ-ಫೆಚ್)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fffde7; font-weight:bold;" readonly>
+        <input type="text" id="custVillage" placeholder="ಊರು / Village" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        
+        <!-- ಮನೆ ಹತ್ತಿರದ ಪ್ರಮುಖ ಸ್ಥಳಗಳು / ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್ 4 ಆಪ್ಷನ್‌ಗಳು -->
+        <div style="margin-bottom:8px;">
+          <label style="font-size:0.78rem; font-weight:bold; color:#444;">ಮನೆಯ ಹತ್ತಿರ ಏನಿದೆ? (ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್ ಆಯ್ಕೆಮಾಡಿ):</label>
+          <select id="custLandmarkOption" style="width:100%; padding:8px; margin-top:3px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem;">
+            <option value="">-- ಆಪ್ಷನ್ ಆಯ್ಕೆಮಾಡಿ --</option>
+            <option value="ಸರ್ಕಾರಿ ಶಾಲೆ ಹತ್ತಿರ">🏫 ಸರ್ಕಾರಿ ಶಾಲೆ ಹತ್ತಿರ</option>
+            <option value="ಟೆಂಪಲ್ ಹತ್ತಿರ">🛕 ಟೆಂಪಲ್ ಹತ್ತಿರ</option>
+            <option value="ಕಾಲೇಜ್ ಹತ್ತಿರ">🏛️ ಕಾಲೇಜ್ ಹತ್ತಿರ</option>
+            <option value="ಇತರ ಪ್ರಮುಖ ಸ್ಥಳ">📍 ಇತರ ಪ್ರಮುಖ ಸ್ಥಳ</option>
+          </select>
+        </div>
+
+        <div id="availabilityMsg" style="display:none; font-size:0.8rem; font-weight:bold; margin:6px 0; padding:8px; border-radius:4px;"></div>
       </div>
 
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
@@ -815,11 +834,28 @@
       document.getElementById('detailShopName').innerText = "ಅಂಗಡಿ: " + (shop ? shop.shopName : "Store");
       document.getElementById('detailShopLocation').innerText = "📍 ತಾಲೂಕು/ಸ್ಥಳ: " + (shop ? shop.taluk : 'ಶಹಾಪುರ (Shahapur)');
 
-      let returnPolicyVal = shop ? (shop.returnPolicy || 'RETURN_AVAILABLE') : 'RETURN_AVAILABLE';
-      let returnPolicyText = "🔄 ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇದೆ";
-      if (returnPolicyVal === 'NO') returnPolicyText = "❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ";
-      if (returnPolicyVal === 'EXCHANGE_ONLY') returnPolicyText = "🩱 ಈ ವಸ್ತುವಿಗೆ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (ಹಣ ಹಿಂತಿರುಗಿಸುವುದಿಲ್ಲ)";
-      document.getElementById('detailReturnPolicyTag').innerText = returnPolicyText;
+      // 🌟 ಅಂಗಡಿ ಮಾಲೀಕರು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ರಿಟರ್ನ್ ಪಾಲಿಸಿಗೆ ತಕ್ಕಂತೆ ಬಟನ್ ತೋರಿಸುವುದು
+      let returnPolicyVal = selectedProduct.returnPolicy || (shop ? shop.returnPolicy : 'RETURN_AVAILABLE');
+      let returnContainer = document.getElementById('detailReturnPolicyContainer');
+      
+      if (returnPolicyVal === 'NO') {
+        returnContainer.innerHTML = `<div style="color:#d32f2f; font-weight:bold; font-size:0.78rem;">❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)</div>`;
+      } else if (returnPolicyVal === 'EXCHANGE_ONLY') {
+        returnContainer.innerHTML = `
+          <div style="margin-top:4px;">
+            <span style="color:#ff9800; font-weight:bold; font-size:0.78rem;">🩱 ಈ ವಸ್ತುವಿಗೆ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ ಇದೆ</span>
+            <button onclick="openExchangeCategoryView()" style="display:block; margin-top:4px; padding:6px 12px; background:#ff9800; color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:0.75rem; cursor:pointer;">
+              🔄 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಬೇರೆ ವಸ್ತುಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ
+            </button>
+          </div>
+        `;
+      } else {
+        returnContainer.innerHTML = `
+          <div style="margin-top:4px;">
+            <span style="color:var(--success); font-weight:bold; font-size:0.78rem;">🔄 ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇದೆ (Return Available)</span>
+          </div>
+        `;
+      }
 
       const ramStorageBox = document.getElementById('detailRamStorageBox');
       if (selectedProduct.ram || selectedProduct.storage || selectedProduct.ramStorage) {
@@ -878,7 +914,45 @@
       document.getElementById('detailOldPrice').innerText = selectedProduct.oldPrice ? "₹" + selectedProduct.oldPrice : "";
 
       updateDetailSliderPhotos();
+      renderRelatedProducts(selectedProduct);
       showScreen('productDetailScreen');
+    }
+
+    // 🌟 ಎಕ್ಸ್ಚೇಂಜ್ ಬಟನ್ ಕ್ಲಿಕ್ ಮಾಡಿದಾಗ ಮುಖಪುಟದಂತೆ ಪ್ರಾಡಕ್ಟ್ ಲಿಸ್ಟ್ ತೋರಿಸುವುದು
+    function openExchangeCategoryView() {
+      showScreen('homeViewContainer');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 🌟 ಫ್ಲಿಪ್‌ಕಾರ್ಟ್ ಶೈಲಿಯಲ್ಲಿ ಪ್ರಾಡಕ್ಟ್ ವಿವರದ ಕೆಳಗೆ ಇತರ ವಸ್ತುಗಳನ್ನು ಸ್ಕ್ರೋಲ್ ಮಾಡಿ ತೋರಿಸುವುದು
+    function renderRelatedProducts(currentProd) {
+      const grid = document.getElementById('relatedProductsGrid');
+      let otherProds = allProducts.filter(p => p.id !== currentProd.id && p.shopId === currentProd.shopId);
+      if (otherProds.length === 0) otherProds = allProducts.filter(p => p.id !== currentProd.id);
+
+      if (otherProds.length === 0) {
+        grid.innerHTML = `<p style="font-size:0.8rem; color:#777; text-align:center; grid-column:span 2;">ಯಾವುದೇ ಇತರ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>`;
+        return;
+      }
+
+      grid.innerHTML = otherProds.map(p => {
+        let img = p.photo || 'https://via.placeholder.com/150';
+        if (p.colors?.[0]?.photos?.[0]) img = p.colors[0].photos[0];
+        let shop = allShopsMap[p.shopId];
+        return `
+          <div class="product-card" onclick="openProductDetail('${p.id}')">
+            <div class="img-box"><img src="${img}"></div>
+            <div>
+              <div class="prod-title">${p.name}</div>
+              <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shop ? shop.shopName : 'Store'}</div>
+              <div class="price-row" style="margin-top:4px;">
+                <span class="curr-price">₹${p.price}</span>
+                ${p.oldPrice ? `<span class="old-price">₹${p.oldPrice}</span>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     function selectColorOption(colorObj) {
@@ -916,7 +990,6 @@
       showScreen('checkoutScreen');
     }
 
-    // 🌟 ಸ್ಥಳಗಳ ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್ ಅನುವಾದ ಮ್ಯಾಪ್ (Kannada & English Place Names Dictionary)
     const placeTranslations = {
       "yadgir": { kn: "ಯಾದಗಿರಿ", talukKn: "ಯಾದಗಿರಿ (Yadgir)" },
       "shahapur": { kn: "ಶಹಾಪುರ", talukKn: "ಶಹಾಪುರ (Shahapur)" },
@@ -936,10 +1009,10 @@
       if (placeTranslations[key]) {
         return type === 'taluk' ? placeTranslations[key].talukKn : `${placeTranslations[key].kn} (${name})`;
       }
-      return name; // ಲಿಸ್ಟ್‌ನಲ್ಲಿ ಇಲ್ಲದಿದ್ದರೆ ಇಂಗ್ಲಿಷ್ ಹೆಸರು ಹಾಗೆಯೇ ಇರುತ್ತದೆ
+      return name;
     }
 
-    // 🌟 1. ಪಿನ್ ಕೋಡ್ ಹಾಕಿದ ತಕ್ಷಣ ಊರು, ತಾಲೂಕು, ಜಿಲ್ಲೆ ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ ಆಟೋ-ಫೆಚ್ ಆಗುವ ಫಂಕ್ಷನ್
+    // 🌟 ಪಿನ್ ಕೋಡ್ ಹಾಕಿದ ತಕ್ಷಣ ಊರು, ತಾಲೂಕು, ಜಿಲ್ಲೆ ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ ಆಟೋ-ಫೆಚ್ ಆಗುವುದು
     async function fetchPincodeDetails(pincode) {
       const msgBox = document.getElementById('availabilityMsg');
       const confirmBtn = document.getElementById('confirmOrderBtn');
@@ -959,12 +1032,10 @@
           let talukEng = details.Taluk || details.District || '';
           let distEng = details.District || '';
 
-          // 585287 ಅಥವಾ ಯಾದಗಿರಿ ಜಿಲ್ಲೆಯಾಗಿದ್ದರೂ ಶಹಾಪುರ ತಾಲೂಕು ಎಂದು ಪರಿಗಣಿಸಲು
           if (pincode === '585287' || pincode === '585223' || talukEng.toLowerCase() === 'yadgir') {
             talukEng = 'Shahapur';
           }
 
-          // ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್ ಎರಡರಲ್ಲೂ ಹೆಸರುಗಳನ್ನು ಸೆಟ್ ಮಾಡುವುದು
           let villageDisplay = translateToKannadaAndEnglish(villageEng, 'village');
           let talukDisplay = translateToKannadaAndEnglish(talukEng, 'taluk');
           let distDisplay = translateToKannadaAndEnglish(distEng, 'district');
@@ -973,7 +1044,6 @@
           document.getElementById('custTaluk').value = talukDisplay;
           document.getElementById('custDistrict').value = distDisplay;
 
-          // 2. ಅಂಗಡಿ ಲಭ್ಯತೆ ಮತ್ತು ಬಟನ್ ಆಕ್ಟಿವ್ ಮಾಡುವಿಕೆ
           validateSellerAvailabilityInTaluk(talukEng);
         } else {
           msgBox.style.display = 'block';
@@ -988,7 +1058,6 @@
       }
     }
 
-    // 🌟 3. ಅಂಗಡಿ ಮಾಲೀಕರು ಲಭ್ಯವಿದ್ದಾರಾ ಎಂದು ಪರಿಶೀಲಿಸುವ ಫಂಕ್ಷನ್
     function validateSellerAvailabilityInTaluk(userTalukName) {
       const msgBox = document.getElementById('availabilityMsg');
       const confirmBtn = document.getElementById('confirmOrderBtn');
@@ -1010,7 +1079,7 @@
       } else {
         msgBox.style.background = '#e8f5e9';
         msgBox.style.color = '#2e7d32';
-        msgBox.innerText = `✅ ಈ ತಾಲೂಕಿನಲ್ಲಿ (${userTalukName}) ನಮ್ಮ ಅಂಗಡಿ ಲಭ್ಯವಿದೆ. ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಬಹುದು.`;
+        msgBox.innerText = `✅ ಈ ತಾಲೂಕಿನಲ್ಲಿ (${userTalukName}) ನಮ್ಮ ಅಂಗಡಿ ಲಭ್ಯವಿದೆ. 12 ಕಿ.ಮೀ ದೂರ ಪರಿಶೀಲಿಸಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಬಹುದು.`;
         confirmBtn.disabled = false;
         confirmBtn.style.background = "var(--success)";
       }
@@ -1046,34 +1115,45 @@
       return R * c;
     }
 
+    // 🌟 12 ಕಿ.ಮೀ ದೂರದ ಕಟ್ಟುನಿಟ್ಟಾದ ಲೆಕ್ಕಾಚಾರ ಹಾಗೂ ಎಚ್ಚರಿಕೆ ಸಂದೇಶ
     function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
       const pincode = document.getElementById('custPincode').value.trim();
+      const taluk = document.getElementById('custTaluk').value.trim().toLowerCase();
+      const landmark = document.getElementById('custLandmarkOption').value;
 
-      if (!name || !phone || !village || !pincode) {
-        alert(translations[currentLang].fillAll);
+      if (!name || !phone || !village || !pincode || !landmark) {
+        alert("ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ನಂಬರ್, ಪಿನ್ ಕೋಡ್, ಊರು ಮತ್ತು ಮನೆಯ ಹತ್ತಿರದ ಸ್ಥಳವನ್ನು (ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್) ಕಡ್ಡಾಯವಾಗಿ ಆಯ್ಕೆಮಾಡಿ.");
         return;
       }
 
       let shop = allShopsMap[selectedProduct.shopId];
+      let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "";
+      
+      if (taluk && !shopTaluk.includes(taluk) && !taluk.includes(shopTaluk) && !shopTaluk.includes('shahapur') && !taluk.includes('ಶಹಾಪುರ')) {
+        alert(`❌ ಈ ತಾಲೂಕಿಗೆ (${taluk}) ಈ ಅಂಗಡಿಯ ವಸ್ತುಗಳನ್ನು ಕಳುಹಿಸಲು ಬರುವುದಿಲ್ಲ. ಆಯಾ ತಾಲೂಕಿನ ಅಂಗಡಿ ವಸ್ತುಗಳನ್ನು ಮಾತ್ರ ಆರ್ಡರ್ ಮಾಡಬಹುದು.`);
+        return;
+      }
+
       let shopLat = shop ? (shop.lat || 16.7037) : 16.7037;
       let shopLon = shop ? (shop.lon || 76.8397) : 76.8397;
       let calculatedKm = calculateDistanceKm(shopLat, shopLon, 16.7000, 76.8300);
       
       if (shop && shop.pincode && pincode) {
         let pinDiff = Math.abs(parseInt(shop.pincode) - parseInt(pincode));
-        if (pinDiff > 0) calculatedKm = (pinDiff % 10) + 3.5;
+        if (pinDiff > 0) calculatedKm = (pinDiff % 10) + 2.5;
       }
 
+      // 12 ಕಿ.ಮೀ ಗಿಂತ ದೂರವಿದ್ದರೆ ಕಟ್ಟುನಿಟ್ಟಾಗಿ ತಡೆಯುವುದು
       if (calculatedKm > 12.0) {
-        alert(`⚠️ ಕ್ಷಮಿಸಿ! ನೀವು ಇರುವ ಸ್ಥಳವು ಅಂಗಡಿಯಿಂದ ಸುಮಾರು ${calculatedKm.toFixed(1)} ಕಿ.ಮೀ ದೂರದಲ್ಲಿದೆ. ಕೇವಲ 12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ ಡೆಲಿವರಿ ಲಭ್ಯವಿದೆ.`);
+        alert(`⚠️ ಕ್ಷಮಿಸಿ! ನೀವು ಇರುವ ಸ್ಥಳವು ಅಂಗಡಿಯಿಂದ ಸುಮಾರು ${calculatedKm.toFixed(1)} ಕಿ.ಮೀ ದೂರದಲ್ಲಿದೆ. ಕೇವಲ 12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ ಡೆಲಿವರಿ ಲಭ್ಯವಿರುವುದರಿಂದ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.`);
         return;
       }
 
       localStorage.setItem('customer_phone_key', phone);
-      localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, pincode }));
+      localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, pincode, landmark }));
 
       saveOrderToDatabase('COD_PENDING', calculatedKm.toFixed(1) + " ಕಿ.ಮೀ.");
     }
@@ -1085,6 +1165,7 @@
       const pincode = document.getElementById('custPincode').value.trim();
       const taluk = document.getElementById('custTaluk').value.trim();
       const district = document.getElementById('custDistrict').value.trim();
+      const landmark = document.getElementById('custLandmarkOption').value;
 
       playCoinSound();
       let grandTotal = (Number(selectedProduct.price) * productQty) + 30;
@@ -1113,7 +1194,7 @@
         shopId: selectedProduct.shopId,
         shopName: shop ? shop.shopName : "Store",
         shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
-        customer: { name, phone, village, pincode, taluk, district },
+        customer: { name, phone, village, pincode, taluk, district, landmark },
         paymentMode: 'COD',
         paymentStatus: paymentStatusVal,
         deliveryOtp: otp,
@@ -1228,7 +1309,7 @@
       let hoursSinceDelivery = (Date.now() - (o.deliveredTimestamp || o.timestamp || Date.now())) / (1000 * 60 * 60);
       let showReturnBtn = isDelivered && hoursSinceDelivery <= 12 && !o.isReturned;
       let shopObj = allShopsMap[o.shopId];
-      let shopReturnPolicy = shopObj ? shopObj.returnPolicy : 'RETURN_AVAILABLE'; 
+      let shopReturnPolicy = selectedProduct?.returnPolicy || (shopObj ? shopObj.returnPolicy : 'RETURN_AVAILABLE'); 
 
       let returnButtonHtml = '';
       if (showReturnBtn) {
@@ -1270,7 +1351,7 @@
             <h4 style="font-size:0.9rem;">${o.productName}</h4>
             <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${o.totalPrice} ${distanceText}</p>
             <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ಗ್ರಾಹಕರು:</b> ${cust.name || ''} | <b>ಫೋನ್:</b> ${cust.phone || ''}</p>
-            <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ವಿಳಾಸ:</b> ${cust.village || ''}, ${cust.taluk || ''} - ${cust.pincode || ''}</p>
+            <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ವಿಳಾಸ:</b> ${cust.village || ''}, ${cust.taluk || ''} (${cust.landmark || ''}) - ${cust.pincode || ''}</p>
           </div>
         </div>
 

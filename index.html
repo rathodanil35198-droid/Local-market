@@ -912,7 +912,7 @@
       showScreen('checkoutScreen');
     }
 
-    // 🌟 ಹೊಸ ಫೀಚರ್ 1: ಪಿನ್ ಕೋಡ್ ಹಾಕಿದ ತಕ್ಷಣ ಊರು/ತಾಲೂಕು ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಕ್ಯಾಪ್ಚರ್ ಆಗುವುದು ಹಾಗೂ 12 ಕಿಮೀ ಮಿತಿ ಮತ್ತು ಅಂಗಡಿ ಲಭ್ಯತೆ ಪರಿಶೀಲನೆ
+    // 🌟 ಪಿನ್ ಕೋಡ್ ಆಟೋ ಕ್ಯಾಪ್ಚರ್ ಮತ್ತು ಅಂಗಡಿ ಮಾಲೀಕರ ತಾಲೂಕು ಮ್ಯಾಚಿಂಗ್ ಫಂಕ್ಷನ್
     async function fetchPincodeDetails(pincode) {
       const msgBox = document.getElementById('availabilityMsg');
       const confirmBtn = document.getElementById('confirmOrderBtn');
@@ -928,12 +928,16 @@
 
         if (data[0].Status === "Success") {
           let details = data[0].PostOffice[0];
-          document.getElementById('custVillage').value = details.Name || '';
-          document.getElementById('custTaluk').value = details.Taluk || details.District || '';
-          document.getElementById('custDistrict').value = details.District || '';
+          let capturedVillage = details.Name || '';
+          let capturedTaluk = details.Taluk || details.District || '';
+          let capturedDistrict = details.District || '';
 
-          // ಈಗ ಅಂಗಡಿ ಮತ್ತು 12 ಕಿಮೀ ದೂರ ಹಾಗೂ ಸೆಲ್ಲರ್ ಲಭ್ಯತೆ ಚೆಕ್ ಮಾಡುವುದು
-          validateOrderAreaAndSeller(details.Taluk || details.District || '');
+          document.getElementById('custVillage').value = capturedVillage;
+          document.getElementById('custTaluk').value = capturedTaluk;
+          document.getElementById('custDistrict').value = capturedDistrict;
+
+          // ಅಂಗಡಿ ಮಾಲೀಕರು ಮತ್ತು ಗ್ರಾಹಕರ ತಾಲೂಕು ಹೋಲಿಕೆ (Validation)
+          validateOrderAreaAndSeller(capturedTaluk);
         } else {
           msgBox.style.display = 'block';
           msgBox.style.background = '#ffebee';
@@ -947,15 +951,15 @@
       }
     }
 
-    function validateOrderAreaAndSeller(talukName) {
+    function validateOrderAreaAndSeller(userTalukName) {
       const msgBox = document.getElementById('availabilityMsg');
       const confirmBtn = document.getElementById('confirmOrderBtn');
       
       let shop = allShopsMap[selectedProduct.shopId];
-      let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "ಶಹಾಪುರ";
-      let userTaluk = talukName.toLowerCase();
+      let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "";
+      let userTaluk = userTalukName.toLowerCase();
 
-      // ಅಂಗಡಿ ಮಾಲೀಕರು ಆ ಏರಿಯಾದಲ್ಲಿ ಇಲ್ಲದಿದ್ದರೆ ಅಥವಾ ದೂರ 12 ಕಿಮೀ ದಾಟಿದ್ದರೆ
+      // ಅಂಗಡಿ ಮಾಲೀಕರು ಆ ತಾಲೂಕಿನಲ್ಲಿ ಇಲ್ಲದಿದ್ದರೆ ಆರ್ಡರ್ ಬ್ಲಾಕ್ ಮಾಡುವುದು
       let isSellerAvailable = shop && (shopTaluk.includes(userTaluk) || userTaluk.includes(shopTaluk));
 
       msgBox.style.display = 'block';
@@ -963,13 +967,13 @@
       if (!isSellerAvailable) {
         msgBox.style.background = '#ffebee';
         msgBox.style.color = '#d32f2f';
-        msgBox.innerText = "❌ ಕ್ಷಮಿಸಿ, ಈ ಪಿನ್ ಕೋಡ್ ವ್ಯಾಪ್ತಿಯಲ್ಲಿ ಸದ್ಯಕ್ಕೆ ಯಾವುದೇ ಅಂಗಡಿಗಳು ಲಭ್ಯವಿಲ್ಲ. ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.";
+        msgBox.innerText = `❌ ಕ್ಷಮಿಸಿ, ಈ ಪ್ರದೇಶದಲ್ಲಿ (${userTalukName}) ಸದ್ಯಕ್ಕೆ ಯಾವುದೇ ಅಂಗಡಿಗಳು ಲಭ್ಯವಿಲ್ಲ. ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.`;
         confirmBtn.disabled = true;
         confirmBtn.style.background = "gray";
       } else {
         msgBox.style.background = '#e8f5e9';
         msgBox.style.color = '#2e7d32';
-        msgBox.innerText = "✅ ನಿಮ್ಮ ಪ್ರದೇಶದಲ್ಲಿ ಡೆಲಿವರಿ ಮತ್ತು ಅಂಗಡಿ ಸೇವೆ ಲಭ್ಯವಿದೆ.";
+        msgBox.innerText = `✅ ನಿಮ್ಮ ಪ್ರದೇಶದಲ್ಲಿ (${userTalukName}) ಡೆಲಿವರಿ ಮತ್ತು ಅಂಗಡಿ ಸೇವೆ ಲಭ್ಯವಿದೆ.`;
         confirmBtn.disabled = false;
         confirmBtn.style.background = "var(--success)";
       }
@@ -1018,10 +1022,10 @@
       }
 
       let shop = allShopsMap[selectedProduct.shopId];
-      let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "ಶಹಾಪುರ";
+      let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "";
       
       if (taluk && !shopTaluk.includes(taluk) && !taluk.includes(shopTaluk)) {
-        alert(`❌ ಈ ತಾಲೂಕಿನ ಅಂಗಡಿಗಳು ನಮ್ಮ ಪ್ಯಾನಲ್‌ನಲ್ಲಿ ಇನ್ನೂ ಲಭ್ಯವಿಲ್ಲ ಇದ್ದರೆ ನಾವು ನಿಮಗೆ ತಿಳಿಸುತ್ತೇವೆ.`);
+        alert(`❌ ಈ ತಾಲೂಕಿನ ಅಂಗಡಿಗಳು ನಮ್ಮ ಪ್ಯಾನಲ್‌ನಲ್ಲಿ ಇನ್ನೂ ಲಭ್ಯವಿಲ್ಲ.`);
         return;
       }
 
@@ -1187,8 +1191,8 @@
             <div style="background:#fff3e0; border:2px solid #ffb74d; border-radius:8px; padding:12px; margin-bottom:12px; font-size:0.82rem; color:#d84315; line-height:1.5;">
               🔑 <b>ರಿಟರ್ನ್ / ಪಿಕಪ್ ಒಟಿಪಿ:</b> <span style="font-size:1.2rem; font-weight:bold; color:#d32f2f;">${o.returnOtp || '9234'}</span><br>
               • ಡೆಲಿವರಿ ಬಾಯ್ ನಿಮ್ಮ ಆಪ್‌ ಅನ್ನು ರಿಟರ್ನ್ ಕಳಿಸಲಾಗಿದೆ.<br>
-              • ಡೆಲಿವರಿ ಬಾಯ್ ಕಾಲ್ ಮಾಡಿ ನಿಮ್ಮ ಪಿಕಪ್ ಅನ್ನು ತಗೋತಾರೆ. ನಿಮ್ಮ ವಸ್ತುವಿನ ವರ್ಜಿನಲ್ ಪ್ಯಾಕಿಂಗ್ ಮತ್ತೆ ವಸ್ತು ಕರೆಕ್ಟಾಗಿ ನೀವು ಹತ್ತಿರ ಸೆಟ್ಕೊಳ್ಳಿ.<br>
-              • ಡೆಲಿವರಿ ಬಾಯ್ ಓಟಿಪಿದು ಪಿಕಪ್ ಬಟನ್ ಒತ್ತಿದ ಮೇಲೆ ನಿಮ್ಮ ರಿಟರ್ನ್ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ. 24 ಗಂಟೆ ಒಳಗೆ ಪೇಮೆಂಟ್ ಅನ್ನು ಆಗುತ್ತದೆ.
+              • ಡೆಲಿವರಿ ಬಾಯ್ ಕಾಲ್ ಮಾಡಿ ನಿಮ್ಮ ಪಿಕಪ್ ಅನ್ನು ತಗೋತಾರೆ.<br>
+              • ಡೆಲಿವರಿ ಬಾಯ್ ಓಟಿಪಿ ಪರಿಶೀಲಿಸಿದ ಮೇಲೆ ನಿಮ್ಮ ರಿಟರ್ನ್ ಕಂಪ್ಲೀಟ್ ಆಗುತ್ತದೆ.
             </div>
           `;
         }
@@ -1203,7 +1207,7 @@
       let returnButtonHtml = '';
       if (showReturnBtn) {
         if (shopReturnPolicy === 'NO') {
-          returnButtonHtml = `<div style="color:#d32f2f; font-weight:bold; font-size:0.85rem; text-align:center; padding:10px; background:#ffebee; border-radius:6px;">❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return / Final Sale)</div>`;
+          returnButtonHtml = `<div style="color:#d32f2f; font-weight:bold; font-size:0.85rem; text-align:center; padding:10px; background:#ffebee; border-radius:6px;">❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ</div>`;
         } else if (shopReturnPolicy === 'EXCHANGE_ONLY') {
           returnButtonHtml = `
             <button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:#ff9800; color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">
@@ -1223,7 +1227,6 @@
         <div style="background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:12px; font-size:0.82rem; color:#444;">
           📅 <b>ಆರ್ಡರ್ ಮಾಡಿದ ದಿನಾಂಕ & ಸಮಯ:</b> ${o.orderDate || 'N/A'}<br>
           🚚 <b>ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ ದಿನಾಂಕ:</b> ${o.expectedDeliveryDate || 'N/A'}<br>
-          ${o.returnTimestamp ? `🔄 <b>ರಿಟರ್ನ್ ವಿನಂತಿ ದಿನಾಂಕ:</b> ${new Date(o.returnTimestamp).toLocaleDateString('en-GB')}<br>` : ''}
         </div>
       `;
 
@@ -1377,26 +1380,23 @@
         return;
       }
 
-      let confirmMsg = "ರಿಟರ್ನ್ ಮಾಡಿದಾಗ ರೂ.50 ಅಥವಾ ರೂ.80 ಡೆಲಿವರಿ ಚಾರ್ಜಸ್ ಕಟ್ ಆಗುತ್ತದೆ (ವಸ್ತುವಿನ ಮೊತ್ತದಿಂದ ಮೈನಸ್ ಆಗಿ ನಿಮ್ಮ ಯುಪಿಐ ಅಥವಾ ಕ್ಯೂಆರ್ ಕೋಡ್‌ಗೆ ಉಳಿದ ಹಣ ಜಮಾ ಆಗುತ್ತದೆ).\n\nಕನ್ಫರ್ಮ್ ಮಾಡಲು ಸರಿ ಒತ್ತಿ.";
-      if (!confirm(confirmMsg)) return;
-
       let returnOtp = Math.floor(1000 + Math.random() * 9000).toString();
 
       try {
         await window.updateDoc(window.doc(window.db, "orders", activeReturnOrderId), {
           isReturned: true,
           status: 'RETURN_REQUESTED',
+          isReturnRequested: true,
           returnReason: reasonSelect,
           customerUpiId: customerUpi,
           customerQrPhoto: returnBase64Qr,
-          returnPhoto1: returnBase64Photo1,
-          returnPhoto2: returnBase64Photo2,
+          returnPhotos: [returnBase64Photo1, returnBase64Photo2].filter(Boolean),
           returnOtp: returnOtp,
           returnPaymentStatus: 'PENDING',
           returnTimestamp: Date.now()
         });
 
-        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ನಿಮ್ಮ ಹಣವನ್ನು 24 ಗಂಟೆಯೊಳಗೆ ಪೇಮೆಂಟ್ ಆಗುತ್ತದೆ.");
+        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿಯನ್ನು ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ.");
         closeReturnModal();
         openMyOrdersScreen();
       } catch(e) {

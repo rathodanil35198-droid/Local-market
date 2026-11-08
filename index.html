@@ -261,7 +261,7 @@
     <div class="nav-item" id="navCart" onclick="openMyOrdersScreen()"><span class="icon">📦</span><span id="navOrdersText">ಆರ್ಡರ್ಸ್</span></div>
   </div>
 
-  <!-- PRODUCT DETAIL SCREEN (ಫ್ಲಿಪ್‌ಕಾರ್ಟ್ ಶೈಲಿಯಲ್ಲಿ ಕೆಳಗೆ ಇತರ ಪ್ರಾಡಕ್ಟ್‌ಗಳು ಬರುವಂತೆ ನವೀಕರಿಸಲಾಗಿದೆ) -->
+  <!-- PRODUCT DETAIL SCREEN -->
   <div id="productDetailScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
@@ -276,7 +276,6 @@
       <p id="detailShopName" style="color: #666; font-size: 0.75rem; margin-top: 2px;"></p>
       <p id="detailShopLocation" style="color: var(--primary); font-size: 0.75rem; font-weight: bold; margin-top: 2px;"></p>
       
-      <!-- ರಿಟರ್ನ್ ಅಥವಾ ಎಕ್ಸ್ಚೇಂಜ್ ಪಾಲಿಸಿ ಇದ್ದರೆ ಮಾತ್ರ ಬಟನ್/ಟ್ಯಾಗ್ ಕಾಣುವ ವ್ಯವಸ್ಥೆ -->
       <div id="detailReturnPolicyContainer" style="margin-top:6px;"></div>
 
       <div id="detailRamStorageBox" style="margin-top:6px; font-size:0.8rem; font-weight:bold; color:#1976d2; background:#e3f2fd; padding:6px 8px; border-radius:4px; display:none;"></div>
@@ -309,7 +308,6 @@
         🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ)</b>
       </div>
 
-      <!-- ಫ್ಲಿಪ್‌ಕಾರ್ಟ್ ಶೈಲಿಯಲ್ಲಿ ಕೆಳಗೆ ಇತರ ಪ್ರಾಡಕ್ಟ್‌ಗಳು ಸ್ಕ್ರೋಲ್ ಆಗಿ ಕಾಣುವ ಸೆಕ್ಷನ್ -->
       <div style="margin-top: 20px; border-top: 2px solid #ddd; padding-top: 12px;">
         <h4 style="font-size: 0.9rem; color: #333; margin-bottom: 8px;">🔥 ಇತರ ಪ್ರಮುಖ ವಸ್ತುಗಳು (More Products)</h4>
         <div id="relatedProductsGrid" class="grid-products"></div>
@@ -322,7 +320,7 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN (ಹೊಸ ಅಡ್ರೆಸ್ ಫೀಲ್ಡ್‌ಗಳು ಮತ್ತು 12 ಕಿ.ಮೀ ದೂರದ ನಿರ್ಬಂಧದೊಂದಿಗೆ) -->
+  <!-- CHECKOUT SCREEN -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
@@ -336,7 +334,6 @@
         <input type="text" id="custName" placeholder="ಗ್ರಾಹಕರ ಹೆಸರು / Customer Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
-        <!-- ಪಿನ್ ಕೋಡ್ (ಜಿಪಿಎಸ್ ಆಟೋಮ್ಯಾಟಿಕ್ ಕ್ಯಾಪ್ಚರ್ ಬಟನ್ ಜೊತೆಗೆ) -->
         <div style="display:flex; gap:6px; margin-bottom:6px;">
           <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode" maxlength="6" oninput="fetchPincodeDetails(this.value)" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;">
           <button type="button" onclick="fetchCustomerGpsLocation()" style="padding:8px 12px; background:#1976d2; color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:0.75rem; cursor:pointer;">📍 GPS ಆಟೋ</button>
@@ -346,7 +343,6 @@
         <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು ಹೆಸರು / Taluk (ಆಟೋ-ಫೆಚ್)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fffde7; font-weight:bold;" readonly>
         <input type="text" id="custVillage" placeholder="ಊರು / Village" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
-        <!-- ಮನೆ ಹತ್ತಿರದ ಪ್ರಮುಖ ಸ್ಥಳಗಳು / ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್ 4 ಆಪ್ಷನ್‌ಗಳು -->
         <div style="margin-bottom:8px;">
           <label style="font-size:0.78rem; font-weight:bold; color:#444;">ಮನೆಯ ಹತ್ತಿರ ಏನಿದೆ? (ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್ ಆಯ್ಕೆಮಾಡಿ):</label>
           <select id="custLandmarkOption" style="width:100%; padding:8px; margin-top:3px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem;">
@@ -484,6 +480,7 @@
       window.initFirebaseAppData();
       checkInstallStatusAndButton();
 
+      // 🌟 ಬ್ರೌಸರ್ ಅಥವಾ ಮೊಬೈಲ್ ಬ್ಯಾಕ್ ಬಟನ್ ಒತ್ತಿದಾಗ ಆಪ್ ಮಾಯವಾಗದೆ ಹಿಂದಿನ ಸ್ಕ್ರೀನ್‌ಗೆ ಬರುವ ಲಾಜಿಕ್
       window.addEventListener('popstate', (event) => {
         event.preventDefault();
         const detailScr = document.getElementById('productDetailScreen');
@@ -491,18 +488,20 @@
         const ordersScr = document.getElementById('myOrdersScreen');
         const orderDetailsScr = document.getElementById('orderDetailsScreen');
         const pocketScr = document.getElementById('pocketMoneyScreen');
+        const categoriesScr = document.getElementById('categoriesViewContainer');
 
         if (orderDetailsScr.style.display === 'block') {
           openMyOrdersScreen();
         } else if (checkoutScr.style.display === 'block') {
           showScreen('productDetailScreen');
-        } else if (detailScr.style.display === 'block' || ordersScr.style.display === 'block' || pocketScr.style.display === 'block') {
+        } else if (detailScr.style.display === 'block' || ordersScr.style.display === 'block' || pocketScr.style.display === 'block' || categoriesScr.style.display === 'block') {
           goBackToHome();
         } else {
-          history.pushState(null, '', window.location.href);
+          // ಒಂದೊಮ್ಮೆ ಹೋಮ್‌ನಲ್ಲಿದ್ದರೆ ಮತ್ತೊಮ್ಮೆ ಹಿಸ್ಟರಿ ಪುಶ್ ಮಾಡಿ ಆಪ್ ಕ್ಲೋಸ್ ಆಗದಂತೆ ತಡೆಯುವುದು
+          history.pushState({ page: 'main' }, '', window.location.href);
         }
       });
-      history.pushState(null, '', window.location.href);
+      history.pushState({ page: 'main' }, '', window.location.href);
     });
 
     function checkInstallStatusAndButton() {
@@ -769,6 +768,7 @@
       });
       applyLocationFilter();
       showScreen('homeViewContainer');
+      history.pushState({ page: 'home' }, '', '');
     }
 
     function applyLocationFilter() {
@@ -834,7 +834,6 @@
       document.getElementById('detailShopName').innerText = "ಅಂಗಡಿ: " + (shop ? shop.shopName : "Store");
       document.getElementById('detailShopLocation').innerText = "📍 ತಾಲೂಕು/ಸ್ಥಳ: " + (shop ? shop.taluk : 'ಶಹಾಪುರ (Shahapur)');
 
-      // 🌟 ಅಂಗಡಿ ಮಾಲೀಕರು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ರಿಟರ್ನ್ ಪಾಲಿಸಿಗೆ ತಕ್ಕಂತೆ ಬಟನ್ ತೋರಿಸುವುದು
       let returnPolicyVal = selectedProduct.returnPolicy || (shop ? shop.returnPolicy : 'RETURN_AVAILABLE');
       let returnContainer = document.getElementById('detailReturnPolicyContainer');
       
@@ -843,7 +842,7 @@
       } else if (returnPolicyVal === 'EXCHANGE_ONLY') {
         returnContainer.innerHTML = `
           <div style="margin-top:4px;">
-            <span style="color:#ff9800; font-weight:bold; font-size:0.78rem;">🩱 ಈ ವಸ್ತುವಿಗೆ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ ಇದೆ</span>
+            <span style="color:#ff9800; font-weight:bold; font-size:0.78rem;">🩱 ಈ ವಸ್ತುವಿಗೆ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ ಇದೆ (Exchange Only)</span>
             <button onclick="openExchangeCategoryView()" style="display:block; margin-top:4px; padding:6px 12px; background:#ff9800; color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:0.75rem; cursor:pointer;">
               🔄 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಬೇರೆ ವಸ್ತುಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ
             </button>
@@ -916,15 +915,14 @@
       updateDetailSliderPhotos();
       renderRelatedProducts(selectedProduct);
       showScreen('productDetailScreen');
+      history.pushState({ page: 'detail' }, '', '');
     }
 
-    // 🌟 ಎಕ್ಸ್ಚೇಂಜ್ ಬಟನ್ ಕ್ಲಿಕ್ ಮಾಡಿದಾಗ ಮುಖಪುಟದಂತೆ ಪ್ರಾಡಕ್ಟ್ ಲಿಸ್ಟ್ ತೋರಿಸುವುದು
     function openExchangeCategoryView() {
       showScreen('homeViewContainer');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 🌟 ಫ್ಲಿಪ್‌ಕಾರ್ಟ್ ಶೈಲಿಯಲ್ಲಿ ಪ್ರಾಡಕ್ಟ್ ವಿವರದ ಕೆಳಗೆ ಇತರ ವಸ್ತುಗಳನ್ನು ಸ್ಕ್ರೋಲ್ ಮಾಡಿ ತೋರಿಸುವುದು
     function renderRelatedProducts(currentProd) {
       const grid = document.getElementById('relatedProductsGrid');
       let otherProds = allProducts.filter(p => p.id !== currentProd.id && p.shopId === currentProd.shopId);
@@ -988,6 +986,7 @@
 
     function openCheckoutScreen() {
       showScreen('checkoutScreen');
+      history.pushState({ page: 'checkout' }, '', '');
     }
 
     const placeTranslations = {
@@ -1012,7 +1011,6 @@
       return name;
     }
 
-    // 🌟 ಪಿನ್ ಕೋಡ್ ಹಾಕಿದ ತಕ್ಷಣ ಊರು, ತಾಲೂಕು, ಜಿಲ್ಲೆ ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ ಆಟೋ-ಫೆಚ್ ಆಗುವುದು
     async function fetchPincodeDetails(pincode) {
       const msgBox = document.getElementById('availabilityMsg');
       const confirmBtn = document.getElementById('confirmOrderBtn');
@@ -1115,7 +1113,6 @@
       return R * c;
     }
 
-    // 🌟 12 ಕಿ.ಮೀ ದೂರದ ಕಟ್ಟುನಿಟ್ಟಾದ ಲೆಕ್ಕಾಚಾರ ಹಾಗೂ ಎಚ್ಚರಿಕೆ ಸಂದೇಶ
     function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
@@ -1146,7 +1143,6 @@
         if (pinDiff > 0) calculatedKm = (pinDiff % 10) + 2.5;
       }
 
-      // 12 ಕಿ.ಮೀ ಗಿಂತ ದೂರವಿದ್ದರೆ ಕಟ್ಟುನಿಟ್ಟಾಗಿ ತಡೆಯುವುದು
       if (calculatedKm > 12.0) {
         alert(`⚠️ ಕ್ಷಮಿಸಿ! ನೀವು ಇರುವ ಸ್ಥಳವು ಅಂಗಡಿಯಿಂದ ಸುಮಾರು ${calculatedKm.toFixed(1)} ಕಿ.ಮೀ ದೂರದಲ್ಲಿದೆ. ಕೇವಲ 12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ ಡೆಲಿವರಿ ಲಭ್ಯವಿರುವುದರಿಂದ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.`);
         return;
@@ -1183,6 +1179,9 @@
         productTitleStr = `${selectedProduct.name} [Color: ${selectedColorName}, Size: ${selectedSize}, Qty: ${productQty}]`;
       }
 
+      // 🌟 ವಸ್ತುವಿನ ರಿಟರ್ನ್ ಪಾಲಿಸಿಯನ್ನು (RETURN_AVAILABLE, EXCHANGE_ONLY, ಅಥವಾ NO) ಆರ್ಡರ್‌ನಲ್ಲಿ ಕಾಯಂ ಆಗಿ ಸೇವ್ ಮಾಡುವುದು
+      let productReturnPolicy = selectedProduct.returnPolicy || (shop ? shop.returnPolicy : 'RETURN_AVAILABLE');
+
       const orderData = {
         orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
         productName: productTitleStr,
@@ -1195,6 +1194,7 @@
         shopName: shop ? shop.shopName : "Store",
         shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
         customer: { name, phone, village, pincode, taluk, district, landmark },
+        returnPolicy: productReturnPolicy, // 👈 ಇಲ್ಲಿ ಸೇವ್ ಮಾಡಲಾಗಿದೆ ಇದರಿಂದ ಅಂಗಡಿ ಮಾಲೀಕರಿಗೂ ಹಾಗೂ ಡೆಲಿವರಿ ಬಾಯ್‌ಗೂ ರಿಟರ್ನ್ ಇದೆಯೋ ಇಲ್ಲವೋ ಎಂಬುದು ಸ್ಪಷ್ಟವಾಗಿ ತಿಳಿಯುತ್ತದೆ
         paymentMode: 'COD',
         paymentStatus: paymentStatusVal,
         deliveryOtp: otp,
@@ -1265,6 +1265,7 @@
         }
       });
       showScreen('myOrdersScreen');
+      history.pushState({ page: 'orders' }, '', '');
     }
 
     function openOrderDetails(o) {
@@ -1306,26 +1307,31 @@
         }
       }
 
-      let hoursSinceDelivery = (Date.now() - (o.deliveredTimestamp || o.timestamp || Date.now())) / (1000 * 60 * 60);
-      let showReturnBtn = isDelivered && hoursSinceDelivery <= 12 && !o.isReturned;
-      let shopObj = allShopsMap[o.shopId];
-      let shopReturnPolicy = selectedProduct?.returnPolicy || (shopObj ? shopObj.returnPolicy : 'RETURN_AVAILABLE'); 
+      // 🌟 ನಿಖರವಾದ 12 ಗಂಟೆಗಳ ಲಾಜಿಕ್: ಡೆಲಿವರಿ ಆದ ಸಮಯದಿಂದ 12 ಗಂಟೆಗಳೊಳಗೆ ಮಾತ್ರ ಮತ್ತು ರಿಟರ್ನ್ ಪಾಲಿಸಿ 'NO' ಇಲ್ಲದಿದ್ದರೆ ಮಾತ್ರ ಬಟನ್ ಕಾಣಿಸುವುದು
+      let deliveryTime = o.deliveredTimestamp || o.timestamp || Date.now();
+      let hoursSinceDelivery = (Date.now() - deliveryTime) / (1000 * 60 * 60);
+      let orderReturnPolicy = o.returnPolicy || 'RETURN_AVAILABLE';
+      
+      let showReturnBtn = isDelivered && (hoursSinceDelivery <= 12) && !o.isReturned && (orderReturnPolicy !== 'NO');
 
       let returnButtonHtml = '';
       if (showReturnBtn) {
-        if (shopReturnPolicy === 'NO') {
-          returnButtonHtml = `<div style="color:#d32f2f; font-weight:bold; font-size:0.85rem; text-align:center; padding:10px; background:#ffebee; border-radius:6px;">❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ</div>`;
-        } else if (shopReturnPolicy === 'EXCHANGE_ONLY') {
+        if (orderReturnPolicy === 'EXCHANGE_ONLY') {
           returnButtonHtml = `<button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:#ff9800; color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">🩱 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)</button>`;
         } else {
           returnButtonHtml = `<button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಿ (Return Order)</button>`;
         }
+      } else if (isDelivered && orderReturnPolicy === 'NO') {
+        returnButtonHtml = `<div style="color:#d32f2f; font-weight:bold; font-size:0.85rem; text-align:center; padding:10px; background:#ffebee; border-radius:6px; border:1px solid #ffcdd2;">❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return Policy)</div>`;
+      } else if (isDelivered && hoursSinceDelivery > 12 && !o.isReturned) {
+        returnButtonHtml = `<div style="color:#777; font-weight:bold; font-size:0.8rem; text-align:center; padding:8px; background:#eee; border-radius:6px;">⏰ 12 ಗಂಟೆಗಳಾವಧಿ ಮುಕ್ತಾಯಗೊಂಡಿದೆ (Return Window Closed)</div>`;
       }
 
       let dateDetailsBox = `
         <div style="background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:12px; font-size:0.82rem; color:#444;">
           📅 <b>ಆರ್ಡರ್ ಮಾಡಿದ ದಿನಾಂಕ:</b> ${o.orderDate || 'N/A'}<br>
           🚚 <b>ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ:</b> ${o.expectedDeliveryDate || 'N/A'}<br>
+          📋 <b>ರಿಟರ್ನ್ ಪಾಲಿಸಿ:</b> <span style="font-weight:bold; color:${orderReturnPolicy === 'NO' ? 'red' : 'green'};">${orderReturnPolicy === 'NO' ? 'ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? 'ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)' : 'ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ')}</span>
         </div>
       `;
 
@@ -1364,6 +1370,7 @@
         ${returnButtonHtml}
       `;
       showScreen('orderDetailsScreen');
+      history.pushState({ page: 'order_details' }, '', '');
     }
 
     function openReturnModal(order) {
@@ -1488,6 +1495,7 @@
         </div>
       `;
       showScreen('pocketMoneyScreen');
+      history.pushState({ page: 'pocket' }, '', '');
     }
 
     function showScreen(id) {
@@ -1498,12 +1506,17 @@
       document.getElementById(id).style.display = 'block';
     }
 
-    function goBackToHome() { showScreen('homeViewContainer'); }
+    function goBackToHome() {
+      showScreen('homeViewContainer');
+      history.pushState({ page: 'home' }, '', '');
+    }
 
     function switchNavTab(tab) {
-      if (tab === 'home') showScreen('homeViewContainer');
-      else if (tab === 'categories') showScreen('categoriesViewContainer');
-      else if (tab === 'account') openPocketMoneyScreen();
+      if (tab === 'home') goBackToHome();
+      else if (tab === 'categories') {
+        showScreen('categoriesViewContainer');
+        history.pushState({ page: 'categories' }, '', '');
+      } else if (tab === 'account') openPocketMoneyScreen();
     }
 
     function loadSavedAddress() {

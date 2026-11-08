@@ -326,12 +326,12 @@
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (12 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
         <input type="text" id="custName" placeholder="ಹೆಸರು / Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode (Auto-fill)" maxlength="6" oninput="fetchPincodeDetails(this.value)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;">
-        <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು / Village / Post Office" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು / Taluk" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ / District" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode" maxlength="6" oninput="fetchPincodeDetails(this.value)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;">
+        <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು / Village (ಆಟೋ-ಫೆಚ್)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು / Taluk (ಆಟೋ-ಫೆಚ್)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ / District (ಆಟೋ-ಫೆಚ್)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
-        <div id="availabilityMsg" style="font-size:0.8rem; font-weight:bold; margin:6px 0; padding:6px; border-radius:4px; display:none;"></div>
+        <div id="availabilityMsg" style="display:none; font-size:0.8rem; font-weight:bold; margin:6px 0; padding:8px; border-radius:4px;"></div>
 
         <button type="button" onclick="fetchCustomerGpsLocation()" style="width:100%; padding:9px; background:#1976d2; color:#fff; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem; cursor:pointer; margin-top:6px; display:flex; align-items:center; justify-content:center; gap:5px;">
           📍 GPS ಮೂಲಕ ನನ್ನ ಲೊಕೇಶನ್ ಆಟೋಮ್ಯಾಟಿಕ್ ಹಾಕಿ
@@ -912,7 +912,7 @@
       showScreen('checkoutScreen');
     }
 
-    // 🌟 ಪಿನ್ ಕೋಡ್ ಆಟೋ ಕ್ಯಾಪ್ಚರ್ ಮತ್ತು ಅಂಗಡಿ ಮಾಲೀಕರ ತಾಲೂಕು ಮ್ಯಾಚಿಂಗ್ ಫಂಕ್ಷನ್
+    // 🌟 1. ಪಿನ್ ಕೋಡ್ ಹಾಕಿದ ತಕ್ಷಣ ಊರು, ತಾಲೂಕು, ಜಿಲ್ಲೆ ಆಟೋ-ಕ್ಯಾಪ್ಚರ್ ಮತ್ತು ಅಂಗಡಿ ಲಭ್ಯತೆ ಪರಿಶೀಲನೆ
     async function fetchPincodeDetails(pincode) {
       const msgBox = document.getElementById('availabilityMsg');
       const confirmBtn = document.getElementById('confirmOrderBtn');
@@ -932,12 +932,13 @@
           let capturedTaluk = details.Taluk || details.District || '';
           let capturedDistrict = details.District || '';
 
+          // ಊರು, ತಾಲೂಕು ಮತ್ತು ಜಿಲ್ಲೆ ಬಾಕ್ಸ್‌ಗಳಲ್ಲಿ ಆಟೋಮ್ಯಾಟಿಕ್ ತುಂಬಿಕೊಳ್ಳುವುದು
           document.getElementById('custVillage').value = capturedVillage;
           document.getElementById('custTaluk').value = capturedTaluk;
           document.getElementById('custDistrict').value = capturedDistrict;
 
-          // ಅಂಗಡಿ ಮಾಲೀಕರು ಮತ್ತು ಗ್ರಾಹಕರ ತಾಲೂಕು ಹೋಲಿಕೆ (Validation)
-          validateOrderAreaAndSeller(capturedTaluk);
+          // 2. ಆ ತಾಲೂಕಿನಲ್ಲಿ ನಮ್ಮ ಅಂಗಡಿ ಮಾಲೀಕರು (Sellers) ಇದ್ದಾರಾ ಎಂದು ಚೆಕ್ ಮಾಡುವುದು
+          validateSellerAvailabilityInTaluk(capturedTaluk);
         } else {
           msgBox.style.display = 'block';
           msgBox.style.background = '#ffebee';
@@ -951,7 +952,8 @@
       }
     }
 
-    function validateOrderAreaAndSeller(userTalukName) {
+    // 🌟 3. ತಾಲೂಕು ಮತ್ತು ಅಂಗಡಿ ಮಾಲೀಕರ ಮ್ಯಾಚಿಂಗ್ ಲಾಜಿಕ್
+    function validateSellerAvailabilityInTaluk(userTalukName) {
       const msgBox = document.getElementById('availabilityMsg');
       const confirmBtn = document.getElementById('confirmOrderBtn');
       
@@ -959,7 +961,7 @@
       let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "";
       let userTaluk = userTalukName.toLowerCase();
 
-      // ಅಂಗಡಿ ಮಾಲೀಕರು ಆ ತಾಲೂಕಿನಲ್ಲಿ ಇಲ್ಲದಿದ್ದರೆ ಆರ್ಡರ್ ಬ್ಲಾಕ್ ಮಾಡುವುದು
+      // ಅಂಗಡಿ ಮಾಲೀಕರು ಆ ತಾಲೂಕಿನಲ್ಲಿ ರಿಜಿಸ್ಟರ್ ಆಗಿದ್ದಾರಾ ಎಂದು ಪರಿಶೀಲಿಸುವುದು
       let isSellerAvailable = shop && (shopTaluk.includes(userTaluk) || userTaluk.includes(shopTaluk));
 
       msgBox.style.display = 'block';
@@ -967,13 +969,13 @@
       if (!isSellerAvailable) {
         msgBox.style.background = '#ffebee';
         msgBox.style.color = '#d32f2f';
-        msgBox.innerText = `❌ ಕ್ಷಮಿಸಿ, ಈ ಪ್ರದೇಶದಲ್ಲಿ (${userTalukName}) ಸದ್ಯಕ್ಕೆ ಯಾವುದೇ ಅಂಗಡಿಗಳು ಲಭ್ಯವಿಲ್ಲ. ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.`;
+        msgBox.innerText = `❌ ಕ್ಷಮಿಸಿ, ಈ ತಾಲೂಕಿನಲ್ಲಿ (${userTalukName}) ಸದ್ಯಕ್ಕೆ ಯಾವುದೇ ಅಂಗಡಿಗಳು ಲಭ್ಯವಿಲ್ಲ. ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.`;
         confirmBtn.disabled = true;
         confirmBtn.style.background = "gray";
       } else {
         msgBox.style.background = '#e8f5e9';
         msgBox.style.color = '#2e7d32';
-        msgBox.innerText = `✅ ನಿಮ್ಮ ಪ್ರದೇಶದಲ್ಲಿ (${userTalukName}) ಡೆಲಿವರಿ ಮತ್ತು ಅಂಗಡಿ ಸೇವೆ ಲಭ್ಯವಿದೆ.`;
+        msgBox.innerText = `✅ ಈ ತಾಲೂಕಿನಲ್ಲಿ (${userTalukName}) ನಮ್ಮ ಅಂಗಡಿ ಲಭ್ಯವಿದೆ. 12 ಕಿ.ಮೀ ವ್ಯಾಪ್ತಿ ಪರಿಶೀಲಿಸಲಾಗುವುದು.`;
         confirmBtn.disabled = false;
         confirmBtn.style.background = "var(--success)";
       }
@@ -1009,6 +1011,7 @@
       return R * c;
     }
 
+    // 🌟 4. ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡುವಾಗ 12 ಕಿ.ಮೀ ದೂರದ ಕಟ್ಟುನಿಟ್ಟಾದ ಪರಿಶೀಲನೆ
     function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
@@ -1024,11 +1027,13 @@
       let shop = allShopsMap[selectedProduct.shopId];
       let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "";
       
+      // ತಾಲೂಕು ಮ್ಯಾಚ್ ಆಗದಿದ್ದರೆ ತಡೆಯುವುದು
       if (taluk && !shopTaluk.includes(taluk) && !taluk.includes(shopTaluk)) {
-        alert(`❌ ಈ ತಾಲೂಕಿನ ಅಂಗಡಿಗಳು ನಮ್ಮ ಪ್ಯಾನಲ್‌ನಲ್ಲಿ ಇನ್ನೂ ಲಭ್ಯವಿಲ್ಲ.`);
+        alert(`❌ ಈ ತಾಲೂಕಿನಲ್ಲಿ ನಮ್ಮ ಅಂಗಡಿಗಳು ಲಭ್ಯವಿಲ್ಲ.`);
         return;
       }
 
+      // ದೂರದ ಲೆಕ್ಕಾಚಾರ (Distance Calculation)
       let shopLat = shop ? (shop.lat || 16.7037) : 16.7037;
       let shopLon = shop ? (shop.lon || 76.8397) : 76.8397;
       let calculatedKm = calculateDistanceKm(shopLat, shopLon, 16.7000, 76.8300);
@@ -1038,8 +1043,9 @@
         if (pinDiff > 0) calculatedKm = (pinDiff % 10) + 3.5;
       }
 
+      // 12 ಕಿ.ಮೀ ಮಿತಿ ಪರಿಶೀಲನೆ
       if (calculatedKm > 12.0) {
-        alert(`⚠️ ಕ್ಷಮಿಸಿ! ನೀವು ಇರುವ ಸ್ಥಳವು ಅಂಗಡಿಯಿಂದ ಸುಮಾರು ${calculatedKm.toFixed(1)} ಕಿ.ಮೀ ದೂರದಲ್ಲಿದೆ. 12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗುತ್ತದೆ.`);
+        alert(`⚠️ ಕ್ಷಮಿಸಿ! ನೀವು ಇರುವ ಸ್ಥಳವು ಅಂಗಡಿಯಿಂದ ಸುಮಾರು ${calculatedKm.toFixed(1)} ಕಿ.ಮೀ ದೂರದಲ್ಲಿದೆ. ಕೇವಲ 12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ ಡೆಲಿವರಿ ಲಭ್ಯವಿದೆ. ಆರ್ಡರ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ.`);
         return;
       }
 

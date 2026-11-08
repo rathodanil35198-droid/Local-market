@@ -3,10 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title id="appTitle">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ಗ್ರಾಹಕರ ಆಪ್ | Namma Ooru Shopping App</title>
+  <title id="appTitle">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್ | ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್ - Namma Ooru Shopping App</title>
   
-  <meta name="description" content="ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ - ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ. Namma Ooru Shopping, Ooru Shopping, Shopping App in Shahapur Yadgir.">
+  <meta name="description" content="ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್, ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್, ಊರು ಶಾಪಿಂಗ್ ಆಪ್, ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್, Namma Ooru Shopping, Ooru Shopping, Fast Shopping App, Shopping App in Shahapur Yadgir. ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ.">
+  <meta name="keywords" content="ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್, ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್, ಊರು ಶಾಪಿಂಗ್ ಆಪ್, ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್, Namma Ooru Shopping, Ooru Shopping, Fast Shopping App, Shahapur Shopping App, Yadgir Shopping">
+  
   <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2874f0">
 
@@ -166,7 +169,7 @@
   <div id="customerLoginOverlay">
     <div class="login-box">
       <div style="font-size: 2.5rem; margin-bottom: 5px;">🛍️</div>
-      <h3 style="color: var(--primary); margin-bottom: 5px;">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್</h3>
+      <h3 style="color: var(--primary); margin-bottom: 5px;">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್</h3>
       <p style="font-size: 0.78rem; color: #555; margin-bottom: 12px;">ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ</p>
       
       <div style="margin-bottom: 10px; text-align: left;">
@@ -194,7 +197,7 @@
     <div class="top-bar">
       <div class="brand-logo-area">
         <img src="logo.png" class="app-logo" alt="Logo" onerror="this.src='https://via.placeholder.com/32?text=🛍️'">
-        <div class="brand-title" id="lblBrand">🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್</div>
+        <div class="brand-title" id="lblBrand">🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್</div>
       </div>
       <div class="header-btns">
         <button id="topInstallBtn" class="install-btn" onclick="installAppPrompt()">📲 ಇನ್‌ಸ್ಟಾಲ್</button>
@@ -212,7 +215,7 @@
     <div class="hero-slider-container" id="heroSliderContainer">
       <div class="hero-slider-track" id="heroSliderTrack">
         <div class="hero-slide" style="display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #2874f0, #1649a0); color:white; font-size:1.1rem; font-weight:bold;">
-          🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ವಿಶೇಷ ಆಫರ್‌ಗಳು
+          🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ - ವಿಶೇಷ ಆಫರ್‌ಗಳು
         </div>
       </div>
     </div>
@@ -480,7 +483,6 @@
       window.initFirebaseAppData();
       checkInstallStatusAndButton();
 
-      // 🌟 ಬ್ರೌಸರ್ ಅಥವಾ ಮೊಬೈಲ್ ಬ್ಯಾಕ್ ಬಟನ್ ಒತ್ತಿದಾಗ ಆಪ್ ಮಾಯವಾಗದೆ ಹಿಂದಿನ ಸ್ಕ್ರೀನ್‌ಗೆ ಬರುವ ಲಾಜಿಕ್
       window.addEventListener('popstate', (event) => {
         event.preventDefault();
         const detailScr = document.getElementById('productDetailScreen');
@@ -497,7 +499,6 @@
         } else if (detailScr.style.display === 'block' || ordersScr.style.display === 'block' || pocketScr.style.display === 'block' || categoriesScr.style.display === 'block') {
           goBackToHome();
         } else {
-          // ಒಂದೊಮ್ಮೆ ಹೋಮ್‌ನಲ್ಲಿದ್ದರೆ ಮತ್ತೊಮ್ಮೆ ಹಿಸ್ಟರಿ ಪುಶ್ ಮಾಡಿ ಆಪ್ ಕ್ಲೋಸ್ ಆಗದಂತೆ ತಡೆಯುವುದು
           history.pushState({ page: 'main' }, '', window.location.href);
         }
       });
@@ -599,14 +600,14 @@
 
     function shareAppOnWhatsApp() {
       const appUrl = window.location.href;
-      let shareText = `🛍️ ಬನ್ನಿ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ ಮೂಲಕ ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ! 1-2 ದಿನಗಳಲ್ಲಿ ಮನೆಗೆ ಡೆಲಿವರಿ ಪಡೆಯಿರಿ.\n\nಲಿಂಕ್ ಇಲ್ಲಿದೆ ನೋಡಿ:\n${appUrl}`;
+      let shareText = `🛍️ ಬನ್ನಿ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ / ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್‌ ಮೂಲಕ ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ! 1-2 ದಿನಗಳಲ್ಲಿ ಮನೆಗೆ ಡೆಲಿವರಿ ಪಡೆಯಿರಿ.\n\nಲಿಂಕ್ ಇಲ್ಲಿದೆ ನೋಡಿ:\n${appUrl}`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
     }
 
     const translations = {
       kn: {
-        appTitle: "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ಗ್ರಾಹಕರ ಆಪ್",
-        brandTitle: "🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್",
+        appTitle: "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್ | ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್",
+        brandTitle: "🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್",
         pocketMoney: "💰 ಪಾಕೆಟ್",
         searchPlaceholder: "ಊರು, ತಾಲೂಕು, ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ...",
         locationFilter: "📍 ಸ್ಥಳ/ತಾಲೂಕು ಸರ್ಚ್:",
@@ -624,12 +625,11 @@
         codOptionText: "💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)",
         proceedPaymentBtn: "ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)",
         myOrdersHeader: "ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)",
-        orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು & ಟ್ರ್ಯಾಕಿಂಗ್",
-        fillAll: "ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ಸಂಖ್ಯೆ, ಪಿನ್ ಕೋಡ್ ಮತ್ತು ಊರು ನಮೂದಿಸಿ."
+        orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು & ಟ್ರ್ಯಾಕಿಂಗ್"
       },
       en: {
-        appTitle: "Namma Ooru Shopping - Customer App",
-        brandTitle: "🛍️ Namma Ooru Shopping",
+        appTitle: "Namma Ooru Shopping App | Fast Shopping App | Ooru Shopping",
+        brandTitle: "🛍️ Namma Ooru Shopping App",
         pocketMoney: "💰 Pocket",
         searchPlaceholder: "Search village, taluk, product or shop...",
         locationFilter: "📍 Location / Taluk Search:",
@@ -647,8 +647,7 @@
         codOptionText: "💵 Cash on Delivery",
         proceedPaymentBtn: "Confirm Order",
         myOrdersHeader: "My Orders",
-        orderDetailsHeader: "Order Details & Tracking",
-        fillAll: "Please enter Name, Mobile Number, Pincode and Village."
+        orderDetailsHeader: "Order Details & Tracking"
       }
     };
 
@@ -657,7 +656,7 @@
         if (docSnap.exists()) {
           const data = docSnap.data();
           if (data.isOnline === false) {
-            document.getElementById('serverDownMsg').innerText = "ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಇನ್‌ಸ್ಟಾಪ್ ಸಿಸ್ಟಮ್ ಅನ್ನು ಬಂದ್ (OFF) ಮಾಡಲಾಗಿದೆ. ದಯವಿಟ್ಟು ನಂತರ ಪ್ರಯತ್ನಿಸಿ.";
+            document.getElementById('serverDownMsg').innerText = "ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಸಿಸ್ಟಮ್ ಅನ್ನು ಬಂದ್ (OFF) ಮಾಡಲಾಗಿದೆ. ದಯವಿಟ್ಟು ನಂತರ ಪ್ರಯತ್ನಿಸಿ.";
             document.getElementById('serverDownOverlay').style.display = 'flex';
           } else {
             document.getElementById('serverDownOverlay').style.display = 'none';
@@ -1179,7 +1178,6 @@
         productTitleStr = `${selectedProduct.name} [Color: ${selectedColorName}, Size: ${selectedSize}, Qty: ${productQty}]`;
       }
 
-      // 🌟 ವಸ್ತುವಿನ ರಿಟರ್ನ್ ಪಾಲಿಸಿಯನ್ನು (RETURN_AVAILABLE, EXCHANGE_ONLY, ಅಥವಾ NO) ಆರ್ಡರ್‌ನಲ್ಲಿ ಕಾಯಂ ಆಗಿ ಸೇವ್ ಮಾಡುವುದು
       let productReturnPolicy = selectedProduct.returnPolicy || (shop ? shop.returnPolicy : 'RETURN_AVAILABLE');
 
       const orderData = {
@@ -1194,7 +1192,7 @@
         shopName: shop ? shop.shopName : "Store",
         shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
         customer: { name, phone, village, pincode, taluk, district, landmark },
-        returnPolicy: productReturnPolicy, // 👈 ಇಲ್ಲಿ ಸೇವ್ ಮಾಡಲಾಗಿದೆ ಇದರಿಂದ ಅಂಗಡಿ ಮಾಲೀಕರಿಗೂ ಹಾಗೂ ಡೆಲಿವರಿ ಬಾಯ್‌ಗೂ ರಿಟರ್ನ್ ಇದೆಯೋ ಇಲ್ಲವೋ ಎಂಬುದು ಸ್ಪಷ್ಟವಾಗಿ ತಿಳಿಯುತ್ತದೆ
+        returnPolicy: productReturnPolicy,
         paymentMode: 'COD',
         paymentStatus: paymentStatusVal,
         deliveryOtp: otp,
@@ -1307,7 +1305,6 @@
         }
       }
 
-      // 🌟 ನಿಖರವಾದ 12 ಗಂಟೆಗಳ ಲಾಜಿಕ್: ಡೆಲಿವರಿ ಆದ ಸಮಯದಿಂದ 12 ಗಂಟೆಗಳೊಳಗೆ ಮಾತ್ರ ಮತ್ತು ರಿಟರ್ನ್ ಪಾಲಿಸಿ 'NO' ಇಲ್ಲದಿದ್ದರೆ ಮಾತ್ರ ಬಟನ್ ಕಾಣಿಸುವುದು
       let deliveryTime = o.deliveredTimestamp || o.timestamp || Date.now();
       let hoursSinceDelivery = (Date.now() - deliveryTime) / (1000 * 60 * 60);
       let orderReturnPolicy = o.returnPolicy || 'RETURN_AVAILABLE';

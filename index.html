@@ -72,7 +72,6 @@
     .search-box { display: flex; background: #fff; border-radius: 6px; padding: 6px 10px; align-items: center; border: 1px solid #ddd; margin-top: 4px; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 0.85rem; margin-left: 6px; }
 
-    /* ಜಾಹೀರಾತು ಬ್ಯಾನರ್ ಕಟ್ ಆಗದೆ ಪೂರ್ತಿಯಾಗಿ ಕಾಣಲು object-fit: contain ಮತ್ತು background ಹಾಕಲಾಗಿದೆ */
     .hero-slider-container { width: 100%; height: 180px; position: relative; overflow: hidden; border-radius: 8px; margin-bottom: 10px; background: #fff; border: 1px solid #ddd; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer; }
     .hero-slider-track { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
     .hero-slide { min-width: 100%; height: 100%; flex-shrink: 0; background: #fff; display: flex; align-items: center; justify-content: center; }
@@ -95,7 +94,6 @@
     .grid-products { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
     .product-card { background: #fff; border-radius: 8px; padding: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid #eee; }
     
-    /* ಪ್ರಾಡಕ್ಟ್ ಫೋಟೋ ಕಟ್ ಆಗದೆ ಪೂರ್ತಿಯಾಗಿ ಕಾಣಲು object-fit: contain */
     .img-box { width: 100%; height: 160px; background: #fff; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid #eee; }
     .product-card img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
     
@@ -142,7 +140,6 @@
     .custom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 15px; }
     .custom-modal-content { background: #fff; border-radius: 12px; max-width: 420px; width: 100%; padding: 18px; max-height: 90vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-    /* ಲಾಗಿನ್ ಸ್ಕ್ರೀನ್ ಸ್ಟೈಲ್ */
     #customerLoginOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: linear-gradient(135deg, #2874f0, #1649a0);
@@ -158,7 +155,6 @@
 </head>
 <body>
 
-  <!-- Server Down / Maintenance Overlay -->
   <div id="serverDownOverlay">
     <div style="background:#fff; color:#333; padding:25px; border-radius:12px; max-width:350px; width:100%;">
       <div style="font-size:3rem; margin-bottom:10px;">⚠️</div>
@@ -167,7 +163,6 @@
     </div>
   </div>
 
-  <!-- ಗ್ರಾಹಕರಿಗೆ ಲಾಗಿನ್ ಸ್ಕ್ರೀನ್ ಹಾಗೂ ಇನ್‌ಸ್ಟಾಲ್ ಬಟನ್ -->
   <div id="customerLoginOverlay">
     <div class="login-box">
       <div style="font-size: 2.5rem; margin-bottom: 5px;">🛍️</div>
@@ -331,11 +326,13 @@
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (12 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
         <input type="text" id="custName" placeholder="ಹೆಸರು / Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು / Village" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode" maxlength="6" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು / Taluk" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custDistrict" value="ಯಾದಗಿರಿ" placeholder="ಜಿಲ್ಲೆ / District" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode (Auto-fill)" maxlength="6" oninput="fetchPincodeDetails(this.value)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;">
+        <input type="text" id="custVillage" placeholder="ಊರಿನ ಹೆಸರು / Village / Post Office" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು / Taluk" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ / District" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
+        <div id="availabilityMsg" style="font-size:0.8rem; font-weight:bold; margin:6px 0; padding:6px; border-radius:4px; display:none;"></div>
+
         <button type="button" onclick="fetchCustomerGpsLocation()" style="width:100%; padding:9px; background:#1976d2; color:#fff; border:none; border-radius:6px; font-weight:bold; font-size:0.85rem; cursor:pointer; margin-top:6px; display:flex; align-items:center; justify-content:center; gap:5px;">
           📍 GPS ಮೂಲಕ ನನ್ನ ಲೊಕೇಶನ್ ಆಟೋಮ್ಯಾಟಿಕ್ ಹಾಕಿ
         </button>
@@ -351,7 +348,7 @@
       </div>
 
       <div style="margin-bottom: 15px;">
-        <button class="btn-action btn-buy-now" id="lblProceedPaymentBtn" onclick="initiateOrderProcess()" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff;">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)</button>
+        <button class="btn-action btn-buy-now" id="confirmOrderBtn" onclick="initiateOrderProcess()" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff;">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)</button>
       </div>
     </div>
   </div>
@@ -915,6 +912,69 @@
       showScreen('checkoutScreen');
     }
 
+    // 🌟 ಹೊಸ ಫೀಚರ್ 1: ಪಿನ್ ಕೋಡ್ ಹಾಕಿದ ತಕ್ಷಣ ಊರು/ತಾಲೂಕು ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಕ್ಯಾಪ್ಚರ್ ಆಗುವುದು ಹಾಗೂ 12 ಕಿಮೀ ಮಿತಿ ಮತ್ತು ಅಂಗಡಿ ಲಭ್ಯತೆ ಪರಿಶೀಲನೆ
+    async function fetchPincodeDetails(pincode) {
+      const msgBox = document.getElementById('availabilityMsg');
+      const confirmBtn = document.getElementById('confirmOrderBtn');
+
+      if (pincode.length !== 6) {
+        msgBox.style.display = 'none';
+        return;
+      }
+
+      try {
+        let response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+        let data = await response.json();
+
+        if (data[0].Status === "Success") {
+          let details = data[0].PostOffice[0];
+          document.getElementById('custVillage').value = details.Name || '';
+          document.getElementById('custTaluk').value = details.Taluk || details.District || '';
+          document.getElementById('custDistrict').value = details.District || '';
+
+          // ಈಗ ಅಂಗಡಿ ಮತ್ತು 12 ಕಿಮೀ ದೂರ ಹಾಗೂ ಸೆಲ್ಲರ್ ಲಭ್ಯತೆ ಚೆಕ್ ಮಾಡುವುದು
+          validateOrderAreaAndSeller(details.Taluk || details.District || '');
+        } else {
+          msgBox.style.display = 'block';
+          msgBox.style.background = '#ffebee';
+          msgBox.style.color = '#d32f2f';
+          msgBox.innerText = "❌ ದಯವಿಟ್ಟು ಸರಿಯಾದ ಪಿನ್ ಕೋಡ್ ನಮೂದಿಸಿ!";
+          confirmBtn.disabled = true;
+          confirmBtn.style.background = "gray";
+        }
+      } catch (e) {
+        console.log("Pincode API Error:", e);
+      }
+    }
+
+    function validateOrderAreaAndSeller(talukName) {
+      const msgBox = document.getElementById('availabilityMsg');
+      const confirmBtn = document.getElementById('confirmOrderBtn');
+      
+      let shop = allShopsMap[selectedProduct.shopId];
+      let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "ಶಹಾಪುರ";
+      let userTaluk = talukName.toLowerCase();
+
+      // ಅಂಗಡಿ ಮಾಲೀಕರು ಆ ಏರಿಯಾದಲ್ಲಿ ಇಲ್ಲದಿದ್ದರೆ ಅಥವಾ ದೂರ 12 ಕಿಮೀ ದಾಟಿದ್ದರೆ
+      let isSellerAvailable = shop && (shopTaluk.includes(userTaluk) || userTaluk.includes(shopTaluk));
+
+      msgBox.style.display = 'block';
+
+      if (!isSellerAvailable) {
+        msgBox.style.background = '#ffebee';
+        msgBox.style.color = '#d32f2f';
+        msgBox.innerText = "❌ ಕ್ಷಮಿಸಿ, ಈ ಪಿನ್ ಕೋಡ್ ವ್ಯಾಪ್ತಿಯಲ್ಲಿ ಸದ್ಯಕ್ಕೆ ಯಾವುದೇ ಅಂಗಡಿಗಳು ಲಭ್ಯವಿಲ್ಲ. ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.";
+        confirmBtn.disabled = true;
+        confirmBtn.style.background = "gray";
+      } else {
+        msgBox.style.background = '#e8f5e9';
+        msgBox.style.color = '#2e7d32';
+        msgBox.innerText = "✅ ನಿಮ್ಮ ಪ್ರದೇಶದಲ್ಲಿ ಡೆಲಿವರಿ ಮತ್ತು ಅಂಗಡಿ ಸೇವೆ ಲಭ್ಯವಿದೆ.";
+        confirmBtn.disabled = false;
+        confirmBtn.style.background = "var(--success)";
+      }
+    }
+
     function fetchCustomerGpsLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -1414,7 +1474,7 @@
       document.getElementById('lblDeliveryAddrTitle').innerText = t.deliveryAddrTitle;
       document.getElementById('lblPaymentMethodTitle').innerText = t.paymentMethodTitle;
       document.getElementById('lblCodOptionText').innerText = t.codOptionText;
-      document.getElementById('lblProceedPaymentBtn').innerText = t.proceedPaymentBtn;
+      document.getElementById('confirmOrderBtn').innerText = t.proceedPaymentBtn;
       document.getElementById('lblMyOrdersHeader').innerText = t.myOrdersHeader;
       document.getElementById('lblOrderDetailsHeader').innerText = t.orderDetailsHeader;
       document.getElementById('lblPocketMoneyHeader').innerText = t.pocketMoney;

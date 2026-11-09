@@ -1069,7 +1069,8 @@
         paymentMode: 'COD',
         paymentStatus: paymentStatusVal,
         deliveryOtp: otp,
-        status: 'CONFIRMED',
+        // ಇಲ್ಲಿ status ಅನ್ನು PENDING ಎಂದು ಸೆಟ್ ಮಾಡಲಾಗಿದೆ ಇದರಿಂದ ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕನ್ಫರ್ಮ್ ಬಟನ್ ಬರುತ್ತದೆ
+        status: 'PENDING',
         orderDate: orderDateStr,
         expectedDeliveryDate: deliveryDateStr,
         isCancelled: false,
@@ -1118,7 +1119,7 @@
             let payBadge = `(💵 COD)`;
             let dateStr = o.orderDate ? `📅 ಆರ್ಡರ್ ದಿನಾಂಕ: ${o.orderDate}` : '';
             let expDelivery = o.expectedDeliveryDate ? `<br>🚚 ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ ದಿನಾಂಕ: ${o.expectedDeliveryDate}` : '';
-            let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ)` : (o.status === 'DELIVERED' || o.status === 'STEP_4' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
+            let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ)` : (o.status === 'DELIVERED' || o.status === 'STEP_4' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : (o.status === 'PENDING' ? `(ಸ್ಥಿತಿ: ಅಂಗಡಿಯ ಪರಿಶೀಲನೆ ಬಾಕಿ ಇದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿದೆ)`));
             return `
               <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
                 <div style="display:flex; gap:10px; align-items:center;">
@@ -1141,20 +1142,20 @@
 
     function openOrderDetails(o) {
       const content = document.getElementById('orderDetailsContent');
-      let status = o.status || 'CONFIRMED';
+      let status = o.status || 'PENDING';
       let deliveryMode = o.deliveryMode || 'LOCAL';
       
       let cust = o.customer || {};
       let distanceText = `(ವಿಳಾಸ ದೂರ: ${o.distanceKm || 'ಲಭ್ಯವಿದೆ'})`;
       
-      let showCancelBtn = (status === 'CONFIRMED' || status === 'PENDING') && !o.isReturned;
+      let showCancelBtn = (status === 'PENDING' || status === 'CONFIRMED') && !o.isReturned;
       let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED');
       let isCourier = (deliveryMode === 'COURIER');
       
       let otpBoxHtml = '';
       let roadmapHtml = '';
 
-      if (status !== 'CONFIRMED' && status !== 'PENDING' && !o.isReturned) {
+      if (status !== 'PENDING' && status !== 'CONFIRMED' && !o.isReturned) {
         if (!isCourier) {
           otpBoxHtml = `
             <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
@@ -1190,7 +1191,7 @@
       } else {
         roadmapHtml = `
           <div style="background:#fff3e0; border:1px solid #ffe0b2; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center; font-size:0.82rem; color:#e65100; font-weight:bold;">
-            ⏳ ನಿಮ್ಮ ಆರ್ಡರ್ ಅಂಗಡಿಯಲ್ಲಿ ಸ್ವೀಕರಿಸಲ್ಪಟ್ಟಿದೆ. ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್ ದೃಢೀಕರಣದ ನಂತರ ಡೆಲಿವರಿ ಒಟಿಪಿ ಮತ್ತು ರೋಡ್‌ಮ್ಯಾಪ್ ಇಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತದೆ.
+            ⏳ ನಿಮ್ಮ ಆರ್ಡರ್ ಅಂಗಡಿಯಲ್ಲಿ ಸ್ವೀಕರಿಸಲ್ಪಟ್ಟಿದೆ. ಅಂಗಡಿ ಮಾಲೀಕರು ಕನ್ಫರ್ಮ್ ಮಾಡಿ ಪ್ಯಾಕಿಂಗ್ ಮಾಡಿದ ನಂತರ ಡೆಲಿವರಿ ಒಟಿಪಿ ಮತ್ತು ರೋಡ್‌ಮ್ಯಾಪ್ ಇಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತದೆ.
           </div>
         `;
       }

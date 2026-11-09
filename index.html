@@ -7,9 +7,6 @@
   
   <title id="appTitle">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್ | ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್ - Namma Ooru Shopping App</title>
   
-  <meta name="description" content="ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್, ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್, ಊರು ಶಾಪಿಂಗ್ ಆಪ್, ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್, Namma Ooru Shopping, Ooru Shopping, Fast Shopping App, Shopping App in Shahapur Yadgir. ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ.">
-  <meta name="keywords" content="ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್, ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್, ಊರು ಶಾಪಿಂಗ್ ಆಪ್, ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್, Namma Ooru Shopping, Ooru Shopping, Fast Shopping App, Shahapur Shopping App, Yadgir Shopping">
-  
   <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
   <link rel="apple-touch-icon" href="logo.png">
   <link rel="manifest" href="manifest.json">
@@ -340,12 +337,12 @@
         <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
         <div style="display:flex; gap:6px; margin-bottom:6px;">
-          <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode" maxlength="6" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;">
+          <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode" maxlength="6" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;" oninput="fetchPincodeAutoDetails(this.value)">
           <button type="button" onclick="fetchCustomerGpsLocation()" style="padding:8px 12px; background:#1976d2; color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:0.75rem; cursor:pointer;">📍 GPS ಆಟೋ</button>
         </div>
 
-        <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ ಹೆಸರು / District (ಟೈಪ್ ಮಾಡಿ)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fff;">
-        <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು ಹೆಸರು / Taluk (ಟೈಪ್ ಮಾಡಿ)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fff;">
+        <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ ಹೆಸರು / District" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fff;">
+        <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು ಹೆಸರು / Taluk" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fff;">
         <input type="text" id="custVillage" placeholder="ಊರು / Village / Address" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
         <div style="margin-bottom:8px;">
@@ -358,8 +355,6 @@
             <option value="ಇತರ ಪ್ರಮುಖ ಸ್ಥಳ">📍 ಇತರ ಪ್ರಮುಖ ಸ್ಥಳ</option>
           </select>
         </div>
-
-        <div id="availabilityMsg" style="display:none; font-size:0.8rem; font-weight:bold; margin:6px 0; padding:8px; border-radius:4px;"></div>
       </div>
 
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
@@ -410,48 +405,24 @@
       <h3 style="color:var(--danger); margin-bottom:10px; font-size:1.05rem;" id="lblReturnTitle">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಅರ್ಜಿ</h3>
       
       <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold;">1. ರಿಟರ್ನ್‌ ಮಾಡಲು ಪ್ರಮುಖ ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಬರೆಯಿರಿ:</label>
+        <label style="font-size:0.8rem; font-weight:bold;">1. ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಬರೆಯಿರಿ:</label>
         <select id="returnReasonSelect" style="width:100%; padding:8px; margin-top:4px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;" onchange="checkCustomReturnReason(this)">
           <option value="📦 ವಸ್ತು ಹಾನಿಯಾಗಿದೆ (Item Damaged)">📦 ವಸ್ತು ಹಾನಿಯಾಗಿದೆ (Item Damaged)</option>
           <option value="📏 ಸೈಜ್ ವ್ಯತ್ಯಾಸವಿದೆ (Size Issue)">📏 ಸೈಜ್ ವ್ಯತ್ಯಾಸವಿದೆ (Size Issue)</option>
           <option value="❌ ತಪ್ಪಾದ ವಸ್ತು ಬಂದಿದೆ (Wrong Item Delivered)">❌ ತಪ್ಪಾದ ವಸ್ತು ಬಂದಿದೆ (Wrong Item Delivered)</option>
-          <option value="other">✍️ ಸ್ವತಃ ಕಾರಣ ಬರೆಯಿರಿ (Type Custom Reason)</option>
+          <option value="other">✍️ ಸ್ವತಃ ಕಾರಣ ಬರೆಯಿರಿ</option>
         </select>
-        <input type="text" id="customReturnReasonInput" placeholder="ಇಲ್ಲಿ ಕಾರಣ ಟೈಪ್ ಮಾಡಿ..." style="width:100%; padding:8px; margin-top:6px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem; display:none;">
+        <input type="text" id="customReturnReasonInput" placeholder="ಕಾರಣ ಟೈಪ್ ಮಾಡಿ..." style="width:100%; padding:8px; margin-top:6px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem; display:none;">
       </div>
 
       <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold; color:var(--primary);">2. ಹಣ ಪಡೆಯಲು ನಿಮ್ಮ UPI ID / PhonePe / GPay ಸಂಖ್ಯೆ ನಮೂದಿಸಿ:</label>
-        <input type="text" id="customerUpiIdInput" placeholder="ಉದಾ: 8105010768@ybl ಅಥವಾ PhonePe ನಂಬರ್" style="width:100%; padding:8px; margin-top:4px; border:1px solid var(--primary); border-radius:6px; font-size:0.85rem; background:#f0f4ff;">
-      </div>
-
-      <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold; color:var(--primary);">3. QR ಕೋಡ್ ಅಪ್ಲೋಡ್ ಮಾಡಿ ಅಥವಾ ಕ್ಯೂಆರ್ ಫೋಟೋ ಹಾಕಿ:</label>
-        <input type="file" id="returnQrInput" accept="image/*" style="width:100%; margin-top:2px; font-size:0.8rem;" onchange="previewReturnQr(event)">
-        <div id="returnQrPreview" style="margin-top:4px; display:none;">
-          <img id="previewQrImgTag" src="" style="width:60px; height:60px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">
-        </div>
-      </div>
-
-      <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold;">4. ವಸ್ತುವಿನ ಮೊದಲನೇ ಫೋಟೋ (Photo 1):</label>
-        <input type="file" id="returnPhotoInput1" accept="image/*" capture="environment" style="width:100%; margin-top:2px; font-size:0.8rem;" onchange="previewReturnPhoto1(event)">
-        <div id="returnPhotoPreview1" style="margin-top:4px; display:none;">
-          <img id="previewImgTag1" src="" style="width:60px; height:60px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">
-        </div>
-      </div>
-
-      <div style="margin-bottom:12px;">
-        <label style="font-size:0.8rem; font-weight:bold;">5. ವಸ್ತುವಿನ ಎರಡನೇ ಫೋಟೋ (Photo 2):</label>
-        <input type="file" id="returnPhotoInput2" accept="image/*" capture="environment" style="width:100%; margin-top:2px; font-size:0.8rem;" onchange="previewReturnPhoto2(event)">
-        <div id="returnPhotoPreview2" style="margin-top:4px; display:none;">
-          <img id="previewImgTag2" src="" style="width:60px; height:60px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">
-        </div>
+        <label style="font-size:0.8rem; font-weight:bold; color:var(--primary);">2. UPI ID / PhonePe / GPay ಸಂಖ್ಯೆ:</label>
+        <input type="text" id="customerUpiIdInput" placeholder="ಉದಾ: 8105010768@ybl" style="width:100%; padding:8px; margin-top:4px; border:1px solid var(--primary); border-radius:6px; font-size:0.85rem; background:#f0f4ff;">
       </div>
 
       <div style="display:flex; gap:8px;">
-        <button onclick="closeReturnModal()" style="flex:1; padding:10px; background:#666; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕ್ಯಾನ್ಸಲ್ (Cancel)</button>
-        <button onclick="submitOrderReturnForm()" style="flex:1; padding:10px; background:var(--danger); color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕನ್ಫರ್ಮ್ ರಿಟರ್ನ್</button>
+        <button onclick="closeReturnModal()" style="flex:1; padding:10px; background:#666; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕ್ಯಾನ್ಸಲ್</button>
+        <button onclick="submitOrderReturnForm()" style="flex:1; padding:10px; background:var(--danger); color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕನ್ಫರ್ಮ್</button>
       </div>
     </div>
   </div>
@@ -463,10 +434,6 @@
     let bannerList = [];
     let currentCategoryFilter = '';
     let activeReturnOrderId = null;
-    let returnBase64Photo1 = '';
-    let returnBase64Photo2 = '';
-    let returnBase64Qr = '';
-
     let selectedProduct = null;
     let selectedSize = '';
     let selectedColorName = '';
@@ -506,6 +473,63 @@
       });
       history.pushState({ page: 'main' }, '', window.location.href);
     });
+
+    const placeTranslations = {
+      "yadgir": { kn: "ಯಾದಗಿರಿ", talukKn: "ಯಾದಗಿರಿ" },
+      "shahapur": { kn: "ಶಹಾಪುರ", talukKn: "ಶಹಾಪುರ" },
+      "surpur": { kn: "ಸುರಪುರ", talukKn: "ಸುರಪುರ" },
+      "shorapur": { kn: "ಸುರಪುರ", talukKn: "ಸುರಪುರ" },
+      "bheemarayanagudi": { kn: "ಭೀಮರಾಯನಗುಡಿ", talukKn: "ಶಹಾಪುರ" }
+    };
+
+    function translateToKannada(name, type) {
+      if (!name) return "";
+      let key = name.toLowerCase().trim();
+      if (placeTranslations[key]) {
+        return type === 'taluk' ? `${placeTranslations[key].talukKn} (${name})` : `${placeTranslations[key].kn} (${name})`;
+      }
+      return name;
+    }
+
+    async function fetchPincodeAutoDetails(pincode) {
+      if (pincode.length !== 6) return;
+      try {
+        let response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+        let data = await response.json();
+        if (data[0].Status === "Success") {
+          let details = data[0].PostOffice[0];
+          let villageEng = details.Name || '';
+          let talukEng = details.Taluk || details.District || '';
+          let distEng = details.District || '';
+
+          if (pincode === '585287' || talukEng.toLowerCase() === 'yadgir') {
+            talukEng = 'Shahapur';
+          }
+
+          document.getElementById('custVillage').value = translateToKannada(villageEng, 'village');
+          document.getElementById('custTaluk').value = translateToKannada(talukEng, 'taluk');
+          document.getElementById('custDistrict').value = translateToKannada(distEng, 'district');
+        }
+      } catch (e) { console.log(e); }
+    }
+
+    function fetchCustomerGpsLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            document.getElementById('custVillage').value = `GPS Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}`;
+            alert("📍 ನಿಮ್ಮ GPS ಲೊಕೇಶನ್ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಕ್ಯಾಚ್ ಮಾಡಲಾಗಿದೆ!");
+          },
+          (error) => {
+            alert("ಜಿಪಿಎಸ್ ಲೊಕೇಶನ್ ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಜಿಪಿಎಸ್ ಆನ್ ಮಾಡಿ.");
+          }
+        );
+      } else {
+        alert("ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಜಿಪಿಎಸ್ ಸೌಲಭ್ಯವಿಲ್ಲ.");
+      }
+    }
 
     function checkInstallStatusAndButton() {
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
@@ -573,42 +597,30 @@
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
           localStorage.setItem('app_installed_status', 'true');
-          const btn = document.getElementById('loginInstallAppBtn');
-          const topBtn = document.getElementById('topInstallBtn');
-          if (btn) btn.style.display = 'none';
-          if (topBtn) topBtn.style.display = 'none';
         }
         deferredPrompt = null;
       } else {
-        alert("ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು ಬ್ರೌಸರ್ ಮೇಲಿರುವ ಮೂರು ಚುಕ್ಕೆಗಳ (⋮) ಮೆನು ಕ್ಲಿಕ್ ಮಾಡಿ 'Install app' ಅಥವಾ 'Add to Home screen' ಆಯ್ಕೆಮಾಡಿ.");
+        alert("ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು ಬ್ರೌಸರ್ ಮೇಲಿರುವ ಮೂರು ಚುಕ್ಕೆಗಳ (⋮) ಮೆನು ಕ್ಲಿಕ್ ಮಾಡಿ 'Install app' ಆಯ್ಕೆಮಾಡಿ.");
       }
     }
-
-    window.addEventListener('appinstalled', () => {
-      localStorage.setItem('app_installed_status', 'true');
-      const btn = document.getElementById('loginInstallAppBtn');
-      const topBtn = document.getElementById('topInstallBtn');
-      if (btn) btn.style.display = 'none';
-      if (topBtn) topBtn.style.display = 'none';
-    });
 
     function playCoinSound() {
       const sound = document.getElementById('coinSound');
       if (sound) {
         sound.currentTime = 0;
-        sound.play().catch(e => console.log("Audio play blocked:", e));
+        sound.play().catch(e => console.log(e));
       }
     }
 
     function shareAppOnWhatsApp() {
       const appUrl = window.location.href;
-      let shareText = `🛍️ ಬನ್ನಿ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ ಮೂಲಕ ಯಾವುದೇ ಸ್ಥಳದಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ! ಮನೆಗೆ ಡೆಲಿವರಿ ಪಡೆಯಿರಿ.\n\nಲಿಂಕ್ ಇಲ್ಲಿದೆ ನೋಡಿ:\n${appUrl}`;
+      let shareText = `🛍️ ಬನ್ನಿ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ ಮೂಲಕ ಯಾವುದೇ ಸ್ಥಳದಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ!\n\n${appUrl}`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
     }
 
     const translations = {
       kn: {
-        appTitle: "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್ | ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್",
+        appTitle: "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್",
         brandTitle: "🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್",
         pocketMoney: "💰 ಪಾಕೆಟ್",
         searchPlaceholder: "ಊರು, ತಾಲೂಕು, ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ...",
@@ -622,7 +634,7 @@
         addToCart: "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ",
         buyNow: "ಖರೀದಿಸಿ (Buy Now)",
         checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ",
-        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (ಎಲ್ಲಿಂದಲಾದರೂ ಆರ್ಡರ್ ಮಾಡಿ):",
+        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:",
         paymentMethodTitle: "💳 ಪಾವತಿ ವಿಧಾನ:",
         codOptionText: "💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)",
         proceedPaymentBtn: "ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)",
@@ -630,7 +642,7 @@
         orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು & ಟ್ರ್ಯಾಕಿಂಗ್"
       },
       en: {
-        appTitle: "Namma Ooru Shopping App | Fast Shopping App | Ooru Shopping",
+        appTitle: "Namma Ooru Shopping App",
         brandTitle: "🛍️ Namma Ooru Shopping App",
         pocketMoney: "💰 Pocket",
         searchPlaceholder: "Search village, taluk, product or shop...",
@@ -644,7 +656,7 @@
         addToCart: "Add to Cart",
         buyNow: "Buy Now",
         checkoutHeader: "Confirm Details & Payment",
-        deliveryAddrTitle: "📍 Delivery Address (Order from anywhere):",
+        deliveryAddrTitle: "📍 Delivery Address:",
         paymentMethodTitle: "💳 Payment Method:",
         codOptionText: "💵 Cash on Delivery",
         proceedPaymentBtn: "Confirm Order",
@@ -658,7 +670,7 @@
         if (docSnap.exists()) {
           const data = docSnap.data();
           if (data.isOnline === false) {
-            document.getElementById('serverDownMsg').innerText = "ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಸಿಸ್ಟಮ್ ಅನ್ನು ಬಂದ್ (OFF) ಮಾಡಲಾಗಿದೆ. ದಯವಿಟ್ಟು ನಂತರ ಪ್ರಯತ್ನಿಸಿ.";
+            document.getElementById('serverDownMsg').innerText = "ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಸಿಸ್ಟಮ್ ಅನ್ನು ಬಂದ್ (OFF) ಮಾಡಲಾಗಿದೆ.";
             document.getElementById('serverDownOverlay').style.display = 'flex';
           } else {
             document.getElementById('serverDownOverlay').style.display = 'none';
@@ -674,10 +686,10 @@
         const deletedDoc = await window.getDoc(window.doc(window.db, "customers_meta", savedPhone));
         if (deletedDoc.exists() && deletedDoc.data().deleted === true) {
           localStorage.removeItem('customer_phone_key');
-          document.getElementById('serverDownMsg').innerText = "ನಿಮ್ಮ ಗ್ರಾಹಕರ ಖಾತೆಯನ್ನು ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಸಂಪೂರ್ಣವಾಗಿ ಡಿಲೀಟ್ ಮಾಡಲಾಗಿದೆ.";
+          document.getElementById('serverDownMsg').innerText = "ನಿಮ್ಮ ಗ್ರಾಹಕರ ಖಾತೆಯನ್ನು ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಡಿಲೀಟ್ ಮಾಡಲಾಗಿದೆ.";
           document.getElementById('serverDownOverlay').style.display = 'flex';
         }
-      } catch(e) { console.log(e); }
+      } catch(e) {}
     }
 
     window.initFirebaseAppData = function() {
@@ -724,13 +736,8 @@
     function handleBannerClick(index) {
       let b = bannerList[index];
       if (!b) return;
-      if (b.targetCategory) {
-        filterByCategory(b.targetCategory);
-      } else if (b.targetProductId) {
-        openProductDetail(b.targetProductId);
-      } else {
-        alert("ಈ ಜಾಹೀರಾತಿನಲ್ಲಿ ಯಾವುದೇ ನಿರ್ದಿಷ್ಟ ಲಿಂಕ್ ಇಲ್ಲ.");
-      }
+      if (b.targetCategory) filterByCategory(b.targetCategory);
+      else if (b.targetProductId) openProductDetail(b.targetProductId);
     }
 
     function startRealtimeShopOwners() {
@@ -784,7 +791,7 @@
         let prodCat = (p.category || "").toLowerCase();
 
         let matchSearch = searchQ === "" || prodName.includes(searchQ) || shopName.includes(searchQ) || shopTaluk.includes(searchQ) || prodCat.includes(searchQ);
-        let matchLoc = talukQ === "" || shopTaluk.includes(talukQ) || shopName.includes(talukQ) || shopName.toLowerCase().includes(talukQ);
+        let matchLoc = talukQ === "" || shopTaluk.includes(talukQ) || shopName.includes(talukQ);
 
         return matchSearch && matchLoc;
       });
@@ -794,9 +801,7 @@
     function renderProducts(list) {
       const grid = document.getElementById('productsGrid');
       if (!list || list.length === 0) {
-        grid.innerHTML = `<div style="grid-column: span 2; text-align:center; color:#d32f2f; padding:25px; background:#fff; border-radius:8px; font-weight:bold; font-size:0.9rem;">
-          ❌ ಯಾವುದೇ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.
-        </div>`;
+        grid.innerHTML = `<div style="grid-column: span 2; text-align:center; color:#d32f2f; padding:25px; background:#fff; border-radius:8px; font-weight:bold; font-size:0.9rem;">❌ ಯಾವುದೇ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</div>`;
         return;
       }
       grid.innerHTML = list.map(p => {
@@ -836,30 +841,11 @@
       let returnContainer = document.getElementById('detailReturnPolicyContainer');
       
       if (returnPolicyVal === 'NO') {
-        returnContainer.innerHTML = `<div style="color:#d32f2f; font-weight:bold; font-size:0.78rem;">ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)</div>`;
+        returnContainer.innerHTML = `<div style="color:#d32f2f; font-weight:bold; font-size:0.78rem;">❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)</div>`;
       } else if (returnPolicyVal === 'EXCHANGE_ONLY') {
-        returnContainer.innerHTML = `
-          <div style="margin-top:4px;">
-            <span style="color:#ff9800; font-weight:bold; font-size:0.78rem;">🩱 ಈ ವಸ್ತುವಿಗೆ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ ಇದೆ (Exchange Only)</span>
-            <button onclick="openExchangeCategoryView()" style="display:block; margin-top:4px; padding:6px 12px; background:#ff9800; color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:0.75rem; cursor:pointer;">
-              🔄 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಬೇರೆ ವಸ್ತುಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ
-            </button>
-          </div>
-        `;
+        returnContainer.innerHTML = `<div style="color:#ff9800; font-weight:bold; font-size:0.78rem;">🩱 ಈ ವಸ್ತುವಿಗೆ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ ಇದೆ (Exchange Only)</div>`;
       } else {
-        returnContainer.innerHTML = `
-          <div style="margin-top:4px;">
-            <span style="color:var(--success); font-weight:bold; font-size:0.78rem;">🔄 ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇದೆ (Return Available)</span>
-          </div>
-        `;
-      }
-
-      const ramStorageBox = document.getElementById('detailRamStorageBox');
-      if (selectedProduct.ram || selectedProduct.storage || selectedProduct.ramStorage) {
-        ramStorageBox.style.display = 'inline-block';
-        ramStorageBox.innerText = `📱 RAM/Storage: ${selectedProduct.ram || ''} ${selectedProduct.storage || selectedProduct.ramStorage || ''}`;
-      } else {
-        ramStorageBox.style.display = 'none';
+        returnContainer.innerHTML = `<div style="color:var(--success); font-weight:bold; font-size:0.78rem;">✔ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ (Return Available)</div>`;
       }
 
       const colorSection = document.getElementById('colorVariantSection');
@@ -870,9 +856,7 @@
         selectedColorPhoto = selectedProduct.colors[0].photos?.[0] || selectedProduct.photo;
         
         colorContainer.innerHTML = selectedProduct.colors.map((c, idx) => `
-          <button class="color-btn ${idx === 0 ? 'selected' : ''}" onclick='selectColorOption(${JSON.stringify(c)})'>
-            🎨 ${c.colorName}
-          </button>
+          <button class="color-btn ${idx === 0 ? 'selected' : ''}" onclick='selectColorOption(${JSON.stringify(c)})'>🎨 ${c.colorName}</button>
         `).join('');
       } else {
         colorSection.style.display = 'none';
@@ -880,28 +864,7 @@
         selectedColorPhoto = selectedProduct.photo;
       }
 
-      let sizes = ['Free Size'];
-      let nameL = selectedProduct.name.toLowerCase();
-      let catL = (selectedProduct.category || '').toLowerCase();
-
-      if (selectedProduct.variants && selectedProduct.variants.length > 0) {
-        sizes = selectedProduct.variants;
-      } else if (nameL.includes('ಪ್ಯಾಂಟ್') || nameL.includes('pant')) {
-        sizes = ['28', '29', '30', '31', '32', '33', '34', '35', '36', '38', '40', '42'];
-      } else if (nameL.includes('ಅಂಗಿ') || nameL.includes('shirt') || catL.includes('ಶರ್ಟ್') || catL.includes('ಬಟ್ಟೆ')) {
-        sizes = ['S', 'M', 'L', 'XL', 'XXL', '3XL'];
-      } else if (nameL.includes('ಚಪ್ಪಲಿ') || nameL.includes('shoe') || nameL.includes('ಸ್ಯಾಂಡಲ್') || catL.includes('ಚಪ್ಪಲಿ') || catL.includes('ಶೂಸ್')) {
-        sizes = ['5', '6', '7', '8', '9', '10', '11', '12', '13', '14'];
-      } else if (nameL.includes('ಡ್ರೆಸ್') || catL.includes('ಡ್ರೆಸ್') || catL.includes('ಸೀರೆ')) {
-        sizes = ['Free Size', 'S', 'M', 'L', 'XL', 'XXL'];
-      } else if (catL.includes('ಕಿರಾಣಿ') || nameL.includes('ಕೆಜಿ') || nameL.includes('kg')) {
-        sizes = ['1 ಕೆಜಿ', '2 ಕೆಜಿ', '3 ಕೆಜಿ', '5 ಕೆಜಿ', '10 ಕೆಜಿ'];
-      } else if (catL.includes('ಗಿಫ್ಟ್') || nameL.includes('ಗಿಫ್ಟ್')) {
-        sizes = ['Small (ಉದ್ದ/ಅಗಲ)', 'Medium', 'Large'];
-      } else if (catL.includes('ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್') || catL.includes('ಮೊಬೈಲ್')) {
-        sizes = ['Standard'];
-      }
-
+      let sizes = selectedProduct.variants || ['Free Size'];
       selectedSize = sizes[0];
       document.getElementById('variantOptionsContainer').innerHTML = sizes.map((s, idx) => `
         <button class="size-btn ${idx === 0 ? 'selected' : ''}" onclick="selectSize(this, '${s}')">${s}</button>
@@ -916,21 +879,9 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function openExchangeCategoryView() {
-      showScreen('homeViewContainer');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
     function renderRelatedProducts(currentProd) {
       const grid = document.getElementById('relatedProductsGrid');
-      let otherProds = allProducts.filter(p => p.id !== currentProd.id && p.shopId === currentProd.shopId);
-      if (otherProds.length === 0) otherProds = allProducts.filter(p => p.id !== currentProd.id);
-
-      if (otherProds.length === 0) {
-        grid.innerHTML = `<p style="font-size:0.8rem; color:#777; text-align:center; grid-column:span 2;">ಯಾವುದೇ ಇತರ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>`;
-        return;
-      }
-
+      let otherProds = allProducts.filter(p => p.id !== currentProd.id);
       grid.innerHTML = otherProds.map(p => {
         let img = p.photo || 'https://via.placeholder.com/150';
         if (p.colors?.[0]?.photos?.[0]) img = p.colors[0].photos[0];
@@ -940,11 +891,8 @@
             <div class="img-box"><img src="${img}"></div>
             <div>
               <div class="prod-title">${p.name}</div>
-              <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shop ? shop.shopName : 'Store'}</div>
-              <div class="price-row" style="margin-top:4px;">
-                <span class="curr-price">₹${p.price}</span>
-                ${p.oldPrice ? `<span class="old-price">₹${p.oldPrice}</span>` : ''}
-              </div>
+              <div style="font-size:0.7rem; color:#666;">🏪 ${shop ? shop.shopName : 'Store'}</div>
+              <div class="price-row"><span class="curr-price">₹${p.price}</span></div>
             </div>
           </div>
         `;
@@ -964,8 +912,19 @@
     }
 
     function updateDetailSliderPhotos(customPhotos) {
-      let photos = customPhotos || selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
-      document.getElementById('sliderTrack').innerHTML = photos.map(img => `<img src="${img}" style="object-fit:contain; background:#fff;">`).join('');
+      let photos = customPhotos || selectedProduct.colors?.[0]?.photos || [];
+      if (photos.length === 0) photos = [selectedProduct.photo || 'https://via.placeholder.com/150'];
+      
+      const track = document.getElementById('sliderTrack');
+      const thumb = document.getElementById('thumbnailBar');
+
+      track.innerHTML = photos.map(img => `<img src="${img}">`).join('');
+      thumb.innerHTML = photos.map((img, idx) => `<img src="${img}" onclick="scrollToSlide(${idx})">`).join('');
+    }
+
+    function scrollToSlide(index) {
+      const track = document.getElementById('sliderTrack');
+      track.scrollTo({ left: index * track.clientWidth, behavior: 'smooth' });
     }
 
     function selectSize(btn, size) {
@@ -987,24 +946,6 @@
       history.pushState({ page: 'checkout' }, '', '');
     }
 
-    function fetchCustomerGpsLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            document.getElementById('custVillage').value = `GPS Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}`;
-            alert("📍 ನಿಮ್ಮ GPS ಲೊಕೇಶನ್ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಕ್ಯಾಚ್ ಮಾಡಲಾಗಿದೆ!");
-          },
-          (error) => {
-            alert("ಜಿಪಿಎಸ್ ಲೊಕೇಶನ್ ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಜಿಪಿಎಸ್ ಆನ್ ಮಾಡಿ.");
-          }
-        );
-      } else {
-        alert("ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಜಿಪಿಎಸ್ ಸೌಲಭ್ಯವಿಲ್ಲ.");
-      }
-    }
-
     function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
@@ -1014,18 +955,15 @@
       const district = document.getElementById('custDistrict').value.trim();
       const landmark = document.getElementById('custLandmarkOption').value;
 
-      if (!name || !phone || !village || !pincode || !taluk || !district || !landmark) {
-        alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿಳಾಸ ವಿವರಗಳನ್ನು (ಹೆಸರು, ಮೊಬೈಲ್, ಪಿನ್ ಕೋಡ್, ಜಿಲ್ಲೆ, ತಾಲೂಕು, ಊರು ಮತ್ತು ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್) ಕಡ್ಡಾಯವಾಗಿ ಭರ್ತಿ ಮಾಡಿ.");
+      if (!name || !phone || !village || !pincode || !taluk || !district) {
+        alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿಳಾಸ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ.");
         return;
       }
 
-      localStorage.setItem('customer_phone_key', phone);
-      localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, pincode, taluk, district, landmark }));
-
-      saveOrderToDatabase('COD_PENDING', "ಯಾವುದೇ ದೂರದಿಂದ");
+      saveOrderToDatabase();
     }
 
-    async function saveOrderToDatabase(paymentStatusVal, distanceVal) {
+    async function saveOrderToDatabase() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
@@ -1046,33 +984,28 @@
       let deliveryDateStr = deliveryDateObj.toLocaleDateString('en-GB');
 
       let productTitleStr = `${selectedProduct.name} [Size: ${selectedSize}, Qty: ${productQty}]`;
-      if (selectedColorName) {
-        productTitleStr = `${selectedProduct.name} [Color: ${selectedColorName}, Size: ${selectedSize}, Qty: ${productQty}]`;
-      }
-
       let productReturnPolicy = selectedProduct.returnPolicy || (shop ? shop.returnPolicy : 'RETURN_AVAILABLE');
 
       const orderData = {
         orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
         productName: productTitleStr,
-        productPhoto: finalPhoto,
+        productPhoto: finalPhoto || 'https://via.placeholder.com/150',
         selectedColor: selectedColorName || 'Standard',
-        totalPrice: grandTotal,
+        totalPrice: Number(grandTotal),
         deliveryFee: 30,
-        distanceKm: distanceVal,
-        shopId: selectedProduct.shopId,
-        shopName: shop ? shop.shopName : "Store",
-        shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
-        shopTaluk: shop ? (shop.taluk || 'ಶಹಾಪುರ') : 'ಶಹಾಪುರ',
+        distanceKm: '10 ಕಿ.ಮೀ',
+        shopId: String(selectedProduct.shopId || ''),
+        shopName: String(shop ? shop.shopName : 'Store'),
+        shopPhone: String(shop ? (shop.phone || '8105010768') : '8105010768'),
+        shopTaluk: String(shop ? (shop.taluk || 'ಶಹಾಪುರ') : 'ಶಹಾಪುರ'),
         customer: { name, phone, village, pincode, taluk, district, landmark },
-        returnPolicy: productReturnPolicy,
+        returnPolicy: String(productReturnPolicy || 'RETURN_AVAILABLE'),
         paymentMode: 'COD',
-        paymentStatus: paymentStatusVal,
-        deliveryOtp: otp,
-        // ಇಲ್ಲಿ status ಅನ್ನು PENDING ಎಂದು ಸೆಟ್ ಮಾಡಲಾಗಿದೆ ಇದರಿಂದ ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಕನ್ಫರ್ಮ್ ಬಟನ್ ಬರುತ್ತದೆ
+        paymentStatus: 'COD_PENDING',
+        deliveryOtp: String(otp),
         status: 'PENDING',
-        orderDate: orderDateStr,
-        expectedDeliveryDate: deliveryDateStr,
+        orderDate: String(orderDateStr),
+        expectedDeliveryDate: String(deliveryDateStr),
         isCancelled: false,
         isReturned: false,
         timestamp: Date.now()
@@ -1093,16 +1026,16 @@
             isCancelled: true,
             status: 'CANCELLED'
           });
-          alert("✅ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಲಾಗಿದೆ.");
+          alert("✅ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಲಾಗಿದೆ.");
           openMyOrdersScreen();
-        } catch(e) { alert("Error: " + e.message); }
+        } catch(e) { alert(e.message); }
       }
     }
 
     function openMyOrdersScreen() {
       const phone = localStorage.getItem('customer_phone_key');
       const container = document.getElementById('ordersContainer');
-      if (!phone) { container.innerHTML = `<p style="text-align:center; color:#777;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`; showScreen('myOrdersScreen'); return; }
+      if (!phone) { container.innerHTML = `<p style="text-align:center;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`; showScreen('myOrdersScreen'); return; }
 
       const q = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
       window.onSnapshot(q, (snapshot) => {
@@ -1110,30 +1043,23 @@
         snapshot.forEach(d => orders.push({ id: d.id, ...d.data() }));
         orders.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-        let validOrders = orders.filter(o => o.paymentStatus !== 'FAILED' && !o.isCancelled);
+        let validOrders = orders.filter(o => !o.isCancelled);
 
         if (validOrders.length === 0) {
           container.innerHTML = `<p style="text-align:center; color:#777;">ಯಾವುದೇ ಸಕ್ರಿಯ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`;
         } else {
-          container.innerHTML = validOrders.map(o => {
-            let payBadge = `(💵 COD)`;
-            let dateStr = o.orderDate ? `📅 ಆರ್ಡರ್ ದಿನಾಂಕ: ${o.orderDate}` : '';
-            let expDelivery = o.expectedDeliveryDate ? `<br>🚚 ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ ದಿನಾಂಕ: ${o.expectedDeliveryDate}` : '';
-            let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ)` : (o.status === 'DELIVERED' || o.status === 'STEP_4' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : (o.status === 'PENDING' ? `(ಸ್ಥಿತಿ: ಅಂಗಡಿಯ ಪರಿಶೀಲನೆ ಬಾಕಿ ಇದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿದೆ)`));
-            return `
-              <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
-                <div style="display:flex; gap:10px; align-items:center;">
-                  <img src="${o.productPhoto}" style="width:60px; height:60px; object-fit:contain; border-radius:6px; background:#fff;">
-                  <div style="flex:1;">
-                    <h4 style="font-size:0.85rem;">${o.productName}</h4>
-                    <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-top:2px;">₹${o.totalPrice} ${payBadge}</p>
-                    <p style="font-size:0.75rem; color:#555; margin-top:2px;">${dateStr}${expDelivery}</p>
-                    <p style="font-size:0.75rem; color:#333; margin-top:2px;"><b>${statusText}</b></p>
-                  </div>
+          container.innerHTML = validOrders.map(o => `
+            <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
+              <div style="display:flex; gap:10px; align-items:center;">
+                <img src="${o.productPhoto}" style="width:60px; height:60px; object-fit:contain; border-radius:6px; background:#fff;">
+                <div style="flex:1;">
+                  <h4 style="font-size:0.85rem;">${o.productName}</h4>
+                  <p style="font-size:0.85rem; font-weight:bold; color:var(--success);">₹${o.totalPrice}</p>
+                  <p style="font-size:0.75rem; color:#555;">ಸ್ಥಿತಿ: <b>${o.status}</b></p>
                 </div>
               </div>
-            `;
-          }).join('');
+            </div>
+          `).join('');
         }
       });
       showScreen('myOrdersScreen');
@@ -1143,252 +1069,27 @@
     function openOrderDetails(o) {
       const content = document.getElementById('orderDetailsContent');
       let status = o.status || 'PENDING';
-      let deliveryMode = o.deliveryMode || 'LOCAL';
-      
       let cust = o.customer || {};
-      let distanceText = `(ವಿಳಾಸ ದೂರ: ${o.distanceKm || 'ಲಭ್ಯವಿದೆ'})`;
       
       let showCancelBtn = (status === 'PENDING' || status === 'CONFIRMED') && !o.isReturned;
-      let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED');
-      let isCourier = (deliveryMode === 'COURIER');
-      
-      let otpBoxHtml = '';
-      let roadmapHtml = '';
-
-      if (status !== 'PENDING' && status !== 'CONFIRMED' && !o.isReturned) {
-        if (!isCourier) {
-          otpBoxHtml = `
-            <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
-              <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):</span>
-              <div style="font-size:1.4rem; font-weight:bold; color:#1b5e20; letter-spacing:3px; margin-top:4px;">${o.deliveryOtp || '8740'}</div>
-            </div>
-          `;
-        } else {
-          otpBoxHtml = `
-            <div style="background:#e3f2fd; border:1px solid #90caf9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
-              <span style="font-size:0.8rem; color:#1565c0; font-weight:bold;">📦 DTDC ಕೊರಿಯರ್ ಟ್ರ್ಯಾಕಿಂಗ್ & ಲೈವ್ ಲೊಕೇಶನ್:</span>
-              <div style="font-size:1rem; font-weight:bold; color:#0d47a1; margin-top:4px;">AWB: ${o.trackingId || 'ಟ್ರ್ಯಾಕಿಂಗ್ ನಂಬರ್ ಲಭ್ಯವಿದೆ'}</div>
-              ${o.trackingId ? `<a href="https://www.dtdc.in/tracking.asp?strConsignmentNo=${o.trackingId}" target="_blank" style="display:inline-block; margin-top:6px; color:#fff; background:#1976d2; padding:6px 12px; border-radius:4px; font-size:0.8rem; text-decoration:none; font-weight:bold;">🌐 ಲೈವ್ ಲೊಕೇಶನ್ ಟ್ರ್ಯಾಕಿಂಗ್ ನೋಡಿ</a>` : ''}
-            </div>
-          `;
-        }
-
-        let s1 = 'completed', s2 = 'completed', s3 = '', s4 = '';
-        if (status === 'OUT_FOR_DELIVERY' || status === 'HANDOVER_TO_DTDC') { s3 = 'completed'; }
-        if (isDelivered) { s3 = 'completed'; s4 = 'completed'; }
-
-        roadmapHtml = `
-          <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px; margin-bottom:15px;">
-            <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ರೋಡ್‌ಮ್ಯಾಪ್</h4>
-            <div class="timeline">
-              <div class="t-item ${s1}"><div class="t-dot"></div><div class="t-title">1. ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ</div></div>
-              <div class="t-item ${s2}"><div class="t-dot"></div><div class="t-title">2. ಅಂಗಡಿಯಿಂದ ಪ್ಯಾಕಿಂಗ್ ಆಗಿದೆ</div></div>
-              <div class="t-item ${s3}"><div class="t-dot"></div><div class="t-title">3. ${isCourier ? 'DTDC ಕೊರಿಯರ್‌ಗೆ ಹಸ್ತಾಂತರಿಸಲಾಗಿದೆ (ಲೈವ್ ಲೊಕೇಶನ್ ಲಭ್ಯ)' : 'ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ'}</div></div>
-              <div class="t-item ${s4}"><div class="t-dot"></div><div class="t-title">4. ${isCourier ? 'ಕೊರಿಯರ್ ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ' : 'ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Delivered)'}</div></div>
-            </div>
-          </div>
-        `;
-      } else {
-        roadmapHtml = `
-          <div style="background:#fff3e0; border:1px solid #ffe0b2; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center; font-size:0.82rem; color:#e65100; font-weight:bold;">
-            ⏳ ನಿಮ್ಮ ಆರ್ಡರ್ ಅಂಗಡಿಯಲ್ಲಿ ಸ್ವೀಕರಿಸಲ್ಪಟ್ಟಿದೆ. ಅಂಗಡಿ ಮಾಲೀಕರು ಕನ್ಫರ್ಮ್ ಮಾಡಿ ಪ್ಯಾಕಿಂಗ್ ಮಾಡಿದ ನಂತರ ಡೆಲಿವರಿ ಒಟಿಪಿ ಮತ್ತು ರೋಡ್‌ಮ್ಯಾಪ್ ಇಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತದೆ.
-          </div>
-        `;
-      }
-
-      let returnStatusHtml = '';
-      if (o.isReturned) {
-        let returnDeductionAmount = isCourier ? 100 : 50;
-        let finalRefundAmount = Number(o.totalPrice) - returnDeductionAmount;
-        if (finalRefundAmount < 0) finalRefundAmount = 0;
-
-        if (o.returnPaymentStatus === 'SUCCESS') {
-          returnStatusHtml = `<div style="color:green; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#e8f5e9; padding:8px; border-radius:6px;">✔ ರಿಟರ್ನ್ ಪಾವತಿ ಸಕ್ಸಸ್ ಆಗಿದೆ: ನಿಮ್ಮ ಯುಪಿಐ ಅಕೌಂಟಿಗೆ ರೂ.${finalRefundAmount} (ರಿಟರ್ನ್ ಚಾರ್ಜ್ ರೂ.${returnDeductionAmount} ಕಡಿತಗೊಳಿಸಿ) ಜಮಾ ಮಾಡಲಾಗಿದೆ!</div>`;
-        } else {
-          returnStatusHtml = `
-            <div style="background:#fff3e0; border:2px solid #ffb74d; border-radius:8px; padding:12px; margin-bottom:12px; font-size:0.82rem; color:#d84315; line-height:1.5;">
-              🔄 <b>ರಿಟರ್ನ್ ವಿನಂತಿ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿದೆ:</b><br>
-              • ಆಯ್ಕೆ ಮಾಡಿರುವ ವಿಧಾನ: <b>${isCourier ? '✈️ DTDC ಕೊರಿಯರ್ (ರೂ.100 ರಿಟರ್ನ್ ಚಾರ್ಜ್ ಕಡಿತ)' : '🛵 ಲೋಕಲ್ ಡೆಲಿವರಿ (ರೂ.50 ರಿಟರ್ನ್ ಚಾರ್ಜ್ ಕಡಿತ)'}</b><br>
-              • ಮರುಪಾವತಾಗುವ ಮೊತ್ತ: <b>ರೂ.${finalRefundAmount}</b> (ಮೂಲ ಬೆಲೆ ₹${o.totalPrice} - ರಿಟರ್ನ್ ಚಾರ್ಜ್ ರೂ.${returnDeductionAmount})<br>
-              🔑 <b>ರಿಟರ್ನ್ ಒಟಿಪಿ:</b> <span style="font-size:1.2rem; font-weight:bold; color:#d32f2f;">${o.returnOtp || '9234'}</span>
-            </div>
-          `;
-        }
-      }
-
-      let deliveryTime = o.deliveredTimestamp || o.timestamp || Date.now();
-      let hoursSinceDelivery = (Date.now() - deliveryTime) / (1000 * 60 * 60);
       let orderReturnPolicy = o.returnPolicy || 'RETURN_AVAILABLE';
-      
-      let showReturnBtn = isDelivered && (hoursSinceDelivery <= 12) && !o.isReturned && (orderReturnPolicy !== 'NO');
 
-      let returnButtonHtml = '';
-      if (showReturnBtn) {
-        if (orderReturnPolicy === 'EXCHANGE_ONLY') {
-          returnButtonHtml = `<button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:#ff9800; color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">🩱 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)</button>`;
-        } else {
-          returnButtonHtml = `<button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಿ (Return Order)</button>`;
-        }
-      } else if (isDelivered && orderReturnPolicy === 'NO') {
-        returnButtonHtml = `<div style="color:#d32f2f; font-weight:bold; font-size:0.85rem; text-align:center; padding:10px; background:#ffebee; border-radius:6px; border:1px solid #ffcdd2;">ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return Policy)</div>`;
-      } else if (isDelivered && hoursSinceDelivery > 12 && !o.isReturned) {
-        returnButtonHtml = `<div style="color:#777; font-weight:bold; font-size:0.8rem; text-align:center; padding:8px; background:#eee; border-radius:6px;">⏰ 12 ಗಂಟೆಗಳಾವಧಿ ಮುಕ್ತಾಯಗೊಂಡಿದೆ (Return Window Closed)</div>`;
-      }
-
-      let dateDetailsBox = `
-        <div style="background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:12px; font-size:0.82rem; color:#444;">
-          📅 <b>ಆರ್ಡರ್ ಮಾಡಿದ ದಿನಾಂಕ:</b> ${o.orderDate || 'N/A'}<br>
-          🚚 <b>ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ:</b> ${o.expectedDeliveryDate || 'N/A'}<br>
-          📋 <b>ರಿಟರ್ನ್ ಪಾಲಿಸಿ:</b> <span style="font-weight:bold; color:${orderReturnPolicy === 'NO' ? 'red' : 'green'};">${orderReturnPolicy === 'NO' ? 'ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? 'ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)' : 'ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ')}</span>
-        </div>
-      `;
+      let returnPolicyText = orderReturnPolicy === 'NO' ? '❌ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? '🩱 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)' : '✔ ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ');
 
       content.innerHTML = `
-        <div style="display:flex; gap:10px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:12px;">
-          <img src="${o.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px; background:#fff;">
-          <div>
-            <h4 style="font-size:0.9rem;">${o.productName}</h4>
-            <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${o.totalPrice} ${distanceText}</p>
-            <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ಗ್ರಾಹಕರು:</b> ${cust.name || ''} | <b>ಫೋನ್:</b> ${cust.phone || ''}</p>
-            <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ವಿಳಾಸ:</b> ${cust.village || ''}, ${cust.taluk || ''}, ${cust.district || ''} (${cust.landmark || ''}) - ${cust.pincode || ''}</p>
-          </div>
+        <div style="background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:12px;">
+          <img src="${o.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px;">
+          <h4 style="font-size:0.9rem; margin-top:6px;">${o.productName}</h4>
+          <p style="font-size:0.95rem; font-weight:bold; color:var(--success);">₹${o.totalPrice}</p>
+          <p style="font-size:0.78rem; color:#555; margin-top:4px;"><b>ವಿಳಾಸ:</b> ${cust.village}, ${cust.taluk}, ${cust.district} - ${cust.pincode}</p>
+          <p style="font-size:0.78rem; margin-top:4px;"><b>ರಿಟರ್ನ್ ಪಾಲಿಸಿ:</b> ${returnPolicyText}</p>
+          <p style="font-size:0.78rem; margin-top:4px;"><b>ಒಟಿಪಿ (OTP):</b> <span style="color:var(--primary); font-weight:bold; font-size:1.1rem;">${o.deliveryOtp}</span></p>
         </div>
 
-        ${dateDetailsBox}
-        ${otpBoxHtml}
-        ${returnStatusHtml}
-        ${roadmapHtml}
-
-        ${showCancelBtn ? `<button onclick="cancelCustomerOrder('${o.id}')" style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer; margin-bottom:10px;">❌ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ</button>` : ''}
-        ${returnButtonHtml}
+        ${showCancelBtn ? `<button onclick="cancelCustomerOrder('${o.id}')" style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">❌ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ</button>` : ''}
       `;
       showScreen('orderDetailsScreen');
       history.pushState({ page: 'order_details' }, '', '');
-    }
-
-    function openReturnModal(order) {
-      activeReturnOrderId = order.id;
-      returnBase64Photo1 = '';
-      returnBase64Photo2 = '';
-      returnBase64Qr = '';
-      document.getElementById('customerUpiIdInput').value = '';
-      document.getElementById('returnModal').style.display = 'flex';
-    }
-
-    function checkCustomReturnReason(selectEl) {
-      const customInput = document.getElementById('customReturnReasonInput');
-      if (selectEl.value === 'other') {
-        customInput.style.display = 'block';
-        customInput.focus();
-      } else {
-        customInput.style.display = 'none';
-        customInput.value = '';
-      }
-    }
-
-    function closeReturnModal() {
-      document.getElementById('returnModal').style.display = 'none';
-    }
-
-    function compressImage(file, callback) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const img = new Image();
-        img.onload = function () {
-          const canvas = document.createElement('canvas');
-          let width = img.width;
-          let height = img.height;
-          const maxDim = 600;
-          if (width > height) {
-            if (width > maxDim) { height *= maxDim / width; width = maxDim; }
-          } else {
-            if (height > maxDim) { width *= maxDim / height; height = maxDim; }
-          }
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-          callback(canvas.toDataURL('image/jpeg', 0.6));
-        };
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function previewReturnQr(event) {
-      const file = event.target.files[0];
-      if (file) {
-        compressImage(file, (compressedDataUrl) => {
-          returnBase64Qr = compressedDataUrl;
-          document.getElementById('previewQrImgTag').src = returnBase64Qr;
-          document.getElementById('returnQrPreview').style.display = 'block';
-        });
-      }
-    }
-
-    function previewReturnPhoto1(event) {
-      const file = event.target.files[0];
-      if (file) {
-        compressImage(file, (compressedDataUrl) => {
-          returnBase64Photo1 = compressedDataUrl;
-          document.getElementById('previewImgTag1').src = returnBase64Photo1;
-          document.getElementById('returnPhotoPreview1').style.display = 'block';
-        });
-      }
-    }
-
-    function previewReturnPhoto2(event) {
-      const file = event.target.files[0];
-      if (file) {
-        compressImage(file, (compressedDataUrl) => {
-          returnBase64Photo2 = compressedDataUrl;
-          document.getElementById('previewImgTag2').src = returnBase64Photo2;
-          document.getElementById('returnPhotoPreview2').style.display = 'block';
-        });
-      }
-    }
-
-    async function submitOrderReturnForm() {
-      if (!activeReturnOrderId) return;
-      let reasonSelect = document.getElementById('returnReasonSelect').value;
-      const customReasonInput = document.getElementById('customReturnReasonInput').value.trim();
-      if (reasonSelect === 'other') {
-        if (!customReasonInput) { alert("ದಯವಿಟ್ಟು ಕಾರಣ ಟೈಪ್ ಮಾಡಿ."); return; }
-        reasonSelect = customReasonInput;
-      }
-
-      const customerUpi = document.getElementById('customerUpiIdInput').value.trim();
-      let returnOtp = Math.floor(1000 + Math.random() * 9000).toString();
-
-      try {
-        await window.updateDoc(window.doc(window.db, "orders", activeReturnOrderId), {
-          isReturned: true,
-          status: 'RETURN_REQUESTED',
-          isReturnRequested: true,
-          returnReason: reasonSelect,
-          customerUpiId: customerUpi,
-          customerQrPhoto: returnBase64Qr,
-          returnPhotos: [returnBase64Photo1, returnBase64Photo2].filter(Boolean),
-          returnOtp: returnOtp,
-          returnPaymentStatus: 'PENDING',
-          returnTimestamp: Date.now()
-        });
-
-        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ.");
-        closeReturnModal();
-        openMyOrdersScreen();
-      } catch(e) { alert("Error: " + e.message); }
-    }
-
-    function openPocketMoneyScreen() {
-      document.getElementById('pocketMoneyContent').innerHTML = `
-        <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px; text-align:center;">
-          <h3 style="font-size:1.1rem; color:var(--primary); margin-bottom:6px;">🎁 ಪಾಕೆಟ್ ಮನಿ ಬ್ಯಾಲೆನ್ಸ್</h3>
-          <div style="font-size:2rem; font-weight:bold; color:var(--success); margin:10px 0;">₹0</div>
-        </div>
-      `;
-      showScreen('pocketMoneyScreen');
-      history.pushState({ page: 'pocket' }, '', '');
     }
 
     function showScreen(id) {
@@ -1417,8 +1118,8 @@
       if (saved) {
         try {
           const a = JSON.parse(saved);
-          document.getElementById('custName').value = a.name || localStorage.getItem('customer_name_key') || '';
-          document.getElementById('custPhone').value = a.phone || localStorage.getItem('customer_phone_key') || '';
+          document.getElementById('custName').value = a.name || '';
+          document.getElementById('custPhone').value = a.phone || '';
           document.getElementById('custVillage').value = a.village || '';
           document.getElementById('custPincode').value = a.pincode || '';
           document.getElementById('custTaluk').value = a.taluk || '';
@@ -1448,20 +1149,6 @@
       document.getElementById('navCatText').innerText = t.navCat;
       document.getElementById('navAccText').innerText = t.navAcc;
       document.getElementById('navOrdersText').innerText = t.navOrders;
-      document.getElementById('lblProdDetailTitle').innerText = t.prodDetailTitle;
-      document.getElementById('lblVariantTitle').innerText = t.variantTitle;
-      document.getElementById('lblQtyLabel').childNodes[0].nodeValue = t.qtyLabel;
-      document.getElementById('lblDeliveryBadge').innerHTML = t.deliveryBadge;
-      document.getElementById('lblAddToCartBtn').innerText = t.addToCart;
-      document.getElementById('lblBuyNowBtn').innerText = t.buyNow;
-      document.getElementById('lblCheckoutHeader').innerText = t.checkoutHeader;
-      document.getElementById('lblDeliveryAddrTitle').innerText = t.deliveryAddrTitle;
-      document.getElementById('lblPaymentMethodTitle').innerText = t.paymentMethodTitle;
-      document.getElementById('lblCodOptionText').innerText = t.codOptionText;
-      document.getElementById('confirmOrderBtn').innerText = t.proceedPaymentBtn;
-      document.getElementById('lblMyOrdersHeader').innerText = t.myOrdersHeader;
-      document.getElementById('lblOrderDetailsHeader').innerText = t.orderDetailsHeader;
-      document.getElementById('lblPocketMoneyHeader').innerText = t.pocketMoney;
       document.getElementById('langToggleBtn').innerText = currentLang === 'kn' ? 'English' : 'ಕನ್ನಡ';
     }
   </script>

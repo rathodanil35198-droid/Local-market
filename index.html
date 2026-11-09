@@ -172,7 +172,7 @@
     <div class="login-box">
       <div style="font-size: 2.5rem; margin-bottom: 5px;">🛍️</div>
       <h3 style="color: var(--primary); margin-bottom: 5px;">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್</h3>
-      <p style="font-size: 0.78rem; color: #555; margin-bottom: 12px;">ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ</p>
+      <p style="font-size: 0.78rem; color: #555; margin-bottom: 12px;">ಯಾವುದೇ ಸ್ಥಳದಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ</p>
       
       <div style="margin-bottom: 10px; text-align: left;">
         <label style="font-size: 0.75rem; font-weight: bold; color: #444;">ನಿಮ್ಮ ಹೆಸರು (Name):</label>
@@ -239,7 +239,7 @@
 
     <div class="filter-box">
       <span style="font-size:0.75rem; font-weight:bold; color:var(--primary);" id="lblLocationFilter">📍 ಸ್ಥಳ/ತಾಲೂಕು ಸರ್ಚ್:</span>
-      <input type="text" id="filterTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು/ಸ್ಥಳ ನಮೂದಿಸಿ" oninput="applyLocationFilter()">
+      <input type="text" id="filterTaluk" value="" placeholder="ಯಾವುದೇ ಸ್ಥಳ/ತಾಲೂಕು ಹುಡುಕಿ..." oninput="applyLocationFilter()">
     </div>
 
     <div id="productsGrid" class="grid-products"></div>
@@ -310,7 +310,7 @@
       </div>
 
       <div class="delivery-badge" id="lblDeliveryBadge">
-        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ)</b>
+        🚚 <b>ಯಾವುದೇ ಸ್ಥಳದಿಂದ ಆರ್ಡರ್ ಮಾಡಿ! ತ್ವರಿತ ಡೆಲಿವರಿ ಲಭ್ಯವಿದೆ.</b>
       </div>
 
       <div style="margin-top: 20px; border-top: 2px solid #ddd; padding-top: 12px;">
@@ -334,19 +334,19 @@
 
     <div style="padding: 15px 15px 160px 15px;">
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (12 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
+        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (ಎಲ್ಲಿಂದಲಾದರೂ ಆರ್ಡರ್ ಮಾಡಿ):</h4>
         
         <input type="text" id="custName" placeholder="ಗ್ರಾಹಕರ ಹೆಸರು / Customer Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="tel" id="custPhone" placeholder="ಮೊಬೈල් ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
         <div style="display:flex; gap:6px; margin-bottom:6px;">
-          <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode" maxlength="6" oninput="fetchPincodeDetails(this.value)" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;">
+          <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode" maxlength="6" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;">
           <button type="button" onclick="fetchCustomerGpsLocation()" style="padding:8px 12px; background:#1976d2; color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:0.75rem; cursor:pointer;">📍 GPS ಆಟೋ</button>
         </div>
 
-        <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ ಹೆಸರು / District (ಆಟೋ-ಫೆಚ್)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fffde7; font-weight:bold;" readonly>
-        <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು ಹೆಸರು / Taluk (ಆಟೋ-ಫೆಚ್)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fffde7; font-weight:bold;" readonly>
-        <input type="text" id="custVillage" placeholder="ಊರು / Village" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ ಹೆಸರು / District (ಟೈಪ್ ಮಾಡಿ)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fff;">
+        <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು ಹೆಸರು / Taluk (ಟೈಪ್ ಮಾಡಿ)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fff;">
+        <input type="text" id="custVillage" placeholder="ಊರು / Village / Address" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
         <div style="margin-bottom:8px;">
           <label style="font-size:0.78rem; font-weight:bold; color:#444;">ಮನೆಯ ಹತ್ತಿರ ಏನಿದೆ? (ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್ ಆಯ್ಕೆಮಾಡಿ):</label>
@@ -602,7 +602,7 @@
 
     function shareAppOnWhatsApp() {
       const appUrl = window.location.href;
-      let shareText = `🛍️ ಬನ್ನಿ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ / ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್‌ ಮೂಲಕ ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ! 1-2 ದಿನಗಳಲ್ಲಿ ಮನೆಗೆ ಡೆಲಿವರಿ ಪಡೆಯಿರಿ.\n\nಲಿಂಕ್ ಇಲ್ಲಿದೆ ನೋಡಿ:\n${appUrl}`;
+      let shareText = `🛍️ ಬನ್ನಿ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ ಮೂಲಕ ಯಾವುದೇ ಸ್ಥಳದಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ! ಮನೆಗೆ ಡೆಲಿವರಿ ಪಡೆಯಿರಿ.\n\nಲಿಂಕ್ ಇಲ್ಲಿದೆ ನೋಡಿ:\n${appUrl}`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
     }
 
@@ -618,11 +618,11 @@
         prodDetailTitle: "ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ",
         variantTitle: "Variant / Size / RAM ಆಯ್ಕೆಮಾಡಿ:",
         qtyLabel: "ಸರಕು ಪ್ರಮಾಣ (Quantity):",
-        deliveryBadge: "🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ)</b>",
+        deliveryBadge: "🚚 <b>ಯಾವುದೇ ಸ್ಥಳದಿಂದ ಆರ್ಡರ್ ಮಾಡಿ! ತ್ವರಿತ ಡೆಲಿವರಿ ಲಭ್ಯವಿದೆ.</b>",
         addToCart: "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ",
         buyNow: "ಖರೀದಿಸಿ (Buy Now)",
         checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ",
-        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (12 KM ಒಳಗೆ ಕಡ್ಡಾಯ):",
+        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (ಎಲ್ಲಿಂದಲಾದರೂ ಆರ್ಡರ್ ಮಾಡಿ):",
         paymentMethodTitle: "💳 ಪಾವತಿ ವಿಧಾನ:",
         codOptionText: "💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)",
         proceedPaymentBtn: "ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)",
@@ -640,11 +640,11 @@
         prodDetailTitle: "Product Description",
         variantTitle: "Select Variant / Size / RAM:",
         qtyLabel: "Quantity:",
-        deliveryBadge: "🚚 Delivery within 1-2 days! (Within 12 km only)",
+        deliveryBadge: "🚚 Order from anywhere! Fast delivery available.",
         addToCart: "Add to Cart",
         buyNow: "Buy Now",
         checkoutHeader: "Confirm Details & Payment",
-        deliveryAddrTitle: "📍 Delivery Address (Within 12 KM mandatory):",
+        deliveryAddrTitle: "📍 Delivery Address (Order from anywhere):",
         paymentMethodTitle: "💳 Payment Method:",
         codOptionText: "💵 Cash on Delivery",
         proceedPaymentBtn: "Confirm Order",
@@ -784,21 +784,18 @@
         let prodCat = (p.category || "").toLowerCase();
 
         let matchSearch = searchQ === "" || prodName.includes(searchQ) || shopName.includes(searchQ) || shopTaluk.includes(searchQ) || prodCat.includes(searchQ);
-        let matchLoc = talukQ === "" || shopTaluk.includes(talukQ) || shopName.includes(talukQ);
-        let matchCat = currentCategoryFilter === "" || prodCat.includes(currentCategoryFilter.toLowerCase()) || prodName.includes(currentCategoryFilter.toLowerCase());
+        let matchLoc = talukQ === "" || shopTaluk.includes(talukQ) || shopName.includes(talukQ) || shopName.toLowerCase().includes(talukQ);
 
-        return matchSearch && matchLoc && matchCat;
+        return matchSearch && matchLoc;
       });
       renderProducts(filtered);
     }
 
     function renderProducts(list) {
       const grid = document.getElementById('productsGrid');
-      const talukVal = document.getElementById('filterTaluk').value.trim() || "ಶಹಾಪುರ";
       if (!list || list.length === 0) {
         grid.innerHTML = `<div style="grid-column: span 2; text-align:center; color:#d32f2f; padding:25px; background:#fff; border-radius:8px; font-weight:bold; font-size:0.9rem;">
-          ❌ ಈ ತಾಲೂಕಿನಲ್ಲಿ (${talukVal}) ಈ ವಸ್ತು ಇಲ್ಲ!<br><br>
-          ಈ ತಾಲೂಕಿನ ಅಂಗಡಿಗಳು ನಮ್ಮ ಪ್ಯಾನಲ್‌ನಲ್ಲಿ ಇನ್ನೂ ಲಭ್ಯವಿಲ್ಲ ಇದ್ದರೆ ನಾವು ನಿಮಗೆ ತಿಳಿಸುತ್ತೇವೆ.
+          ❌ ಯಾವುದೇ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.
         </div>`;
         return;
       }
@@ -833,13 +830,13 @@
       let shop = allShopsMap[selectedProduct.shopId];
       document.getElementById('detailTitle').innerText = selectedProduct.name;
       document.getElementById('detailShopName').innerText = "ಅಂಗಡಿ: " + (shop ? shop.shopName : "Store");
-      document.getElementById('detailShopLocation').innerText = "📍 ತಾಲೂಕು/ಸ್ಥಳ: " + (shop ? shop.taluk : 'ಶಹಾಪುರ (Shahapur)');
+      document.getElementById('detailShopLocation').innerText = "📍 ತಾಲೂಕು/ಸ್ಥಳ: " + (shop ? shop.taluk : 'ಲಭ್ಯವಿರುವ ಸ್ಥಳ');
 
       let returnPolicyVal = selectedProduct.returnPolicy || (shop ? shop.returnPolicy : 'RETURN_AVAILABLE');
       let returnContainer = document.getElementById('detailReturnPolicyContainer');
       
       if (returnPolicyVal === 'NO') {
-        returnContainer.innerHTML = `<div style="color:#d32f2f; font-weight:bold; font-size:0.78rem;">❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)</div>`;
+        returnContainer.innerHTML = `<div style="color:#d32f2f; font-weight:bold; font-size:0.78rem;">ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)</div>`;
       } else if (returnPolicyVal === 'EXCHANGE_ONLY') {
         returnContainer.innerHTML = `
           <div style="margin-top:4px;">
@@ -916,7 +913,7 @@
       updateDetailSliderPhotos();
       renderRelatedProducts(selectedProduct);
       showScreen('productDetailScreen');
-      history.pushState({ page: 'detail' }, '', '');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function openExchangeCategoryView() {
@@ -939,7 +936,7 @@
         if (p.colors?.[0]?.photos?.[0]) img = p.colors[0].photos[0];
         let shop = allShopsMap[p.shopId];
         return `
-          <div class="product-card" onclick="openProductDetail('${p.id}')">
+          <div class="product-card" onclick="openProductDetail('${p.id}'); window.scrollTo({ top: 0, behavior: 'smooth' });">
             <div class="img-box"><img src="${img}"></div>
             <div>
               <div class="prod-title">${p.name}</div>
@@ -990,100 +987,6 @@
       history.pushState({ page: 'checkout' }, '', '');
     }
 
-    const placeTranslations = {
-      "yadgir": { kn: "ಯಾದಗಿರಿ", talukKn: "ಯಾದಗಿರಿ (Yadgir)" },
-      "shahapur": { kn: "ಶಹಾಪುರ", talukKn: "ಶಹಾಪುರ (Shahapur)" },
-      "surpur": { kn: "ಸುರಪುರ", talukKn: "ಸುರಪುರ (Surpur)" },
-      "shorapur": { kn: "ಸುರಪುರ", talukKn: "ಸುರಪುರ (Surpur)" },
-      "bheemarayanagudi": { kn: "ಭೀಮರಾಯನಗುಡಿ", talukKn: "ಶಹಾಪುರ (Shahapur)" },
-      "adilapur": { kn: "ಆದಿಲಾಪೂರ", talukKn: "ಶಹಾಪುರ (Shahapur)" },
-      "hathigudur": { kn: "ಹತ್ತಿಗುಡೂರ್", talukKn: "ಶಹಾಪುರ (Shahapur)" },
-      "doranahalli": { kn: "ದೋರಣಹಳ್ಳಿ", talukKn: "ಶಹಾಪುರ (Shahapur)" },
-      "aikur": { kn: "ಐಕುರ್", talukKn: "ಶಹಾಪುರ (Shahapur)" },
-      "anabi": { kn: "ಅನಾಬಿ", talukKn: "ಶಹಾಪುರ (Shahapur)" }
-    };
-
-    function translateToKannadaAndEnglish(name, type) {
-      if (!name) return "";
-      let key = name.toLowerCase().trim();
-      if (placeTranslations[key]) {
-        return type === 'taluk' ? placeTranslations[key].talukKn : `${placeTranslations[key].kn} (${name})`;
-      }
-      return name;
-    }
-
-    async function fetchPincodeDetails(pincode) {
-      const msgBox = document.getElementById('availabilityMsg');
-      const confirmBtn = document.getElementById('confirmOrderBtn');
-
-      if (pincode.length !== 6) {
-        msgBox.style.display = 'none';
-        return;
-      }
-
-      try {
-        let response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
-        let data = await response.json();
-
-        if (data[0].Status === "Success") {
-          let details = data[0].PostOffice[0];
-          let villageEng = details.Name || '';
-          let talukEng = details.Taluk || details.District || '';
-          let distEng = details.District || '';
-
-          if (pincode === '585287' || pincode === '585223' || talukEng.toLowerCase() === 'yadgir') {
-            talukEng = 'Shahapur';
-          }
-
-          let villageDisplay = translateToKannadaAndEnglish(villageEng, 'village');
-          let talukDisplay = translateToKannadaAndEnglish(talukEng, 'taluk');
-          let distDisplay = translateToKannadaAndEnglish(distEng, 'district');
-
-          document.getElementById('custVillage').value = villageDisplay;
-          document.getElementById('custTaluk').value = talukDisplay;
-          document.getElementById('custDistrict').value = distDisplay;
-
-          validateSellerAvailabilityInTaluk(talukEng);
-        } else {
-          msgBox.style.display = 'block';
-          msgBox.style.background = '#ffebee';
-          msgBox.style.color = '#d32f2f';
-          msgBox.innerText = "❌ ದಯವಿಟ್ಟು ಸರಿಯಾದ ಪಿನ್ ಕೋಡ್ ನಮೂದಿಸಿ!";
-          confirmBtn.disabled = true;
-          confirmBtn.style.background = "gray";
-        }
-      } catch (e) {
-        console.log("Pincode API Error:", e);
-      }
-    }
-
-    function validateSellerAvailabilityInTaluk(userTalukName) {
-      const msgBox = document.getElementById('availabilityMsg');
-      const confirmBtn = document.getElementById('confirmOrderBtn');
-      
-      let shop = allShopsMap[selectedProduct.shopId];
-      let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "";
-      let userTaluk = userTalukName.toLowerCase();
-
-      let isSellerAvailable = shop && (shopTaluk.includes(userTaluk) || userTaluk.includes(shopTaluk) || userTaluk.includes('shahapur'));
-
-      msgBox.style.display = 'block';
-
-      if (!isSellerAvailable) {
-        msgBox.style.background = '#ffebee';
-        msgBox.style.color = '#d32f2f';
-        msgBox.innerText = `❌ ಕ್ಷಮಿಸಿ, ಈ ತಾಲೂಕಿನಲ್ಲಿ (${userTalukName}) ಸದ್ಯಕ್ಕೆ ಯಾವುದೇ ಅಂಗಡಿಗಳು ಲಭ್ಯವಿಲ್ಲ. ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.`;
-        confirmBtn.disabled = true;
-        confirmBtn.style.background = "gray";
-      } else {
-        msgBox.style.background = '#e8f5e9';
-        msgBox.style.color = '#2e7d32';
-        msgBox.innerText = `✅ ಈ ತಾಲೂಕಿನಲ್ಲಿ (${userTalukName}) ನಮ್ಮ ಅಂಗಡಿ ಲಭ್ಯವಿದೆ. 12 ಕಿ.ಮೀ ದೂರ ಪರಿಶೀಲಿಸಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಬಹುದು.`;
-        confirmBtn.disabled = false;
-        confirmBtn.style.background = "var(--success)";
-      }
-    }
-
     function fetchCustomerGpsLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -1091,7 +994,7 @@
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             document.getElementById('custVillage').value = `GPS Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}`;
-            alert("📍 ನಿಮ್ಮ GPS ಲೊಕೇಶನ್ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಪಿನ್ ಕ್ಯಾಚ್ ಮಾಡಲಾಗಿದೆ!");
+            alert("📍 ನಿಮ್ಮ GPS ಲೊಕೇಶನ್ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಕ್ಯಾಚ್ ಮಾಡಲಾಗಿದೆ!");
           },
           (error) => {
             alert("ಜಿಪಿಎಸ್ ಲೊಕೇಶನ್ ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಜಿಪಿಎಸ್ ಆನ್ ಮಾಡಿ.");
@@ -1102,57 +1005,24 @@
       }
     }
 
-    function calculateDistanceKm(lat1, lon1, lat2, lon2) {
-      if (!lat1 || !lon1 || !lat2 || !lon2) return 5.0;
-      const R = 6371;
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLon = (lon2 - lon1) * Math.PI / 180;
-      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                Math.sin(dLon/2) * Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return R * c;
-    }
-
     function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
       const pincode = document.getElementById('custPincode').value.trim();
-      const taluk = document.getElementById('custTaluk').value.trim().toLowerCase();
+      const taluk = document.getElementById('custTaluk').value.trim();
+      const district = document.getElementById('custDistrict').value.trim();
       const landmark = document.getElementById('custLandmarkOption').value;
 
-      if (!name || !phone || !village || !pincode || !landmark) {
-        alert("ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ನಂಬರ್, ಪಿನ್ ಕೋಡ್, ಊರು ಮತ್ತು ಮನೆಯ ಹತ್ತಿರದ ಸ್ಥಳವನ್ನು (ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್) ಕಡ್ಡಾಯವಾಗಿ ಆಯ್ಕೆಮಾಡಿ.");
-        return;
-      }
-
-      let shop = allShopsMap[selectedProduct.shopId];
-      let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "";
-      
-      if (taluk && !shopTaluk.includes(taluk) && !taluk.includes(shopTaluk) && !shopTaluk.includes('shahapur') && !taluk.includes('ಶಹಾಪುರ')) {
-        alert(`❌ ಈ ತಾಲೂಕಿಗೆ (${taluk}) ಈ ಅಂಗಡಿಯ ವಸ್ತುಗಳನ್ನು ಕಳುಹಿಸಲು ಬರುವುದಿಲ್ಲ. ಆಯಾ ತಾಲೂಕಿನ ಅಂಗಡಿ ವಸ್ತುಗಳನ್ನು ಮಾತ್ರ ಆರ್ಡರ್ ಮಾಡಬಹುದು.`);
-        return;
-      }
-
-      let shopLat = shop ? (shop.lat || 16.7037) : 16.7037;
-      let shopLon = shop ? (shop.lon || 76.8397) : 76.8397;
-      let calculatedKm = calculateDistanceKm(shopLat, shopLon, 16.7000, 76.8300);
-      
-      if (shop && shop.pincode && pincode) {
-        let pinDiff = Math.abs(parseInt(shop.pincode) - parseInt(pincode));
-        if (pinDiff > 0) calculatedKm = (pinDiff % 10) + 2.5;
-      }
-
-      if (calculatedKm > 12.0) {
-        alert(`⚠️ ಕ್ಷಮಿಸಿ! ನೀವು ಇರುವ ಸ್ಥಳವು ಅಂಗಡಿಯಿಂದ ಸುಮಾರು ${calculatedKm.toFixed(1)} ಕಿ.ಮೀ ದೂರದಲ್ಲಿದೆ. ಕೇವಲ 12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ ಡೆಲಿವರಿ ಲಭ್ಯವಿರುವುದರಿಂದ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.`);
+      if (!name || !phone || !village || !pincode || !taluk || !district || !landmark) {
+        alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿಳಾಸ ವಿವರಗಳನ್ನು (ಹೆಸರು, ಮೊಬೈಲ್, ಪಿನ್ ಕೋಡ್, ಜಿಲ್ಲೆ, ತಾಲೂಕು, ಊರು ಮತ್ತು ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್) ಕಡ್ಡಾಯವಾಗಿ ಭರ್ತಿ ಮಾಡಿ.");
         return;
       }
 
       localStorage.setItem('customer_phone_key', phone);
-      localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, pincode, landmark }));
+      localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, pincode, taluk, district, landmark }));
 
-      saveOrderToDatabase('COD_PENDING', calculatedKm.toFixed(1) + " ಕಿ.ಮೀ.");
+      saveOrderToDatabase('COD_PENDING', "ಯಾವುದೇ ದೂರದಿಂದ");
     }
 
     async function saveOrderToDatabase(paymentStatusVal, distanceVal) {
@@ -1198,7 +1068,7 @@
         paymentMode: 'COD',
         paymentStatus: paymentStatusVal,
         deliveryOtp: otp,
-        status: 'STEP_1',
+        status: 'CONFIRMED',
         orderDate: orderDateStr,
         expectedDeliveryDate: deliveryDateStr,
         isCancelled: false,
@@ -1270,38 +1140,75 @@
 
     function openOrderDetails(o) {
       const content = document.getElementById('orderDetailsContent');
-      let status = o.status || 'STEP_1';
+      let status = o.status || 'CONFIRMED';
+      let deliveryMode = o.deliveryMode || 'LOCAL';
       
-      let s1 = 'completed', s2 = '', s3 = '', s4 = '';
-      if (status === 'CONFIRMED' || status === 'STEP_2') { s1 = 'completed'; s2 = 'completed'; }
-      if (status === 'PACKING' || status === 'STEP_3') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; }
-      if (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; s4 = 'completed'; }
-
       let cust = o.customer || {};
-      let distanceText = `(ದೂರ: ${o.distanceKm || '3.5 ಕಿ.ಮೀ.'})`;
+      let distanceText = `(ವಿಳಾಸ ದೂರ: ${o.distanceKm || 'ಲಭ್ಯವಿದೆ'})`;
       
-      let showCancelBtn = (status === 'STEP_1' || status === 'PENDING') && !o.isReturned;
+      let showCancelBtn = (status === 'CONFIRMED' || status === 'PENDING') && !o.isReturned;
       let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED');
+      let isCourier = (deliveryMode === 'COURIER');
       
       let otpBoxHtml = '';
-      if (!isDelivered && !o.isReturned) {
-        otpBoxHtml = `
-          <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
-            <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):</span>
-            <div style="font-size:1.4rem; font-weight:bold; color:#1b5e20; letter-spacing:3px; margin-top:4px;">${o.deliveryOtp || '8740'}</div>
+      let roadmapHtml = '';
+
+      if (status !== 'CONFIRMED' && status !== 'PENDING' && !o.isReturned) {
+        if (!isCourier) {
+          otpBoxHtml = `
+            <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
+              <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):</span>
+              <div style="font-size:1.4rem; font-weight:bold; color:#1b5e20; letter-spacing:3px; margin-top:4px;">${o.deliveryOtp || '8740'}</div>
+            </div>
+          `;
+        } else {
+          otpBoxHtml = `
+            <div style="background:#e3f2fd; border:1px solid #90caf9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
+              <span style="font-size:0.8rem; color:#1565c0; font-weight:bold;">📦 DTDC ಕೊರಿಯರ್ ಟ್ರ್ಯಾಕಿಂಗ್ & ಲೈವ್ ಲೊಕೇಶನ್:</span>
+              <div style="font-size:1rem; font-weight:bold; color:#0d47a1; margin-top:4px;">AWB: ${o.trackingId || 'ಟ್ರ್ಯಾಕಿಂಗ್ ನಂಬರ್ ಲಭ್ಯವಿದೆ'}</div>
+              ${o.trackingId ? `<a href="https://www.dtdc.in/tracking.asp?strConsignmentNo=${o.trackingId}" target="_blank" style="display:inline-block; margin-top:6px; color:#fff; background:#1976d2; padding:6px 12px; border-radius:4px; font-size:0.8rem; text-decoration:none; font-weight:bold;">🌐 ಲೈವ್ ಲೊಕೇಶನ್ ಟ್ರ್ಯಾಕಿಂಗ್ ನೋಡಿ</a>` : ''}
+            </div>
+          `;
+        }
+
+        let s1 = 'completed', s2 = 'completed', s3 = '', s4 = '';
+        if (status === 'OUT_FOR_DELIVERY' || status === 'HANDOVER_TO_DTDC') { s3 = 'completed'; }
+        if (isDelivered) { s3 = 'completed'; s4 = 'completed'; }
+
+        roadmapHtml = `
+          <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px; margin-bottom:15px;">
+            <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ರೋಡ್‌ಮ್ಯಾಪ್</h4>
+            <div class="timeline">
+              <div class="t-item ${s1}"><div class="t-dot"></div><div class="t-title">1. ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ</div></div>
+              <div class="t-item ${s2}"><div class="t-dot"></div><div class="t-title">2. ಅಂಗಡಿಯಿಂದ ಪ್ಯಾಕಿಂಗ್ ಆಗಿದೆ</div></div>
+              <div class="t-item ${s3}"><div class="t-dot"></div><div class="t-title">3. ${isCourier ? 'DTDC ಕೊರಿಯರ್‌ಗೆ ಹಸ್ತಾಂತರಿಸಲಾಗಿದೆ (ಲೈವ್ ಲೊಕೇಶನ್ ಲಭ್ಯ)' : 'ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ'}</div></div>
+              <div class="t-item ${s4}"><div class="t-dot"></div><div class="t-title">4. ${isCourier ? 'ಕೊರಿಯರ್ ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ' : 'ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Delivered)'}</div></div>
+            </div>
+          </div>
+        `;
+      } else {
+        roadmapHtml = `
+          <div style="background:#fff3e0; border:1px solid #ffe0b2; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center; font-size:0.82rem; color:#e65100; font-weight:bold;">
+            ⏳ ನಿಮ್ಮ ಆರ್ಡರ್ ಅಂಗಡಿಯಲ್ಲಿ ಸ್ವೀಕರಿಸಲ್ಪಟ್ಟಿದೆ. ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್ ದೃಢೀಕರಣದ ನಂತರ ಡೆಲಿವರಿ ಒಟಿಪಿ ಮತ್ತು ರೋಡ್‌ಮ್ಯಾಪ್ ಇಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತದೆ.
           </div>
         `;
       }
 
       let returnStatusHtml = '';
       if (o.isReturned) {
+        let returnDeductionAmount = isCourier ? 100 : 50;
+        let finalRefundAmount = Number(o.totalPrice) - returnDeductionAmount;
+        if (finalRefundAmount < 0) finalRefundAmount = 0;
+
         if (o.returnPaymentStatus === 'SUCCESS') {
-          returnStatusHtml = `<div style="color:green; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#e8f5e9; padding:8px; border-radius:6px;">✔ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್ ಆಗಿದೆ: ನಿಮ್ಮ ಯುಪಿಐ ಅಕೌಂಟಿಗೆ ಹಣ ಕಳುಹಿಸಲಾಗಿದೆ!</div>`;
+          returnStatusHtml = `<div style="color:green; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#e8f5e9; padding:8px; border-radius:6px;">✔ ರಿಟರ್ನ್ ಪಾವತಿ ಸಕ್ಸಸ್ ಆಗಿದೆ: ನಿಮ್ಮ ಯುಪಿಐ ಅಕೌಂಟಿಗೆ ರೂ.${finalRefundAmount} (ರಿಟರ್ನ್ ಚಾರ್ಜ್ ರೂ.${returnDeductionAmount} ಕಡಿತಗೊಳಿಸಿ) ಜಮಾ ಮಾಡಲಾಗಿದೆ!</div>`;
         } else {
           returnStatusHtml = `
             <div style="background:#fff3e0; border:2px solid #ffb74d; border-radius:8px; padding:12px; margin-bottom:12px; font-size:0.82rem; color:#d84315; line-height:1.5;">
-              🔑 <b>ರಿಟರ್ನ್ / ಪಿಕಪ್ ಒಟಿಪಿ:</b> <span style="font-size:1.2rem; font-weight:bold; color:#d32f2f;">${o.returnOtp || '9234'}</span><br>
-              • ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕಪ್ ಮಾಡುವಾಗ ಈ ಒಟಿಪಿ ನೀಡಿ.
+              🔄 <b>ರಿಟರ್ನ್ ವಿನಂತಿ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿದೆ:</b><br>
+              • ಆಯ್ಕೆ ಮಾಡಿರುವ ವಿಧಾನ: <b>${isCourier ? '✈️ DTDC ಕೊರಿಯರ್ (ರೂ.100 ರಿಟರ್ನ್ ಚಾರ್ಜ್ ಕಡಿತ)' : '🛵 ಲೋಕಲ್ ಡೆಲಿವರಿ (ರೂ.50 ರಿಟರ್ನ್ ಚಾರ್ಜ್ ಕಡಿತ)'}</b><br>
+              • ಮರುಪಾವತಾಗುವ ಮೊತ್ತ: <b>ರೂ.${finalRefundAmount}</b> (ಮೂಲ ಬೆಲೆ ₹${o.totalPrice} - ರಿಟರ್ನ್ ಚಾರ್ಜ್ ರೂ.${returnDeductionAmount})<br>
+              🔑 <b>ರಿಟರ್ನ್ ಒಟಿಪಿ:</b> <span style="font-size:1.2rem; font-weight:bold; color:#d32f2f;">${o.returnOtp || '9234'}</span>
             </div>
           `;
         }
@@ -1321,7 +1228,7 @@
           returnButtonHtml = `<button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಿ (Return Order)</button>`;
         }
       } else if (isDelivered && orderReturnPolicy === 'NO') {
-        returnButtonHtml = `<div style="color:#d32f2f; font-weight:bold; font-size:0.85rem; text-align:center; padding:10px; background:#ffebee; border-radius:6px; border:1px solid #ffcdd2;">❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return Policy)</div>`;
+        returnButtonHtml = `<div style="color:#d32f2f; font-weight:bold; font-size:0.85rem; text-align:center; padding:10px; background:#ffebee; border-radius:6px; border:1px solid #ffcdd2;">ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return Policy)</div>`;
       } else if (isDelivered && hoursSinceDelivery > 12 && !o.isReturned) {
         returnButtonHtml = `<div style="color:#777; font-weight:bold; font-size:0.8rem; text-align:center; padding:8px; background:#eee; border-radius:6px;">⏰ 12 ಗಂಟೆಗಳಾವಧಿ ಮುಕ್ತಾಯಗೊಂಡಿದೆ (Return Window Closed)</div>`;
       }
@@ -1334,21 +1241,6 @@
         </div>
       `;
 
-      let roadmapHtml = '';
-      if (!o.isReturned) {
-        roadmapHtml = `
-          <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px; margin-bottom:15px;">
-            <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ರೋಡ್‌ಮ್ಯಾಪ್</h4>
-            <div class="timeline">
-              <div class="t-item ${s1}"><div class="t-dot"></div><div class="t-title">1. ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ</div></div>
-              <div class="t-item ${s2}"><div class="t-dot"></div><div class="t-title">2. ಅಂಗಡಿಯಿಂದ ಪ್ಯಾಕಿಂಗ್ ಆಗಿದೆ</div></div>
-              <div class="t-item ${s3}"><div class="t-dot"></div><div class="t-title">3. ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ</div></div>
-              <div class="t-item ${s4}"><div class="t-dot"></div><div class="t-title">4. ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Delivered)</div></div>
-            </div>
-          </div>
-        `;
-      }
-
       content.innerHTML = `
         <div style="display:flex; gap:10px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:12px;">
           <img src="${o.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px; background:#fff;">
@@ -1356,7 +1248,7 @@
             <h4 style="font-size:0.9rem;">${o.productName}</h4>
             <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${o.totalPrice} ${distanceText}</p>
             <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ಗ್ರಾಹಕರು:</b> ${cust.name || ''} | <b>ಫೋನ್:</b> ${cust.phone || ''}</p>
-            <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ವಿಳಾಸ:</b> ${cust.village || ''}, ${cust.taluk || ''} (${cust.landmark || ''}) - ${cust.pincode || ''}</p>
+            <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ವಿಳಾಸ:</b> ${cust.village || ''}, ${cust.taluk || ''}, ${cust.district || ''} (${cust.landmark || ''}) - ${cust.pincode || ''}</p>
           </div>
         </div>
 
@@ -1527,6 +1419,8 @@
           document.getElementById('custPhone').value = a.phone || localStorage.getItem('customer_phone_key') || '';
           document.getElementById('custVillage').value = a.village || '';
           document.getElementById('custPincode').value = a.pincode || '';
+          document.getElementById('custTaluk').value = a.taluk || '';
+          document.getElementById('custDistrict').value = a.district || '';
         } catch(e) {}
       } else {
         document.getElementById('custName').value = localStorage.getItem('customer_name_key') || '';

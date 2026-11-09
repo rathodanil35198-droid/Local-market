@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="google-site-verification" content="ZgEiG1KeQR2v__zpU2O3CpOBqjORyCDkBn5yInF902c" />
   
-  <title id="appTitle">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್ | ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್ - Namma Ooru Shopping App</title>
+  <title id="appTitle">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | Namma Ooru Shopping App</title>
   
   <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
   <link rel="apple-touch-icon" href="logo.png">
@@ -108,6 +108,7 @@
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .back-btn { font-size: 1.3rem; cursor: pointer; }
 
+    /* ಫೋಟೋ ಗ್ಯಾಲರಿ ಸ್ಲೈಡರ್ */
     .slider-container { width: 100%; position: relative; overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #eee; }
     .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
     .slider-track::-webkit-scrollbar { display: none; }
@@ -115,6 +116,7 @@
     
     .thumbnail-bar { display: flex; gap: 8px; margin-top: 8px; justify-content: center; overflow-x: auto; padding: 4px; }
     .thumbnail-bar img { width: 50px; height: 50px; object-fit: contain; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; background: #fff; }
+    .thumbnail-bar img.active-thumb { border-color: var(--primary); }
 
     .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; margin: 8px 0; line-height: 1.4; }
 
@@ -129,18 +131,21 @@
     .color-btn { padding: 5px 10px; border: 2px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
     .color-btn.selected { border-color: var(--primary); background: #f0f4ff; color: var(--primary); }
 
+    /* ಟ್ರ್ಯಾಕಿಂಗ್ ರೋಡ್ ಮ್ಯಾಪ್ */
     .timeline { position: relative; padding-left: 20px; margin: 15px 0; }
     .timeline::before { content: ''; position: absolute; left: 7px; top: 5px; bottom: 5px; width: 2px; background: #e0e0e0; }
-    .t-item { position: relative; margin-bottom: 15px; }
+    .t-item { position: relative; margin-bottom: 15px; color: #888; }
     .t-dot { position: absolute; left: -20px; top: 2px; width: 12px; height: 12px; border-radius: 50%; background: #ccc; border: 2px solid #fff; }
+    .t-item.completed { color: #2e7d32; font-weight: bold; }
     .t-item.completed .t-dot { background: var(--success); }
+    .t-item.active { color: var(--primary); font-weight: bold; }
     .t-item.active .t-dot { background: var(--primary); width: 16px; height: 16px; left: -22px; top: 0; }
-    .t-title { font-size: 0.85rem; font-weight: bold; color: #333; }
+    .t-title { font-size: 0.85rem; }
 
     .pay-opt-btn { width: 100%; padding: 12px 14px; margin: 6px 0; border: 2px solid #2874f0; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #e8f0fe; color: #1a73e8; }
 
     .custom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 15px; }
-    .custom-modal-content { background: #fff; border-radius: 12px; max-width: 420px; width: 100%; padding: 18px; max-height: 90vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+    .custom-modal-content { background: #fff; border-radius: 12px; max-width: 420px; width: 100%; padding: 18px; max-height: 90vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-align: center; }
 
     #customerLoginOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -184,6 +189,22 @@
       <button onclick="handleCustomerLogin()" style="width:100%; padding:11px; background:var(--primary); color:#fff; border:none; border-radius:6px; font-size:0.95rem; font-weight:bold; cursor:pointer; margin-bottom:8px;">ಲಾಗಿನ್ ಮಾಡಿ (Login)</button>
       
       <button id="loginInstallAppBtn" onclick="installAppPrompt()" style="width:100%; padding:10px; background:#388e3c; color:#fff; border:none; border-radius:6px; font-size:0.85rem; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">📲 ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ (Install App)</button>
+    </div>
+  </div>
+
+  <!-- ಸುಂದರವಾದ ಆರ್ಡರ್ ಸಕ್ಸಸ್ ಪಾಪ್-ಅಪ್ -->
+  <div id="orderSuccessModal" class="custom-modal">
+    <div class="custom-modal-content">
+      <div style="font-size:3.5rem; margin-bottom:5px; animation: bounce 0.6s ease;">🎉</div>
+      <h3 style="color:var(--success); font-size:1.2rem; margin-bottom:8px;">ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿದೆ!</h3>
+      <p style="font-size:0.85rem; color:#555; margin-bottom:12px;">ನಿಮ್ಮ ಆರ್ಡರ್ ಅನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸ್ವೀಕರಿಸಲಾಗಿದೆ.</p>
+      
+      <div style="background:#e3f2fd; padding:10px; border-radius:8px; border:1px solid #90caf9; margin-bottom:15px;">
+        <span style="font-size:0.75rem; color:#1565c0; font-weight:bold;">ಆರ್ಡರ್ ಐಡಿ (Order ID):</span>
+        <div id="modalOrderId" style="font-size:1.1rem; font-weight:bold; color:#0d47a1; margin-top:2px;">OD000000000</div>
+      </div>
+
+      <button onclick="closeOrderSuccessModal()" style="width:100%; padding:12px; background:var(--primary); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">ಸರಿ (View Order)</button>
     </div>
   </div>
 
@@ -280,8 +301,6 @@
       
       <div id="detailReturnPolicyContainer" style="margin-top:6px;"></div>
 
-      <div id="detailRamStorageBox" style="margin-top:6px; font-size:0.8rem; font-weight:bold; color:#1976d2; background:#e3f2fd; padding:6px 8px; border-radius:4px; display:none;"></div>
-
       <div style="margin-top: 6px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <span class="curr-price" id="detailPrice" style="font-size: 1.2rem; color:var(--success);"></span>
@@ -344,6 +363,7 @@
         <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ ಹೆಸರು / District" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fff;">
         <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು ಹೆಸರು / Taluk" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fff;">
         <input type="text" id="custVillage" placeholder="ಊರು / Village / Address" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custGpsText" placeholder="ಜಿಪಿಎಸ್ ಲೊಕೇಶನ್ ಕೇವಲ ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ" readonly style="width:100%; padding:6px; margin-bottom:6px; border:1px solid #eee; border-radius:4px; font-size:0.75rem; background:#f5f5f5;">
         
         <div style="margin-bottom:8px;">
           <label style="font-size:0.78rem; font-weight:bold; color:#444;">ಮನೆಯ ಹತ್ತಿರ ಏನಿದೆ? (ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್ ಆಯ್ಕೆಮಾಡಿ):</label>
@@ -399,41 +419,12 @@
     <div style="padding: 15px; max-width: 500px; margin: 0 auto;" id="pocketMoneyContent"></div>
   </div>
 
-  <!-- RETURN MODAL -->
-  <div id="returnModal" class="custom-modal">
-    <div class="custom-modal-content">
-      <h3 style="color:var(--danger); margin-bottom:10px; font-size:1.05rem;" id="lblReturnTitle">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಅರ್ಜಿ</h3>
-      
-      <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold;">1. ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಬರೆಯಿರಿ:</label>
-        <select id="returnReasonSelect" style="width:100%; padding:8px; margin-top:4px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;" onchange="checkCustomReturnReason(this)">
-          <option value="📦 ವಸ್ತು ಹಾನಿಯಾಗಿದೆ (Item Damaged)">📦 ವಸ್ತು ಹಾನಿಯಾಗಿದೆ (Item Damaged)</option>
-          <option value="📏 ಸೈಜ್ ವ್ಯತ್ಯಾಸವಿದೆ (Size Issue)">📏 ಸೈಜ್ ವ್ಯತ್ಯಾಸವಿದೆ (Size Issue)</option>
-          <option value="❌ ತಪ್ಪಾದ ವಸ್ತು ಬಂದಿದೆ (Wrong Item Delivered)">❌ ತಪ್ಪಾದ ವಸ್ತು ಬಂದಿದೆ (Wrong Item Delivered)</option>
-          <option value="other">✍️ ಸ್ವತಃ ಕಾರಣ ಬರೆಯಿರಿ</option>
-        </select>
-        <input type="text" id="customReturnReasonInput" placeholder="ಕಾರಣ ಟೈಪ್ ಮಾಡಿ..." style="width:100%; padding:8px; margin-top:6px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem; display:none;">
-      </div>
-
-      <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold; color:var(--primary);">2. UPI ID / PhonePe / GPay ಸಂಖ್ಯೆ:</label>
-        <input type="text" id="customerUpiIdInput" placeholder="ಉದಾ: 8105010768@ybl" style="width:100%; padding:8px; margin-top:4px; border:1px solid var(--primary); border-radius:6px; font-size:0.85rem; background:#f0f4ff;">
-      </div>
-
-      <div style="display:flex; gap:8px;">
-        <button onclick="closeReturnModal()" style="flex:1; padding:10px; background:#666; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕ್ಯಾನ್ಸಲ್</button>
-        <button onclick="submitOrderReturnForm()" style="flex:1; padding:10px; background:var(--danger); color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕನ್ಫರ್ಮ್</button>
-      </div>
-    </div>
-  </div>
-
   <script>
     let allProducts = [];
     let allShopsMap = {};
     let validShopIds = new Set();
     let bannerList = [];
     let currentCategoryFilter = '';
-    let activeReturnOrderId = null;
     let selectedProduct = null;
     let selectedSize = '';
     let selectedColorName = '';
@@ -443,6 +434,7 @@
     let deferredPrompt = null;
     let bannerSlideIndex = 0;
     let bannerIntervalId = null;
+    let createdOrderIdTemp = "";
 
     window.addEventListener('DOMContentLoaded', () => {
       checkCustomerLoginStatus();
@@ -519,8 +511,8 @@
           (position) => {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
-            document.getElementById('custVillage').value = `GPS Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}`;
-            alert("📍 ನಿಮ್ಮ GPS ಲೊಕೇಶನ್ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಕ್ಯಾಚ್ ಮಾಡಲಾಗಿದೆ!");
+            document.getElementById('custGpsText').value = `GPS Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}`;
+            alert("📍 ನಿಮ್ಮ GPS ಲೊಕೇಶನ್ ಕ್ಯಾಚ್ ಮಾಡಲಾಗಿದೆ!");
           },
           (error) => {
             alert("ಜಿಪಿಎಸ್ ಲೊಕೇಶನ್ ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಜಿಪಿಎಸ್ ಆನ್ ಮಾಡಿ.");
@@ -748,7 +740,7 @@
           snap.forEach(docSnap => {
             const s = docSnap.data();
             allShopsMap[s.id] = s;
-            if (s.isPaid) validShopIds.add(s.id);
+            if (s.isPaid && s.isDeleted !== true) validShopIds.add(s.id);
           });
           startRealtimeProducts();
         });
@@ -761,7 +753,7 @@
           allProducts = [];
           snap.forEach(docSnap => {
             const p = { id: docSnap.id, ...docSnap.data() };
-            if (validShopIds.size === 0 || validShopIds.has(p.shopId)) allProducts.push(p);
+            if (validShopIds.has(p.shopId)) allProducts.push(p);
           });
           applyLocationFilter();
         });
@@ -912,14 +904,30 @@
     }
 
     function updateDetailSliderPhotos(customPhotos) {
-      let photos = customPhotos || selectedProduct.colors?.[0]?.photos || [];
+      let photos = customPhotos || [];
+      if (photos.length === 0 && selectedProduct.photos && selectedProduct.photos.length > 0) {
+        photos = selectedProduct.photos;
+      }
+      if (photos.length === 0 && selectedProduct.colors?.[0]?.photos) {
+        photos = selectedProduct.colors[0].photos;
+      }
       if (photos.length === 0) photos = [selectedProduct.photo || 'https://via.placeholder.com/150'];
-      
+
       const track = document.getElementById('sliderTrack');
       const thumb = document.getElementById('thumbnailBar');
 
       track.innerHTML = photos.map(img => `<img src="${img}">`).join('');
-      thumb.innerHTML = photos.map((img, idx) => `<img src="${img}" onclick="scrollToSlide(${idx})">`).join('');
+      thumb.innerHTML = photos.map((img, idx) => `
+        <img src="${img}" class="${idx === 0 ? 'active-thumb' : ''}" onclick="scrollToSlide(${idx})">
+      `).join('');
+
+      track.onscroll = () => {
+        const index = Math.round(track.scrollLeft / track.clientWidth);
+        document.querySelectorAll('.thumbnail-bar img').forEach((el, idx) => {
+          if (idx === index) el.classList.add('active-thumb');
+          else el.classList.remove('active-thumb');
+        });
+      };
     }
 
     function scrollToSlide(index) {
@@ -953,7 +961,6 @@
       const pincode = document.getElementById('custPincode').value.trim();
       const taluk = document.getElementById('custTaluk').value.trim();
       const district = document.getElementById('custDistrict').value.trim();
-      const landmark = document.getElementById('custLandmarkOption').value;
 
       if (!name || !phone || !village || !pincode || !taluk || !district) {
         alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿಳಾಸ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ.");
@@ -985,9 +992,10 @@
 
       let productTitleStr = `${selectedProduct.name} [Size: ${selectedSize}, Qty: ${productQty}]`;
       let productReturnPolicy = selectedProduct.returnPolicy || (shop ? shop.returnPolicy : 'RETURN_AVAILABLE');
+      createdOrderIdTemp = 'OD' + Math.floor(100000000000 + Math.random() * 900000000000);
 
       const orderData = {
-        orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
+        orderId: createdOrderIdTemp,
         productName: productTitleStr,
         productPhoto: finalPhoto || 'https://via.placeholder.com/150',
         selectedColor: selectedColorName || 'Standard',
@@ -1012,11 +1020,15 @@
       };
 
       try {
-        const uniqueDocId = orderData.orderId;
-        await window.setDoc(window.doc(window.db, "orders", uniqueDocId), orderData);
-        alert("🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!");
-        openMyOrdersScreen();
+        await window.setDoc(window.doc(window.db, "orders", createdOrderIdTemp), orderData);
+        document.getElementById('modalOrderId').innerText = createdOrderIdTemp;
+        document.getElementById('orderSuccessModal').style.display = 'flex';
       } catch(e) { alert("Error: " + e.message); }
+    }
+
+    function closeOrderSuccessModal() {
+      document.getElementById('orderSuccessModal').style.display = 'none';
+      openMyOrdersScreen();
     }
 
     async function cancelCustomerOrder(orderDocId) {
@@ -1071,22 +1083,49 @@
       let status = o.status || 'PENDING';
       let cust = o.customer || {};
       
-      let showCancelBtn = (status === 'PENDING' || status === 'CONFIRMED') && !o.isReturned;
+      let showCancelBtn = (status === 'PENDING') && !o.isReturned;
       let orderReturnPolicy = o.returnPolicy || 'RETURN_AVAILABLE';
 
-      let returnPolicyText = orderReturnPolicy === 'NO' ? '❌ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? '🩱 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)' : '✔ ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ');
+      let returnPolicyText = orderReturnPolicy === 'NO' ? '❌ ರಿಟರ್ನ್ ಇಲ್ಲ' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? '🩱 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ' : '✔ ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ');
+
+      let s1 = 'completed', s2 = '', s3 = '', s4 = '';
+      if (status === 'CONFIRMED' || status === 'STEP_2') { s2 = 'completed'; }
+      if (status === 'STEP_3' || status === 'HANDOVER_TO_DTDC') { s2 = 'completed'; s3 = 'completed'; }
+      if (status === 'DELIVERED' || status === 'STEP_4') { s2 = 'completed'; s3 = 'completed'; s4 = 'completed'; }
+
+      let trackingRoadmap = `
+        <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px; margin-top:12px;">
+          <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ರೋಡ್‌ಮ್ಯಾಪ್</h4>
+          <div class="timeline">
+            <div class="t-item ${s1}"><div class="t-dot"></div><div class="t-title">1. ಆರ್ಡರ್ ಸಲ್ಲಿಕೆಯಾಗಿದೆ (Order Placed)</div></div>
+            <div class="t-item ${s2}"><div class="t-dot"></div><div class="t-title">2. ಅಂಗಡಿ ಮಾಲೀಕರು ಕನ್ಫರ್ಮ್ ಮಾಡಿದ್ದಾರೆ</div></div>
+            <div class="t-item ${s3}"><div class="t-dot"></div><div class="t-title">3. ಡೆಲಿವರಿ ಬಾಯ್ / DTDC ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ</div></div>
+            <div class="t-item ${s4}"><div class="t-dot"></div><div class="t-title">4. ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Delivered)</div></div>
+          </div>
+        </div>
+      `;
+
+      let courierLink = o.trackingId ? `
+        <div style="background:#e3f2fd; border:1px solid #90caf9; border-radius:8px; padding:10px; margin-top:10px; text-align:center;">
+          <p style="font-size:0.8rem; color:#1565c0; font-weight:bold;">📦 DTDC ಕೊರಿಯರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಐಡಿ: ${o.trackingId}</p>
+          <a href="https://www.dtdc.in/tracking.asp?strConsignmentNo=${o.trackingId}" target="_blank" style="display:inline-block; margin-top:6px; color:#fff; background:#1976d2; padding:6px 12px; border-radius:4px; font-size:0.8rem; text-decoration:none; font-weight:bold;">🌐 DTDC ಲೈವ್ ರೂಟ್ ಮ್ಯಾಪ್ ಟ್ರ್ಯಾಕಿಂಗ್ ನೋಡಿ</a>
+        </div>
+      ` : '';
 
       content.innerHTML = `
         <div style="background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:12px;">
           <img src="${o.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px;">
           <h4 style="font-size:0.9rem; margin-top:6px;">${o.productName}</h4>
           <p style="font-size:0.95rem; font-weight:bold; color:var(--success);">₹${o.totalPrice}</p>
-          <p style="font-size:0.78rem; color:#555; margin-top:4px;"><b>ವಿಳಾಸ:</b> ${cust.village}, ${cust.taluk}, ${cust.district} - ${cust.pincode}</p>
+          <p style="font-size:0.78rem; color:#555; margin-top:4px;"><b>ವಿಳಾಸ:</b> ${cust.village || ''}, ${cust.taluk || ''}, ${cust.district || ''} - ${cust.pincode || ''}</p>
           <p style="font-size:0.78rem; margin-top:4px;"><b>ರಿಟರ್ನ್ ಪಾಲಿಸಿ:</b> ${returnPolicyText}</p>
           <p style="font-size:0.78rem; margin-top:4px;"><b>ಒಟಿಪಿ (OTP):</b> <span style="color:var(--primary); font-weight:bold; font-size:1.1rem;">${o.deliveryOtp}</span></p>
         </div>
 
-        ${showCancelBtn ? `<button onclick="cancelCustomerOrder('${o.id}')" style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">❌ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ</button>` : ''}
+        ${courierLink}
+        ${trackingRoadmap}
+
+        ${showCancelBtn ? `<button onclick="cancelCustomerOrder('${o.id}')" style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin-top:15px;">❌ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ</button>` : ''}
       `;
       showScreen('orderDetailsScreen');
       history.pushState({ page: 'order_details' }, '', '');

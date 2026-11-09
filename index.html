@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="google-site-verification" content="ZgEiG1KeQR2v__zpU2O3CpOBqjORyCDkBn5yInF902c" />
   
-  <title id="appTitle">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | Namma Ooru Shopping App</title>
+  <title id="appTitle">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್ | ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್ - Namma Ooru Shopping App</title>
+  
+  <meta name="description" content="ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್, ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್, ಊರು ಶಾಪಿಂಗ್ ಆಪ್, ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್, Namma Ooru Shopping, Ooru Shopping, Fast Shopping App, Shopping App in Shahapur Yadgir. ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ.">
+  <meta name="keywords" content="ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್, ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್, ಊರು ಶಾಪಿಂಗ್ ಆಪ್, ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್, Namma Ooru Shopping, Ooru Shopping, Fast Shopping App, Shahapur Shopping App, Yadgir Shopping">
   
   <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
   <link rel="apple-touch-icon" href="logo.png">
@@ -108,7 +111,6 @@
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .back-btn { font-size: 1.3rem; cursor: pointer; }
 
-    /* ಫೋಟೋ ಗ್ಯಾಲರಿ ಸ್ಲೈಡರ್ */
     .slider-container { width: 100%; position: relative; overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #eee; }
     .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
     .slider-track::-webkit-scrollbar { display: none; }
@@ -116,7 +118,6 @@
     
     .thumbnail-bar { display: flex; gap: 8px; margin-top: 8px; justify-content: center; overflow-x: auto; padding: 4px; }
     .thumbnail-bar img { width: 50px; height: 50px; object-fit: contain; border-radius: 6px; border: 2px solid #ddd; cursor: pointer; flex-shrink: 0; background: #fff; }
-    .thumbnail-bar img.active-thumb { border-color: var(--primary); }
 
     .delivery-badge { background: #e8f5e9; border: 1px solid #c8e6c9; color: var(--success); padding: 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; margin: 8px 0; line-height: 1.4; }
 
@@ -131,21 +132,18 @@
     .color-btn { padding: 5px 10px; border: 2px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
     .color-btn.selected { border-color: var(--primary); background: #f0f4ff; color: var(--primary); }
 
-    /* ಟ್ರ್ಯಾಕಿಂಗ್ ರೋಡ್ ಮ್ಯಾಪ್ */
     .timeline { position: relative; padding-left: 20px; margin: 15px 0; }
     .timeline::before { content: ''; position: absolute; left: 7px; top: 5px; bottom: 5px; width: 2px; background: #e0e0e0; }
-    .t-item { position: relative; margin-bottom: 15px; color: #888; }
+    .t-item { position: relative; margin-bottom: 15px; }
     .t-dot { position: absolute; left: -20px; top: 2px; width: 12px; height: 12px; border-radius: 50%; background: #ccc; border: 2px solid #fff; }
-    .t-item.completed { color: #2e7d32; font-weight: bold; }
     .t-item.completed .t-dot { background: var(--success); }
-    .t-item.active { color: var(--primary); font-weight: bold; }
     .t-item.active .t-dot { background: var(--primary); width: 16px; height: 16px; left: -22px; top: 0; }
-    .t-title { font-size: 0.85rem; }
+    .t-title { font-size: 0.85rem; font-weight: bold; color: #333; }
 
     .pay-opt-btn { width: 100%; padding: 12px 14px; margin: 6px 0; border: 2px solid #2874f0; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #e8f0fe; color: #1a73e8; }
 
     .custom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 15px; }
-    .custom-modal-content { background: #fff; border-radius: 12px; max-width: 420px; width: 100%; padding: 18px; max-height: 90vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-align: center; }
+    .custom-modal-content { background: #fff; border-radius: 12px; max-width: 420px; width: 100%; padding: 18px; max-height: 90vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
     #customerLoginOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -174,7 +172,7 @@
     <div class="login-box">
       <div style="font-size: 2.5rem; margin-bottom: 5px;">🛍️</div>
       <h3 style="color: var(--primary); margin-bottom: 5px;">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್</h3>
-      <p style="font-size: 0.78rem; color: #555; margin-bottom: 12px;">ಯಾವುದೇ ಸ್ಥಳದಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ</p>
+      <p style="font-size: 0.78rem; color: #555; margin-bottom: 12px;">ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ</p>
       
       <div style="margin-bottom: 10px; text-align: left;">
         <label style="font-size: 0.75rem; font-weight: bold; color: #444;">ನಿಮ್ಮ ಹೆಸರು (Name):</label>
@@ -189,22 +187,6 @@
       <button onclick="handleCustomerLogin()" style="width:100%; padding:11px; background:var(--primary); color:#fff; border:none; border-radius:6px; font-size:0.95rem; font-weight:bold; cursor:pointer; margin-bottom:8px;">ಲಾಗಿನ್ ಮಾಡಿ (Login)</button>
       
       <button id="loginInstallAppBtn" onclick="installAppPrompt()" style="width:100%; padding:10px; background:#388e3c; color:#fff; border:none; border-radius:6px; font-size:0.85rem; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">📲 ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ (Install App)</button>
-    </div>
-  </div>
-
-  <!-- ಸುಂದರವಾದ ಆರ್ಡರ್ ಸಕ್ಸಸ್ ಪಾಪ್-ಅಪ್ -->
-  <div id="orderSuccessModal" class="custom-modal">
-    <div class="custom-modal-content">
-      <div style="font-size:3.5rem; margin-bottom:5px; animation: bounce 0.6s ease;">🎉</div>
-      <h3 style="color:var(--success); font-size:1.2rem; margin-bottom:8px;">ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿದೆ!</h3>
-      <p style="font-size:0.85rem; color:#555; margin-bottom:12px;">ನಿಮ್ಮ ಆರ್ಡರ್ ಅನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸ್ವೀಕರಿಸಲಾಗಿದೆ.</p>
-      
-      <div style="background:#e3f2fd; padding:10px; border-radius:8px; border:1px solid #90caf9; margin-bottom:15px;">
-        <span style="font-size:0.75rem; color:#1565c0; font-weight:bold;">ಆರ್ಡರ್ ಐಡಿ (Order ID):</span>
-        <div id="modalOrderId" style="font-size:1.1rem; font-weight:bold; color:#0d47a1; margin-top:2px;">OD000000000</div>
-      </div>
-
-      <button onclick="closeOrderSuccessModal()" style="width:100%; padding:12px; background:var(--primary); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">ಸರಿ (View Order)</button>
     </div>
   </div>
 
@@ -257,7 +239,7 @@
 
     <div class="filter-box">
       <span style="font-size:0.75rem; font-weight:bold; color:var(--primary);" id="lblLocationFilter">📍 ಸ್ಥಳ/ತಾಲೂಕು ಸರ್ಚ್:</span>
-      <input type="text" id="filterTaluk" value="" placeholder="ಯಾವುದೇ ಸ್ಥಳ/ತಾಲೂಕು ಹುಡುಕಿ..." oninput="applyLocationFilter()">
+      <input type="text" id="filterTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು/ಸ್ಥಳ ನಮೂದಿಸಿ" oninput="applyLocationFilter()">
     </div>
 
     <div id="productsGrid" class="grid-products"></div>
@@ -301,6 +283,8 @@
       
       <div id="detailReturnPolicyContainer" style="margin-top:6px;"></div>
 
+      <div id="detailRamStorageBox" style="margin-top:6px; font-size:0.8rem; font-weight:bold; color:#1976d2; background:#e3f2fd; padding:6px 8px; border-radius:4px; display:none;"></div>
+
       <div style="margin-top: 6px;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <span class="curr-price" id="detailPrice" style="font-size: 1.2rem; color:var(--success);"></span>
@@ -326,7 +310,7 @@
       </div>
 
       <div class="delivery-badge" id="lblDeliveryBadge">
-        🚚 <b>ಯಾವುದೇ ಸ್ಥಳದಿಂದ ಆರ್ಡರ್ ಮಾಡಿ! ತ್ವರಿತ ಡೆಲಿವರಿ ಲಭ್ಯವಿದೆ.</b>
+        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ)</b>
       </div>
 
       <div style="margin-top: 20px; border-top: 2px solid #ddd; padding-top: 12px;">
@@ -350,20 +334,19 @@
 
     <div style="padding: 15px 15px 160px 15px;">
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (ಎಲ್ಲಿಂದಲಾದರೂ ಆರ್ಡರ್ ಮಾಡಿ):</h4>
+        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (12 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
         
         <input type="text" id="custName" placeholder="ಗ್ರಾಹಕರ ಹೆಸರು / Customer Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="tel" id="custPhone" placeholder="ಮೊಬೈල් ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
         <div style="display:flex; gap:6px; margin-bottom:6px;">
-          <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode" maxlength="6" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;" oninput="fetchPincodeAutoDetails(this.value)">
+          <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode" maxlength="6" oninput="fetchPincodeDetails(this.value)" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;">
           <button type="button" onclick="fetchCustomerGpsLocation()" style="padding:8px 12px; background:#1976d2; color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:0.75rem; cursor:pointer;">📍 GPS ಆಟೋ</button>
         </div>
 
-        <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ ಹೆಸರು / District" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fff;">
-        <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು ಹೆಸರು / Taluk" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fff;">
-        <input type="text" id="custVillage" placeholder="ಊರು / Village / Address" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custGpsText" placeholder="ಜಿಪಿಎಸ್ ಲೊಕೇಶನ್ ಕೇವಲ ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ" readonly style="width:100%; padding:6px; margin-bottom:6px; border:1px solid #eee; border-radius:4px; font-size:0.75rem; background:#f5f5f5;">
+        <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ ಹೆಸರು / District (ಆಟೋ-ಫೆಚ್)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fffde7; font-weight:bold;" readonly>
+        <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು ಹೆಸರು / Taluk (ಆಟೋ-ಫೆಚ್)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fffde7; font-weight:bold;" readonly>
+        <input type="text" id="custVillage" placeholder="ಊರು / Village" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
         <div style="margin-bottom:8px;">
           <label style="font-size:0.78rem; font-weight:bold; color:#444;">ಮನೆಯ ಹತ್ತಿರ ಏನಿದೆ? (ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್ ಆಯ್ಕೆಮಾಡಿ):</label>
@@ -375,6 +358,8 @@
             <option value="ಇತರ ಪ್ರಮುಖ ಸ್ಥಳ">📍 ಇತರ ಪ್ರಮುಖ ಸ್ಥಳ</option>
           </select>
         </div>
+
+        <div id="availabilityMsg" style="display:none; font-size:0.8rem; font-weight:bold; margin:6px 0; padding:8px; border-radius:4px;"></div>
       </div>
 
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
@@ -419,12 +404,69 @@
     <div style="padding: 15px; max-width: 500px; margin: 0 auto;" id="pocketMoneyContent"></div>
   </div>
 
+  <!-- RETURN MODAL -->
+  <div id="returnModal" class="custom-modal">
+    <div class="custom-modal-content">
+      <h3 style="color:var(--danger); margin-bottom:10px; font-size:1.05rem;" id="lblReturnTitle">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಅರ್ಜಿ</h3>
+      
+      <div style="margin-bottom:10px;">
+        <label style="font-size:0.8rem; font-weight:bold;">1. ರಿಟರ್ನ್‌ ಮಾಡಲು ಪ್ರಮುಖ ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಬರೆಯಿರಿ:</label>
+        <select id="returnReasonSelect" style="width:100%; padding:8px; margin-top:4px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;" onchange="checkCustomReturnReason(this)">
+          <option value="📦 ವಸ್ತು ಹಾನಿಯಾಗಿದೆ (Item Damaged)">📦 ವಸ್ತು ಹಾನಿಯಾಗಿದೆ (Item Damaged)</option>
+          <option value="📏 ಸೈಜ್ ವ್ಯತ್ಯಾಸವಿದೆ (Size Issue)">📏 ಸೈಜ್ ವ್ಯತ್ಯಾಸವಿದೆ (Size Issue)</option>
+          <option value="❌ ತಪ್ಪಾದ ವಸ್ತು ಬಂದಿದೆ (Wrong Item Delivered)">❌ ತಪ್ಪಾದ ವಸ್ತು ಬಂದಿದೆ (Wrong Item Delivered)</option>
+          <option value="other">✍️ ಸ್ವತಃ ಕಾರಣ ಬರೆಯಿರಿ (Type Custom Reason)</option>
+        </select>
+        <input type="text" id="customReturnReasonInput" placeholder="ಇಲ್ಲಿ ಕಾರಣ ಟೈಪ್ ಮಾಡಿ..." style="width:100%; padding:8px; margin-top:6px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem; display:none;">
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <label style="font-size:0.8rem; font-weight:bold; color:var(--primary);">2. ಹಣ ಪಡೆಯಲು ನಿಮ್ಮ UPI ID / PhonePe / GPay ಸಂಖ್ಯೆ ನಮೂದಿಸಿ:</label>
+        <input type="text" id="customerUpiIdInput" placeholder="ಉದಾ: 8105010768@ybl ಅಥವಾ PhonePe ನಂಬರ್" style="width:100%; padding:8px; margin-top:4px; border:1px solid var(--primary); border-radius:6px; font-size:0.85rem; background:#f0f4ff;">
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <label style="font-size:0.8rem; font-weight:bold; color:var(--primary);">3. QR ಕೋಡ್ ಅಪ್ಲೋಡ್ ಮಾಡಿ ಅಥವಾ ಕ್ಯೂಆರ್ ಫೋಟೋ ಹಾಕಿ:</label>
+        <input type="file" id="returnQrInput" accept="image/*" style="width:100%; margin-top:2px; font-size:0.8rem;" onchange="previewReturnQr(event)">
+        <div id="returnQrPreview" style="margin-top:4px; display:none;">
+          <img id="previewQrImgTag" src="" style="width:60px; height:60px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">
+        </div>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <label style="font-size:0.8rem; font-weight:bold;">4. ವಸ್ತುವಿನ ಮೊದಲನೇ ಫೋಟೋ (Photo 1):</label>
+        <input type="file" id="returnPhotoInput1" accept="image/*" capture="environment" style="width:100%; margin-top:2px; font-size:0.8rem;" onchange="previewReturnPhoto1(event)">
+        <div id="returnPhotoPreview1" style="margin-top:4px; display:none;">
+          <img id="previewImgTag1" src="" style="width:60px; height:60px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">
+        </div>
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <label style="font-size:0.8rem; font-weight:bold;">5. ವಸ್ತುವಿನ ಎರಡನೇ ಫೋಟೋ (Photo 2):</label>
+        <input type="file" id="returnPhotoInput2" accept="image/*" capture="environment" style="width:100%; margin-top:2px; font-size:0.8rem;" onchange="previewReturnPhoto2(event)">
+        <div id="returnPhotoPreview2" style="margin-top:4px; display:none;">
+          <img id="previewImgTag2" src="" style="width:60px; height:60px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <button onclick="closeReturnModal()" style="flex:1; padding:10px; background:#666; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕ್ಯಾನ್ಸಲ್ (Cancel)</button>
+        <button onclick="submitOrderReturnForm()" style="flex:1; padding:10px; background:var(--danger); color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕನ್ಫರ್ಮ್ ರಿಟರ್ನ್</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     let allProducts = [];
     let allShopsMap = {};
     let validShopIds = new Set();
     let bannerList = [];
     let currentCategoryFilter = '';
+    let activeReturnOrderId = null;
+    let returnBase64Photo1 = '';
+    let returnBase64Photo2 = '';
+    let returnBase64Qr = '';
+
     let selectedProduct = null;
     let selectedSize = '';
     let selectedColorName = '';
@@ -434,7 +476,6 @@
     let deferredPrompt = null;
     let bannerSlideIndex = 0;
     let bannerIntervalId = null;
-    let createdOrderIdTemp = "";
 
     window.addEventListener('DOMContentLoaded', () => {
       checkCustomerLoginStatus();
@@ -465,63 +506,6 @@
       });
       history.pushState({ page: 'main' }, '', window.location.href);
     });
-
-    const placeTranslations = {
-      "yadgir": { kn: "ಯಾದಗಿರಿ", talukKn: "ಯಾದಗಿರಿ" },
-      "shahapur": { kn: "ಶಹಾಪುರ", talukKn: "ಶಹಾಪುರ" },
-      "surpur": { kn: "ಸುರಪುರ", talukKn: "ಸುರಪುರ" },
-      "shorapur": { kn: "ಸುರಪುರ", talukKn: "ಸುರಪುರ" },
-      "bheemarayanagudi": { kn: "ಭೀಮರಾಯನಗುಡಿ", talukKn: "ಶಹಾಪುರ" }
-    };
-
-    function translateToKannada(name, type) {
-      if (!name) return "";
-      let key = name.toLowerCase().trim();
-      if (placeTranslations[key]) {
-        return type === 'taluk' ? `${placeTranslations[key].talukKn} (${name})` : `${placeTranslations[key].kn} (${name})`;
-      }
-      return name;
-    }
-
-    async function fetchPincodeAutoDetails(pincode) {
-      if (pincode.length !== 6) return;
-      try {
-        let response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
-        let data = await response.json();
-        if (data[0].Status === "Success") {
-          let details = data[0].PostOffice[0];
-          let villageEng = details.Name || '';
-          let talukEng = details.Taluk || details.District || '';
-          let distEng = details.District || '';
-
-          if (pincode === '585287' || talukEng.toLowerCase() === 'yadgir') {
-            talukEng = 'Shahapur';
-          }
-
-          document.getElementById('custVillage').value = translateToKannada(villageEng, 'village');
-          document.getElementById('custTaluk').value = translateToKannada(talukEng, 'taluk');
-          document.getElementById('custDistrict').value = translateToKannada(distEng, 'district');
-        }
-      } catch (e) { console.log(e); }
-    }
-
-    function fetchCustomerGpsLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            document.getElementById('custGpsText').value = `GPS Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}`;
-            alert("📍 ನಿಮ್ಮ GPS ಲೊಕೇಶನ್ ಕ್ಯಾಚ್ ಮಾಡಲಾಗಿದೆ!");
-          },
-          (error) => {
-            alert("ಜಿಪಿಎಸ್ ಲೊಕೇಶನ್ ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಜಿಪಿಎಸ್ ಆನ್ ಮಾಡಿ.");
-          }
-        );
-      } else {
-        alert("ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಜಿಪಿಎಸ್ ಸೌಲಭ್ಯವಿಲ್ಲ.");
-      }
-    }
 
     function checkInstallStatusAndButton() {
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
@@ -589,30 +573,42 @@
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
           localStorage.setItem('app_installed_status', 'true');
+          const btn = document.getElementById('loginInstallAppBtn');
+          const topBtn = document.getElementById('topInstallBtn');
+          if (btn) btn.style.display = 'none';
+          if (topBtn) topBtn.style.display = 'none';
         }
         deferredPrompt = null;
       } else {
-        alert("ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು ಬ್ರೌಸರ್ ಮೇಲಿರುವ ಮೂರು ಚುಕ್ಕೆಗಳ (⋮) ಮೆನು ಕ್ಲಿಕ್ ಮಾಡಿ 'Install app' ಆಯ್ಕೆಮಾಡಿ.");
+        alert("ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು ಬ್ರೌಸರ್ ಮೇಲಿರುವ ಮೂರು ಚುಕ್ಕೆಗಳ (⋮) ಮೆನು ಕ್ಲಿಕ್ ಮಾಡಿ 'Install app' ಅಥವಾ 'Add to Home screen' ಆಯ್ಕೆಮಾಡಿ.");
       }
     }
+
+    window.addEventListener('appinstalled', () => {
+      localStorage.setItem('app_installed_status', 'true');
+      const btn = document.getElementById('loginInstallAppBtn');
+      const topBtn = document.getElementById('topInstallBtn');
+      if (btn) btn.style.display = 'none';
+      if (topBtn) topBtn.style.display = 'none';
+    });
 
     function playCoinSound() {
       const sound = document.getElementById('coinSound');
       if (sound) {
         sound.currentTime = 0;
-        sound.play().catch(e => console.log(e));
+        sound.play().catch(e => console.log("Audio play blocked:", e));
       }
     }
 
     function shareAppOnWhatsApp() {
       const appUrl = window.location.href;
-      let shareText = `🛍️ ಬನ್ನಿ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ ಮೂಲಕ ಯಾವುದೇ ಸ್ಥಳದಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ!\n\n${appUrl}`;
+      let shareText = `🛍️ ಬನ್ನಿ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ / ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್‌ ಮೂಲಕ ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ! 1-2 ದಿನಗಳಲ್ಲಿ ಮನೆಗೆ ಡೆಲಿವರಿ ಪಡೆಯಿರಿ.\n\nಲಿಂಕ್ ಇಲ್ಲಿದೆ ನೋಡಿ:\n${appUrl}`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
     }
 
     const translations = {
       kn: {
-        appTitle: "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್",
+        appTitle: "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್ | ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್",
         brandTitle: "🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್",
         pocketMoney: "💰 ಪಾಕೆಟ್",
         searchPlaceholder: "ಊರು, ತಾಲೂಕು, ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ...",
@@ -622,11 +618,11 @@
         prodDetailTitle: "ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ",
         variantTitle: "Variant / Size / RAM ಆಯ್ಕೆಮಾಡಿ:",
         qtyLabel: "ಸರಕು ಪ್ರಮಾಣ (Quantity):",
-        deliveryBadge: "🚚 <b>ಯಾವುದೇ ಸ್ಥಳದಿಂದ ಆರ್ಡರ್ ಮಾಡಿ! ತ್ವರಿತ ಡೆಲಿವರಿ ಲಭ್ಯವಿದೆ.</b>",
+        deliveryBadge: "🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ)</b>",
         addToCart: "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ",
         buyNow: "ಖರೀದಿಸಿ (Buy Now)",
         checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ",
-        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:",
+        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (12 KM ಒಳಗೆ ಕಡ್ಡಾಯ):",
         paymentMethodTitle: "💳 ಪಾವತಿ ವಿಧಾನ:",
         codOptionText: "💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)",
         proceedPaymentBtn: "ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)",
@@ -634,7 +630,7 @@
         orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು & ಟ್ರ್ಯಾಕಿಂಗ್"
       },
       en: {
-        appTitle: "Namma Ooru Shopping App",
+        appTitle: "Namma Ooru Shopping App | Fast Shopping App | Ooru Shopping",
         brandTitle: "🛍️ Namma Ooru Shopping App",
         pocketMoney: "💰 Pocket",
         searchPlaceholder: "Search village, taluk, product or shop...",
@@ -644,11 +640,11 @@
         prodDetailTitle: "Product Description",
         variantTitle: "Select Variant / Size / RAM:",
         qtyLabel: "Quantity:",
-        deliveryBadge: "🚚 Order from anywhere! Fast delivery available.",
+        deliveryBadge: "🚚 Delivery within 1-2 days! (Within 12 km only)",
         addToCart: "Add to Cart",
         buyNow: "Buy Now",
         checkoutHeader: "Confirm Details & Payment",
-        deliveryAddrTitle: "📍 Delivery Address:",
+        deliveryAddrTitle: "📍 Delivery Address (Within 12 KM mandatory):",
         paymentMethodTitle: "💳 Payment Method:",
         codOptionText: "💵 Cash on Delivery",
         proceedPaymentBtn: "Confirm Order",
@@ -662,7 +658,7 @@
         if (docSnap.exists()) {
           const data = docSnap.data();
           if (data.isOnline === false) {
-            document.getElementById('serverDownMsg').innerText = "ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಸಿಸ್ಟಮ್ ಅನ್ನು ಬಂದ್ (OFF) ಮಾಡಲಾಗಿದೆ.";
+            document.getElementById('serverDownMsg').innerText = "ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಸಿಸ್ಟಮ್ ಅನ್ನು ಬಂದ್ (OFF) ಮಾಡಲಾಗಿದೆ. ದಯವಿಟ್ಟು ನಂತರ ಪ್ರಯತ್ನಿಸಿ.";
             document.getElementById('serverDownOverlay').style.display = 'flex';
           } else {
             document.getElementById('serverDownOverlay').style.display = 'none';
@@ -678,10 +674,10 @@
         const deletedDoc = await window.getDoc(window.doc(window.db, "customers_meta", savedPhone));
         if (deletedDoc.exists() && deletedDoc.data().deleted === true) {
           localStorage.removeItem('customer_phone_key');
-          document.getElementById('serverDownMsg').innerText = "ನಿಮ್ಮ ಗ್ರಾಹಕರ ಖಾತೆಯನ್ನು ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಡಿಲೀಟ್ ಮಾಡಲಾಗಿದೆ.";
+          document.getElementById('serverDownMsg').innerText = "ನಿಮ್ಮ ಗ್ರಾಹಕರ ಖಾತೆಯನ್ನು ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಸಂಪೂರ್ಣವಾಗಿ ಡಿಲೀಟ್ ಮಾಡಲಾಗಿದೆ.";
           document.getElementById('serverDownOverlay').style.display = 'flex';
         }
-      } catch(e) {}
+      } catch(e) { console.log(e); }
     }
 
     window.initFirebaseAppData = function() {
@@ -728,8 +724,13 @@
     function handleBannerClick(index) {
       let b = bannerList[index];
       if (!b) return;
-      if (b.targetCategory) filterByCategory(b.targetCategory);
-      else if (b.targetProductId) openProductDetail(b.targetProductId);
+      if (b.targetCategory) {
+        filterByCategory(b.targetCategory);
+      } else if (b.targetProductId) {
+        openProductDetail(b.targetProductId);
+      } else {
+        alert("ಈ ಜಾಹೀರಾತಿನಲ್ಲಿ ಯಾವುದೇ ನಿರ್ದಿಷ್ಟ ಲಿಂಕ್ ಇಲ್ಲ.");
+      }
     }
 
     function startRealtimeShopOwners() {
@@ -740,7 +741,7 @@
           snap.forEach(docSnap => {
             const s = docSnap.data();
             allShopsMap[s.id] = s;
-            if (s.isPaid && s.isDeleted !== true) validShopIds.add(s.id);
+            if (s.isPaid) validShopIds.add(s.id);
           });
           startRealtimeProducts();
         });
@@ -753,7 +754,7 @@
           allProducts = [];
           snap.forEach(docSnap => {
             const p = { id: docSnap.id, ...docSnap.data() };
-            if (validShopIds.has(p.shopId)) allProducts.push(p);
+            if (validShopIds.size === 0 || validShopIds.has(p.shopId)) allProducts.push(p);
           });
           applyLocationFilter();
         });
@@ -784,16 +785,21 @@
 
         let matchSearch = searchQ === "" || prodName.includes(searchQ) || shopName.includes(searchQ) || shopTaluk.includes(searchQ) || prodCat.includes(searchQ);
         let matchLoc = talukQ === "" || shopTaluk.includes(talukQ) || shopName.includes(talukQ);
+        let matchCat = currentCategoryFilter === "" || prodCat.includes(currentCategoryFilter.toLowerCase()) || prodName.includes(currentCategoryFilter.toLowerCase());
 
-        return matchSearch && matchLoc;
+        return matchSearch && matchLoc && matchCat;
       });
       renderProducts(filtered);
     }
 
     function renderProducts(list) {
       const grid = document.getElementById('productsGrid');
+      const talukVal = document.getElementById('filterTaluk').value.trim() || "ಶಹಾಪುರ";
       if (!list || list.length === 0) {
-        grid.innerHTML = `<div style="grid-column: span 2; text-align:center; color:#d32f2f; padding:25px; background:#fff; border-radius:8px; font-weight:bold; font-size:0.9rem;">❌ ಯಾವುದೇ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</div>`;
+        grid.innerHTML = `<div style="grid-column: span 2; text-align:center; color:#d32f2f; padding:25px; background:#fff; border-radius:8px; font-weight:bold; font-size:0.9rem;">
+          ❌ ಈ ತಾಲೂಕಿನಲ್ಲಿ (${talukVal}) ಈ ವಸ್ತು ಇಲ್ಲ!<br><br>
+          ಈ ತಾಲೂಕಿನ ಅಂಗಡಿಗಳು ನಮ್ಮ ಪ್ಯಾನಲ್‌ನಲ್ಲಿ ಇನ್ನೂ ಲಭ್ಯವಿಲ್ಲ ಇದ್ದರೆ ನಾವು ನಿಮಗೆ ತಿಳಿಸುತ್ತೇವೆ.
+        </div>`;
         return;
       }
       grid.innerHTML = list.map(p => {
@@ -827,7 +833,7 @@
       let shop = allShopsMap[selectedProduct.shopId];
       document.getElementById('detailTitle').innerText = selectedProduct.name;
       document.getElementById('detailShopName').innerText = "ಅಂಗಡಿ: " + (shop ? shop.shopName : "Store");
-      document.getElementById('detailShopLocation').innerText = "📍 ತಾಲೂಕು/ಸ್ಥಳ: " + (shop ? shop.taluk : 'ಲಭ್ಯವಿರುವ ಸ್ಥಳ');
+      document.getElementById('detailShopLocation').innerText = "📍 ತಾಲೂಕು/ಸ್ಥಳ: " + (shop ? shop.taluk : 'ಶಹಾಪುರ (Shahapur)');
 
       let returnPolicyVal = selectedProduct.returnPolicy || (shop ? shop.returnPolicy : 'RETURN_AVAILABLE');
       let returnContainer = document.getElementById('detailReturnPolicyContainer');
@@ -835,9 +841,28 @@
       if (returnPolicyVal === 'NO') {
         returnContainer.innerHTML = `<div style="color:#d32f2f; font-weight:bold; font-size:0.78rem;">❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)</div>`;
       } else if (returnPolicyVal === 'EXCHANGE_ONLY') {
-        returnContainer.innerHTML = `<div style="color:#ff9800; font-weight:bold; font-size:0.78rem;">🩱 ಈ ವಸ್ತುವಿಗೆ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ ಇದೆ (Exchange Only)</div>`;
+        returnContainer.innerHTML = `
+          <div style="margin-top:4px;">
+            <span style="color:#ff9800; font-weight:bold; font-size:0.78rem;">🩱 ಈ ವಸ್ತುವಿಗೆ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ ಇದೆ (Exchange Only)</span>
+            <button onclick="openExchangeCategoryView()" style="display:block; margin-top:4px; padding:6px 12px; background:#ff9800; color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:0.75rem; cursor:pointer;">
+              🔄 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಬೇರೆ ವಸ್ತುಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ
+            </button>
+          </div>
+        `;
       } else {
-        returnContainer.innerHTML = `<div style="color:var(--success); font-weight:bold; font-size:0.78rem;">✔ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ (Return Available)</div>`;
+        returnContainer.innerHTML = `
+          <div style="margin-top:4px;">
+            <span style="color:var(--success); font-weight:bold; font-size:0.78rem;">🔄 ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇದೆ (Return Available)</span>
+          </div>
+        `;
+      }
+
+      const ramStorageBox = document.getElementById('detailRamStorageBox');
+      if (selectedProduct.ram || selectedProduct.storage || selectedProduct.ramStorage) {
+        ramStorageBox.style.display = 'inline-block';
+        ramStorageBox.innerText = `📱 RAM/Storage: ${selectedProduct.ram || ''} ${selectedProduct.storage || selectedProduct.ramStorage || ''}`;
+      } else {
+        ramStorageBox.style.display = 'none';
       }
 
       const colorSection = document.getElementById('colorVariantSection');
@@ -848,7 +873,9 @@
         selectedColorPhoto = selectedProduct.colors[0].photos?.[0] || selectedProduct.photo;
         
         colorContainer.innerHTML = selectedProduct.colors.map((c, idx) => `
-          <button class="color-btn ${idx === 0 ? 'selected' : ''}" onclick='selectColorOption(${JSON.stringify(c)})'>🎨 ${c.colorName}</button>
+          <button class="color-btn ${idx === 0 ? 'selected' : ''}" onclick='selectColorOption(${JSON.stringify(c)})'>
+            🎨 ${c.colorName}
+          </button>
         `).join('');
       } else {
         colorSection.style.display = 'none';
@@ -856,7 +883,28 @@
         selectedColorPhoto = selectedProduct.photo;
       }
 
-      let sizes = selectedProduct.variants || ['Free Size'];
+      let sizes = ['Free Size'];
+      let nameL = selectedProduct.name.toLowerCase();
+      let catL = (selectedProduct.category || '').toLowerCase();
+
+      if (selectedProduct.variants && selectedProduct.variants.length > 0) {
+        sizes = selectedProduct.variants;
+      } else if (nameL.includes('ಪ್ಯಾಂಟ್') || nameL.includes('pant')) {
+        sizes = ['28', '29', '30', '31', '32', '33', '34', '35', '36', '38', '40', '42'];
+      } else if (nameL.includes('ಅಂಗಿ') || nameL.includes('shirt') || catL.includes('ಶರ್ಟ್') || catL.includes('ಬಟ್ಟೆ')) {
+        sizes = ['S', 'M', 'L', 'XL', 'XXL', '3XL'];
+      } else if (nameL.includes('ಚಪ್ಪಲಿ') || nameL.includes('shoe') || nameL.includes('ಸ್ಯಾಂಡಲ್') || catL.includes('ಚಪ್ಪಲಿ') || catL.includes('ಶೂಸ್')) {
+        sizes = ['5', '6', '7', '8', '9', '10', '11', '12', '13', '14'];
+      } else if (nameL.includes('ಡ್ರೆಸ್') || catL.includes('ಡ್ರೆಸ್') || catL.includes('ಸೀರೆ')) {
+        sizes = ['Free Size', 'S', 'M', 'L', 'XL', 'XXL'];
+      } else if (catL.includes('ಕಿರಾಣಿ') || nameL.includes('ಕೆಜಿ') || nameL.includes('kg')) {
+        sizes = ['1 ಕೆಜಿ', '2 ಕೆಜಿ', '3 ಕೆಜಿ', '5 ಕೆಜಿ', '10 ಕೆಜಿ'];
+      } else if (catL.includes('ಗಿಫ್ಟ್') || nameL.includes('ಗಿಫ್ಟ್')) {
+        sizes = ['Small (ಉದ್ದ/ಅಗಲ)', 'Medium', 'Large'];
+      } else if (catL.includes('ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್') || catL.includes('ಮೊಬೈಲ್')) {
+        sizes = ['Standard'];
+      }
+
       selectedSize = sizes[0];
       document.getElementById('variantOptionsContainer').innerHTML = sizes.map((s, idx) => `
         <button class="size-btn ${idx === 0 ? 'selected' : ''}" onclick="selectSize(this, '${s}')">${s}</button>
@@ -868,23 +916,38 @@
       updateDetailSliderPhotos();
       renderRelatedProducts(selectedProduct);
       showScreen('productDetailScreen');
+      history.pushState({ page: 'detail' }, '', '');
+    }
+
+    function openExchangeCategoryView() {
+      showScreen('homeViewContainer');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function renderRelatedProducts(currentProd) {
       const grid = document.getElementById('relatedProductsGrid');
-      let otherProds = allProducts.filter(p => p.id !== currentProd.id);
+      let otherProds = allProducts.filter(p => p.id !== currentProd.id && p.shopId === currentProd.shopId);
+      if (otherProds.length === 0) otherProds = allProducts.filter(p => p.id !== currentProd.id);
+
+      if (otherProds.length === 0) {
+        grid.innerHTML = `<p style="font-size:0.8rem; color:#777; text-align:center; grid-column:span 2;">ಯಾವುದೇ ಇತರ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ.</p>`;
+        return;
+      }
+
       grid.innerHTML = otherProds.map(p => {
         let img = p.photo || 'https://via.placeholder.com/150';
         if (p.colors?.[0]?.photos?.[0]) img = p.colors[0].photos[0];
         let shop = allShopsMap[p.shopId];
         return `
-          <div class="product-card" onclick="openProductDetail('${p.id}'); window.scrollTo({ top: 0, behavior: 'smooth' });">
+          <div class="product-card" onclick="openProductDetail('${p.id}')">
             <div class="img-box"><img src="${img}"></div>
             <div>
               <div class="prod-title">${p.name}</div>
-              <div style="font-size:0.7rem; color:#666;">🏪 ${shop ? shop.shopName : 'Store'}</div>
-              <div class="price-row"><span class="curr-price">₹${p.price}</span></div>
+              <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shop ? shop.shopName : 'Store'}</div>
+              <div class="price-row" style="margin-top:4px;">
+                <span class="curr-price">₹${p.price}</span>
+                ${p.oldPrice ? `<span class="old-price">₹${p.oldPrice}</span>` : ''}
+              </div>
             </div>
           </div>
         `;
@@ -904,35 +967,8 @@
     }
 
     function updateDetailSliderPhotos(customPhotos) {
-      let photos = customPhotos || [];
-      if (photos.length === 0 && selectedProduct.photos && selectedProduct.photos.length > 0) {
-        photos = selectedProduct.photos;
-      }
-      if (photos.length === 0 && selectedProduct.colors?.[0]?.photos) {
-        photos = selectedProduct.colors[0].photos;
-      }
-      if (photos.length === 0) photos = [selectedProduct.photo || 'https://via.placeholder.com/150'];
-
-      const track = document.getElementById('sliderTrack');
-      const thumb = document.getElementById('thumbnailBar');
-
-      track.innerHTML = photos.map(img => `<img src="${img}">`).join('');
-      thumb.innerHTML = photos.map((img, idx) => `
-        <img src="${img}" class="${idx === 0 ? 'active-thumb' : ''}" onclick="scrollToSlide(${idx})">
-      `).join('');
-
-      track.onscroll = () => {
-        const index = Math.round(track.scrollLeft / track.clientWidth);
-        document.querySelectorAll('.thumbnail-bar img').forEach((el, idx) => {
-          if (idx === index) el.classList.add('active-thumb');
-          else el.classList.remove('active-thumb');
-        });
-      };
-    }
-
-    function scrollToSlide(index) {
-      const track = document.getElementById('sliderTrack');
-      track.scrollTo({ left: index * track.clientWidth, behavior: 'smooth' });
+      let photos = customPhotos || selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
+      document.getElementById('sliderTrack').innerHTML = photos.map(img => `<img src="${img}" style="object-fit:contain; background:#fff;">`).join('');
     }
 
     function selectSize(btn, size) {
@@ -954,23 +990,172 @@
       history.pushState({ page: 'checkout' }, '', '');
     }
 
+    const placeTranslations = {
+      "yadgir": { kn: "ಯಾದಗಿರಿ", talukKn: "ಯಾದಗಿರಿ (Yadgir)" },
+      "shahapur": { kn: "ಶಹಾಪುರ", talukKn: "ಶಹಾಪುರ (Shahapur)" },
+      "surpur": { kn: "ಸುರಪುರ", talukKn: "ಸುರಪುರ (Surpur)" },
+      "shorapur": { kn: "ಸುರಪುರ", talukKn: "ಸುರಪುರ (Surpur)" },
+      "bheemarayanagudi": { kn: "ಭೀಮರಾಯನಗುಡಿ", talukKn: "ಶಹಾಪುರ (Shahapur)" },
+      "adilapur": { kn: "ಆದಿಲಾಪೂರ", talukKn: "ಶಹಾಪುರ (Shahapur)" },
+      "hathigudur": { kn: "ಹತ್ತಿಗುಡೂರ್", talukKn: "ಶಹಾಪುರ (Shahapur)" },
+      "doranahalli": { kn: "ದೋರಣಹಳ್ಳಿ", talukKn: "ಶಹಾಪುರ (Shahapur)" },
+      "aikur": { kn: "ಐಕುರ್", talukKn: "ಶಹಾಪುರ (Shahapur)" },
+      "anabi": { kn: "ಅನಾಬಿ", talukKn: "ಶಹಾಪುರ (Shahapur)" }
+    };
+
+    function translateToKannadaAndEnglish(name, type) {
+      if (!name) return "";
+      let key = name.toLowerCase().trim();
+      if (placeTranslations[key]) {
+        return type === 'taluk' ? placeTranslations[key].talukKn : `${placeTranslations[key].kn} (${name})`;
+      }
+      return name;
+    }
+
+    async function fetchPincodeDetails(pincode) {
+      const msgBox = document.getElementById('availabilityMsg');
+      const confirmBtn = document.getElementById('confirmOrderBtn');
+
+      if (pincode.length !== 6) {
+        msgBox.style.display = 'none';
+        return;
+      }
+
+      try {
+        let response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+        let data = await response.json();
+
+        if (data[0].Status === "Success") {
+          let details = data[0].PostOffice[0];
+          let villageEng = details.Name || '';
+          let talukEng = details.Taluk || details.District || '';
+          let distEng = details.District || '';
+
+          if (pincode === '585287' || pincode === '585223' || talukEng.toLowerCase() === 'yadgir') {
+            talukEng = 'Shahapur';
+          }
+
+          let villageDisplay = translateToKannadaAndEnglish(villageEng, 'village');
+          let talukDisplay = translateToKannadaAndEnglish(talukEng, 'taluk');
+          let distDisplay = translateToKannadaAndEnglish(distEng, 'district');
+
+          document.getElementById('custVillage').value = villageDisplay;
+          document.getElementById('custTaluk').value = talukDisplay;
+          document.getElementById('custDistrict').value = distDisplay;
+
+          validateSellerAvailabilityInTaluk(talukEng);
+        } else {
+          msgBox.style.display = 'block';
+          msgBox.style.background = '#ffebee';
+          msgBox.style.color = '#d32f2f';
+          msgBox.innerText = "❌ ದಯವಿಟ್ಟು ಸರಿಯಾದ ಪಿನ್ ಕೋಡ್ ನಮೂದಿಸಿ!";
+          confirmBtn.disabled = true;
+          confirmBtn.style.background = "gray";
+        }
+      } catch (e) {
+        console.log("Pincode API Error:", e);
+      }
+    }
+
+    function validateSellerAvailabilityInTaluk(userTalukName) {
+      const msgBox = document.getElementById('availabilityMsg');
+      const confirmBtn = document.getElementById('confirmOrderBtn');
+      
+      let shop = allShopsMap[selectedProduct.shopId];
+      let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "";
+      let userTaluk = userTalukName.toLowerCase();
+
+      let isSellerAvailable = shop && (shopTaluk.includes(userTaluk) || userTaluk.includes(shopTaluk) || userTaluk.includes('shahapur'));
+
+      msgBox.style.display = 'block';
+
+      if (!isSellerAvailable) {
+        msgBox.style.background = '#ffebee';
+        msgBox.style.color = '#d32f2f';
+        msgBox.innerText = `❌ ಕ್ಷಮಿಸಿ, ಈ ತಾಲೂಕಿನಲ್ಲಿ (${userTalukName}) ಸದ್ಯಕ್ಕೆ ಯಾವುದೇ ಅಂಗಡಿಗಳು ಲಭ್ಯವಿಲ್ಲ. ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.`;
+        confirmBtn.disabled = true;
+        confirmBtn.style.background = "gray";
+      } else {
+        msgBox.style.background = '#e8f5e9';
+        msgBox.style.color = '#2e7d32';
+        msgBox.innerText = `✅ ಈ ತಾಲೂಕಿನಲ್ಲಿ (${userTalukName}) ನಮ್ಮ ಅಂಗಡಿ ಲಭ್ಯವಿದೆ. 12 ಕಿ.ಮೀ ದೂರ ಪರಿಶೀಲಿಸಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಬಹುದು.`;
+        confirmBtn.disabled = false;
+        confirmBtn.style.background = "var(--success)";
+      }
+    }
+
+    function fetchCustomerGpsLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            document.getElementById('custVillage').value = `GPS Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}`;
+            alert("📍 ನಿಮ್ಮ GPS ಲೊಕೇಶನ್ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಪಿನ್ ಕ್ಯಾಚ್ ಮಾಡಲಾಗಿದೆ!");
+          },
+          (error) => {
+            alert("ಜಿಪಿಎಸ್ ಲೊಕೇಶನ್ ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಜಿಪಿಎಸ್ ಆನ್ ಮಾಡಿ.");
+          }
+        );
+      } else {
+        alert("ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಜಿಪಿಎಸ್ ಸೌಲಭ್ಯವಿಲ್ಲ.");
+      }
+    }
+
+    function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+      if (!lat1 || !lon1 || !lat2 || !lon2) return 5.0;
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    }
+
     function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
       const pincode = document.getElementById('custPincode').value.trim();
-      const taluk = document.getElementById('custTaluk').value.trim();
-      const district = document.getElementById('custDistrict').value.trim();
+      const taluk = document.getElementById('custTaluk').value.trim().toLowerCase();
+      const landmark = document.getElementById('custLandmarkOption').value;
 
-      if (!name || !phone || !village || !pincode || !taluk || !district) {
-        alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿಳಾಸ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ.");
+      if (!name || !phone || !village || !pincode || !landmark) {
+        alert("ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ನಂಬರ್, ಪಿನ್ ಕೋಡ್, ಊರು ಮತ್ತು ಮನೆಯ ಹತ್ತಿರದ ಸ್ಥಳವನ್ನು (ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್) ಕಡ್ಡಾಯವಾಗಿ ಆಯ್ಕೆಮಾಡಿ.");
         return;
       }
 
-      saveOrderToDatabase();
+      let shop = allShopsMap[selectedProduct.shopId];
+      let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "";
+      
+      if (taluk && !shopTaluk.includes(taluk) && !taluk.includes(shopTaluk) && !shopTaluk.includes('shahapur') && !taluk.includes('ಶಹಾಪುರ')) {
+        alert(`❌ ಈ ತಾಲೂಕಿಗೆ (${taluk}) ಈ ಅಂಗಡಿಯ ವಸ್ತುಗಳನ್ನು ಕಳುಹಿಸಲು ಬರುವುದಿಲ್ಲ. ಆಯಾ ತಾಲೂಕಿನ ಅಂಗಡಿ ವಸ್ತುಗಳನ್ನು ಮಾತ್ರ ಆರ್ಡರ್ ಮಾಡಬಹುದು.`);
+        return;
+      }
+
+      let shopLat = shop ? (shop.lat || 16.7037) : 16.7037;
+      let shopLon = shop ? (shop.lon || 76.8397) : 76.8397;
+      let calculatedKm = calculateDistanceKm(shopLat, shopLon, 16.7000, 76.8300);
+      
+      if (shop && shop.pincode && pincode) {
+        let pinDiff = Math.abs(parseInt(shop.pincode) - parseInt(pincode));
+        if (pinDiff > 0) calculatedKm = (pinDiff % 10) + 2.5;
+      }
+
+      if (calculatedKm > 12.0) {
+        alert(`⚠️ ಕ್ಷಮಿಸಿ! ನೀವು ಇರುವ ಸ್ಥಳವು ಅಂಗಡಿಯಿಂದ ಸುಮಾರು ${calculatedKm.toFixed(1)} ಕಿ.ಮೀ ದೂರದಲ್ಲಿದೆ. ಕೇವಲ 12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ ಡೆಲಿವರಿ ಲಭ್ಯವಿರುವುದರಿಂದ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.`);
+        return;
+      }
+
+      localStorage.setItem('customer_phone_key', phone);
+      localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, pincode, landmark }));
+
+      saveOrderToDatabase('COD_PENDING', calculatedKm.toFixed(1) + " ಕಿ.ಮೀ.");
     }
 
-    async function saveOrderToDatabase() {
+    async function saveOrderToDatabase(paymentStatusVal, distanceVal) {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
@@ -991,44 +1176,42 @@
       let deliveryDateStr = deliveryDateObj.toLocaleDateString('en-GB');
 
       let productTitleStr = `${selectedProduct.name} [Size: ${selectedSize}, Qty: ${productQty}]`;
+      if (selectedColorName) {
+        productTitleStr = `${selectedProduct.name} [Color: ${selectedColorName}, Size: ${selectedSize}, Qty: ${productQty}]`;
+      }
+
       let productReturnPolicy = selectedProduct.returnPolicy || (shop ? shop.returnPolicy : 'RETURN_AVAILABLE');
-      createdOrderIdTemp = 'OD' + Math.floor(100000000000 + Math.random() * 900000000000);
 
       const orderData = {
-        orderId: createdOrderIdTemp,
+        orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
         productName: productTitleStr,
-        productPhoto: finalPhoto || 'https://via.placeholder.com/150',
+        productPhoto: finalPhoto,
         selectedColor: selectedColorName || 'Standard',
-        totalPrice: Number(grandTotal),
+        totalPrice: grandTotal,
         deliveryFee: 30,
-        distanceKm: '10 ಕಿ.ಮೀ',
-        shopId: String(selectedProduct.shopId || ''),
-        shopName: String(shop ? shop.shopName : 'Store'),
-        shopPhone: String(shop ? (shop.phone || '8105010768') : '8105010768'),
-        shopTaluk: String(shop ? (shop.taluk || 'ಶಹಾಪುರ') : 'ಶಹಾಪುರ'),
+        distanceKm: distanceVal,
+        shopId: selectedProduct.shopId,
+        shopName: shop ? shop.shopName : "Store",
+        shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
         customer: { name, phone, village, pincode, taluk, district, landmark },
-        returnPolicy: String(productReturnPolicy || 'RETURN_AVAILABLE'),
+        returnPolicy: productReturnPolicy,
         paymentMode: 'COD',
-        paymentStatus: 'COD_PENDING',
-        deliveryOtp: String(otp),
-        status: 'PENDING',
-        orderDate: String(orderDateStr),
-        expectedDeliveryDate: String(deliveryDateStr),
+        paymentStatus: paymentStatusVal,
+        deliveryOtp: otp,
+        status: 'STEP_1',
+        orderDate: orderDateStr,
+        expectedDeliveryDate: deliveryDateStr,
         isCancelled: false,
         isReturned: false,
         timestamp: Date.now()
       };
 
       try {
-        await window.setDoc(window.doc(window.db, "orders", createdOrderIdTemp), orderData);
-        document.getElementById('modalOrderId').innerText = createdOrderIdTemp;
-        document.getElementById('orderSuccessModal').style.display = 'flex';
+        const uniqueDocId = orderData.orderId;
+        await window.setDoc(window.doc(window.db, "orders", uniqueDocId), orderData);
+        alert("🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!");
+        openMyOrdersScreen();
       } catch(e) { alert("Error: " + e.message); }
-    }
-
-    function closeOrderSuccessModal() {
-      document.getElementById('orderSuccessModal').style.display = 'none';
-      openMyOrdersScreen();
     }
 
     async function cancelCustomerOrder(orderDocId) {
@@ -1038,16 +1221,16 @@
             isCancelled: true,
             status: 'CANCELLED'
           });
-          alert("✅ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಲಾಗಿದೆ.");
+          alert("✅ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಲಾಗಿದೆ.");
           openMyOrdersScreen();
-        } catch(e) { alert(e.message); }
+        } catch(e) { alert("Error: " + e.message); }
       }
     }
 
     function openMyOrdersScreen() {
       const phone = localStorage.getItem('customer_phone_key');
       const container = document.getElementById('ordersContainer');
-      if (!phone) { container.innerHTML = `<p style="text-align:center;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`; showScreen('myOrdersScreen'); return; }
+      if (!phone) { container.innerHTML = `<p style="text-align:center; color:#777;">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`; showScreen('myOrdersScreen'); return; }
 
       const q = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
       window.onSnapshot(q, (snapshot) => {
@@ -1055,23 +1238,30 @@
         snapshot.forEach(d => orders.push({ id: d.id, ...d.data() }));
         orders.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-        let validOrders = orders.filter(o => !o.isCancelled);
+        let validOrders = orders.filter(o => o.paymentStatus !== 'FAILED' && !o.isCancelled);
 
         if (validOrders.length === 0) {
           container.innerHTML = `<p style="text-align:center; color:#777;">ಯಾವುದೇ ಸಕ್ರಿಯ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`;
         } else {
-          container.innerHTML = validOrders.map(o => `
-            <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
-              <div style="display:flex; gap:10px; align-items:center;">
-                <img src="${o.productPhoto}" style="width:60px; height:60px; object-fit:contain; border-radius:6px; background:#fff;">
-                <div style="flex:1;">
-                  <h4 style="font-size:0.85rem;">${o.productName}</h4>
-                  <p style="font-size:0.85rem; font-weight:bold; color:var(--success);">₹${o.totalPrice}</p>
-                  <p style="font-size:0.75rem; color:#555;">ಸ್ಥಿತಿ: <b>${o.status}</b></p>
+          container.innerHTML = validOrders.map(o => {
+            let payBadge = `(💵 COD)`;
+            let dateStr = o.orderDate ? `📅 ಆರ್ಡರ್ ದಿನಾಂಕ: ${o.orderDate}` : '';
+            let expDelivery = o.expectedDeliveryDate ? `<br>🚚 ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ ದಿನಾಂಕ: ${o.expectedDeliveryDate}` : '';
+            let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ)` : (o.status === 'DELIVERED' || o.status === 'STEP_4' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
+            return `
+              <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
+                <div style="display:flex; gap:10px; align-items:center;">
+                  <img src="${o.productPhoto}" style="width:60px; height:60px; object-fit:contain; border-radius:6px; background:#fff;">
+                  <div style="flex:1;">
+                    <h4 style="font-size:0.85rem;">${o.productName}</h4>
+                    <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-top:2px;">₹${o.totalPrice} ${payBadge}</p>
+                    <p style="font-size:0.75rem; color:#555; margin-top:2px;">${dateStr}${expDelivery}</p>
+                    <p style="font-size:0.75rem; color:#333; margin-top:2px;"><b>${statusText}</b></p>
+                  </div>
                 </div>
               </div>
-            </div>
-          `).join('');
+            `;
+          }).join('');
         }
       });
       showScreen('myOrdersScreen');
@@ -1080,55 +1270,231 @@
 
     function openOrderDetails(o) {
       const content = document.getElementById('orderDetailsContent');
-      let status = o.status || 'PENDING';
-      let cust = o.customer || {};
+      let status = o.status || 'STEP_1';
       
-      let showCancelBtn = (status === 'PENDING') && !o.isReturned;
-      let orderReturnPolicy = o.returnPolicy || 'RETURN_AVAILABLE';
-
-      let returnPolicyText = orderReturnPolicy === 'NO' ? '❌ ರಿಟರ್ನ್ ಇಲ್ಲ' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? '🩱 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ' : '✔ ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ');
-
       let s1 = 'completed', s2 = '', s3 = '', s4 = '';
-      if (status === 'CONFIRMED' || status === 'STEP_2') { s2 = 'completed'; }
-      if (status === 'STEP_3' || status === 'HANDOVER_TO_DTDC') { s2 = 'completed'; s3 = 'completed'; }
-      if (status === 'DELIVERED' || status === 'STEP_4') { s2 = 'completed'; s3 = 'completed'; s4 = 'completed'; }
+      if (status === 'CONFIRMED' || status === 'STEP_2') { s1 = 'completed'; s2 = 'completed'; }
+      if (status === 'PACKING' || status === 'STEP_3') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; }
+      if (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; s4 = 'completed'; }
 
-      let trackingRoadmap = `
-        <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px; margin-top:12px;">
-          <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ರೋಡ್‌ಮ್ಯಾಪ್</h4>
-          <div class="timeline">
-            <div class="t-item ${s1}"><div class="t-dot"></div><div class="t-title">1. ಆರ್ಡರ್ ಸಲ್ಲಿಕೆಯಾಗಿದೆ (Order Placed)</div></div>
-            <div class="t-item ${s2}"><div class="t-dot"></div><div class="t-title">2. ಅಂಗಡಿ ಮಾಲೀಕರು ಕನ್ಫರ್ಮ್ ಮಾಡಿದ್ದಾರೆ</div></div>
-            <div class="t-item ${s3}"><div class="t-dot"></div><div class="t-title">3. ಡೆಲಿವರಿ ಬಾಯ್ / DTDC ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ</div></div>
-            <div class="t-item ${s4}"><div class="t-dot"></div><div class="t-title">4. ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Delivered)</div></div>
+      let cust = o.customer || {};
+      let distanceText = `(ದೂರ: ${o.distanceKm || '3.5 ಕಿ.ಮೀ.'})`;
+      
+      let showCancelBtn = (status === 'STEP_1' || status === 'PENDING') && !o.isReturned;
+      let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED');
+      
+      let otpBoxHtml = '';
+      if (!isDelivered && !o.isReturned) {
+        otpBoxHtml = `
+          <div style="background:#e8f5e9; border:1px solid #c8e6c9; border-radius:8px; padding:12px; margin-bottom:15px; text-align:center;">
+            <span style="font-size:0.8rem; color:#2e7d32; font-weight:bold;">🔑 ನಿಮ್ಮ ಡೆಲಿವರಿ ಒಟಿಪಿ (Delivery OTP):</span>
+            <div style="font-size:1.4rem; font-weight:bold; color:#1b5e20; letter-spacing:3px; margin-top:4px;">${o.deliveryOtp || '8740'}</div>
           </div>
+        `;
+      }
+
+      let returnStatusHtml = '';
+      if (o.isReturned) {
+        if (o.returnPaymentStatus === 'SUCCESS') {
+          returnStatusHtml = `<div style="color:green; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#e8f5e9; padding:8px; border-radius:6px;">✔ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್ ಆಗಿದೆ: ನಿಮ್ಮ ಯುಪಿಐ ಅಕೌಂಟಿಗೆ ಹಣ ಕಳುಹಿಸಲಾಗಿದೆ!</div>`;
+        } else {
+          returnStatusHtml = `
+            <div style="background:#fff3e0; border:2px solid #ffb74d; border-radius:8px; padding:12px; margin-bottom:12px; font-size:0.82rem; color:#d84315; line-height:1.5;">
+              🔑 <b>ರಿಟರ್ನ್ / ಪಿಕಪ್ ಒಟಿಪಿ:</b> <span style="font-size:1.2rem; font-weight:bold; color:#d32f2f;">${o.returnOtp || '9234'}</span><br>
+              • ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕಪ್ ಮಾಡುವಾಗ ಈ ಒಟಿಪಿ ನೀಡಿ.
+            </div>
+          `;
+        }
+      }
+
+      let deliveryTime = o.deliveredTimestamp || o.timestamp || Date.now();
+      let hoursSinceDelivery = (Date.now() - deliveryTime) / (1000 * 60 * 60);
+      let orderReturnPolicy = o.returnPolicy || 'RETURN_AVAILABLE';
+      
+      let showReturnBtn = isDelivered && (hoursSinceDelivery <= 12) && !o.isReturned && (orderReturnPolicy !== 'NO');
+
+      let returnButtonHtml = '';
+      if (showReturnBtn) {
+        if (orderReturnPolicy === 'EXCHANGE_ONLY') {
+          returnButtonHtml = `<button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:#ff9800; color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">🩱 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)</button>`;
+        } else {
+          returnButtonHtml = `<button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಿ (Return Order)</button>`;
+        }
+      } else if (isDelivered && orderReturnPolicy === 'NO') {
+        returnButtonHtml = `<div style="color:#d32f2f; font-weight:bold; font-size:0.85rem; text-align:center; padding:10px; background:#ffebee; border-radius:6px; border:1px solid #ffcdd2;">❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return Policy)</div>`;
+      } else if (isDelivered && hoursSinceDelivery > 12 && !o.isReturned) {
+        returnButtonHtml = `<div style="color:#777; font-weight:bold; font-size:0.8rem; text-align:center; padding:8px; background:#eee; border-radius:6px;">⏰ 12 ಗಂಟೆಗಳಾವಧಿ ಮುಕ್ತಾಯಗೊಂಡಿದೆ (Return Window Closed)</div>`;
+      }
+
+      let dateDetailsBox = `
+        <div style="background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:12px; font-size:0.82rem; color:#444;">
+          📅 <b>ಆರ್ಡರ್ ಮಾಡಿದ ದಿನಾಂಕ:</b> ${o.orderDate || 'N/A'}<br>
+          🚚 <b>ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ:</b> ${o.expectedDeliveryDate || 'N/A'}<br>
+          📋 <b>ರಿಟರ್ನ್ ಪಾಲಿಸಿ:</b> <span style="font-weight:bold; color:${orderReturnPolicy === 'NO' ? 'red' : 'green'};">${orderReturnPolicy === 'NO' ? 'ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? 'ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)' : 'ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ')}</span>
         </div>
       `;
 
-      let courierLink = o.trackingId ? `
-        <div style="background:#e3f2fd; border:1px solid #90caf9; border-radius:8px; padding:10px; margin-top:10px; text-align:center;">
-          <p style="font-size:0.8rem; color:#1565c0; font-weight:bold;">📦 DTDC ಕೊರಿಯರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಐಡಿ: ${o.trackingId}</p>
-          <a href="https://www.dtdc.in/tracking.asp?strConsignmentNo=${o.trackingId}" target="_blank" style="display:inline-block; margin-top:6px; color:#fff; background:#1976d2; padding:6px 12px; border-radius:4px; font-size:0.8rem; text-decoration:none; font-weight:bold;">🌐 DTDC ಲೈವ್ ರೂಟ್ ಮ್ಯಾಪ್ ಟ್ರ್ಯಾಕಿಂಗ್ ನೋಡಿ</a>
-        </div>
-      ` : '';
+      let roadmapHtml = '';
+      if (!o.isReturned) {
+        roadmapHtml = `
+          <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px; margin-bottom:15px;">
+            <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ರೋಡ್‌ಮ್ಯಾಪ್</h4>
+            <div class="timeline">
+              <div class="t-item ${s1}"><div class="t-dot"></div><div class="t-title">1. ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ</div></div>
+              <div class="t-item ${s2}"><div class="t-dot"></div><div class="t-title">2. ಅಂಗಡಿಯಿಂದ ಪ್ಯಾಕಿಂಗ್ ಆಗಿದೆ</div></div>
+              <div class="t-item ${s3}"><div class="t-dot"></div><div class="t-title">3. ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ</div></div>
+              <div class="t-item ${s4}"><div class="t-dot"></div><div class="t-title">4. ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Delivered)</div></div>
+            </div>
+          </div>
+        `;
+      }
 
       content.innerHTML = `
-        <div style="background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:12px;">
-          <img src="${o.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px;">
-          <h4 style="font-size:0.9rem; margin-top:6px;">${o.productName}</h4>
-          <p style="font-size:0.95rem; font-weight:bold; color:var(--success);">₹${o.totalPrice}</p>
-          <p style="font-size:0.78rem; color:#555; margin-top:4px;"><b>ವಿಳಾಸ:</b> ${cust.village || ''}, ${cust.taluk || ''}, ${cust.district || ''} - ${cust.pincode || ''}</p>
-          <p style="font-size:0.78rem; margin-top:4px;"><b>ರಿಟರ್ನ್ ಪಾಲಿಸಿ:</b> ${returnPolicyText}</p>
-          <p style="font-size:0.78rem; margin-top:4px;"><b>ಒಟಿಪಿ (OTP):</b> <span style="color:var(--primary); font-weight:bold; font-size:1.1rem;">${o.deliveryOtp}</span></p>
+        <div style="display:flex; gap:10px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:12px;">
+          <img src="${o.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px; background:#fff;">
+          <div>
+            <h4 style="font-size:0.9rem;">${o.productName}</h4>
+            <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${o.totalPrice} ${distanceText}</p>
+            <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ಗ್ರಾಹಕರು:</b> ${cust.name || ''} | <b>ಫೋನ್:</b> ${cust.phone || ''}</p>
+            <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ವಿಳಾಸ:</b> ${cust.village || ''}, ${cust.taluk || ''} (${cust.landmark || ''}) - ${cust.pincode || ''}</p>
+          </div>
         </div>
 
-        ${courierLink}
-        ${trackingRoadmap}
+        ${dateDetailsBox}
+        ${otpBoxHtml}
+        ${returnStatusHtml}
+        ${roadmapHtml}
 
-        ${showCancelBtn ? `<button onclick="cancelCustomerOrder('${o.id}')" style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin-top:15px;">❌ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ</button>` : ''}
+        ${showCancelBtn ? `<button onclick="cancelCustomerOrder('${o.id}')" style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer; margin-bottom:10px;">❌ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ</button>` : ''}
+        ${returnButtonHtml}
       `;
       showScreen('orderDetailsScreen');
       history.pushState({ page: 'order_details' }, '', '');
+    }
+
+    function openReturnModal(order) {
+      activeReturnOrderId = order.id;
+      returnBase64Photo1 = '';
+      returnBase64Photo2 = '';
+      returnBase64Qr = '';
+      document.getElementById('customerUpiIdInput').value = '';
+      document.getElementById('returnModal').style.display = 'flex';
+    }
+
+    function checkCustomReturnReason(selectEl) {
+      const customInput = document.getElementById('customReturnReasonInput');
+      if (selectEl.value === 'other') {
+        customInput.style.display = 'block';
+        customInput.focus();
+      } else {
+        customInput.style.display = 'none';
+        customInput.value = '';
+      }
+    }
+
+    function closeReturnModal() {
+      document.getElementById('returnModal').style.display = 'none';
+    }
+
+    function compressImage(file, callback) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          const maxDim = 600;
+          if (width > height) {
+            if (width > maxDim) { height *= maxDim / width; width = maxDim; }
+          } else {
+            if (height > maxDim) { width *= maxDim / height; height = maxDim; }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          callback(canvas.toDataURL('image/jpeg', 0.6));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function previewReturnQr(event) {
+      const file = event.target.files[0];
+      if (file) {
+        compressImage(file, (compressedDataUrl) => {
+          returnBase64Qr = compressedDataUrl;
+          document.getElementById('previewQrImgTag').src = returnBase64Qr;
+          document.getElementById('returnQrPreview').style.display = 'block';
+        });
+      }
+    }
+
+    function previewReturnPhoto1(event) {
+      const file = event.target.files[0];
+      if (file) {
+        compressImage(file, (compressedDataUrl) => {
+          returnBase64Photo1 = compressedDataUrl;
+          document.getElementById('previewImgTag1').src = returnBase64Photo1;
+          document.getElementById('returnPhotoPreview1').style.display = 'block';
+        });
+      }
+    }
+
+    function previewReturnPhoto2(event) {
+      const file = event.target.files[0];
+      if (file) {
+        compressImage(file, (compressedDataUrl) => {
+          returnBase64Photo2 = compressedDataUrl;
+          document.getElementById('previewImgTag2').src = returnBase64Photo2;
+          document.getElementById('returnPhotoPreview2').style.display = 'block';
+        });
+      }
+    }
+
+    async function submitOrderReturnForm() {
+      if (!activeReturnOrderId) return;
+      let reasonSelect = document.getElementById('returnReasonSelect').value;
+      const customReasonInput = document.getElementById('customReturnReasonInput').value.trim();
+      if (reasonSelect === 'other') {
+        if (!customReasonInput) { alert("ದಯವಿಟ್ಟು ಕಾರಣ ಟೈಪ್ ಮಾಡಿ."); return; }
+        reasonSelect = customReasonInput;
+      }
+
+      const customerUpi = document.getElementById('customerUpiIdInput').value.trim();
+      let returnOtp = Math.floor(1000 + Math.random() * 9000).toString();
+
+      try {
+        await window.updateDoc(window.doc(window.db, "orders", activeReturnOrderId), {
+          isReturned: true,
+          status: 'RETURN_REQUESTED',
+          isReturnRequested: true,
+          returnReason: reasonSelect,
+          customerUpiId: customerUpi,
+          customerQrPhoto: returnBase64Qr,
+          returnPhotos: [returnBase64Photo1, returnBase64Photo2].filter(Boolean),
+          returnOtp: returnOtp,
+          returnPaymentStatus: 'PENDING',
+          returnTimestamp: Date.now()
+        });
+
+        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ.");
+        closeReturnModal();
+        openMyOrdersScreen();
+      } catch(e) { alert("Error: " + e.message); }
+    }
+
+    function openPocketMoneyScreen() {
+      document.getElementById('pocketMoneyContent').innerHTML = `
+        <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px; text-align:center;">
+          <h3 style="font-size:1.1rem; color:var(--primary); margin-bottom:6px;">🎁 ಪಾಕೆಟ್ ಮನಿ ಬ್ಯಾಲೆನ್ಸ್</h3>
+          <div style="font-size:2rem; font-weight:bold; color:var(--success); margin:10px 0;">₹0</div>
+        </div>
+      `;
+      showScreen('pocketMoneyScreen');
+      history.pushState({ page: 'pocket' }, '', '');
     }
 
     function showScreen(id) {
@@ -1157,12 +1523,10 @@
       if (saved) {
         try {
           const a = JSON.parse(saved);
-          document.getElementById('custName').value = a.name || '';
-          document.getElementById('custPhone').value = a.phone || '';
+          document.getElementById('custName').value = a.name || localStorage.getItem('customer_name_key') || '';
+          document.getElementById('custPhone').value = a.phone || localStorage.getItem('customer_phone_key') || '';
           document.getElementById('custVillage').value = a.village || '';
           document.getElementById('custPincode').value = a.pincode || '';
-          document.getElementById('custTaluk').value = a.taluk || '';
-          document.getElementById('custDistrict').value = a.district || '';
         } catch(e) {}
       } else {
         document.getElementById('custName').value = localStorage.getItem('customer_name_key') || '';
@@ -1188,6 +1552,20 @@
       document.getElementById('navCatText').innerText = t.navCat;
       document.getElementById('navAccText').innerText = t.navAcc;
       document.getElementById('navOrdersText').innerText = t.navOrders;
+      document.getElementById('lblProdDetailTitle').innerText = t.prodDetailTitle;
+      document.getElementById('lblVariantTitle').innerText = t.variantTitle;
+      document.getElementById('lblQtyLabel').childNodes[0].nodeValue = t.qtyLabel;
+      document.getElementById('lblDeliveryBadge').innerHTML = t.deliveryBadge;
+      document.getElementById('lblAddToCartBtn').innerText = t.addToCart;
+      document.getElementById('lblBuyNowBtn').innerText = t.buyNow;
+      document.getElementById('lblCheckoutHeader').innerText = t.checkoutHeader;
+      document.getElementById('lblDeliveryAddrTitle').innerText = t.deliveryAddrTitle;
+      document.getElementById('lblPaymentMethodTitle').innerText = t.paymentMethodTitle;
+      document.getElementById('lblCodOptionText').innerText = t.codOptionText;
+      document.getElementById('confirmOrderBtn').innerText = t.proceedPaymentBtn;
+      document.getElementById('lblMyOrdersHeader').innerText = t.myOrdersHeader;
+      document.getElementById('lblOrderDetailsHeader').innerText = t.orderDetailsHeader;
+      document.getElementById('lblPocketMoneyHeader').innerText = t.pocketMoney;
       document.getElementById('langToggleBtn').innerText = currentLang === 'kn' ? 'English' : 'ಕನ್ನಡ';
     }
   </script>

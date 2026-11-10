@@ -132,14 +132,6 @@
     .color-btn { padding: 5px 10px; border: 2px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
     .color-btn.selected { border-color: var(--primary); background: #f0f4ff; color: var(--primary); }
 
-    .timeline { position: relative; padding-left: 20px; margin: 15px 0; }
-    .timeline::before { content: ''; position: absolute; left: 7px; top: 5px; bottom: 5px; width: 2px; background: #e0e0e0; }
-    .t-item { position: relative; margin-bottom: 15px; }
-    .t-dot { position: absolute; left: -20px; top: 2px; width: 12px; height: 12px; border-radius: 50%; background: #ccc; border: 2px solid #fff; }
-    .t-item.completed .t-dot { background: var(--success); }
-    .t-item.active .t-dot { background: var(--primary); width: 16px; height: 16px; left: -22px; top: 0; }
-    .t-title { font-size: 0.85rem; font-weight: bold; color: #333; }
-
     .pay-card { background: #fff; border: 2px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; }
     .pay-card.active { border-color: var(--primary); background: #f0f4ff; }
 
@@ -165,7 +157,7 @@
     <div style="background:#fff; color:#333; padding:25px; border-radius:12px; max-width:350px; width:100%;">
       <div style="font-size:3rem; margin-bottom:10px;">⚠️</div>
       <h3 style="color:#d32f2f; margin-bottom:8px;">ಸರ್ವರ್ ತಾತ್ಕಾಲಿಕವಾಗಿ ಬಂದ್ ಆಗಿದೆ</h3>
-      <p style="font-size:0.85rem; color:#666; line-height:1.4;" id="serverDownMsg">ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಸಿಸ್ಟಮ್ ಆಫ್ ಮಾಡಲಾಗಿದೆ ಅಥವಾ ನಿಮ್ಮ ಖಾತೆಯನ್ನು ತೆಗೆದುಹಾಕಲಾಗಿದೆ. ದಯವಿಟ್ಟು ಮಾಸ್ಟರ್ ಅನ್ನು ಸಂಪರ್ಕಿಸಿ.</p>
+      <p style="font-size:0.85rem; color:#666; line-height:1.4;" id="serverDownMsg">ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಸಿಸ್ಟಮ್ ಆಫ್ ಮಾಡಲಾಗಿದೆ ಅಥವಾ ನಿಮ್ಮ ಖಾತೆಯನ್ನು ತೆಗೆದುಹಾಕಲಾಗಿದೆ.</p>
     </div>
   </div>
 
@@ -293,13 +285,6 @@
         </div>
       </div>
 
-      <!-- UPI QR Code Front Display in Kannada -->
-      <div style="background:#fff; border:1px dashed var(--primary); border-radius:8px; padding:10px; text-align:center; margin-top:12px;">
-        <p style="font-size:0.8rem; font-weight:bold; color:var(--primary);">📱 ಅಡ್ವಾನ್ಸ್ ಪೇಮೆಂಟ್ ಯುಪಿಐ ಮಾಡ1ಲು ಕ್ಯೂಆರ್ ಕೋಡ್</p>
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=upi://pay?pa=8105010768anil@slc%26pn=NammaOoruShopping" alt="UPI QR" style="width:130px; height:130px; margin-top:4px;">
-        <p style="font-size:0.78rem; color:#333; margin-top:4px;"><b>UPI ID:</b> 8105010768anil@slc[span_0](start_span)[span_0](end_span)</p>
-      </div>
-
       <div id="colorVariantSection" style="margin-top: 10px; display:none;">
         <label style="font-size: 0.8rem; font-weight: bold;" id="lblColorTitle">ಬಣ್ಣ ಆಯ್ಕೆಮಾಡಿ (Select Color):</label>
         <div class="color-container" id="colorOptionsContainer" style="display:flex; gap:6px; margin-top:4px; flex-wrap:wrap;"></div>
@@ -333,7 +318,7 @@
     </div>
   </div>
 
-  <!-- CHECKOUT STEP 1: ADDRESS SCREEN (Manual Entry, No Auto-Capture, Hidden GPS) -->
+  <!-- CHECKOUT STEP 1: ADDRESS SCREEN (Manual Entry, No Auto-Capture) -->
   <div id="checkoutStep1Screen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
@@ -374,7 +359,7 @@
     </div>
   </div>
 
-  <!-- CHECKOUT STEP 2: PAYMENT SCREEN (COD +₹50, UPI +₹20, Auto-Intent, Checkmark Verification) -->
+  <!-- CHECKOUT STEP 2: PAYMENT SCREEN (COD +₹50, UPI +₹20, Auto Intent, Checkmark) -->
   <div id="checkoutStep2Screen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="showScreen('checkoutStep1Screen')">←</span>
@@ -427,7 +412,7 @@
     <div style="padding: 15px 15px 140px 15px;" id="ordersContainer"></div>
   </div>
 
-  <!-- ORDER DETAILS SCREEN -->
+  <!-- ORDER DETAILS SCREEN (Roadmap Removed, Clean View) -->
   <div id="orderDetailsScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="openMyOrdersScreen()">←</span>
@@ -461,8 +446,6 @@
     let isUpiPaymentSuccessful = false;
     let currentLang = localStorage.getItem('app_lang') || 'kn';
     let deferredPrompt = null;
-    let bannerSlideIndex = 0;
-    let bannerIntervalId = null;
 
     window.addEventListener('DOMContentLoaded', () => {
       checkCustomerLoginStatus();
@@ -512,7 +495,7 @@
         deferredPrompt.prompt();
         deferredPrompt = null;
       } else {
-        alert("ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು ಬ್ರೌಸರ್ ಮೇಲಿರುವ ಮೂರು ಚುಕ್ಕೆಗಳ (⋮) ಮೆನು ಕ್ಲಿಕ್ ಮಾಡಿ 'Install app' ಅಥವಾ 'Add to Home screen' ಆಯ್ಕೆಮಾಡಿ.");
+        alert("ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು ಬ್ರೌಸರ್ ಮೇಲಿರುವ ಮೂರು ಚುಕ್ಕೆಗಳ (⋮) ಮೆನು ಕ್ಲಿಕ್ ಮಾಡಿ 'Install app' ಆಯ್ಕೆಮಾಡಿ.");
       }
     }
 

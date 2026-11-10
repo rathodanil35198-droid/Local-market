@@ -492,7 +492,6 @@
       window.initFirebaseAppData();
       checkInstallStatusAndButton();
 
-      // Check if returning from PhonePe/UPI Intent payment
       checkPendingPaymentReturn();
 
       window.addEventListener('popstate', (event) => {
@@ -523,7 +522,6 @@
         sessionStorage.removeItem('pending_upi_order');
         try {
           let orderData = JSON.parse(pendingOrderJson);
-          // Confirm order as payment successful after returning from UPI app
           saveOrderToDatabaseDirect(orderData, () => {
             alert("🎉 ನಿಮ್ಮ ಆನ್‌ಲೈನ್ ಪಾವತಿ (UPI) ಯಶಸ್ವಿಯಾಗಿದೆ ಮತ್ತು ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
             openMyOrdersScreen();
@@ -583,13 +581,11 @@
           const codIcon = document.getElementById('codStatusIcon');
 
           if (prepaidCount >= 10 && returnedCount < 2) {
-            // Unlocked
             codBtn.style.opacity = '1';
             codBtn.style.pointerEvents = 'auto';
             codIcon.innerText = '🔓';
             codMsg.innerText = '';
           } else {
-            // Locked
             codBtn.style.opacity = '0.6';
             codBtn.style.pointerEvents = 'none';
             codIcon.innerText = '🔒';
@@ -1105,7 +1101,8 @@
       localStorage.setItem('customer_phone_key', phone);
       localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, district, taluk, pincode, landmark }));
 
-      let grandTotal = (Number(selectedProduct.price) * productQty) + 30;
+      // Delivery charge removed (set to 0), exact product total only
+      let grandTotal = Number(selectedProduct.price) * productQty;
 
       if (paymentMode === 'UPI') {
         let upiID = "8105010768-5@ybl";
@@ -1113,7 +1110,6 @@
         let transactionId = "NUS" + Date.now();
         let upiIntentUrl = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(payeeName)}&am=${grandTotal}.00&cu=INR&tr=${transactionId}`;
 
-        // Save order data temporarily in sessionStorage to verify after returning from payment app
         let orderPayload = {
           paymentStatusVal: 'SUCCESS',
           distanceVal: "ಲೋಕಲ್ ಡೆಲಿವರಿ",
@@ -1121,7 +1117,6 @@
         };
         sessionStorage.setItem('pending_upi_order', JSON.stringify(orderPayload));
 
-        // Redirect to UPI App for payment
         window.location.href = upiIntentUrl;
       } else {
         saveOrderToDatabase('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, () => {
@@ -1141,7 +1136,7 @@
       const landmark = document.getElementById('custLandmarkOption').value;
 
       playCoinSound();
-      let grandTotal = (Number(selectedProduct.price) * productQty) + 30;
+      let grandTotal = Number(selectedProduct.price) * productQty;
       let finalPhoto = selectedColorPhoto || selectedProduct.photo;
       let shop = allShopsMap[selectedProduct.shopId];
       let otp = Math.floor(1000 + Math.random() * 9000).toString();
@@ -1164,7 +1159,7 @@
         productPhoto: finalPhoto,
         selectedColor: selectedColorName || 'Standard',
         totalPrice: grandTotal,
-        deliveryFee: 30,
+        deliveryFee: 0,
         distanceKm: payload.distanceVal,
         shopId: selectedProduct.shopId,
         shopName: shop ? shop.shopName : "Store",
@@ -1256,7 +1251,7 @@
       if (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; s4 = 'completed'; }
 
       let cust = o.customer || {};
-      let distanceText = `(ದೂರ: ${o.distanceKm || '3.5 ಕಿ.ಮೀ.'})`;
+      let distanceText = `(ದೂರ: ${o.distanceKm || 'ಲೋಕಲ್ ಡೆಲಿವರಿ'})`;
       
       let showCancelBtn = (status === 'STEP_1' || status === 'PENDING') && !o.isReturned;
       let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED');
@@ -1542,7 +1537,7 @@
       document.getElementById('lblCheckoutHeader').innerText = t.checkoutHeader;
       document.getElementById('lblDeliveryAddrTitle').innerText = t.deliveryAddrTitle;
       document.getElementById('lblPaymentMethodTitle').innerText = t.paymentMethodTitle;
-      document.getElementById('lblCodOptionText').innerText = t.codOptionText;
+      document.getElementById('lblCodOptionTest').innerText = t.codOptionText;
       document.getElementById('confirmOrderBtn').innerText = t.proceedPaymentBtn;
       document.getElementById('lblMyOrdersHeader').innerText = t.myOrdersHeader;
       document.getElementById('lblOrderDetailsHeader').innerText = t.orderDetailsHeader;

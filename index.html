@@ -429,7 +429,7 @@
 
       <div style="margin-bottom:10px;">
         <label style="font-size:0.8rem; font-weight:bold; color:var(--primary);">2. ಹಣ ಪಡೆಯಲು ನಿಮ್ಮ UPI ID / PhonePe / GPay ಸಂಖ್ಯೆ ನಮೂದಿಸಿ:</label>
-        <input type="text" id="customerUpiIdInput" placeholder="ಉದಾ: 8105010768@ybl ಅಥವಾ PhonePe ನಂಬರ್" style="width:100%; padding:8px; margin-top:4px; border:1px solid var(--primary); border-radius:6px; font-size:0.85rem; background:#f0f4ff;">
+        <input type="text" id="customerUpiIdInput" placeholder="ಉದಾ: 8105010768-5@ybl ಅಥವಾ PhonePe ನಂಬರ್" style="width:100%; padding:8px; margin-top:4px; border:1px solid var(--primary); border-radius:6px; font-size:0.85rem; background:#f0f4ff;">
       </div>
 
       <div style="margin-bottom:10px;">
@@ -1090,9 +1090,9 @@
       let grandTotal = (Number(selectedProduct.price) * productQty) + 30;
 
       if (paymentMode === 'UPI') {
-        // Direct UPI Intent to your specified UPI ID: 8105010768@ybl
-        let upiID = "8105010768@ybl";
-        let payeeName = "Namma Uur Shopping";
+        // Updated UPI ID: 8105010768-5@ybl
+        let upiID = "8105010768-5@ybl";
+        let payeeName = "Namma Ooru Shopping";
         let transactionId = "NUS" + Date.now();
         let upiIntentUrl = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(payeeName)}&am=${grandTotal}.00&cu=INR&tr=${transactionId}`;
 

@@ -140,7 +140,8 @@
     .t-item.active .t-dot { background: var(--primary); width: 16px; height: 16px; left: -22px; top: 0; }
     .t-title { font-size: 0.85rem; font-weight: bold; color: #333; }
 
-    .pay-opt-btn { width: 100%; padding: 12px 14px; margin: 6px 0; border: 2px solid #2874f0; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #e8f0fe; color: #1a73e8; }
+    .pay-opt-btn { width: 100%; padding: 12px 14px; margin: 6px 0; border: 2px solid #ccc; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #fff; color: #333; }
+    .pay-opt-btn.selected { border-color: #2874f0; background: #e8f0fe; color: #1a73e8; }
 
     .custom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 15px; }
     .custom-modal-content { background: #fff; border-radius: 12px; max-width: 420px; width: 100%; padding: 18px; max-height: 90vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
@@ -337,7 +338,7 @@
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (12 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
         
         <input type="text" id="custName" placeholder="ಗ್ರಾಹಕರ ಹೆಸರು / Customer Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="tel" id="custPhone" placeholder="ಮೊಬೈල් ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
         <div style="display:flex; gap:6px; margin-bottom:6px;">
           <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode" maxlength="6" oninput="fetchPincodeDetails(this.value)" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;">
@@ -364,11 +365,20 @@
 
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblPaymentMethodTitle">💳 ಪಾವತಿ ವಿಧಾನ:</h4>
-        <input type="hidden" id="selectedPaymentMode" value="COD">
-        <div class="pay-opt-btn" id="optCod">
-          <span id="lblCodOptionText">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)</span>
+        <input type="hidden" id="selectedPaymentMode" value="UPI">
+        
+        <!-- UPI Option -->
+        <div class="pay-opt-btn selected" id="optUpi" onclick="selectPaymentMode('UPI')">
+          <span>📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (PhonePe / GPay)</span>
           <span>✔</span>
         </div>
+
+        <!-- COD Option (Smart Locked/Unlocked) -->
+        <div class="pay-opt-btn" id="optCod" style="margin-top:8px;" onclick="selectPaymentMode('COD')">
+          <span id="lblCodOptionText">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)</span>
+          <span id="codStatusIcon">🔒</span>
+        </div>
+        <div id="codLockedMessage" style="font-size:0.75rem; color:#d32f2f; margin-top:4px; font-weight:bold;"></div>
       </div>
 
       <div style="margin-bottom: 15px;">
@@ -528,8 +538,64 @@
       } else {
         document.getElementById('customerLoginOverlay').style.display = 'none';
         loadSavedAddress();
+        evaluateCustomerCodEligibility();
       }
       checkInstallStatusAndButton();
+    }
+
+    async function evaluateCustomerCodEligibility() {
+      const phone = localStorage.getItem('customer_phone_key');
+      if (!phone) return;
+      try {
+        const q = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
+        window.onSnapshot(q, (snapshot) => {
+          let prepaidCount = 0;
+          let returnedCount = 0;
+          snapshot.forEach(docSnap => {
+            let ord = docSnap.data();
+            if (!ord.isCancelled) {
+              if (ord.paymentMode === 'UPI' && (ord.paymentStatus === 'SUCCESS' || ord.paymentStatus === 'COD_PENDING')) {
+                prepaidCount++;
+              }
+              if (ord.isReturned) {
+                returnedCount++;
+              }
+            }
+          });
+
+          const codBtn = document.getElementById('optCod');
+          const codMsg = document.getElementById('codLockedMessage');
+          const codIcon = document.getElementById('codStatusIcon');
+
+          if (prepaidCount >= 10 && returnedCount < 2) {
+            // Unlocked
+            codBtn.style.opacity = '1';
+            codBtn.style.pointerEvents = 'auto';
+            codIcon.innerText = '🔓';
+            codMsg.innerText = '';
+          } else {
+            // Locked
+            codBtn.style.opacity = '0.6';
+            codBtn.style.pointerEvents = 'none';
+            codIcon.innerText = '🔒';
+            codMsg.innerText = `⚠️ 10 ಸಫಲ ಆನ್‌ಲೈನ್ UPI ಆರ್ಡರ್‌ಗಳ ನಂತರ COD ಅನ್‌ಲಾಕ್ ಆಗುತ್ತದೆ (ಪ್ರಸ್ತುತ: ${prepaidCount}/10).`;
+          }
+        });
+      } catch(e) { console.log(e); }
+    }
+
+    function selectPaymentMode(mode) {
+      document.getElementById('selectedPaymentMode').value = mode;
+      const upiBtn = document.getElementById('optUpi');
+      const codBtn = document.getElementById('optCod');
+
+      if (mode === 'UPI') {
+        upiBtn.classList.add('selected');
+        codBtn.classList.remove('selected');
+      } else {
+        codBtn.classList.add('selected');
+        upiBtn.classList.remove('selected');
+      }
     }
 
     async function handleCustomerLogin() {
@@ -559,6 +625,7 @@
       alert(`🎉 ಲಾಗಿನ್ ಯಶಸ್ವಿಯಾಗಿದೆ!\nನಿಮ್ಮ 4-ಡಿಜಿಟ್ ಐಡಿ: ${customerId}`);
       document.getElementById('customerLoginOverlay').style.display = 'none';
       loadSavedAddress();
+      evaluateCustomerCodEligibility();
     }
 
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -986,6 +1053,7 @@
     }
 
     function openCheckoutScreen() {
+      evaluateCustomerCodEligibility();
       showScreen('checkoutScreen');
       history.pushState({ page: 'checkout' }, '', '');
     }
@@ -1121,6 +1189,7 @@
       const pincode = document.getElementById('custPincode').value.trim();
       const taluk = document.getElementById('custTaluk').value.trim().toLowerCase();
       const landmark = document.getElementById('custLandmarkOption').value;
+      const paymentMode = document.getElementById('selectedPaymentMode').value;
 
       if (!name || !phone || !village || !pincode || !landmark) {
         alert("ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ನಂಬರ್, ಪಿನ್ ಕೋಡ್, ಊರು ಮತ್ತು ಮನೆಯ ಹತ್ತಿರದ ಸ್ಥಳವನ್ನು (ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್) ಕಡ್ಡಾಯವಾಗಿ ಆಯ್ಕೆಮಾಡಿ.");
@@ -1152,10 +1221,28 @@
       localStorage.setItem('customer_phone_key', phone);
       localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, pincode, landmark }));
 
-      saveOrderToDatabase('COD_PENDING', calculatedKm.toFixed(1) + " ಕಿ.ಮೀ.");
+      let grandTotal = (Number(selectedProduct.price) * productQty) + 30;
+
+      if (paymentMode === 'UPI') {
+        // Direct UPI Intent Integration
+        let upiID = shop && shop.upiId ? shop.upiId : "8105010768@ybl";
+        let payeeName = shop ? shop.shopName : "Namma Uur Shopping";
+        let transactionId = "NUS" + Date.now();
+        let upiIntentUrl = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(payeeName)}&am=${grandTotal}.00&cu=INR&tr=${transactionId}`;
+
+        // Save pending order first, then redirect to UPI App
+        saveOrderToDatabase('PENDING_UPI', calculatedKm.toFixed(1) + " ಕಿ.ಮೀ.", paymentMode, () => {
+          window.location.href = upiIntentUrl;
+        });
+      } else {
+        saveOrderToDatabase('COD_PENDING', calculatedKm.toFixed(1) + " ಕಿ.ಮೀ.", paymentMode, () => {
+          alert("🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!");
+          openMyOrdersScreen();
+        });
+      }
     }
 
-    async function saveOrderToDatabase(paymentStatusVal, distanceVal) {
+    async function saveOrderToDatabase(paymentStatusVal, distanceVal, paymentModeVal, callback) {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
@@ -1195,8 +1282,8 @@
         shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
         customer: { name, phone, village, pincode, taluk, district, landmark },
         returnPolicy: productReturnPolicy,
-        paymentMode: 'COD',
-        paymentStatus: paymentStatusVal,
+        paymentMode: paymentModeVal,
+        paymentStatus: paymentModeVal === 'UPI' ? 'SUCCESS' : paymentStatusVal,
         deliveryOtp: otp,
         status: 'STEP_1',
         orderDate: orderDateStr,
@@ -1209,8 +1296,7 @@
       try {
         const uniqueDocId = orderData.orderId;
         await window.setDoc(window.doc(window.db, "orders", uniqueDocId), orderData);
-        alert("🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!");
-        openMyOrdersScreen();
+        if (callback) callback();
       } catch(e) { alert("Error: " + e.message); }
     }
 
@@ -1244,7 +1330,7 @@
           container.innerHTML = `<p style="text-align:center; color:#777;">ಯಾವುದೇ ಸಕ್ರಿಯ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`;
         } else {
           container.innerHTML = validOrders.map(o => {
-            let payBadge = `(💵 COD)`;
+            let payBadge = o.paymentMode === 'UPI' ? `(📱 UPI Paid)` : `(💵 COD)`;
             let dateStr = o.orderDate ? `📅 ಆರ್ಡರ್ ದಿನಾಂಕ: ${o.orderDate}` : '';
             let expDelivery = o.expectedDeliveryDate ? `<br>🚚 ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ ದಿನಾಂಕ: ${o.expectedDeliveryDate}` : '';
             let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ)` : (o.status === 'DELIVERED' || o.status === 'STEP_4' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
@@ -1330,6 +1416,7 @@
         <div style="background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:12px; font-size:0.82rem; color:#444;">
           📅 <b>ಆರ್ಡರ್ ಮಾಡಿದ ದಿನಾಂಕ:</b> ${o.orderDate || 'N/A'}<br>
           🚚 <b>ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ:</b> ${o.expectedDeliveryDate || 'N/A'}<br>
+          💳 <b>ಪಾವತಿ ವಿಧಾನ:</b> ${o.paymentMode === 'UPI' ? '📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ' : '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD)'}<br>
           📋 <b>ರಿಟರ್ನ್ ಪಾಲಿಸಿ:</b> <span style="font-weight:bold; color:${orderReturnPolicy === 'NO' ? 'red' : 'green'};">${orderReturnPolicy === 'NO' ? 'ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? 'ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)' : 'ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ')}</span>
         </div>
       `;

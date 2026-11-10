@@ -132,6 +132,14 @@
     .color-btn { padding: 5px 10px; border: 2px solid #ccc; background: #fff; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
     .color-btn.selected { border-color: var(--primary); background: #f0f4ff; color: var(--primary); }
 
+    .timeline { position: relative; padding-left: 20px; margin: 15px 0; }
+    .timeline::before { content: ''; position: absolute; left: 7px; top: 5px; bottom: 5px; width: 2px; background: #e0e0e0; }
+    .t-item { position: relative; margin-bottom: 15px; }
+    .t-dot { position: absolute; left: -20px; top: 2px; width: 12px; height: 12px; border-radius: 50%; background: #ccc; border: 2px solid #fff; }
+    .t-item.completed .t-dot { background: var(--success); }
+    .t-item.active .t-dot { background: var(--primary); width: 16px; height: 16px; left: -22px; top: 0; }
+    .t-title { font-size: 0.85rem; font-weight: bold; color: #333; }
+
     .pay-opt-btn { width: 100%; padding: 12px 14px; margin: 6px 0; border: 2px solid #2874f0; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #e8f0fe; color: #1a73e8; }
 
     .custom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 15px; }
@@ -329,7 +337,7 @@
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (12 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
         
         <input type="text" id="custName" placeholder="ಗ್ರಾಹಕರ ಹೆಸರು / Customer Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="tel" id="custPhone" placeholder="ಮೊಬೈල් ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
         <div style="display:flex; gap:6px; margin-bottom:6px;">
           <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode" maxlength="6" oninput="fetchPincodeDetails(this.value)" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;">
@@ -358,7 +366,7 @@
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblPaymentMethodTitle">💳 ಪಾವತಿ ವಿಧಾನ:</h4>
         <input type="hidden" id="selectedPaymentMode" value="COD">
         <div class="pay-opt-btn" id="optCod">
-          <span id="lblCodOptionText">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery) - ಜೊತೆಗೆ ₹50 ಎಕ್ಸ್ಟ್ರಾ ಚಾರ್ಜ್</span>
+          <span id="lblCodOptionText">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)</span>
           <span>✔</span>
         </div>
       </div>
@@ -616,7 +624,7 @@
         checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ",
         deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (12 KM ಒಳಗೆ ಕಡ್ಡಾಯ):",
         paymentMethodTitle: "💳 ಪಾವತಿ ವಿಧಾನ:",
-        codOptionText: "💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery) - ಜೊತೆಗೆ ₹50 ಎಕ್ಸ್ಟ್ರಾ ಚಾರ್ಜ್",
+        codOptionText: "💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)",
         proceedPaymentBtn: "ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)",
         myOrdersHeader: "ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)",
         orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು & ಟ್ರ್ಯಾಕಿಂಗ್"
@@ -638,7 +646,7 @@
         checkoutHeader: "Confirm Details & Payment",
         deliveryAddrTitle: "📍 Delivery Address (Within 12 KM mandatory):",
         paymentMethodTitle: "💳 Payment Method:",
-        codOptionText: "💵 Cash on Delivery - with ₹50 extra charge",
+        codOptionText: "💵 Cash on Delivery",
         proceedPaymentBtn: "Confirm Order",
         myOrdersHeader: "My Orders",
         orderDetailsHeader: "Order Details & Tracking"
@@ -1157,8 +1165,7 @@
       const landmark = document.getElementById('custLandmarkOption').value;
 
       playCoinSound();
-      // COD charge +50 added here
-      let grandTotal = (Number(selectedProduct.price) * productQty) + 50;
+      let grandTotal = (Number(selectedProduct.price) * productQty) + 30;
       let finalPhoto = selectedColorPhoto || selectedProduct.photo;
       let shop = allShopsMap[selectedProduct.shopId];
       let otp = Math.floor(1000 + Math.random() * 9000).toString();
@@ -1181,7 +1188,7 @@
         productPhoto: finalPhoto,
         selectedColor: selectedColorName || 'Standard',
         totalPrice: grandTotal,
-        deliveryFee: 50,
+        deliveryFee: 30,
         distanceKm: distanceVal,
         shopId: selectedProduct.shopId,
         shopName: shop ? shop.shopName : "Store",
@@ -1265,6 +1272,11 @@
       const content = document.getElementById('orderDetailsContent');
       let status = o.status || 'STEP_1';
       
+      let s1 = 'completed', s2 = '', s3 = '', s4 = '';
+      if (status === 'CONFIRMED' || status === 'STEP_2') { s1 = 'completed'; s2 = 'completed'; }
+      if (status === 'PACKING' || status === 'STEP_3') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; }
+      if (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; s4 = 'completed'; }
+
       let cust = o.customer || {};
       let distanceText = `(ದೂರ: ${o.distanceKm || '3.5 ಕಿ.ಮೀ.'})`;
       
@@ -1322,7 +1334,21 @@
         </div>
       `;
 
-      // Roadmap completely removed as requested
+      let roadmapHtml = '';
+      if (!o.isReturned) {
+        roadmapHtml = `
+          <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:15px; margin-bottom:15px;">
+            <h4 style="font-size:0.9rem; color:var(--primary); margin-bottom:12px;">📦 ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ರೋಡ್‌ಮ್ಯಾಪ್</h4>
+            <div class="timeline">
+              <div class="t-item ${s1}"><div class="t-dot"></div><div class="t-title">1. ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ</div></div>
+              <div class="t-item ${s2}"><div class="t-dot"></div><div class="t-title">2. ಅಂಗಡಿಯಿಂದ ಪ್ಯಾಕಿಂಗ್ ಆಗಿದೆ</div></div>
+              <div class="t-item ${s3}"><div class="t-dot"></div><div class="t-title">3. ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕ್ ಮಾಡಿದ್ದಾರೆ</div></div>
+              <div class="t-item ${s4}"><div class="t-dot"></div><div class="t-title">4. ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Delivered)</div></div>
+            </div>
+          </div>
+        `;
+      }
+
       content.innerHTML = `
         <div style="display:flex; gap:10px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:12px;">
           <img src="${o.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px; background:#fff;">
@@ -1337,6 +1363,7 @@
         ${dateDetailsBox}
         ${otpBoxHtml}
         ${returnStatusHtml}
+        ${roadmapHtml}
 
         ${showCancelBtn ? `<button onclick="cancelCustomerOrder('${o.id}')" style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer; margin-bottom:10px;">❌ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ</button>` : ''}
         ${returnButtonHtml}

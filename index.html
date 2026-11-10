@@ -492,6 +492,9 @@
       window.initFirebaseAppData();
       checkInstallStatusAndButton();
 
+      // Check if returning from PhonePe/UPI Intent payment
+      checkPendingPaymentReturn();
+
       window.addEventListener('popstate', (event) => {
         event.preventDefault();
         const detailScr = document.getElementById('productDetailScreen');
@@ -513,6 +516,21 @@
       });
       history.pushState({ page: 'main' }, '', window.location.href);
     });
+
+    function checkPendingPaymentReturn() {
+      const pendingOrderJson = sessionStorage.getItem('pending_upi_order');
+      if (pendingOrderJson) {
+        sessionStorage.removeItem('pending_upi_order');
+        try {
+          let orderData = JSON.parse(pendingOrderJson);
+          // Confirm order as payment successful after returning from UPI app
+          saveOrderToDatabaseDirect(orderData, () => {
+            alert("🎉 ನಿಮ್ಮ ಆನ್‌ಲೈನ್ ಪಾವತಿ (UPI) ಯಶಸ್ವಿಯಾಗಿದೆ ಮತ್ತು ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
+            openMyOrdersScreen();
+          });
+        } catch(e) { console.log(e); }
+      }
+    }
 
     function checkInstallStatusAndButton() {
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
@@ -1090,15 +1108,21 @@
       let grandTotal = (Number(selectedProduct.price) * productQty) + 30;
 
       if (paymentMode === 'UPI') {
-        // Updated UPI ID: 8105010768-5@ybl
         let upiID = "8105010768-5@ybl";
         let payeeName = "Namma Ooru Shopping";
         let transactionId = "NUS" + Date.now();
         let upiIntentUrl = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(payeeName)}&am=${grandTotal}.00&cu=INR&tr=${transactionId}`;
 
-        saveOrderToDatabase('PENDING_UPI', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, () => {
-          window.location.href = upiIntentUrl;
-        });
+        // Save order data temporarily in sessionStorage to verify after returning from payment app
+        let orderPayload = {
+          paymentStatusVal: 'SUCCESS',
+          distanceVal: "ಲೋಕಲ್ ಡೆಲಿವರಿ",
+          paymentModeVal: paymentMode
+        };
+        sessionStorage.setItem('pending_upi_order', JSON.stringify(orderPayload));
+
+        // Redirect to UPI App for payment
+        window.location.href = upiIntentUrl;
       } else {
         saveOrderToDatabase('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, () => {
           alert("🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!");
@@ -1107,7 +1131,7 @@
       }
     }
 
-    async function saveOrderToDatabase(paymentStatusVal, distanceVal, paymentModeVal, callback) {
+    async function saveOrderToDatabaseDirect(payload, callback) {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
@@ -1141,14 +1165,14 @@
         selectedColor: selectedColorName || 'Standard',
         totalPrice: grandTotal,
         deliveryFee: 30,
-        distanceKm: distanceVal,
+        distanceKm: payload.distanceVal,
         shopId: selectedProduct.shopId,
         shopName: shop ? shop.shopName : "Store",
         shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
         customer: { name, phone, village, pincode, taluk, district, landmark },
         returnPolicy: productReturnPolicy,
-        paymentMode: paymentModeVal,
-        paymentStatus: paymentModeVal === 'UPI' ? 'SUCCESS' : paymentStatusVal,
+        paymentMode: payload.paymentModeVal,
+        paymentStatus: payload.paymentStatusVal,
         deliveryOtp: otp,
         status: 'STEP_1',
         orderDate: orderDateStr,
@@ -1159,10 +1183,13 @@
       };
 
       try {
-        const uniqueDocId = orderData.orderId;
-        await window.setDoc(window.doc(window.db, "orders", uniqueDocId), orderData);
+        await window.setDoc(window.doc(window.db, "orders", orderData.orderId), orderData);
         if (callback) callback();
       } catch(e) { alert("Error: " + e.message); }
+    }
+
+    async function saveOrderToDatabase(paymentStatusVal, distanceVal, paymentModeVal, callback) {
+      await saveOrderToDatabaseDirect({ paymentStatusVal, distanceVal, paymentModeVal }, callback);
     }
 
     async function cancelCustomerOrder(orderDocId) {
@@ -1281,7 +1308,7 @@
         <div style="background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:12px; font-size:0.82rem; color:#444;">
           📅 <b>ಆರ್ಡರ್ ಮಾಡಿದ ದಿನಾಂಕ:</b> ${o.orderDate || 'N/A'}<br>
           🚚 <b>ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ:</b> ${o.expectedDeliveryDate || 'N/A'}<br>
-          💳 <b>ಪಾವತಿ ವಿಧಾನ:</b> ${o.paymentMode === 'UPI' ? '📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ' : '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD)'}<br>
+          💳 <b>ಪಾವತಿ ವಿಧಾನ:</b> ${o.paymentMode === 'UPI' ? '📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (UPI Paid)' : '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD)'}<br>
           📋 <b>ರಿಟರ್ನ್ ಪಾಲಿಸಿ:</b> <span style="font-weight:bold; color:${orderReturnPolicy === 'NO' ? 'red' : 'green'};">${orderReturnPolicy === 'NO' ? 'ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? 'ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)' : 'ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ')}</span>
         </div>
       `;
@@ -1308,7 +1335,7 @@
             <h4 style="font-size:0.9rem;">${o.productName}</h4>
             <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${o.totalPrice} ${distanceText}</p>
             <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ಗ್ರಾಹಕರು:</b> ${cust.name || ''} | <b>ಫೋನ್:</b> ${cust.phone || ''}</p>
-            <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ವಿಳಾಸ:</b> ${cust.village || ''}, ${cust.taluk || ''} (${cust.landmark || ''}) - ${cust.pincode || ''}</p>
+            <p style="font-size:0.78rem; color:#555; margin-top:2px;"><b>ವಿಳಾಸ:</b> ${cust.village || ''}, ${cust.taluk || ''}, ${cust.district || ''} (${cust.landmark || ''}) - ಪಿನ್: ${cust.pincode || ''}</p>
           </div>
         </div>
 

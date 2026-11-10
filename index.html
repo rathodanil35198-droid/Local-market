@@ -335,19 +335,16 @@
 
     <div style="padding: 15px 15px 160px 15px;">
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (12 KM ಒಳಗೆ ಕಡ್ಡಾಯ):</h4>
+        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (ಕಡ್ಡಾಯವಾಗಿ ಭರ್ತಿ ಮಾಡಿ):</h4>
         
         <input type="text" id="custName" placeholder="ಗ್ರಾಹಕರ ಹೆಸರು / Customer Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
-        <div style="display:flex; gap:6px; margin-bottom:6px;">
-          <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode" maxlength="6" oninput="fetchPincodeDetails(this.value)" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:4px; font-weight:bold; background:#e8f0fe;">
-          <button type="button" onclick="fetchCustomerGpsLocation()" style="padding:8px 12px; background:#1976d2; color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:0.75rem; cursor:pointer;">📍 GPS ಆಟೋ</button>
-        </div>
-
-        <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ ಹೆಸರು / District (ಆಟೋ-ಫೆಚ್)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fffde7; font-weight:bold;" readonly>
-        <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು ಹೆಸರು / Taluk (ಆಟೋ-ಫೆಚ್)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px; background:#fffde7; font-weight:bold;" readonly>
-        <input type="text" id="custVillage" placeholder="ಊರು / Village" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode (ಉದಾ: 585287)" maxlength="6" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        
+        <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ ಹೆಸರು / District (ಕೈಯಿಂದ ಬರೆಯಿರಿ)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು ಹೆಸರು / Taluk (ಕೈಯಿಂದ ಬರೆಯಿರಿ)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="custVillage" placeholder="ಊರು / Village (ಕೈಯಿಂದ ಬರೆಯಿರಿ)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
         
         <div style="margin-bottom:8px;">
           <label style="font-size:0.78rem; font-weight:bold; color:#444;">ಮನೆಯ ಹತ್ತಿರ ಏನಿದೆ? (ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್ ಆಯ್ಕೆಮಾಡಿ):</label>
@@ -689,7 +686,7 @@
         addToCart: "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ",
         buyNow: "ಖರೀದಿಸಿ (Buy Now)",
         checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ",
-        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (12 KM ಒಳಗೆ ಕಡ್ಡಾಯ):",
+        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (ಕಡ್ಡಾಯವಾಗಿ ಭರ್ತಿ ಮಾಡಿ):",
         paymentMethodTitle: "💳 ಪಾವತಿ ವಿಧಾನ:",
         codOptionText: "💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)",
         proceedPaymentBtn: "ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)",
@@ -711,7 +708,7 @@
         addToCart: "Add to Cart",
         buyNow: "Buy Now",
         checkoutHeader: "Confirm Details & Payment",
-        deliveryAddrTitle: "📍 Delivery Address (Within 12 KM mandatory):",
+        deliveryAddrTitle: "📍 Delivery Address (Mandatory to fill):",
         paymentMethodTitle: "💳 Payment Method:",
         codOptionText: "💵 Cash on Delivery",
         proceedPaymentBtn: "Confirm Order",
@@ -1058,184 +1055,52 @@
       history.pushState({ page: 'checkout' }, '', '');
     }
 
-    const placeTranslations = {
-      "yadgir": { kn: "ಯಾದಗಿರಿ", talukKn: "ಯಾದಗಿರಿ (Yadgir)" },
-      "shahapur": { kn: "ಶಹಾಪುರ", talukKn: "ಶಹಾಪುರ (Shahapur)" },
-      "surpur": { kn: "ಸುರಪುರ", talukKn: "ಸುರಪುರ (Surpur)" },
-      "shorapur": { kn: "ಸುರಪುರ", talukKn: "ಸುರಪುರ (Surpur)" },
-      "bheemarayanagudi": { kn: "ಭೀಮರಾಯನಗುಡಿ", talukKn: "ಶಹಾಪುರ (Shahapur)" },
-      "adilapur": { kn: "ಆದಿಲಾಪೂರ", talukKn: "ಶಹಾಪುರ (Shahapur)" },
-      "hathigudur": { kn: "ಹತ್ತಿಗುಡೂರ್", talukKn: "ಶಹಾಪುರ (Shahapur)" },
-      "doranahalli": { kn: "ದೋರಣಹಳ್ಳಿ", talukKn: "ಶಹಾಪುರ (Shahapur)" },
-      "aikur": { kn: "ಐಕುರ್", talukKn: "ಶಹಾಪುರ (Shahapur)" },
-      "anabi": { kn: "ಅನಾಬಿ", talukKn: "ಶಹಾಪುರ (Shahapur)" }
-    };
+    function selectPaymentMode(mode) {
+      document.getElementById('selectedPaymentMode').value = mode;
+      const upiBtn = document.getElementById('optUpi');
+      const codBtn = document.getElementById('optCod');
 
-    function translateToKannadaAndEnglish(name, type) {
-      if (!name) return "";
-      let key = name.toLowerCase().trim();
-      if (placeTranslations[key]) {
-        return type === 'taluk' ? placeTranslations[key].talukKn : `${placeTranslations[key].kn} (${name})`;
-      }
-      return name;
-    }
-
-    async function fetchPincodeDetails(pincode) {
-      const msgBox = document.getElementById('availabilityMsg');
-      const confirmBtn = document.getElementById('confirmOrderBtn');
-
-      if (pincode.length !== 6) {
-        msgBox.style.display = 'none';
-        return;
-      }
-
-      try {
-        let response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
-        let data = await response.json();
-
-        if (data[0].Status === "Success") {
-          let details = data[0].PostOffice[0];
-          let villageEng = details.Name || '';
-          let talukEng = details.Taluk || details.District || '';
-          let distEng = details.District || '';
-
-          if (pincode === '585287' || pincode === '585223' || talukEng.toLowerCase() === 'yadgir') {
-            talukEng = 'Shahapur';
-          }
-
-          let villageDisplay = translateToKannadaAndEnglish(villageEng, 'village');
-          let talukDisplay = translateToKannadaAndEnglish(talukEng, 'taluk');
-          let distDisplay = translateToKannadaAndEnglish(distEng, 'district');
-
-          document.getElementById('custVillage').value = villageDisplay;
-          document.getElementById('custTaluk').value = talukDisplay;
-          document.getElementById('custDistrict').value = distDisplay;
-
-          validateSellerAvailabilityInTaluk(talukEng);
-        } else {
-          msgBox.style.display = 'block';
-          msgBox.style.background = '#ffebee';
-          msgBox.style.color = '#d32f2f';
-          msgBox.innerText = "❌ ದಯವಿಟ್ಟು ಸರಿಯಾದ ಪಿನ್ ಕೋಡ್ ನಮೂದಿಸಿ!";
-          confirmBtn.disabled = true;
-          confirmBtn.style.background = "gray";
-        }
-      } catch (e) {
-        console.log("Pincode API Error:", e);
-      }
-    }
-
-    function validateSellerAvailabilityInTaluk(userTalukName) {
-      const msgBox = document.getElementById('availabilityMsg');
-      const confirmBtn = document.getElementById('confirmOrderBtn');
-      
-      let shop = allShopsMap[selectedProduct.shopId];
-      let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "";
-      let userTaluk = userTalukName.toLowerCase();
-
-      let isSellerAvailable = shop && (shopTaluk.includes(userTaluk) || userTaluk.includes(shopTaluk) || userTaluk.includes('shahapur'));
-
-      msgBox.style.display = 'block';
-
-      if (!isSellerAvailable) {
-        msgBox.style.background = '#ffebee';
-        msgBox.style.color = '#d32f2f';
-        msgBox.innerText = `❌ ಕ್ಷಮಿಸಿ, ಈ ತಾಲೂಕಿನಲ್ಲಿ (${userTalukName}) ಸದ್ಯಕ್ಕೆ ಯಾವುದೇ ಅಂಗಡಿಗಳು ಲಭ್ಯವಿಲ್ಲ. ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.`;
-        confirmBtn.disabled = true;
-        confirmBtn.style.background = "gray";
+      if (mode === 'UPI') {
+        upiBtn.classList.add('selected');
+        codBtn.classList.remove('selected');
       } else {
-        msgBox.style.background = '#e8f5e9';
-        msgBox.style.color = '#2e7d32';
-        msgBox.innerText = `✅ ಈ ತಾಲೂಕಿನಲ್ಲಿ (${userTalukName}) ನಮ್ಮ ಅಂಗಡಿ ಲಭ್ಯವಿದೆ. 12 ಕಿ.ಮೀ ದೂರ ಪರಿಶೀಲಿಸಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಬಹುದು.`;
-        confirmBtn.disabled = false;
-        confirmBtn.style.background = "var(--success)";
+        codBtn.classList.add('selected');
+        upiBtn.classList.remove('selected');
       }
-    }
-
-    function fetchCustomerGpsLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            document.getElementById('custVillage').value = `GPS Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}`;
-            alert("📍 ನಿಮ್ಮ GPS ಲೊಕೇಶನ್ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಪಿನ್ ಕ್ಯಾಚ್ ಮಾಡಲಾಗಿದೆ!");
-          },
-          (error) => {
-            alert("ಜಿಪಿಎಸ್ ಲೊಕೇಶನ್ ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಜಿಪಿಎಸ್ ಆನ್ ಮಾಡಿ.");
-          }
-        );
-      } else {
-        alert("ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಜಿಪಿಎಸ್ ಸೌಲಭ್ಯವಿಲ್ಲ.");
-      }
-    }
-
-    function calculateDistanceKm(lat1, lon1, lat2, lon2) {
-      if (!lat1 || !lon1 || !lat2 || !lon2) return 5.0;
-      const R = 6371;
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLon = (lon2 - lon1) * Math.PI / 180;
-      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                Math.sin(dLon/2) * Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return R * c;
     }
 
     function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
-      const village = document.getElementById('custVillage').value.trim();
       const pincode = document.getElementById('custPincode').value.trim();
-      const taluk = document.getElementById('custTaluk').value.trim().toLowerCase();
+      const district = document.getElementById('custDistrict').value.trim();
+      const taluk = document.getElementById('custTaluk').value.trim();
+      const village = document.getElementById('custVillage').value.trim();
       const landmark = document.getElementById('custLandmarkOption').value;
       const paymentMode = document.getElementById('selectedPaymentMode').value;
 
-      if (!name || !phone || !village || !pincode || !landmark) {
-        alert("ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ನಂಬರ್, ಪಿನ್ ಕೋಡ್, ಊರು ಮತ್ತು ಮನೆಯ ಹತ್ತಿರದ ಸ್ಥಳವನ್ನು (ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್) ಕಡ್ಡಾಯವಾಗಿ ಆಯ್ಕೆಮಾಡಿ.");
-        return;
-      }
-
-      let shop = allShopsMap[selectedProduct.shopId];
-      let shopTaluk = shop && shop.taluk ? shop.taluk.toLowerCase() : "";
-      
-      if (taluk && !shopTaluk.includes(taluk) && !taluk.includes(shopTaluk) && !shopTaluk.includes('shahapur') && !taluk.includes('ಶಹಾಪುರ')) {
-        alert(`❌ ಈ ತಾಲೂಕಿಗೆ (${taluk}) ಈ ಅಂಗಡಿಯ ವಸ್ತುಗಳನ್ನು ಕಳುಹಿಸಲು ಬರುವುದಿಲ್ಲ. ಆಯಾ ತಾಲೂಕಿನ ಅಂಗಡಿ ವಸ್ತುಗಳನ್ನು ಮಾತ್ರ ಆರ್ಡರ್ ಮಾಡಬಹುದು.`);
-        return;
-      }
-
-      let shopLat = shop ? (shop.lat || 16.7037) : 16.7037;
-      let shopLon = shop ? (shop.lon || 76.8397) : 76.8397;
-      let calculatedKm = calculateDistanceKm(shopLat, shopLon, 16.7000, 76.8300);
-      
-      if (shop && shop.pincode && pincode) {
-        let pinDiff = Math.abs(parseInt(shop.pincode) - parseInt(pincode));
-        if (pinDiff > 0) calculatedKm = (pinDiff % 10) + 2.5;
-      }
-
-      if (calculatedKm > 12.0) {
-        alert(`⚠️ ಕ್ಷಮಿಸಿ! ನೀವು ಇರುವ ಸ್ಥಳವು ಅಂಗಡಿಯಿಂದ ಸುಮಾರು ${calculatedKm.toFixed(1)} ಕಿ.ಮೀ ದೂರದಲ್ಲಿದೆ. ಕೇವಲ 12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ ಡೆಲಿವರಿ ಲಭ್ಯವಿರುವುದರಿಂದ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.`);
+      if (!name || !phone || !pincode || !district || !taluk || !village || !landmark) {
+        alert("ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ನಂಬರ್, ಪಿನ್ ಕೋಡ್, ಜಿಲ್ಲೆ, ತಾಲೂಕು, ಊರು ಮತ್ತು ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್ ಅನ್ನು ಕಡ್ಡಾಯವಾಗಿ ಭರ್ತಿ ಮಾಡಿ.");
         return;
       }
 
       localStorage.setItem('customer_phone_key', phone);
-      localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, pincode, landmark }));
+      localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, district, taluk, pincode, landmark }));
 
       let grandTotal = (Number(selectedProduct.price) * productQty) + 30;
 
       if (paymentMode === 'UPI') {
-        // Direct UPI Intent Integration
-        let upiID = shop && shop.upiId ? shop.upiId : "8105010768@ybl";
-        let payeeName = shop ? shop.shopName : "Namma Uur Shopping";
+        // Direct UPI Intent to your specified UPI ID: 8105010768@ybl
+        let upiID = "8105010768@ybl";
+        let payeeName = "Namma Uur Shopping";
         let transactionId = "NUS" + Date.now();
         let upiIntentUrl = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(payeeName)}&am=${grandTotal}.00&cu=INR&tr=${transactionId}`;
 
-        // Save pending order first, then redirect to UPI App
-        saveOrderToDatabase('PENDING_UPI', calculatedKm.toFixed(1) + " ಕಿ.ಮೀ.", paymentMode, () => {
+        saveOrderToDatabase('PENDING_UPI', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, () => {
           window.location.href = upiIntentUrl;
         });
       } else {
-        saveOrderToDatabase('COD_PENDING', calculatedKm.toFixed(1) + " ಕಿ.ಮೀ.", paymentMode, () => {
+        saveOrderToDatabase('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, () => {
           alert("🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!");
           openMyOrdersScreen();
         });
@@ -1612,8 +1477,10 @@
           const a = JSON.parse(saved);
           document.getElementById('custName').value = a.name || localStorage.getItem('customer_name_key') || '';
           document.getElementById('custPhone').value = a.phone || localStorage.getItem('customer_phone_key') || '';
-          document.getElementById('custVillage').value = a.village || '';
           document.getElementById('custPincode').value = a.pincode || '';
+          document.getElementById('custDistrict').value = a.district || '';
+          document.getElementById('custTaluk').value = a.taluk || '';
+          document.getElementById('custVillage').value = a.village || '';
         } catch(e) {}
       } else {
         document.getElementById('custName').value = localStorage.getItem('customer_name_key') || '';

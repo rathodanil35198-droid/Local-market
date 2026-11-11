@@ -161,6 +161,7 @@
 </head>
 <body>
 
+  <!-- Server Down Overlay controlled by Master Panel -->
   <div id="serverDownOverlay">
     <div style="background:#fff; color:#333; padding:25px; border-radius:12px; max-width:350px; width:100%;">
       <div style="font-size:3rem; margin-bottom:10px;">⚠️</div>
@@ -282,6 +283,9 @@
       <p id="detailShopName" style="color: #666; font-size: 0.75rem; margin-top: 2px;"></p>
       <p id="detailShopLocation" style="color: var(--primary); font-size: 0.75rem; font-weight: bold; margin-top: 2px;"></p>
       
+      <!-- Stock / Quantity left indicator -->
+      <div id="detailStockLeftBox" style="margin-top:4px; font-size:0.78rem; font-weight:bold; color:#d84315;"></div>
+
       <div id="detailReturnPolicyContainer" style="margin-top:6px;"></div>
 
       <div id="detailRamStorageBox" style="margin-top:6px; font-size:0.8rem; font-weight:bold; color:#1976d2; background:#e3f2fd; padding:6px 8px; border-radius:4px; display:none;"></div>
@@ -298,8 +302,12 @@
         <div class="color-container" id="colorOptionsContainer" style="display:flex; gap:6px; margin-top:4px; flex-wrap:wrap;"></div>
       </div>
 
+      <!-- Select Size & Size Chart Header -->
       <div id="variantSection" style="margin-top: 10px;">
-        <label style="font-size: 0.8rem; font-weight: bold;" id="lblVariantTitle">Variant / Size / RAM ಆಯ್ಕೆಮಾಡಿ:</label>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <label style="font-size: 0.8rem; font-weight: bold;" id="lblVariantTitle">Select Size</label>
+          <span style="font-size:0.75rem; color:#2874f0; font-weight:bold; cursor:pointer;" onclick="alert('Size Chart: ನಿಮ್ಮ ದೇಹದಳತೆಗೆ ಸರಿಯಾದ ಸೈಜ್ ಆಯ್ಕೆಮಾಡಿ.')">Size Chart</span>
+        </div>
         <div class="variant-container" id="variantOptionsContainer" style="display:flex; gap:6px; margin-top:4px; flex-wrap:wrap;"></div>
       </div>
 
@@ -694,7 +702,7 @@
         allCategories: "ಎಲ್ಲಾ ವರ್ಗಗಳು (All Categories)",
         navHome: "ಹೋಮ್", navCat: "ಕ್ಯಾಟಗರಿಗಳು", navAcc: "ಅಕೌಂಟ್", navOrders: "ಆರ್ಡರ್ಸ್",
         prodDetailTitle: "ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ",
-        variantTitle: "Variant / Size / RAM ಆಯ್ಕೆಮಾಡಿ:",
+        variantTitle: "Select Size",
         qtyLabel: "ಸರಕು ಪ್ರಮಾಣ (Quantity):",
         deliveryBadge: "🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ)</b>",
         addToCart: "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ",
@@ -716,7 +724,7 @@
         allCategories: "All Categories",
         navHome: "Home", navCat: "Categories", navAcc: "Account", navOrders: "Orders",
         prodDetailTitle: "Product Description",
-        variantTitle: "Select Variant / Size / RAM:",
+        variantTitle: "Select Size",
         qtyLabel: "Quantity:",
         deliveryBadge: "🚚 Delivery within 1-2 days! (Within 12 km only)",
         addToCart: "Add to Cart",
@@ -913,6 +921,15 @@
       document.getElementById('detailShopName').innerText = "ಅಂಗಡಿ: " + (shop ? shop.shopName : "Store");
       document.getElementById('detailShopLocation').innerText = "📍 ತಾಲೂಕು/ಸ್ಥಳ: " + (shop ? shop.taluk : 'ಶಹಾಪುರ (Shahapur)');
 
+      // Display stock left if entered by merchant
+      const stockBox = document.getElementById('detailStockLeftBox');
+      if (selectedProduct.stockLeft || selectedProduct.qtyLeft || selectedProduct.stock) {
+        stockBox.style.display = 'block';
+        stockBox.innerText = `🔥 ${selectedProduct.stockLeft || selectedProduct.qtyLeft || selectedProduct.stock} left`;
+      } else {
+        stockBox.style.display = 'none';
+      }
+
       let returnPolicyVal = selectedProduct.returnPolicy || (shop ? shop.returnPolicy : 'RETURN_AVAILABLE');
       let returnContainer = document.getElementById('detailReturnPolicyContainer');
       
@@ -961,25 +978,28 @@
         selectedColorPhoto = selectedProduct.photo;
       }
 
+      // Exact Size / Variant Mapping as requested
       let sizes = ['Free Size'];
       let nameL = selectedProduct.name.toLowerCase();
       let catL = (selectedProduct.category || '').toLowerCase();
 
       if (selectedProduct.variants && selectedProduct.variants.length > 0) {
         sizes = selectedProduct.variants;
-      } else if (nameL.includes('ಪ್ಯಾಂಟ್') || nameL.includes('pant')) {
-        sizes = ['28', '29', '30', '31', '32', '33', '34', '35', '36', '38', '40', '42'];
+      } else if (nameL.includes('ಬ್ರಾ') || nameL.includes('bra')) {
+        sizes = ['32B', '32C', '32D', '34B', '34C', '34D', '36B', '36C', '36D', '38B', '38C', '38D'];
+      } else if (nameL.includes('ಅನಾರ್ಕಲಿ') || nameL.includes('anarkali') || nameL.includes('ಡ್ರೆಸ್') || nameL.includes('ಕುರ್ತಿ')) {
+        sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+      } else if (nameL.includes('ಪ್ಯಾಂಟ್') || nameL.includes('pant') || nameL.includes('ಟ್ರೌಸರ್')) {
+        sizes = ['28', '30', '32', '34', '36', '38', '40', '42'];
+      } else if (nameL.includes('ಮೆತ್ತೆ') || nameL.includes('ಮ್ಯಾಟ್ರಸ್') || nameL.includes('mattress')) {
+        sizes = ['5 inch', '6 inch', '8 inch'];
       } else if (nameL.includes('ಅಂಗಿ') || nameL.includes('shirt') || catL.includes('ಶರ್ಟ್') || catL.includes('ಬಟ್ಟೆ')) {
-        sizes = ['S', 'M', 'L', 'XL', 'XXL', '3XL'];
-      } else if (nameL.includes('ಚಪ್ಪಲಿ') || nameL.includes('shoe') || nameL.includes('ಸ್ಯಾಂಡಲ್') || catL.includes('ಚಪ್ಪಲಿ') || catL.includes('ಶೂಸ್')) {
-        sizes = ['5', '6', '7', '8', '9', '10', '11', '12', '13', '14'];
-      } else if (nameL.includes('ಡ್ರೆಸ್') || catL.includes('ಡ್ರೆಸ್') || catL.includes('ಸೀರೆ')) {
-        sizes = ['Free Size', 'S', 'M', 'L', 'XL', 'XXL'];
-      } else if (catL.includes('ಕಿರಾಣಿ') || nameL.includes('ಕೆಜಿ') || nameL.includes('kg')) {
-        sizes = ['1 ಕೆಜಿ', '2 ಕೆಜಿ', '3 ಕೆಜಿ', '5 ಕೆಜಿ', '10 ಕೆಜಿ'];
-      } else if (catL.includes('ಗಿಫ್ಟ್') || nameL.includes('ಗಿಫ್ಟ್')) {
-        sizes = ['Small (ಉದ್ದ/ಅಗಲ)', 'Medium', 'Large'];
-      } else if (catL.includes('ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್') || catL.includes('ಮೊಬೈಲ್')) {
+        sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+      } else if (nameL.includes('ಚಪ್ಪಲಿ') || nameL.includes('shoe') || nameL.includes('ಸ್ಯಾಂಡಲ್')) {
+        sizes = ['5', '6', '7', '8', '9', '10', '11', '12'];
+      } else if (catL.includes('ಸೀರೆ') || nameL.includes('ಸೀರೆ') || nameL.includes('saree')) {
+        sizes = ['Free Size (5.5m + Blouse)'];
+      } else if (catL.includes('ಮೊಬೈಲ್') || catL.includes('ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್')) {
         sizes = ['Standard'];
       }
 
@@ -1101,7 +1121,6 @@
       localStorage.setItem('customer_phone_key', phone);
       localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, district, taluk, pincode, landmark }));
 
-      // Delivery charge removed (set to 0), exact product total only
       let grandTotal = Number(selectedProduct.price) * productQty;
 
       if (paymentMode === 'UPI') {

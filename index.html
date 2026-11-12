@@ -319,7 +319,7 @@
       </div>
 
       <div class="delivery-badge" id="lblDeliveryBadge">
-        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ)</b>
+        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ) - 📱 UPI ಪಾವತಿಗೆ ಉಚಿತ ಡೆಲಿವರಿ!</b>
       </div>
 
       <div style="margin-top: 20px; border-top: 2px solid #ddd; padding-top: 12px;">
@@ -368,20 +368,38 @@
         <div id="availabilityMsg" style="display:none; font-size:0.8rem; font-weight:bold; margin:6px 0; padding:8px; border-radius:4px;"></div>
       </div>
 
+      <!-- PRICE SUMMARY BOX -->
+      <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
+        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;">💰 ಬೆಲೆ ವಿವರಗಳು (Price Breakdown):</h4>
+        <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:4px;">
+          <span>ವಸ್ತುವಿನ ಬೆಲೆ (+ ₹100 ಸೇರಿ):</span>
+          <span id="checkoutBasePriceText" style="font-weight:bold;">₹0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:4px;">
+          <span>ಡೆಲಿವರಿ ಚಾರ್ಜ್:</span>
+          <span id="checkoutDeliveryFeeText" style="font-weight:bold; color:var(--success);">ಉಚಿತ (Free)</span>
+        </div>
+        <hr style="border:0; border-top:1px solid #eee; margin:6px 0;">
+        <div style="display:flex; justify-content:space-between; font-size:0.95rem; font-weight:bold;">
+          <span>ಒಟ್ಟು ಪಾವತಿಸಬೇಕಾದ ಮೊತ್ತ:</span>
+          <span id="checkoutGrandTotalText" style="color:var(--success);">₹0</span>
+        </div>
+      </div>
+
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
         <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblPaymentMethodTitle">💳 ಪಾವತಿ ವಿಧಾನ:</h4>
         <input type="hidden" id="selectedPaymentMode" value="UPI">
         
         <!-- UPI Option -->
         <div class="pay-opt-btn selected" id="optUpi" onclick="selectPaymentMode('UPI')">
-          <span>📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (PhonePe / GPay)</span>
+          <span>📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (ಉಚಿತ ಡೆಲಿವರಿ)</span>
           <span>✔</span>
         </div>
 
-        <!-- COD Option (Smart Locked/Unlocked) -->
+        <!-- COD Option (+₹50 delivery charge) -->
         <div class="pay-opt-btn" id="optCod" style="margin-top:8px;" onclick="selectPaymentMode('COD')">
-          <span id="lblCodOptionText">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)</span>
-          <span id="codStatusIcon">🔒</span>
+          <span id="lblCodOptionText">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)</span>
+          <span id="codStatusIcon">🔓</span>
         </div>
         <div id="codLockedMessage" style="font-size:0.75rem; color:#d32f2f; margin-top:4px; font-weight:bold;"></div>
       </div>
@@ -422,8 +440,12 @@
   <!-- RETURN MODAL -->
   <div id="returnModal" class="custom-modal">
     <div class="custom-modal-content">
-      <h3 style="color:var(--danger); margin-bottom:10px; font-size:1.05rem;" id="lblReturnTitle">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಅರ್ಜಿ</h3>
+      <h3 style="color:var(--danger); margin-bottom:10px; font-size:1.05rem;" id="lblReturnTitle">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಅರ್ಜಿ (₹50 ರಿಟರ್ನ್ ಚಾರ್ಜ್ ಕಡಿತ)</h3>
       
+      <div style="background:#fff3e0; border:1px solid #ffe0b2; padding:8px; border-radius:6px; margin-bottom:10px; font-size:0.78rem; color:#e65100;">
+        ℹ️ ನಿಯಮದಂತೆ ರಿಟರ್ನ್ ಮಾಡುವಾಗ ರೂ. 50 ರಿಟರ್ನ್ ಚಾರ್ಜ್ ಕಡಿತಗೊಂಡು ಬಾಕಿ ಹಣ ನಿಮ್ಮ ಯುಪಿಐಗೆ ಜಮೆಯಾಗುತ್ತದೆ.
+      </div>
+
       <div style="margin-bottom:10px;">
         <label style="font-size:0.8rem; font-weight:bold;">1. ರಿಟರ್ನ್‌ ಮಾಡಲು ಪ್ರಮುಖ ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಬರೆಯಿರಿ:</label>
         <select id="returnReasonSelect" style="width:100%; padding:8px; margin-top:4px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;" onchange="checkCustomReturnReason(this)">
@@ -588,17 +610,11 @@
           const codMsg = document.getElementById('codLockedMessage');
           const codIcon = document.getElementById('codStatusIcon');
 
-          if (prepaidCount >= 10 && returnedCount < 2) {
-            codBtn.style.opacity = '1';
-            codBtn.style.pointerEvents = 'auto';
-            codIcon.innerText = '🔓';
-            codMsg.innerText = '';
-          } else {
-            codBtn.style.opacity = '0.6';
-            codBtn.style.pointerEvents = 'none';
-            codIcon.innerText = '🔒';
-            codMsg.innerText = `⚠️ 10 ಸಫಲ ಆನ್‌ಲೈನ್ UPI ಆರ್ಡರ್‌ಗಳ ನಂತರ COD ಅನ್‌ಲಾಕ್ ಆಗುತ್ತದೆ (ಪ್ರಸ್ತುತ: ${prepaidCount}/10).`;
-          }
+          // Always allow COD with +50 charge, but keep unlock rule if desired or keep it open
+          codBtn.style.opacity = '1';
+          codBtn.style.pointerEvents = 'auto';
+          codIcon.innerText = '🔓';
+          codMsg.innerText = '';
         });
       } catch(e) { console.log(e); }
     }
@@ -615,6 +631,19 @@
         codBtn.classList.add('selected');
         upiBtn.classList.remove('selected');
       }
+      updateCheckoutTotals();
+    }
+
+    function updateCheckoutTotals() {
+      if (!selectedProduct) return;
+      let basePriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
+      let paymentMode = document.getElementById('selectedPaymentMode').value;
+      let deliveryFee = paymentMode === 'COD' ? 50 : 0;
+      let grandTotal = basePriceWith100 + deliveryFee;
+
+      document.getElementById('checkoutBasePriceText').innerText = "₹" + basePriceWith100;
+      document.getElementById('checkoutDeliveryFeeText').innerText = deliveryFee === 0 ? "ಉಚಿತ (Free)" : "₹50";
+      document.getElementById('checkoutGrandTotalText').innerText = "₹" + grandTotal;
     }
 
     async function handleCustomerLogin() {
@@ -704,13 +733,13 @@
         prodDetailTitle: "ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ",
         variantTitle: "Select Size",
         qtyLabel: "ಸರಕು ಪ್ರಮಾಣ (Quantity):",
-        deliveryBadge: "🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ)</b>",
+        deliveryBadge: "🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ) - 📱 UPI ಪಾವತಿಗೆ ಉಚಿತ ಡೆಲಿವರಿ!</b>",
         addToCart: "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ",
         buyNow: "ಖರೀದಿಸಿ (Buy Now)",
         checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ",
         deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (ಕಡ್ಡಾಯವಾಗಿ ಭರ್ತಿ ಮಾಡಿ):",
         paymentMethodTitle: "💳 ಪಾವತಿ ವಿಧಾನ:",
-        codOptionText: "💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)",
+        codOptionText: "💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)",
         proceedPaymentBtn: "ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)",
         myOrdersHeader: "ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)",
         orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು & ಟ್ರ್ಯಾಕಿಂಗ್"
@@ -726,13 +755,13 @@
         prodDetailTitle: "Product Description",
         variantTitle: "Select Size",
         qtyLabel: "Quantity:",
-        deliveryBadge: "🚚 Delivery within 1-2 days! (Within 12 km only)",
+        deliveryBadge: "🚚 Delivery within 1-2 days! (Within 12 km only) - Free Delivery for UPI!",
         addToCart: "Add to Cart",
         buyNow: "Buy Now",
         checkoutHeader: "Confirm Details & Payment",
         deliveryAddrTitle: "📍 Delivery Address (Mandatory to fill):",
         paymentMethodTitle: "💳 Payment Method:",
-        codOptionText: "💵 Cash on Delivery",
+        codOptionText: "💵 Cash on Delivery (+₹50 Delivery Charge)",
         proceedPaymentBtn: "Confirm Order",
         myOrdersHeader: "My Orders",
         orderDetailsHeader: "Order Details & Tracking"
@@ -892,6 +921,9 @@
         let img = p.photo || 'https://via.placeholder.com/150';
         if (p.colors?.[0]?.photos?.[0]) img = p.colors[0].photos[0];
         let shop = allShopsMap[p.shopId];
+        // Automatic +100 added to merchant base price for customer view
+        let customerDisplayPrice = Number(p.price) + 100;
+        let customerOldPrice = p.oldPrice ? Number(p.oldPrice) + 100 : "";
         return `
           <div class="product-card" onclick="openProductDetail('${p.id}')">
             <div class="img-box"><img src="${img}"></div>
@@ -899,8 +931,8 @@
               <div class="prod-title">${p.name}</div>
               <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shop ? shop.shopName : 'Store'} (${shop ? shop.taluk : ''})</div>
               <div class="price-row" style="margin-top:4px;">
-                <span class="curr-price">₹${p.price}</span>
-                ${p.oldPrice ? `<span class="old-price">₹${p.oldPrice}</span>` : ''}
+                <span class="curr-price">₹${customerDisplayPrice}</span>
+                ${customerOldPrice ? `<span class="old-price">₹${customerOldPrice}</span>` : ''}
               </div>
             </div>
           </div>
@@ -921,7 +953,6 @@
       document.getElementById('detailShopName').innerText = "ಅಂಗಡಿ: " + (shop ? shop.shopName : "Store");
       document.getElementById('detailShopLocation').innerText = "📍 ತಾಲೂಕು/ಸ್ಥಳ: " + (shop ? shop.taluk : 'ಶಹಾಪುರ (Shahapur)');
 
-      // Display stock left if entered by merchant
       const stockBox = document.getElementById('detailStockLeftBox');
       if (selectedProduct.stockLeft || selectedProduct.qtyLeft || selectedProduct.stock) {
         stockBox.style.display = 'block';
@@ -947,7 +978,7 @@
       } else {
         returnContainer.innerHTML = `
           <div style="margin-top:4px;">
-            <span style="color:var(--success); font-weight:bold; font-size:0.78rem;">🔄 ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇದೆ (Return Available)</span>
+            <span style="color:var(--success); font-weight:bold; font-size:0.78rem;">🔄 ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ (₹50 ರಿಟರ್ನ್ ಚಾರ್ಜ್ ಅನ್ವಯ)</span>
           </div>
         `;
       }
@@ -978,7 +1009,6 @@
         selectedColorPhoto = selectedProduct.photo;
       }
 
-      // Exact Size / Variant Mapping as requested
       let sizes = ['Free Size'];
       let nameL = selectedProduct.name.toLowerCase();
       let catL = (selectedProduct.category || '').toLowerCase();
@@ -1008,8 +1038,11 @@
         <button class="size-btn ${idx === 0 ? 'selected' : ''}" onclick="selectSize(this, '${s}')">${s}</button>
       `).join('');
 
-      document.getElementById('detailPrice').innerText = "₹" + selectedProduct.price;
-      document.getElementById('detailOldPrice').innerText = selectedProduct.oldPrice ? "₹" + selectedProduct.oldPrice : "";
+      let displayPriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
+      let displayOldPriceWith100 = selectedProduct.oldPrice ? (Number(selectedProduct.oldPrice) + 100) * productQty : "";
+
+      document.getElementById('detailPrice').innerText = "₹" + displayPriceWith100;
+      document.getElementById('detailOldPrice').innerText = displayOldPriceWith100 ? "₹" + displayOldPriceWith100 : "";
 
       updateDetailSliderPhotos();
       renderRelatedProducts(selectedProduct);
@@ -1036,6 +1069,8 @@
         let img = p.photo || 'https://via.placeholder.com/150';
         if (p.colors?.[0]?.photos?.[0]) img = p.colors[0].photos[0];
         let shop = allShopsMap[p.shopId];
+        let customerDisplayPrice = Number(p.price) + 100;
+        let customerOldPrice = p.oldPrice ? Number(p.oldPrice) + 100 : "";
         return `
           <div class="product-card" onclick="openProductDetail('${p.id}')">
             <div class="img-box"><img src="${img}"></div>
@@ -1043,8 +1078,8 @@
               <div class="prod-title">${p.name}</div>
               <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shop ? shop.shopName : 'Store'}</div>
               <div class="price-row" style="margin-top:4px;">
-                <span class="curr-price">₹${p.price}</span>
-                ${p.oldPrice ? `<span class="old-price">₹${p.oldPrice}</span>` : ''}
+                <span class="curr-price">₹${customerDisplayPrice}</span>
+                ${customerOldPrice ? `<span class="old-price">₹${customerOldPrice}</span>` : ''}
               </div>
             </div>
           </div>
@@ -1079,28 +1114,15 @@
       productQty += val;
       if (productQty < 1) productQty = 1;
       document.getElementById('qtyDisplay').innerText = productQty;
-      let total = selectedProduct.price * productQty;
+      let total = (Number(selectedProduct.price) + 100) * productQty;
       document.getElementById('detailPrice').innerText = "₹" + total;
     }
 
     function openCheckoutScreen() {
       evaluateCustomerCodEligibility();
+      updateCheckoutTotals();
       showScreen('checkoutScreen');
       history.pushState({ page: 'checkout' }, '', '');
-    }
-
-    function selectPaymentMode(mode) {
-      document.getElementById('selectedPaymentMode').value = mode;
-      const upiBtn = document.getElementById('optUpi');
-      const codBtn = document.getElementById('optCod');
-
-      if (mode === 'UPI') {
-        upiBtn.classList.add('selected');
-        codBtn.classList.remove('selected');
-      } else {
-        codBtn.classList.add('selected');
-        upiBtn.classList.remove('selected');
-      }
     }
 
     function initiateOrderProcess() {
@@ -1121,7 +1143,10 @@
       localStorage.setItem('customer_phone_key', phone);
       localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, district, taluk, pincode, landmark }));
 
-      let grandTotal = Number(selectedProduct.price) * productQty;
+      // Grand total calculation: base price + 100 + 50 (if COD)
+      let basePriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
+      let deliveryFee = paymentMode === 'COD' ? 50 : 0;
+      let grandTotal = basePriceWith100 + deliveryFee;
 
       if (paymentMode === 'UPI') {
         let upiID = "8105010768-5@ybl";
@@ -1132,13 +1157,15 @@
         let orderPayload = {
           paymentStatusVal: 'SUCCESS',
           distanceVal: "ಲೋಕಲ್ ಡೆಲಿವರಿ",
-          paymentModeVal: paymentMode
+          paymentModeVal: paymentMode,
+          deliveryFee: 0,
+          grandTotal: grandTotal
         };
         sessionStorage.setItem('pending_upi_order', JSON.stringify(orderPayload));
 
         window.location.href = upiIntentUrl;
       } else {
-        saveOrderToDatabase('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, () => {
+        saveOrderToDatabase('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, 50, grandTotal, () => {
           alert("🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!");
           openMyOrdersScreen();
         });
@@ -1155,7 +1182,10 @@
       const landmark = document.getElementById('custLandmarkOption').value;
 
       playCoinSound();
-      let grandTotal = Number(selectedProduct.price) * productQty;
+      let basePriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
+      let deliveryFee = payload.paymentModeVal === 'COD' ? 50 : 0;
+      let grandTotal = basePriceWith100 + deliveryFee;
+
       let finalPhoto = selectedColorPhoto || selectedProduct.photo;
       let shop = allShopsMap[selectedProduct.shopId];
       let otp = Math.floor(1000 + Math.random() * 9000).toString();
@@ -1177,8 +1207,9 @@
         productName: productTitleStr,
         productPhoto: finalPhoto,
         selectedColor: selectedColorName || 'Standard',
+        basePrice: selectedProduct.price, // Merchant sees only original price
         totalPrice: grandTotal,
-        deliveryFee: 0,
+        deliveryFee: deliveryFee,
         distanceKm: payload.distanceVal,
         shopId: selectedProduct.shopId,
         shopName: shop ? shop.shopName : "Store",
@@ -1202,8 +1233,8 @@
       } catch(e) { alert("Error: " + e.message); }
     }
 
-    async function saveOrderToDatabase(paymentStatusVal, distanceVal, paymentModeVal, callback) {
-      await saveOrderToDatabaseDirect({ paymentStatusVal, distanceVal, paymentModeVal }, callback);
+    async function saveOrderToDatabase(paymentStatusVal, distanceVal, paymentModeVal, deliveryFeeVal, grandTotalVal, callback) {
+      await saveOrderToDatabaseDirect({ paymentStatusVal, distanceVal, paymentModeVal, deliveryFee: deliveryFeeVal, grandTotal: grandTotalVal }, callback);
     }
 
     async function cancelCustomerOrder(orderDocId) {
@@ -1236,10 +1267,10 @@
           container.innerHTML = `<p style="text-align:center; color:#777;">ಯಾವುದೇ ಸಕ್ರಿಯ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`;
         } else {
           container.innerHTML = validOrders.map(o => {
-            let payBadge = o.paymentMode === 'UPI' ? `(📱 UPI Paid)` : `(💵 COD)`;
+            let payBadge = o.paymentMode === 'UPI' ? `(📱 UPI - Free Delivery)` : `(💵 COD + ₹50)`;
             let dateStr = o.orderDate ? `📅 ಆರ್ಡರ್ ದಿನಾಂಕ: ${o.orderDate}` : '';
             let expDelivery = o.expectedDeliveryDate ? `<br>🚚 ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ ದಿನಾಂಕ: ${o.expectedDeliveryDate}` : '';
-            let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ)` : (o.status === 'DELIVERED' || o.status === 'STEP_4' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
+            let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ [-₹50 ಚಾರ್ಜ್])` : (o.status === 'DELIVERED' || o.status === 'STEP_4' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
             return `
               <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
                 <div style="display:flex; gap:10px; align-items:center;">
@@ -1288,12 +1319,12 @@
       let returnStatusHtml = '';
       if (o.isReturned) {
         if (o.returnPaymentStatus === 'SUCCESS') {
-          returnStatusHtml = `<div style="color:green; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#e8f5e9; padding:8px; border-radius:6px;">✔ ಪೇಮೆಂಟ್ ಸಕ್ಸಸ್ ಆಗಿದೆ: ನಿಮ್ಮ ಯುಪಿಐ ಅಕೌಂಟಿಗೆ ಹಣ ಕಳುಹಿಸಲಾಗಿದೆ!</div>`;
+          returnStatusHtml = `<div style="color:green; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#e8f5e9; padding:8px; border-radius:6px;">✔ ರಿಟರ್ನ್ ಯಶಸ್ವಿಯಾಗಿದೆ: ರೂ. 50 ರಿಟರ್ನ್ ಚಾರ್ಜ್ ಕಡಿತಗೊಳಿಸಿ ಬಾಕಿ ಹಣ ನಿಮ್ಮ ಯುಪಿಐಗೆ ಕಳುಹಿಸಲಾಗಿದೆ!</div>`;
         } else {
           returnStatusHtml = `
             <div style="background:#fff3e0; border:2px solid #ffb74d; border-radius:8px; padding:12px; margin-bottom:12px; font-size:0.82rem; color:#d84315; line-height:1.5;">
               🔑 <b>ರಿಟರ್ನ್ / ಪಿಕಪ್ ಒಟಿಪಿ:</b> <span style="font-size:1.2rem; font-weight:bold; color:#d32f2f;">${o.returnOtp || '9234'}</span><br>
-              • ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕಪ್ ಮಾಡುವಾಗ ಈ ಒಟಿಪಿ ನೀಡಿ.
+              • ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕಪ್ ಮಾಡುವಾಗ ಈ ಒಟಿಪಿ ನೀಡಿ (ರೂ. 50 ರಿಟರ್ನ್ ಚಾರ್ಜ್ ಕಡಿತಗೊಳ್ಳುತ್ತದೆ).
             </div>
           `;
         }
@@ -1310,7 +1341,7 @@
         if (orderReturnPolicy === 'EXCHANGE_ONLY') {
           returnButtonHtml = `<button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:#ff9800; color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">🩱 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)</button>`;
         } else {
-          returnButtonHtml = `<button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಿ (Return Order)</button>`;
+          returnButtonHtml = `<button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಿ [-₹50 ಚಾರ್ಜ್]</button>`;
         }
       } else if (isDelivered && orderReturnPolicy === 'NO') {
         returnButtonHtml = `<div style="color:#d32f2f; font-weight:bold; font-size:0.85rem; text-align:center; padding:10px; background:#ffebee; border-radius:6px; border:1px solid #ffcdd2;">❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return Policy)</div>`;
@@ -1322,8 +1353,8 @@
         <div style="background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:12px; font-size:0.82rem; color:#444;">
           📅 <b>ಆರ್ಡರ್ ಮಾಡಿದ ದಿನಾಂಕ:</b> ${o.orderDate || 'N/A'}<br>
           🚚 <b>ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ:</b> ${o.expectedDeliveryDate || 'N/A'}<br>
-          💳 <b>ಪಾವತಿ ವಿಧಾನ:</b> ${o.paymentMode === 'UPI' ? '📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (UPI Paid)' : '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD)'}<br>
-          📋 <b>ರಿಟರ್ನ್ ಪಾಲಿಸಿ:</b> <span style="font-weight:bold; color:${orderReturnPolicy === 'NO' ? 'red' : 'green'};">${orderReturnPolicy === 'NO' ? 'ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? 'ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)' : 'ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ')}</span>
+          💳 <b>ಪಾವತಿ ವಿಧಾನ:</b> ${o.paymentMode === 'UPI' ? '📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (ಉಚಿತ ಡೆಲಿವರಿ)' : '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)'}<br>
+          📋 <b>ರಿಟರ್ನ್ ಪಾಲಿಸಿ:</b> <span style="font-weight:bold; color:${orderReturnPolicy === 'NO' ? 'red' : 'green'};">${orderReturnPolicy === 'NO' ? 'ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? 'ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)' : 'ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ [₹50 ಕಡಿತ]')}</span>
         </div>
       `;
 
@@ -1469,11 +1500,12 @@
           customerQrPhoto: returnBase64Qr,
           returnPhotos: [returnBase64Photo1, returnBase64Photo2].filter(Boolean),
           returnOtp: returnOtp,
+          returnCharge: 50, // Rs 50 return charge deduction
           returnPaymentStatus: 'PENDING',
           returnTimestamp: Date.now()
         });
 
-        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ.");
+        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ (ರೂ. 50 ರಿಟರ್ನ್ ಚಾರ್ಜ್ ಕಡಿತಗೊಳ್ಳುತ್ತದೆ).");
         closeReturnModal();
         openMyOrdersScreen();
       } catch(e) { alert("Error: " + e.message); }

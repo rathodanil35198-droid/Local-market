@@ -142,6 +142,7 @@
 
     .pay-opt-btn { width: 100%; padding: 12px 14px; margin: 6px 0; border: 2px solid #ccc; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #fff; color: #333; }
     .pay-opt-btn.selected { border-color: #2874f0; background: #e8f0fe; color: #1a73e8; }
+    .pay-opt-btn.locked { background: #f5f5f5; color: #999; border-color: #ddd; cursor: not-allowed; opacity: 0.7; }
 
     .custom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 15px; }
     .custom-modal-content { background: #fff; border-radius: 12px; max-width: 420px; width: 100%; padding: 18px; max-height: 90vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
@@ -161,7 +162,7 @@
 </head>
 <body>
 
-  <!-- Server Down Overlay controlled by Master Panel -->
+  <!-- Server Down Overlay -->
   <div id="serverDownOverlay">
     <div style="background:#fff; color:#333; padding:25px; border-radius:12px; max-width:350px; width:100%;">
       <div style="font-size:3rem; margin-bottom:10px;">⚠️</div>
@@ -332,103 +333,81 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN -->
+  <!-- CHECKOUT SCREEN (Clean Compact Address Layout) -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
       <span id="lblCheckoutHeader">ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ</span>
     </div>
 
-    <div style="padding: 15px 15px 160px 15px;">
-      <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (ಕಡ್ಡಾಯವಾಗಿ ಭರ್ತಿ ಮಾಡಿ):</h4>
+    <div style="padding: 12px 12px 160px 12px;">
+      <!-- Compact Address Box -->
+      <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 12px;">
+        <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom:6px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:</h4>
         
-        <input type="text" id="custName" placeholder="ಗ್ರಾಹಕರ ಹೆಸರು / Customer Name" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ / Mobile Number" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        
-        <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್ / Pincode (ಉದಾ: 585287)" maxlength="6" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        
-        <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ ಹೆಸರು / District (ಕೈಯಿಂದ ಬರೆಯಿರಿ)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು ಹೆಸರು / Taluk (ಕೈಯಿಂದ ಬರೆಯಿರಿ)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        <input type="text" id="custVillage" placeholder="ಊರು / Village (ಕೈಯಿಂದ ಬರೆಯಿರಿ)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-        
-        <div style="margin-bottom:8px;">
-          <label style="font-size:0.78rem; font-weight:bold; color:#444;">ಮನೆಯ ಹತ್ತಿರ ಏನಿದೆ? (ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್ ಆಯ್ಕೆಮಾಡಿ):</label>
-          <select id="custLandmarkOption" style="width:100%; padding:8px; margin-top:3px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem;">
-            <option value="">-- ಆಪ್ಷನ್ ಆಯ್ಕೆಮಾಡಿ --</option>
-            <option value="ಸರ್ಕಾರಿ ಶಾಲೆ ಹತ್ತಿರ">🏫 ಸರ್ಕಾರಿ ಶಾಲೆ ಹತ್ತಿರ</option>
-            <option value="ಟೆಂಪಲ್ ಹತ್ತಿರ">🛕 ಟೆಂಪಲ್ ಹತ್ತಿರ</option>
-            <option value="ಕಾಲೇಜ್ ಹತ್ತಿರ">🏛️ ಕಾಲೇಜ್ ಹತ್ತಿರ</option>
-            <option value="ಇತರ ಪ್ರಮುಖ ಸ್ಥಳ">📍 ಇತರ ಪ್ರಮುಖ ಸ್ಥಳ</option>
-          </select>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:6px;">
+          <input type="text" id="custName" placeholder="ಗ್ರಾಹಕರ ಹೆಸರು" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
+          <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್" maxlength="10" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
         </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:6px;">
+          <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್" maxlength="6" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
+          <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ ಹೆಸರು" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:6px;">
+          <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು ಹೆಸರು" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
+          <input type="text" id="custVillage" placeholder="ಊರು / ಗ್ರಾಮ" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
+        </div>
+
+        <select id="custLandmarkOption" style="width:100%; padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
+          <option value="">-- ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್ ಆಯ್ಕೆಮಾಡಿ --</option>
+          <option value="ಸರ್ಕಾರಿ ಶಾಲೆ ಹತ್ತಿರ">🏫 ಸರ್ಕಾರಿ ಶಾಲೆ ಹತ್ತಿರ</option>
+          <option value="ಟೆಂಪಲ್ ಹತ್ತಿರ">🛕 ಟೆಂಪಲ್ ಹತ್ತಿರ</option>
+          <option value="ಕಾಲೇಜ್ ಹತ್ತಿರ">🏛️ ಕಾಲೇಜ್ ಹತ್ತಿರ</option>
+          <option value="ಇತರ ಪ್ರಮುಖ ಸ್ಥಳ">📍 ಇತರ ಪ್ರಮುಖ ಸ್ಥಳ</option>
+        </select>
       </div>
 
       <!-- PRICE SUMMARY BOX -->
-      <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;">💰 ಬೆಲೆ ವಿವರಗಳು (Price Breakdown):</h4>
-        <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:4px;">
+      <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 12px;">
+        <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom:6px;">💰 ಬೆಲೆ ವಿವರಗಳು:</h4>
+        <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:3px;">
           <span>ವಸ್ತುವಿನ ಬೆಲೆ (+ ₹100 ಸೇರಿ):</span>
           <span id="checkoutBasePriceText" style="font-weight:bold;">₹0</span>
         </div>
-        <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:4px;">
+        <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:3px;">
           <span>ಡೆಲಿವರಿ ಚಾರ್ಜ್:</span>
           <span id="checkoutDeliveryFeeText" style="font-weight:bold; color:var(--success);">ಉಚಿತ (Free)</span>
         </div>
-        <hr style="border:0; border-top:1px solid #eee; margin:6px 0;">
-        <div style="display:flex; justify-content:space-between; font-size:0.95rem; font-weight:bold;">
+        <hr style="border:0; border-top:1px solid #eee; margin:4px 0;">
+        <div style="display:flex; justify-content:space-between; font-size:0.9rem; font-weight:bold;">
           <span>ಒಟ್ಟು ಪಾವತಿಸಬೇಕಾದ ಮೊತ್ತ:</span>
           <span id="checkoutGrandTotalText" style="color:var(--success);">₹0</span>
         </div>
       </div>
 
-      <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-        <h4 style="font-size: 0.9rem; color: var(--primary); margin-bottom:8px;" id="lblPaymentMethodTitle">💳 ಪಾವತಿ ವಿಧಾನ:</h4>
+      <!-- PAYMENT OPTIONS (Smart COD Lock/Unlock & Automatic UPI Intent) -->
+      <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 12px;">
+        <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom:6px;" id="lblPaymentMethodTitle">💳 ಪಾವತಿ ವಿಧಾನ:</h4>
         <input type="hidden" id="selectedPaymentMode" value="UPI">
         
         <!-- UPI Option -->
         <div class="pay-opt-btn selected" id="optUpi" onclick="selectPaymentMode('UPI')">
-          <span>📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (ಉಚಿತ ಡೆಲಿವರಿ)</span>
+          <span style="font-size:0.85rem;">📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (GPay/PhonePe - ಉಚಿತ ಡೆಲಿವರಿ)</span>
           <span>✔</span>
         </div>
 
-        <!-- COD Option (+₹50 delivery charge) -->
-        <div class="pay-opt-btn" id="optCod" style="margin-top:8px;" onclick="selectPaymentMode('COD')">
-          <span id="lblCodOptionText">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)</span>
+        <!-- COD Option (Auto Locked if previous order returned) -->
+        <div class="pay-opt-btn" id="optCod" style="margin-top:6px;" onclick="selectPaymentMode('COD')">
+          <span id="lblCodOptionText" style="font-size:0.85rem;">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)</span>
           <span id="codStatusIcon">🔓</span>
         </div>
         <div id="codLockedMessage" style="font-size:0.75rem; color:#d32f2f; margin-top:4px; font-weight:bold;"></div>
       </div>
 
       <div style="margin-bottom: 15px;">
-        <button class="btn-action btn-buy-now" id="confirmOrderBtn" onclick="initiateOrderProcess()" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff;">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- UPI DIRECT PAYMENT MODAL (Fixes Security/Declined Issues) -->
-  <div id="upiPaymentModal" class="custom-modal">
-    <div class="custom-modal-content" style="text-align:center;">
-      <h3 style="color:var(--primary); margin-bottom:8px;">📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ</h3>
-      <p style="font-size:0.8rem; color:#555; margin-bottom:10px;">ಫೋನ್‌ಪೇ, ಗೂಗಲ್ ಪೇ ಅಥವಾ ಸ್ಲೈಸ್ ಆಪ್ ಬಳಸಿ ಕೆಳಗಿನ ಯುಪಿಐ ಐಡಿಗೆ ಹಣ ಪಾವತಿಸಿ:</p>
-      
-      <div style="background:#f0f4ff; padding:12px; border-radius:8px; border:1px solid #2874f0; margin-bottom:12px;">
-        <p style="font-size:0.75rem; font-weight:bold; color:#555;">ನಿಮ್ಮ ಯುಪಿಐ ಐಡಿ (UPI ID):</p>
-        <p style="font-size:1.15rem; font-weight:bold; color:var(--primary); user-select:all; margin-top:2px;">8105010768anil@slc</p>
-        <p style="font-size:0.75rem; color:#666; margin-top:4px;">Account holder: Anil Kumar</p>
-      </div>
-
-      <div style="font-size:1rem; font-weight:bold; margin-bottom:15px; color:var(--success); background:#e8f5e9; padding:8px; border-radius:6px;">
-        ಪಾವತಿಸಬೇಕಾದ ಮೊತ್ತ: <span id="modalUpiAmount">₹0</span> (ಉಚಿತ ಡೆಲಿವರಿ)
-      </div>
-
-      <p style="font-size:0.75rem; color:#d32f2f; margin-bottom:12px; font-weight:bold;">
-        ⚠️ ಹಣ ಪಾವತಿಸಿದ ನಂತರ ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ.
-      </p>
-
-      <div style="display:flex; gap:8px;">
-        <button onclick="closeUpiModal()" style="flex:1; padding:10px; background:#666; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕ್ಯಾನ್ಸಲ್</button>
-        <button onclick="confirmUpiPaymentDone()" style="flex:1; padding:10px; background:var(--success); color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">✅ ಪಾವತಿಸಲಾಗಿದೆ (Confirm)</button>
+        <button class="btn-action btn-buy-now" id="confirmOrderBtn" onclick="initiateOrderProcess()" style="width:100%; padding: 12px; font-size: 1rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff;">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)</button>
       </div>
     </div>
   </div>
@@ -537,6 +516,8 @@
     let bannerSlideIndex = 0;
     let bannerIntervalId = null;
 
+    const STORE_UPI_ID = "8105010768anil@slc"; // ನಿಮ್ಮ ಯುಪಿಐ ಐಡಿ
+
     window.addEventListener('DOMContentLoaded', () => {
       checkCustomerLoginStatus();
       applyLanguage();
@@ -593,28 +574,55 @@
       checkInstallStatusAndButton();
     }
 
+    // ⭐ Smart COD Lock/Unlock Logic based on Return History
     async function evaluateCustomerCodEligibility() {
       const phone = localStorage.getItem('customer_phone_key');
       if (!phone) return;
       try {
         const q = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
         window.onSnapshot(q, (snapshot) => {
+          let hasReturnedOrder = false;
+
+          snapshot.forEach(docSnap => {
+            let order = docSnap.data();
+            if (order.isReturned === true) {
+              hasReturnedOrder = true;
+            }
+          });
+
           const codBtn = document.getElementById('optCod');
           const codMsg = document.getElementById('codLockedMessage');
           const codIcon = document.getElementById('codStatusIcon');
 
-          codBtn.style.opacity = '1';
-          codBtn.style.pointerEvents = 'auto';
-          codIcon.innerText = '🔓';
-          codMsg.innerText = '';
+          if (hasReturnedOrder) {
+            // COD ಲಾಕ್ ಮಾಡಲಾಗಿದೆ (ಕಡ್ಡಾಯವಾಗಿ ಆನ್‌ಲೈನ್ ಪಾವತಿ ಮಾಡಬೇಕು)
+            codBtn.classList.add('locked');
+            codBtn.onclick = function() {
+              alert("⚠️ ನಿಮ್ಮ ಹಿಂದಿನ ಆರ್ಡರ್ ರಿಟರ್ನ್ ಆಗಿರುವುದರಿಂದ ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD) ಲಾಕ್ ಮಾಡಲಾಗಿದೆ. ದಯವಿಟ್ಟು ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ ಬಳಸಿ.");
+            };
+            codIcon.innerText = '🔒';
+            codMsg.innerText = "❌ ಹಿಂದಿನ ರಿಟರ್ನ್ ಕಾರಣದಿಂದ COD ಲಾಕ್ ಆಗಿದೆ. ಆನ್‌ಲೈನ್ ಪಾವತಿ ಮಾತ್ರ ಲಭ್ಯ.";
+            selectPaymentMode('UPI');
+          } else {
+            // COD ಓಪನ್ ಇದೆ
+            codBtn.classList.remove('locked');
+            codBtn.onclick = function() { selectPaymentMode('COD'); };
+            codIcon.innerText = '🔓';
+            codMsg.innerText = "";
+          }
         });
       } catch(e) { console.log(e); }
     }
 
     function selectPaymentMode(mode) {
+      const codBtn = document.getElementById('optCod');
+      if (mode === 'COD' && codBtn.classList.contains('locked')) {
+        alert("⚠️ ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ ಲಾಕ್ ಆಗಿದೆ. ದಯವಿಟ್ಟು UPI ಪಾವತಿ ಬಳಸಿ.");
+        return;
+      }
+
       document.getElementById('selectedPaymentMode').value = mode;
       const upiBtn = document.getElementById('optUpi');
-      const codBtn = document.getElementById('optCod');
 
       if (mode === 'UPI') {
         upiBtn.classList.add('selected');
@@ -701,7 +709,7 @@
 
     function shareAppOnWhatsApp() {
       const appUrl = window.location.href;
-      let shareText = `🛍️ ಬನ್ನಿ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ / ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್‌ ಮೂಲಕ ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ! 1-2 ದಿನಗಳಲ್ಲಿ ಮನೆಗೆ ಡೆಲಿವರಿ ಪಡೆಯಿರಿ.\n\nಲಿಂಕ್ ಇಲ್ಲಿದೆ ನೋಡಿ:\n${appUrl}`;
+      let shareText = `🛍️ ಬನ್ನಿ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ ಮೂಲಕ ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ! 1-2 ದಿನಗಳಲ್ಲಿ ಮನೆಗೆ ಡೆಲಿವರಿ ಪಡೆಯಿರಿ.\n\nಲಿಂಕ್ ಇಲ್ಲಿದೆ ನೋಡಿ:\n${appUrl}`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
     }
 
@@ -717,11 +725,11 @@
         prodDetailTitle: "ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ",
         variantTitle: "Select Size",
         qtyLabel: "ಸರಕು ಪ್ರಮಾಣ (Quantity):",
-        deliveryBadge: "🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! (12 ಕಿ.ಮೀ ಒಳಗೆ ಮಾತ್ರ) - 📱 UPI ಪಾವತಿಗೆ ಉಚಿತ ಡೆಲಿವರಿ!</b>",
+        deliveryBadge: "🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! - 📱 UPI ಪಾವತಿಗೆ ಉಚಿತ ಡೆಲಿವರಿ!</b>",
         addToCart: "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ",
         buyNow: "ಖರೀದಿಸಿ (Buy Now)",
         checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ",
-        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ (ಕಡ್ಡಾಯವಾಗಿ ಭರ್ತಿ ಮಾಡಿ):",
+        deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:",
         paymentMethodTitle: "💳 ಪಾವತಿ ವಿಧಾನ:",
         codOptionText: "💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)",
         proceedPaymentBtn: "ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)",
@@ -729,7 +737,7 @@
         orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು & ಟ್ರ್ಯಾಕಿಂಗ್"
       },
       en: {
-        appTitle: "Namma Ooru Shopping App | Fast Shopping App | Ooru Shopping",
+        appTitle: "Namma Ooru Shopping App",
         brandTitle: "🛍️ Namma Ooru Shopping App",
         pocketMoney: "💰 Pocket",
         searchPlaceholder: "Search village, taluk, product or shop...",
@@ -739,11 +747,11 @@
         prodDetailTitle: "Product Description",
         variantTitle: "Select Size",
         qtyLabel: "Quantity:",
-        deliveryBadge: "🚚 Delivery within 1-2 days! (Within 12 km only) - Free Delivery for UPI!",
+        deliveryBadge: "🚚 Delivery within 1-2 days! - Free Delivery for UPI!",
         addToCart: "Add to Cart",
         buyNow: "Buy Now",
         checkoutHeader: "Confirm Details & Payment",
-        deliveryAddrTitle: "📍 Delivery Address (Mandatory to fill):",
+        deliveryAddrTitle: "📍 Delivery Address:",
         paymentMethodTitle: "💳 Payment Method:",
         codOptionText: "💵 Cash on Delivery (+₹50 Delivery Charge)",
         proceedPaymentBtn: "Confirm Order",
@@ -1108,6 +1116,7 @@
       history.pushState({ page: 'checkout' }, '', '');
     }
 
+    // ⭐ AUTOMATIC UPI INTENT PAYMENT WITH REDIRECT LOGIC
     function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
@@ -1131,86 +1140,70 @@
       let grandTotal = basePriceWith100 + deliveryFee;
 
       if (paymentMode === 'UPI') {
-        // Show Secure UPI Payment Modal directly without intent errors
-        document.getElementById('modalUpiAmount').innerText = "₹" + grandTotal;
-        document.getElementById('upiPaymentModal').style.display = 'flex';
+        // Direct UPI Intent URL to open PhonePe / GPay automatically
+        let upiUrl = `upi://pay?pa=${STORE_UPI_ID}&pn=NammaOoruShopping&am=${grandTotal}&cu=INR&tn=OrderPayment`;
+        
+        let pendingOrderData = {
+          name, phone, pincode, district, taluk, village, landmark,
+          grandTotal, basePriceWith100, productQty, selectedSize,
+          productId: selectedProduct.id
+        };
+        sessionStorage.setItem('pending_upi_order', JSON.stringify(pendingOrderData));
+
+        window.location.href = upiUrl;
+
+        setTimeout(() => {
+          let confirmPaid = confirm("ನೀವು PhonePe / GPay ನಲ್ಲಿ ಪಾವತಿ ಮಾಡಿದ್ದೀರಾ?\n\n'OK' ಒತ್ತಿದರೆ ಪಾವತಿ ಪರಿಶೀಲಿಸಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗುತ್ತದೆ. 'Cancel' ಒತ್ತಿದರೆ ವಾಪಸ್ ಪೇಮೆಂಟ್ ಪುಟಕ್ಕೆ ಬರುತ್ತೀರಿ.");
+          if (confirmPaid) {
+            finalizeSuccessfulUpiOrder();
+          } else {
+            alert("ಪಾವತಿ ಅಪೂರ್ಣಗೊಂಡಿದೆ. ದಯವಿಟ್ಟು ಮರುಪ್ರಯತ್ನಿಸಿ.");
+          }
+        }, 3000);
+
       } else {
         saveOrderToDatabase('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, 50, grandTotal, () => {
-          alert("🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!");
+          alert("🎉 ನಿಮ್ಮ COD ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
           openMyOrdersScreen();
         });
       }
     }
 
-    function closeUpiModal() {
-      document.getElementById('upiPaymentModal').style.display = 'none';
-    }
-
-    function confirmUpiPaymentDone() {
-      closeUpiModal();
-      let basePriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
-      let grandTotal = basePriceWith100; // Free delivery for UPI
-      
-      let orderPayload = {
-        paymentStatusVal: 'SUCCESS',
-        distanceVal: "ಲೋಕಲ್ ಡೆಲಿವರಿ",
-        paymentModeVal: 'UPI',
-        deliveryFee: 0,
-        grandTotal: grandTotal
-      };
-      
-      saveOrderToDatabaseDirect(orderPayload, () => {
-        alert("🎉 ನಿಮ್ಮ ಯುಪಿಐ ಪಾವತಿ ಮತ್ತು ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
-        openMyOrdersScreen();
-      });
-    }
-
-    async function saveOrderToDatabaseDirect(payload, callback) {
-      const name = document.getElementById('custName').value.trim();
-      const phone = document.getElementById('custPhone').value.trim();
-      const village = document.getElementById('custVillage').value.trim();
-      const pincode = document.getElementById('custPincode').value.trim();
-      const taluk = document.getElementById('custTaluk').value.trim();
-      const district = document.getElementById('custDistrict').value.trim();
-      const landmark = document.getElementById('custLandmarkOption').value;
+    async function finalizeSuccessfulUpiOrder() {
+      let pendingStr = sessionStorage.getItem('pending_upi_order');
+      if (!pendingStr) return;
+      let p = JSON.parse(pendingStr);
 
       playCoinSound();
-      let basePriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
-      let deliveryFee = payload.paymentModeVal === 'COD' ? 50 : 0;
-      let grandTotal = basePriceWith100 + deliveryFee;
-
       let finalPhoto = selectedColorPhoto || selectedProduct.photo;
       let shop = allShopsMap[selectedProduct.shopId];
       let otp = Math.floor(1000 + Math.random() * 9000).toString();
+      let orderId = 'OD' + Math.floor(100000000000 + Math.random() * 900000000000);
 
       let now = new Date();
       let orderDateStr = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      let deliveryDateObj = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000);
-      let deliveryDateStr = deliveryDateObj.toLocaleDateString('en-GB');
+      let deliveryDateStr = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB');
 
       let productTitleStr = `${selectedProduct.name} [Size: ${selectedSize}, Qty: ${productQty}]`;
       if (selectedColorName) {
         productTitleStr = `${selectedProduct.name} [Color: ${selectedColorName}, Size: ${selectedSize}, Qty: ${productQty}]`;
       }
 
-      let productReturnPolicy = selectedProduct.returnPolicy || (shop ? shop.returnPolicy : 'RETURN_AVAILABLE');
-
       const orderData = {
-        orderId: 'OD' + Math.floor(100000000000 + Math.random() * 900000000000),
+        orderId: orderId,
         productName: productTitleStr,
         productPhoto: finalPhoto,
         selectedColor: selectedColorName || 'Standard',
         basePrice: selectedProduct.price,
-        totalPrice: grandTotal,
-        deliveryFee: deliveryFee,
-        distanceKm: payload.distanceVal,
+        totalPrice: p.grandTotal,
+        deliveryFee: 0,
+        distanceKm: "ಲೋಕಲ್ ಡೆಲಿವರಿ",
         shopId: selectedProduct.shopId,
         shopName: shop ? shop.shopName : "Store",
-        shopPhone: shop ? (shop.phone || '8105010768') : '8105010768',
-        customer: { name, phone, village, pincode, taluk, district, landmark },
-        returnPolicy: productReturnPolicy,
-        paymentMode: payload.paymentModeVal,
-        paymentStatus: payload.paymentStatusVal,
+        customer: { name: p.name, phone: p.phone, village: p.village, pincode: p.pincode, taluk: p.taluk, district: p.district, landmark: p.landmark },
+        returnPolicy: selectedProduct.returnPolicy || 'RETURN_AVAILABLE',
+        paymentMode: 'UPI',
+        paymentStatus: 'SUCCESS',
         deliveryOtp: otp,
         status: 'STEP_1',
         orderDate: orderDateStr,
@@ -1221,13 +1214,65 @@
       };
 
       try {
-        await window.setDoc(window.doc(window.db, "orders", orderData.orderId), orderData);
-        if (callback) callback();
+        await window.setDoc(window.doc(window.db, "orders", orderId), orderData);
+        sessionStorage.removeItem('pending_upi_order');
+        alert("🎉 ನಿಮ್ಮ ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
+        openMyOrdersScreen();
       } catch(e) { alert("Error: " + e.message); }
     }
 
     async function saveOrderToDatabase(paymentStatusVal, distanceVal, paymentModeVal, deliveryFeeVal, grandTotalVal, callback) {
-      await saveOrderToDatabaseDirect({ paymentStatusVal, distanceVal, paymentModeVal, deliveryFee: deliveryFeeVal, grandTotal: grandTotalVal }, callback);
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const village = document.getElementById('custVillage').value.trim();
+      const pincode = document.getElementById('custPincode').value.trim();
+      const taluk = document.getElementById('custTaluk').value.trim();
+      const district = document.getElementById('custDistrict').value.trim();
+      const landmark = document.getElementById('custLandmarkOption').value;
+
+      playCoinSound();
+      let finalPhoto = selectedColorPhoto || selectedProduct.photo;
+      let shop = allShopsMap[selectedProduct.shopId];
+      let otp = Math.floor(1000 + Math.random() * 9000).toString();
+      let orderId = 'OD' + Math.floor(100000000000 + Math.random() * 900000000000);
+
+      let now = new Date();
+      let orderDateStr = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      let deliveryDateStr = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB');
+
+      let productTitleStr = `${selectedProduct.name} [Size: ${selectedSize}, Qty: ${productQty}]`;
+      if (selectedColorName) {
+        productTitleStr = `${selectedProduct.name} [Color: ${selectedColorName}, Size: ${selectedSize}, Qty: ${productQty}]`;
+      }
+
+      const orderData = {
+        orderId: orderId,
+        productName: productTitleStr,
+        productPhoto: finalPhoto,
+        selectedColor: selectedColorName || 'Standard',
+        basePrice: selectedProduct.price,
+        totalPrice: grandTotalVal,
+        deliveryFee: deliveryFeeVal,
+        distanceKm: distanceVal,
+        shopId: selectedProduct.shopId,
+        shopName: shop ? shop.shopName : "Store",
+        customer: { name, phone, village, pincode, taluk, district, landmark },
+        returnPolicy: selectedProduct.returnPolicy || 'RETURN_AVAILABLE',
+        paymentMode: paymentModeVal,
+        paymentStatus: paymentStatusVal,
+        deliveryOtp: otp,
+        status: 'STEP_1',
+        orderDate: orderDateStr,
+        expectedDeliveryDate: deliveryDateStr,
+        isCancelled: false,
+        isReturned: false,
+        timestamp: Date.now()
+      };
+
+      try {
+        await window.setDoc(window.doc(window.db, "orders", orderId), orderData);
+        if (callback) callback();
+      } catch(e) { alert("Error: " + e.message); }
     }
 
     async function cancelCustomerOrder(orderDocId) {

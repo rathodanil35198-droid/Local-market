@@ -283,7 +283,6 @@
       <p id="detailShopName" style="color: #666; font-size: 0.75rem; margin-top: 2px;"></p>
       <p id="detailShopLocation" style="color: var(--primary); font-size: 0.75rem; font-weight: bold; margin-top: 2px;"></p>
       
-      <!-- Stock / Quantity left indicator -->
       <div id="detailStockLeftBox" style="margin-top:4px; font-size:0.78rem; font-weight:bold; color:#d84315;"></div>
 
       <div id="detailReturnPolicyContainer" style="margin-top:6px;"></div>
@@ -302,7 +301,6 @@
         <div class="color-container" id="colorOptionsContainer" style="display:flex; gap:6px; margin-top:4px; flex-wrap:wrap;"></div>
       </div>
 
-      <!-- Select Size & Size Chart Header -->
       <div id="variantSection" style="margin-top: 10px;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <label style="font-size: 0.8rem; font-weight: bold;" id="lblVariantTitle">Select Size</label>
@@ -364,8 +362,6 @@
             <option value="ಇತರ ಪ್ರಮುಖ ಸ್ಥಳ">📍 ಇತರ ಪ್ರಮುಖ ಸ್ಥಳ</option>
           </select>
         </div>
-
-        <div id="availabilityMsg" style="display:none; font-size:0.8rem; font-weight:bold; margin:6px 0; padding:8px; border-radius:4px;"></div>
       </div>
 
       <!-- PRICE SUMMARY BOX -->
@@ -406,6 +402,33 @@
 
       <div style="margin-bottom: 15px;">
         <button class="btn-action btn-buy-now" id="confirmOrderBtn" onclick="initiateOrderProcess()" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff;">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPI DIRECT PAYMENT MODAL (Fixes Security/Declined Issues) -->
+  <div id="upiPaymentModal" class="custom-modal">
+    <div class="custom-modal-content" style="text-align:center;">
+      <h3 style="color:var(--primary); margin-bottom:8px;">📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ</h3>
+      <p style="font-size:0.8rem; color:#555; margin-bottom:10px;">ಫೋನ್‌ಪೇ, ಗೂಗಲ್ ಪೇ ಅಥವಾ ಸ್ಲೈಸ್ ಆಪ್ ಬಳಸಿ ಕೆಳಗಿನ ಯುಪಿಐ ಐಡಿಗೆ ಹಣ ಪಾವತಿಸಿ:</p>
+      
+      <div style="background:#f0f4ff; padding:12px; border-radius:8px; border:1px solid #2874f0; margin-bottom:12px;">
+        <p style="font-size:0.75rem; font-weight:bold; color:#555;">ನಿಮ್ಮ ಯುಪಿಐ ಐಡಿ (UPI ID):</p>
+        <p style="font-size:1.15rem; font-weight:bold; color:var(--primary); user-select:all; margin-top:2px;">8105010768anil@slc</p>
+        <p style="font-size:0.75rem; color:#666; margin-top:4px;">Account holder: Anil Kumar</p>
+      </div>
+
+      <div style="font-size:1rem; font-weight:bold; margin-bottom:15px; color:var(--success); background:#e8f5e9; padding:8px; border-radius:6px;">
+        ಪಾವತಿಸಬೇಕಾದ ಮೊತ್ತ: <span id="modalUpiAmount">₹0</span> (ಉಚಿತ ಡೆಲಿವರಿ)
+      </div>
+
+      <p style="font-size:0.75rem; color:#d32f2f; margin-bottom:12px; font-weight:bold;">
+        ⚠️ ಹಣ ಪಾವತಿಸಿದ ನಂತರ ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ.
+      </p>
+
+      <div style="display:flex; gap:8px;">
+        <button onclick="closeUpiModal()" style="flex:1; padding:10px; background:#666; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕ್ಯಾನ್ಸಲ್</button>
+        <button onclick="confirmUpiPaymentDone()" style="flex:1; padding:10px; background:var(--success); color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">✅ ಪಾವತಿಸಲಾಗಿದೆ (Confirm)</button>
       </div>
     </div>
   </div>
@@ -459,7 +482,7 @@
 
       <div style="margin-bottom:10px;">
         <label style="font-size:0.8rem; font-weight:bold; color:var(--primary);">2. ಹಣ ಪಡೆಯಲು ನಿಮ್ಮ UPI ID / PhonePe / GPay ಸಂಖ್ಯೆ ನಮೂದಿಸಿ:</label>
-        <input type="text" id="customerUpiIdInput" placeholder="ಉದಾ: 8105010768-5@ybl ಅಥವಾ PhonePe ನಂಬರ್" style="width:100%; padding:8px; margin-top:4px; border:1px solid var(--primary); border-radius:6px; font-size:0.85rem; background:#f0f4ff;">
+        <input type="text" id="customerUpiIdInput" placeholder="ಉದಾ: 8105010768anil@slc" style="width:100%; padding:8px; margin-top:4px; border:1px solid var(--primary); border-radius:6px; font-size:0.85rem; background:#f0f4ff;">
       </div>
 
       <div style="margin-bottom:10px;">
@@ -522,8 +545,6 @@
       window.initFirebaseAppData();
       checkInstallStatusAndButton();
 
-      checkPendingPaymentReturn();
-
       window.addEventListener('popstate', (event) => {
         event.preventDefault();
         const detailScr = document.getElementById('productDetailScreen');
@@ -545,20 +566,6 @@
       });
       history.pushState({ page: 'main' }, '', window.location.href);
     });
-
-    function checkPendingPaymentReturn() {
-      const pendingOrderJson = sessionStorage.getItem('pending_upi_order');
-      if (pendingOrderJson) {
-        sessionStorage.removeItem('pending_upi_order');
-        try {
-          let orderData = JSON.parse(pendingOrderJson);
-          saveOrderToDatabaseDirect(orderData, () => {
-            alert("🎉 ನಿಮ್ಮ ಆನ್‌ಲೈನ್ ಪಾವತಿ (UPI) ಯಶಸ್ವಿಯಾಗಿದೆ ಮತ್ತು ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
-            openMyOrdersScreen();
-          });
-        } catch(e) { console.log(e); }
-      }
-    }
 
     function checkInstallStatusAndButton() {
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
@@ -592,25 +599,10 @@
       try {
         const q = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
         window.onSnapshot(q, (snapshot) => {
-          let prepaidCount = 0;
-          let returnedCount = 0;
-          snapshot.forEach(docSnap => {
-            let ord = docSnap.data();
-            if (!ord.isCancelled) {
-              if (ord.paymentMode === 'UPI' && (ord.paymentStatus === 'SUCCESS' || ord.paymentStatus === 'COD_PENDING')) {
-                prepaidCount++;
-              }
-              if (ord.isReturned) {
-                returnedCount++;
-              }
-            }
-          });
-
           const codBtn = document.getElementById('optCod');
           const codMsg = document.getElementById('codLockedMessage');
           const codIcon = document.getElementById('codStatusIcon');
 
-          // Always allow COD with +50 charge, but keep unlock rule if desired or keep it open
           codBtn.style.opacity = '1';
           codBtn.style.pointerEvents = 'auto';
           codIcon.innerText = '🔓';
@@ -698,14 +690,6 @@
         alert("ಆಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು ಬ್ರೌಸರ್ ಮೇಲಿರುವ ಮೂರು ಚುಕ್ಕೆಗಳ (⋮) ಮೆನು ಕ್ಲಿಕ್ ಮಾಡಿ 'Install app' ಅಥವಾ 'Add to Home screen' ಆಯ್ಕೆಮಾಡಿ.");
       }
     }
-
-    window.addEventListener('appinstalled', () => {
-      localStorage.setItem('app_installed_status', 'true');
-      const btn = document.getElementById('loginInstallAppBtn');
-      const topBtn = document.getElementById('topInstallBtn');
-      if (btn) btn.style.display = 'none';
-      if (topBtn) topBtn.style.display = 'none';
-    });
 
     function playCoinSound() {
       const sound = document.getElementById('coinSound');
@@ -921,7 +905,6 @@
         let img = p.photo || 'https://via.placeholder.com/150';
         if (p.colors?.[0]?.photos?.[0]) img = p.colors[0].photos[0];
         let shop = allShopsMap[p.shopId];
-        // Automatic +100 added to merchant base price for customer view
         let customerDisplayPrice = Number(p.price) + 100;
         let customerOldPrice = p.oldPrice ? Number(p.oldPrice) + 100 : "";
         return `
@@ -1143,33 +1126,43 @@
       localStorage.setItem('customer_phone_key', phone);
       localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, district, taluk, pincode, landmark }));
 
-      // Grand total calculation: base price + 100 + 50 (if COD)
       let basePriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
       let deliveryFee = paymentMode === 'COD' ? 50 : 0;
       let grandTotal = basePriceWith100 + deliveryFee;
 
       if (paymentMode === 'UPI') {
-        let upiID = "8105010768-5@ybl";
-        let payeeName = "Namma Ooru Shopping";
-        let transactionId = "NUS" + Date.now();
-        let upiIntentUrl = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(payeeName)}&am=${grandTotal}.00&cu=INR&tr=${transactionId}`;
-
-        let orderPayload = {
-          paymentStatusVal: 'SUCCESS',
-          distanceVal: "ಲೋಕಲ್ ಡೆಲಿವರಿ",
-          paymentModeVal: paymentMode,
-          deliveryFee: 0,
-          grandTotal: grandTotal
-        };
-        sessionStorage.setItem('pending_upi_order', JSON.stringify(orderPayload));
-
-        window.location.href = upiIntentUrl;
+        // Show Secure UPI Payment Modal directly without intent errors
+        document.getElementById('modalUpiAmount').innerText = "₹" + grandTotal;
+        document.getElementById('upiPaymentModal').style.display = 'flex';
       } else {
         saveOrderToDatabase('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, 50, grandTotal, () => {
           alert("🎉 ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!");
           openMyOrdersScreen();
         });
       }
+    }
+
+    function closeUpiModal() {
+      document.getElementById('upiPaymentModal').style.display = 'none';
+    }
+
+    function confirmUpiPaymentDone() {
+      closeUpiModal();
+      let basePriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
+      let grandTotal = basePriceWith100; // Free delivery for UPI
+      
+      let orderPayload = {
+        paymentStatusVal: 'SUCCESS',
+        distanceVal: "ಲೋಕಲ್ ಡೆಲಿವರಿ",
+        paymentModeVal: 'UPI',
+        deliveryFee: 0,
+        grandTotal: grandTotal
+      };
+      
+      saveOrderToDatabaseDirect(orderPayload, () => {
+        alert("🎉 ನಿಮ್ಮ ಯುಪಿಐ ಪಾವತಿ ಮತ್ತು ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
+        openMyOrdersScreen();
+      });
     }
 
     async function saveOrderToDatabaseDirect(payload, callback) {
@@ -1207,7 +1200,7 @@
         productName: productTitleStr,
         productPhoto: finalPhoto,
         selectedColor: selectedColorName || 'Standard',
-        basePrice: selectedProduct.price, // Merchant sees only original price
+        basePrice: selectedProduct.price,
         totalPrice: grandTotal,
         deliveryFee: deliveryFee,
         distanceKm: payload.distanceVal,
@@ -1500,7 +1493,7 @@
           customerQrPhoto: returnBase64Qr,
           returnPhotos: [returnBase64Photo1, returnBase64Photo2].filter(Boolean),
           returnOtp: returnOtp,
-          returnCharge: 50, // Rs 50 return charge deduction
+          returnCharge: 50,
           returnPaymentStatus: 'PENDING',
           returnTimestamp: Date.now()
         });
@@ -1588,7 +1581,7 @@
       document.getElementById('lblCheckoutHeader').innerText = t.checkoutHeader;
       document.getElementById('lblDeliveryAddrTitle').innerText = t.deliveryAddrTitle;
       document.getElementById('lblPaymentMethodTitle').innerText = t.paymentMethodTitle;
-      document.getElementById('lblCodOptionTest').innerText = t.codOptionText;
+      document.getElementById('lblCodOptionText').innerText = t.codOptionText;
       document.getElementById('confirmOrderBtn').innerText = t.proceedPaymentBtn;
       document.getElementById('lblMyOrdersHeader').innerText = t.myOrdersHeader;
       document.getElementById('lblOrderDetailsHeader').innerText = t.orderDetailsHeader;

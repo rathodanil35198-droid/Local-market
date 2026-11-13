@@ -333,7 +333,7 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN -->
+  <!-- CHECKOUT SCREEN (Clean Compact Address Layout) -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
@@ -387,7 +387,7 @@
         </div>
       </div>
 
-      <!-- PAYMENT OPTIONS -->
+      <!-- PAYMENT OPTIONS (Smart COD Lock/Unlock & Automatic UPI Intent) -->
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 12px;">
         <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom:6px;" id="lblPaymentMethodTitle">💳 ಪಾವತಿ ವಿಧಾನ:</h4>
         <input type="hidden" id="selectedPaymentMode" value="UPI">
@@ -398,7 +398,7 @@
           <span>✔</span>
         </div>
 
-        <!-- COD Option -->
+        <!-- COD Option (Auto Locked if previous order returned) -->
         <div class="pay-opt-btn" id="optCod" style="margin-top:6px;" onclick="selectPaymentMode('COD')">
           <span id="lblCodOptionText" style="font-size:0.85rem;">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)</span>
           <span id="codStatusIcon">🔓</span>
@@ -408,23 +408,6 @@
 
       <div style="margin-bottom: 15px;">
         <button class="btn-action btn-buy-now" id="confirmOrderBtn" onclick="initiateOrderProcess()" style="width:100%; padding: 12px; font-size: 1rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff;">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- UPI PAYMENT CONFIRMATION MODAL (Fixed & Smooth) -->
-  <div id="upiConfirmationModal" class="custom-modal">
-    <div class="custom-modal-content" style="text-align:center;">
-      <h3 style="color:var(--primary); margin-bottom:8px;">📱 UPI ಪಾವತಿ ಪರಿಶೀಲನೆ</h3>
-      <p style="font-size:0.85rem; color:#555; margin-bottom:12px;">ನೀವು ಫೋನ್‌ಪೇ ಅಥವಾ ಗೂಗಲ್ ಪೇ ಮೂಲಕ ಹಣ ಪಾವತಿಸಿದ ಬಳಿಕ ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ:</p>
-      
-      <div style="background:#e8f5e9; padding:12px; border-radius:8px; border:1px solid var(--success); margin-bottom:15px;">
-        <span style="font-size:0.9rem; font-weight:bold; color:var(--success);">ಪಾವತಿಸಬೇಕಾದ ಮೊತ್ತ: <span id="modalUpiAmount">₹0</span></span>
-      </div>
-
-      <div style="display:flex; flex-direction:column; gap:8px;">
-        <button onclick="confirmSuccessfulUpiPayment()" style="width:100%; padding:12px; background:var(--success); color:#fff; border:none; border-radius:6px; font-weight:bold; font-size:0.95rem; cursor:pointer;">✅ ಹೌದು, ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Confirm Order)</button>
-        <button onclick="closeUpiConfirmationModal()" style="width:100%; padding:10px; background:#666; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕ್ಯಾನ್ಸಲ್</button>
       </div>
     </div>
   </div>
@@ -591,6 +574,7 @@
       checkInstallStatusAndButton();
     }
 
+    // ⭐ Smart COD Lock/Unlock Logic based on Return History
     async function evaluateCustomerCodEligibility() {
       const phone = localStorage.getItem('customer_phone_key');
       if (!phone) return;
@@ -611,6 +595,7 @@
           const codIcon = document.getElementById('codStatusIcon');
 
           if (hasReturnedOrder) {
+            // COD ಲಾಕ್ ಮಾಡಲಾಗಿದೆ (ಕಡ್ಡಾಯವಾಗಿ ಆನ್‌ಲೈನ್ ಪಾವತಿ ಮಾಡಬೇಕು)
             codBtn.classList.add('locked');
             codBtn.onclick = function() {
               alert("⚠️ ನಿಮ್ಮ ಹಿಂದಿನ ಆರ್ಡರ್ ರಿಟರ್ನ್ ಆಗಿರುವುದರಿಂದ ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD) ಲಾಕ್ ಮಾಡಲಾಗಿದೆ. ದಯವಿಟ್ಟು ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ ಬಳಸಿ.");
@@ -619,6 +604,7 @@
             codMsg.innerText = "❌ ಹಿಂದಿನ ರಿಟರ್ನ್ ಕಾರಣದಿಂದ COD ಲಾಕ್ ಆಗಿದೆ. ಆನ್‌ಲೈನ್ ಪಾವತಿ ಮಾತ್ರ ಲಭ್ಯ.";
             selectPaymentMode('UPI');
           } else {
+            // COD ಓಪನ್ ಇದೆ
             codBtn.classList.remove('locked');
             codBtn.onclick = function() { selectPaymentMode('COD'); };
             codIcon.innerText = '🔓';
@@ -1130,7 +1116,7 @@
       history.pushState({ page: 'checkout' }, '', '');
     }
 
-    // ⭐ FIXED UPI INTENT FLOW (No More Automatic Premature Failure Popups)
+    // ⭐ AUTOMATIC UPI INTENT PAYMENT WITH REDIRECT LOGIC
     function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
@@ -1154,6 +1140,7 @@
       let grandTotal = basePriceWith100 + deliveryFee;
 
       if (paymentMode === 'UPI') {
+        // Direct UPI Intent URL to open PhonePe / GPay automatically
         let upiUrl = `upi://pay?pa=${STORE_UPI_ID}&pn=NammaOoruShopping&am=${grandTotal}&cu=INR&tn=OrderPayment`;
         
         let pendingOrderData = {
@@ -1163,12 +1150,16 @@
         };
         sessionStorage.setItem('pending_upi_order', JSON.stringify(pendingOrderData));
 
-        // Open UPI App (PhonePe/GPay)
         window.location.href = upiUrl;
 
-        // Show confirmation modal cleanly so user can confirm after payment
-        document.getElementById('modalUpiAmount').innerText = "₹" + grandTotal;
-        document.getElementById('upiConfirmationModal').style.display = 'flex';
+        setTimeout(() => {
+          let confirmPaid = confirm("ನೀವು PhonePe / GPay ನಲ್ಲಿ ಪಾವತಿ ಮಾಡಿದ್ದೀರಾ?\n\n'OK' ಒತ್ತಿದರೆ ಪಾವತಿ ಪರಿಶೀಲಿಸಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗುತ್ತದೆ. 'Cancel' ಒತ್ತಿದರೆ ವಾಪಸ್ ಪೇಮೆಂಟ್ ಪುಟಕ್ಕೆ ಬರುತ್ತೀರಿ.");
+          if (confirmPaid) {
+            finalizeSuccessfulUpiOrder();
+          } else {
+            alert("ಪಾವತಿ ಅಪೂರ್ಣಗೊಂಡಿದೆ. ದಯವಿಟ್ಟು ಮರುಪ್ರಯತ್ನಿಸಿ.");
+          }
+        }, 3000);
 
       } else {
         saveOrderToDatabase('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, 50, grandTotal, () => {
@@ -1178,17 +1169,9 @@
       }
     }
 
-    function closeUpiConfirmationModal() {
-      document.getElementById('upiConfirmationModal').style.display = 'none';
-    }
-
-    async function confirmSuccessfulUpiPayment() {
-      closeUpiConfirmationModal();
+    async function finalizeSuccessfulUpiOrder() {
       let pendingStr = sessionStorage.getItem('pending_upi_order');
-      if (!pendingStr) {
-        alert("ಯಾವುದೇ ಆರ್ಡರ್ ಮಾಹಿತಿ ಸಿಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮರುಪ್ರಯತ್ನಿಸಿ.");
-        return;
-      }
+      if (!pendingStr) return;
       let p = JSON.parse(pendingStr);
 
       playCoinSound();

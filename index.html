@@ -333,34 +333,34 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN (Clean Compact Address Layout) -->
+  <!-- CHECKOUT SCREEN (Super Compact Address Layout) -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
       <span id="lblCheckoutHeader">ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ</span>
     </div>
 
-    <div style="padding: 12px 12px 160px 12px;">
-      <!-- Compact Address Box -->
-      <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 12px;">
-        <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom:6px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:</h4>
+    <div style="padding: 10px 10px 150px 10px;">
+      <!-- Ultra-Compact Address Box -->
+      <div style="background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 8px; margin-bottom: 10px;">
+        <h4 style="font-size: 0.8rem; color: var(--primary); margin-bottom:4px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:</h4>
         
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:6px;">
-          <input type="text" id="custName" placeholder="ಗ್ರಾಹಕರ ಹೆಸರು" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
-          <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್" maxlength="10" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:4px; margin-bottom:4px;">
+          <input type="text" id="custName" placeholder="ಹೆಸರು" style="padding:5px 6px; border:1px solid #ccc; border-radius:4px; font-size:0.78rem;">
+          <input type="tel" id="custPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್" maxlength="10" style="padding:5px 6px; border:1px solid #ccc; border-radius:4px; font-size:0.78rem;">
         </div>
 
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:6px;">
-          <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್" maxlength="6" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
-          <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ ಹೆಸರು" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:4px; margin-bottom:4px;">
+          <input type="text" id="custPincode" placeholder="ಪಿನ್ ಕೋಡ್" maxlength="6" style="padding:5px 6px; border:1px solid #ccc; border-radius:4px; font-size:0.78rem;">
+          <input type="text" id="custDistrict" placeholder="ಜಿಲ್ಲೆ" style="padding:5px 6px; border:1px solid #ccc; border-radius:4px; font-size:0.78rem;">
         </div>
 
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:6px;">
-          <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು ಹೆಸರು" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
-          <input type="text" id="custVillage" placeholder="ಊರು / ಗ್ರಾಮ" style="padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:4px; margin-bottom:4px;">
+          <input type="text" id="custTaluk" placeholder="ತಾಲೂಕು" style="padding:5px 6px; border:1px solid #ccc; border-radius:4px; font-size:0.78rem;">
+          <input type="text" id="custVillage" placeholder="ಊರು/ಗ್ರಾಮ" style="padding:5px 6px; border:1px solid #ccc; border-radius:4px; font-size:0.78rem;">
         </div>
 
-        <select id="custLandmarkOption" style="width:100%; padding:7px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
+        <select id="custLandmarkOption" style="width:100%; padding:5px 6px; border:1px solid #ccc; border-radius:4px; font-size:0.78rem;">
           <option value="">-- ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್ ಆಯ್ಕೆಮಾಡಿ --</option>
           <option value="ಸರ್ಕಾರಿ ಶಾಲೆ ಹತ್ತಿರ">🏫 ಸರ್ಕಾರಿ ಶಾಲೆ ಹತ್ತಿರ</option>
           <option value="ಟೆಂಪಲ್ ಹತ್ತಿರ">🛕 ಟೆಂಪಲ್ ಹತ್ತಿರ</option>
@@ -370,44 +370,44 @@
       </div>
 
       <!-- PRICE SUMMARY BOX -->
-      <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 12px;">
-        <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom:6px;">💰 ಬೆಲೆ ವಿವರಗಳು:</h4>
-        <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:3px;">
+      <div style="background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 8px; margin-bottom: 10px;">
+        <h4 style="font-size: 0.8rem; color: var(--primary); margin-bottom:4px;">💰 ಬೆಲೆ ವಿವರಗಳು:</h4>
+        <div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:2px;">
           <span>ವಸ್ತುವಿನ ಬೆಲೆ (+ ₹100 ಸೇರಿ):</span>
           <span id="checkoutBasePriceText" style="font-weight:bold;">₹0</span>
         </div>
-        <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:3px;">
+        <div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:2px;">
           <span>ಡೆಲಿವರಿ ಚಾರ್ಜ್:</span>
           <span id="checkoutDeliveryFeeText" style="font-weight:bold; color:var(--success);">ಉಚಿತ (Free)</span>
         </div>
-        <hr style="border:0; border-top:1px solid #eee; margin:4px 0;">
-        <div style="display:flex; justify-content:space-between; font-size:0.9rem; font-weight:bold;">
+        <hr style="border:0; border-top:1px solid #eee; margin:3px 0;">
+        <div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:bold;">
           <span>ಒಟ್ಟು ಪಾವತಿಸಬೇಕಾದ ಮೊತ್ತ:</span>
           <span id="checkoutGrandTotalText" style="color:var(--success);">₹0</span>
         </div>
       </div>
 
-      <!-- PAYMENT OPTIONS (Smart COD Lock/Unlock & Automatic UPI Intent) -->
-      <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 12px;">
-        <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom:6px;" id="lblPaymentMethodTitle">💳 ಪಾವತಿ ವಿಧಾನ:</h4>
+      <!-- PAYMENT OPTIONS -->
+      <div style="background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 8px; margin-bottom: 10px;">
+        <h4 style="font-size: 0.8rem; color: var(--primary); margin-bottom:4px;" id="lblPaymentMethodTitle">💳 ಪಾವತಿ ವಿಧಾನ:</h4>
         <input type="hidden" id="selectedPaymentMode" value="UPI">
         
         <!-- UPI Option -->
-        <div class="pay-opt-btn selected" id="optUpi" onclick="selectPaymentMode('UPI')">
-          <span style="font-size:0.85rem;">📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (GPay/PhonePe - ಉಚಿತ ಡೆಲಿವರಿ)</span>
+        <div class="pay-opt-btn selected" id="optUpi" onclick="selectPaymentMode('UPI')" style="padding:10px;">
+          <span style="font-size:0.82rem;">📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (GPay/PhonePe - ಉಚಿತ ಡೆಲಿವರಿ)</span>
           <span>✔</span>
         </div>
 
-        <!-- COD Option (Auto Locked if previous order returned) -->
-        <div class="pay-opt-btn" id="optCod" style="margin-top:6px;" onclick="selectPaymentMode('COD')">
-          <span id="lblCodOptionText" style="font-size:0.85rem;">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)</span>
+        <!-- COD Option -->
+        <div class="pay-opt-btn" id="optCod" style="margin-top:4px; padding:10px;" onclick="selectPaymentMode('COD')">
+          <span id="lblCodOptionText" style="font-size:0.82rem;">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)</span>
           <span id="codStatusIcon">🔓</span>
         </div>
-        <div id="codLockedMessage" style="font-size:0.75rem; color:#d32f2f; margin-top:4px; font-weight:bold;"></div>
+        <div id="codLockedMessage" style="font-size:0.72rem; color:#d32f2f; margin-top:2px; font-weight:bold;"></div>
       </div>
 
-      <div style="margin-bottom: 15px;">
-        <button class="btn-action btn-buy-now" id="confirmOrderBtn" onclick="initiateOrderProcess()" style="width:100%; padding: 12px; font-size: 1rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff;">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)</button>
+      <div style="margin-bottom: 10px;">
+        <button class="btn-action btn-buy-now" id="confirmOrderBtn" onclick="initiateOrderProcess()" style="width:100%; padding: 11px; font-size: 0.95rem; font-weight: bold; background: var(--success); border-radius: 6px; color: #fff;">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)</button>
       </div>
     </div>
   </div>
@@ -516,7 +516,7 @@
     let bannerSlideIndex = 0;
     let bannerIntervalId = null;
 
-    const STORE_UPI_ID = "8105010768anil@slc"; // ನಿಮ್ಮ ಯುಪಿಐ ಐಡಿ
+    const STORE_UPI_ID = "8105010768anil@slc";
 
     window.addEventListener('DOMContentLoaded', () => {
       checkCustomerLoginStatus();
@@ -574,7 +574,6 @@
       checkInstallStatusAndButton();
     }
 
-    // ⭐ Smart COD Lock/Unlock Logic based on Return History
     async function evaluateCustomerCodEligibility() {
       const phone = localStorage.getItem('customer_phone_key');
       if (!phone) return;
@@ -582,12 +581,9 @@
         const q = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
         window.onSnapshot(q, (snapshot) => {
           let hasReturnedOrder = false;
-
           snapshot.forEach(docSnap => {
             let order = docSnap.data();
-            if (order.isReturned === true) {
-              hasReturnedOrder = true;
-            }
+            if (order.isReturned === true) hasReturnedOrder = true;
           });
 
           const codBtn = document.getElementById('optCod');
@@ -595,7 +591,6 @@
           const codIcon = document.getElementById('codStatusIcon');
 
           if (hasReturnedOrder) {
-            // COD ಲಾಕ್ ಮಾಡಲಾಗಿದೆ (ಕಡ್ಡಾಯವಾಗಿ ಆನ್‌ಲೈನ್ ಪಾವತಿ ಮಾಡಬೇಕು)
             codBtn.classList.add('locked');
             codBtn.onclick = function() {
               alert("⚠️ ನಿಮ್ಮ ಹಿಂದಿನ ಆರ್ಡರ್ ರಿಟರ್ನ್ ಆಗಿರುವುದರಿಂದ ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD) ಲಾಕ್ ಮಾಡಲಾಗಿದೆ. ದಯವಿಟ್ಟು ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ ಬಳಸಿ.");
@@ -604,7 +599,6 @@
             codMsg.innerText = "❌ ಹಿಂದಿನ ರಿಟರ್ನ್ ಕಾರಣದಿಂದ COD ಲಾಕ್ ಆಗಿದೆ. ಆನ್‌ಲೈನ್ ಪಾವತಿ ಮಾತ್ರ ಲಭ್ಯ.";
             selectPaymentMode('UPI');
           } else {
-            // COD ಓಪನ್ ಇದೆ
             codBtn.classList.remove('locked');
             codBtn.onclick = function() { selectPaymentMode('COD'); };
             codIcon.innerText = '🔓';
@@ -831,13 +825,9 @@
     function handleBannerClick(index) {
       let b = bannerList[index];
       if (!b) return;
-      if (b.targetCategory) {
-        filterByCategory(b.targetCategory);
-      } else if (b.targetProductId) {
-        openProductDetail(b.targetProductId);
-      } else {
-        alert("ಈ ಜಾಹೀರಾತಿನಲ್ಲಿ ಯಾವುದೇ ನಿರ್ದಿಷ್ಟ ಲಿಂಕ್ ಇಲ್ಲ.");
-      }
+      if (b.targetCategory) filterByCategory(b.targetCategory);
+      else if (b.targetProductId) openProductDetail(b.targetProductId);
+      else alert("ಈ ಜಾಹೀರಾತಿನಲ್ಲಿ ಯಾವುದೇ ನಿರ್ದಿಷ್ಟ ಲಿಂಕ್ ಇಲ್ಲ.");
     }
 
     function startRealtimeShopOwners() {
@@ -1116,7 +1106,7 @@
       history.pushState({ page: 'checkout' }, '', '');
     }
 
-    // ⭐ AUTOMATIC UPI INTENT PAYMENT WITH REDIRECT LOGIC
+    // AUTOMATIC UPI INTENT PAYMENT WITH REDIRECT LOGIC
     function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
@@ -1140,7 +1130,6 @@
       let grandTotal = basePriceWith100 + deliveryFee;
 
       if (paymentMode === 'UPI') {
-        // Direct UPI Intent URL to open PhonePe / GPay automatically
         let upiUrl = `upi://pay?pa=${STORE_UPI_ID}&pn=NammaOoruShopping&am=${grandTotal}&cu=INR&tn=OrderPayment`;
         
         let pendingOrderData = {

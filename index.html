@@ -15,6 +15,9 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2874f0">
 
+  <!-- Razorpay Checkout Script -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
   <!-- Firebase SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -515,8 +518,6 @@
     let deferredPrompt = null;
     let bannerSlideIndex = 0;
     let bannerIntervalId = null;
-
-    const STORE_UPI_ID = "8105010768anil@slc";
 
     window.addEventListener('DOMContentLoaded', () => {
       checkCustomerLoginStatus();
@@ -1106,7 +1107,7 @@
       history.pushState({ page: 'checkout' }, '', '');
     }
 
-    // AUTOMATIC UPI INTENT PAYMENT WITH REDIRECT LOGIC
+    // RAZORPAY INTEGRATED ORDER PROCESS
     function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
@@ -1130,87 +1131,50 @@
       let grandTotal = basePriceWith100 + deliveryFee;
 
       if (paymentMode === 'UPI') {
-        let upiUrl = `upi://pay?pa=${STORE_UPI_ID}&pn=NammaOoruShopping&am=${grandTotal}&cu=INR&tn=OrderPayment`;
-        
-        let pendingOrderData = {
-          name, phone, pincode, district, taluk, village, landmark,
-          grandTotal, basePriceWith100, productQty, selectedSize,
-          productId: selectedProduct.id
-        };
-        sessionStorage.setItem('pending_upi_order', JSON.stringify(pendingOrderData));
-
-        window.location.href = upiUrl;
-
-        setTimeout(() => {
-          let confirmPaid = confirm("ನೀವು PhonePe / GPay ನಲ್ಲಿ ಪಾವತಿ ಮಾಡಿದ್ದೀರಾ?\n\n'OK' ಒತ್ತಿದರೆ ಪಾವತಿ ಪರಿಶೀಲಿಸಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗುತ್ತದೆ. 'Cancel' ಒತ್ತಿದರೆ ವಾಪಸ್ ಪೇಮೆಂಟ್ ಪುಟಕ್ಕೆ ಬರುತ್ತೀರಿ.");
-          if (confirmPaid) {
-            finalizeSuccessfulUpiOrder();
-          } else {
-            alert("ಪಾವತಿ ಅಪೂರ್ಣಗೊಂಡಿದೆ. ದಯವಿಟ್ಟು ಮರುಪ್ರಯತ್ನಿಸಿ.");
+        // Razorpay Checkout Configuration
+        var options = {
+          "key": "rzp_test_YOUR_KEY_ID", // TODO: ನಿಮ್ಮ Razorpay Key ID ಅನ್ನು ಇಲ್ಲಿ ಬದಲಾಯಿಸಿ
+          "amount": grandTotal * 100, // Amount in paise (e.g., ₹101 = 10100 paise)
+          "currency": "INR",
+          "name": "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್",
+          "description": "Order Payment for " + selectedProduct.name,
+          "image": "logo.png",
+          "handler": function (response){
+            // ಪಾವತಿ ಯಶಸ್ವಿಯಾದರೆ ಮಾತ್ರ ಆರ್ಡರ್ ಡೇಟಾಬೇಸ್‌ಗೆ ಸೇವ್ ಆಗುತ್ತದೆ
+            saveOrderToDatabaseWithPayment('SUCCESS', "ಲೋಕಲ್ ಡೆಲಿವರಿ", 'UPI', 0, grandTotal, response.razorpay_payment_id, () => {
+              alert("🎉 ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿದೆ! ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ. Payment ID: " + response.razorpay_payment_id);
+              openMyOrdersScreen();
+            });
+          },
+          "prefill": {
+            "name": name,
+            "email": phone + "@nammaooru.com",
+            "contact": phone
+          },
+          "notes": {
+            "address": village + ", " + taluk
+          },
+          "theme": {
+            "color": "#2874f0"
+          },
+          "modal": {
+            "ondismiss": function(){
+              alert("⚠️ ಪಾವತಿ ಅಪೂರ್ಣಗೊಂಡಿದೆ / ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ.");
+            }
           }
-        }, 3000);
+        };
+        var rzp = new Razorpay(options);
+        rzp.open();
 
       } else {
-        saveOrderToDatabase('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, 50, grandTotal, () => {
+        saveOrderToDatabaseWithPayment('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, 50, grandTotal, "", () => {
           alert("🎉 ನಿಮ್ಮ COD ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
           openMyOrdersScreen();
         });
       }
     }
 
-    async function finalizeSuccessfulUpiOrder() {
-      let pendingStr = sessionStorage.getItem('pending_upi_order');
-      if (!pendingStr) return;
-      let p = JSON.parse(pendingStr);
-
-      playCoinSound();
-      let finalPhoto = selectedColorPhoto || selectedProduct.photo;
-      let shop = allShopsMap[selectedProduct.shopId];
-      let otp = Math.floor(1000 + Math.random() * 9000).toString();
-      let orderId = 'OD' + Math.floor(100000000000 + Math.random() * 900000000000);
-
-      let now = new Date();
-      let orderDateStr = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      let deliveryDateStr = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB');
-
-      let productTitleStr = `${selectedProduct.name} [Size: ${selectedSize}, Qty: ${productQty}]`;
-      if (selectedColorName) {
-        productTitleStr = `${selectedProduct.name} [Color: ${selectedColorName}, Size: ${selectedSize}, Qty: ${productQty}]`;
-      }
-
-      const orderData = {
-        orderId: orderId,
-        productName: productTitleStr,
-        productPhoto: finalPhoto,
-        selectedColor: selectedColorName || 'Standard',
-        basePrice: selectedProduct.price,
-        totalPrice: p.grandTotal,
-        deliveryFee: 0,
-        distanceKm: "ಲೋಕಲ್ ಡೆಲಿವರಿ",
-        shopId: selectedProduct.shopId,
-        shopName: shop ? shop.shopName : "Store",
-        customer: { name: p.name, phone: p.phone, village: p.village, pincode: p.pincode, taluk: p.taluk, district: p.district, landmark: p.landmark },
-        returnPolicy: selectedProduct.returnPolicy || 'RETURN_AVAILABLE',
-        paymentMode: 'UPI',
-        paymentStatus: 'SUCCESS',
-        deliveryOtp: otp,
-        status: 'STEP_1',
-        orderDate: orderDateStr,
-        expectedDeliveryDate: deliveryDateStr,
-        isCancelled: false,
-        isReturned: false,
-        timestamp: Date.now()
-      };
-
-      try {
-        await window.setDoc(window.doc(window.db, "orders", orderId), orderData);
-        sessionStorage.removeItem('pending_upi_order');
-        alert("🎉 ನಿಮ್ಮ ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
-        openMyOrdersScreen();
-      } catch(e) { alert("Error: " + e.message); }
-    }
-
-    async function saveOrderToDatabase(paymentStatusVal, distanceVal, paymentModeVal, deliveryFeeVal, grandTotalVal, callback) {
+    async function saveOrderToDatabaseWithPayment(paymentStatusVal, distanceVal, paymentModeVal, deliveryFeeVal, grandTotalVal, razorpayPaymentId, callback) {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
@@ -1249,6 +1213,7 @@
         returnPolicy: selectedProduct.returnPolicy || 'RETURN_AVAILABLE',
         paymentMode: paymentModeVal,
         paymentStatus: paymentStatusVal,
+        razorpayPaymentId: razorpayPaymentId || "",
         deliveryOtp: otp,
         status: 'STEP_1',
         orderDate: orderDateStr,
@@ -1294,7 +1259,7 @@
           container.innerHTML = `<p style="text-align:center; color:#777;">ಯಾವುದೇ ಸಕ್ರಿಯ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`;
         } else {
           container.innerHTML = validOrders.map(o => {
-            let payBadge = o.paymentMode === 'UPI' ? `(📱 UPI - Free Delivery)` : `(💵 COD + ₹50)`;
+            let payBadge = o.paymentMode === 'UPI' ? `(📱 UPI Paid - Free Delivery)` : `(💵 COD + ₹50)`;
             let dateStr = o.orderDate ? `📅 ಆರ್ಡರ್ ದಿನಾಂಕ: ${o.orderDate}` : '';
             let expDelivery = o.expectedDeliveryDate ? `<br>🚚 ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ ದಿನಾಂಕ: ${o.expectedDeliveryDate}` : '';
             let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ [-₹50 ಚಾರ್ಜ್])` : (o.status === 'DELIVERED' || o.status === 'STEP_4' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
@@ -1380,7 +1345,8 @@
         <div style="background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:12px; font-size:0.82rem; color:#444;">
           📅 <b>ಆರ್ಡರ್ ಮಾಡಿದ ದಿನಾಂಕ:</b> ${o.orderDate || 'N/A'}<br>
           🚚 <b>ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ:</b> ${o.expectedDeliveryDate || 'N/A'}<br>
-          💳 <b>ಪಾವತಿ ವಿಧಾನ:</b> ${o.paymentMode === 'UPI' ? '📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (ಉಚಿತ ಡೆಲಿವರಿ)' : '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)'}<br>
+          💳 <b>ಪಾವತಿ ವಿಧಾನ:</b> ${o.paymentMode === 'UPI' ? '📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (Razorpay)' : '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)'}<br>
+          ${o.razorpayPaymentId ? `🆔 <b>Payment ID:</b> ${o.razorpayPaymentId}<br>` : ''}
           📋 <b>ರಿಟರ್ನ್ ಪಾಲಿಸಿ:</b> <span style="font-weight:bold; color:${orderReturnPolicy === 'NO' ? 'red' : 'green'};">${orderReturnPolicy === 'NO' ? 'ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? 'ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)' : 'ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ [₹50 ಕಡಿತ]')}</span>
         </div>
       `;

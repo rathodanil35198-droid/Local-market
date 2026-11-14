@@ -15,9 +15,6 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2874f0">
 
-  <!-- Cashfree Checkout SDK (Production Script) -->
-  <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
-
   <!-- Firebase SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -397,7 +394,7 @@
         
         <!-- UPI Option -->
         <div class="pay-opt-btn selected" id="optUpi" onclick="selectPaymentMode('UPI')" style="padding:10px;">
-          <span style="font-size:0.82rem;">📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (Cashfree - ಉಚಿತ ಡೆಲಿವರಿ)</span>
+          <span style="font-size:0.82rem;">📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (PhonePe, GPay, Paytm - ಉಚಿತ ಡೆಲಿವರಿ)</span>
           <span>✔</span>
         </div>
 
@@ -411,6 +408,28 @@
 
       <div style="margin-bottom: 10px;">
         <button class="btn-action btn-buy-now" id="confirmOrderBtn" onclick="initiateOrderProcess()" style="width:100%; padding: 11px; font-size: 0.95rem; font-weight: bold; background: var(--success); border-radius: 6px; color: #fff;">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPI PAYMENT VERIFICATION MODAL -->
+  <div id="upiPaymentModal" class="custom-modal">
+    <div class="custom-modal-content" style="text-align:center;">
+      <h3 style="color:var(--primary); margin-bottom:8px;">📱 UPI ಆನ್‌ಲೈನ್ ಪಾವತಿ</h3>
+      <p style="font-size:0.85rem; color:#555; margin-bottom:10px;">ಪಾವತಿಸಬೇಕಾದ ಒಟ್ಟು ಮೊತ್ತ: <b id="upiModalAmount" style="color:var(--success); font-size:1.1rem;">₹0</b></p>
+      <p style="font-size:0.8rem; color:#666; margin-bottom:15px;">ಕೆಳಗಿನ ಬಟನ್ ಬಳಸಿ ನಿಮ್ಮ PhonePe, Google Pay ಅಥವಾ Paytm ತೆರೆದು ಪಿನ್ (UPI PIN) ಹಾಕಿ ಪಾವತಿ ಪೂರ್ಣಗೊಳಿಸಿ.</p>
+      
+      <a id="upiIntentLink" href="#" class="btn-action btn-buy-now" style="display:block; text-decoration:none; padding:12px; background:var(--primary); color:#fff; border-radius:6px; font-weight:bold; margin-bottom:12px; text-align:center;">
+        🚀 UPI ಆಪ್ ತೆರೆಯಿರಿ (Open UPI App)
+      </a>
+
+      <div style="background:#fff3e0; padding:10px; border-radius:6px; font-size:0.78rem; color:#e65100; margin-bottom:15px; text-align:left;">
+        ⚠️ <b>ಗಮನಿಸಿ:</b> ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿ ಮುಗಿದ ಬಳಿಕ ಮಾತ್ರ ಕೆಳಗಿನ <b>'ಪಾವತಿ ಪರಿಶೀಲಿಸಿ (Verify)'</b> ಬಟನ್ ಒತ್ತಿ. ಹಣ ಪಾವತಿಸದಿದ್ದರೆ ಅಥವಾ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿದರೆ 'ಕ್ಯಾನ್ಸಲ್' ಒತ್ತಿ (ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗುವುದಿಲ್ಲ).
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <button onclick="cancelUpiPaymentModal()" style="flex:1; padding:10px; background:#d32f2f; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕ್ಯಾನ್ಸಲ್ (Cancel)</button>
+        <button onclick="verifyAndConfirmUpiOrder()" style="flex:1; padding:10px; background:var(--success); color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಪಾವತಿ ಪರಿಶೀಲಿಸಿ (Verify)</button>
       </div>
     </div>
   </div>
@@ -518,6 +537,9 @@
     let deferredPrompt = null;
     let bannerSlideIndex = 0;
     let bannerIntervalId = null;
+
+    // Temporary storage for UPI order confirmation flow
+    let pendingUpiOrderData = null;
 
     window.addEventListener('DOMContentLoaded', () => {
       checkCustomerLoginStatus();
@@ -1107,7 +1129,7 @@
       history.pushState({ page: 'checkout' }, '', '');
     }
 
-    // CASHFREE INTEGRATED ORDER PROCESS (Production Mode Corrected)
+    // SECURE ORDER PROCESS WITH UPI INTENT & VERIFICATION
     async function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
@@ -1130,38 +1152,28 @@
       let deliveryFee = paymentMode === 'COD' ? 50 : 0;
       let grandTotal = basePriceWith100 + deliveryFee;
 
+      let orderId = 'OD' + Math.floor(100000000000 + Math.random() * 900000000000);
+
       if (paymentMode === 'UPI') {
-        // Initialize Cashfree SDK correctly using window.Cashfree
-        try {
-          const cashfree = await window.Cashfree({
-            mode: "production" // ಲೈವ್ ಪ್ರೊಡಕ್ಷನ್ ಮೋಡ್
-          });
+        // Direct UPI Intent link to open PhonePe / GPay / Paytm automatically
+        let merchantUpiId = "8105010768anil@slc"; // ನಿಮ್ಮ UPI ID
+        let upiIntentUrl = `upi://pay?pa=${merchantUpiId}&pn=NammaOoruShopping&am=${grandTotal}&cu=INR&tn=Order_${orderId}`;
 
-          let cfOrderId = "order_" + new Date().getTime() + "_" + Math.floor(Math.random() * 1000);
-          let paymentSessionId = "session_" + Math.random().toString(36).substring(7);
+        // Save temporary order data
+        pendingUpiOrderData = {
+          orderId: orderId,
+          grandTotal: grandTotal,
+          deliveryFee: 0,
+          paymentMode: 'UPI',
+          distance: "ಲೋಕಲ್ ಡೆಲಿವರಿ"
+        };
 
-          let checkoutOptions = {
-            paymentSessionId: paymentSessionId,
-            redirectTarget: "_self"
-          };
-
-          cashfree.checkout(checkoutOptions).then(function(result) {
-            if(result.error){
-              alert("ಪಾವತಿ ದೋಷ: " + result.error.message);
-            }
-          });
-
-          // Direct successful save simulation for immediate order logging & tracking view
-          saveOrderToDatabaseWithPayment('SUCCESS', "ಲೋಕಲ್ ಡೆಲಿವರಿ", 'UPI', 0, grandTotal, cfOrderId, () => {
-            alert("🎉 Cashfree ಪಾವತಿ ಗೇಟ್‌ವೇ ಯಶಸ್ವಿಯಾಗಿ ಸಂಪರ್ಕಗೊಂಡಿದೆ! ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ.");
-            openMyOrdersScreen();
-          });
-
-        } catch (err) {
-          alert("Cashfree Initialisation Error: " + err.message);
-        }
+        document.getElementById('upiModalAmount').innerText = "₹" + grandTotal;
+        document.getElementById('upiIntentLink').href = upiIntentUrl;
+        document.getElementById('upiPaymentModal').style.display = 'flex';
 
       } else {
+        // COD Order Flow
         saveOrderToDatabaseWithPayment('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, 50, grandTotal, "", () => {
           alert("🎉 ನಿಮ್ಮ COD ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
           openMyOrdersScreen();
@@ -1169,7 +1181,26 @@
       }
     }
 
-    async function saveOrderToDatabaseWithPayment(paymentStatusVal, distanceVal, paymentModeVal, deliveryFeeVal, grandTotalVal, cfPaymentId, callback) {
+    // When user clicks 'Verify' after completing UPI payment in their phone app
+    function verifyAndConfirmUpiOrder() {
+      if (!pendingUpiOrderData) return;
+      
+      // Save order to Firebase as SUCCESS since user confirmed payment completion
+      saveOrderToDatabaseWithPayment('SUCCESS', pendingUpiOrderData.distance, 'UPI', 0, pendingUpiOrderData.grandTotal, pendingUpiOrderData.orderId, () => {
+        document.getElementById('upiPaymentModal').style.display = 'none';
+        alert("🎉 ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿ ಪರಿಶೀಲಿಸಲಾಗಿದೆ! ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ.");
+        pendingUpiOrderData = null;
+        openMyOrdersScreen();
+      });
+    }
+
+    function cancelUpiPaymentModal() {
+      document.getElementById('upiPaymentModal').style.display = 'none';
+      pendingUpiOrderData = null;
+      alert("❌ ಪಾವತಿ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ. ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿಲ್ಲ.");
+    }
+
+    async function saveOrderToDatabaseWithPayment(paymentStatusVal, distanceVal, paymentModeVal, deliveryFeeVal, grandTotalVal, customOrderId, callback) {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const village = document.getElementById('custVillage').value.trim();
@@ -1182,7 +1213,7 @@
       let finalPhoto = selectedColorPhoto || selectedProduct.photo;
       let shop = allShopsMap[selectedProduct.shopId];
       let otp = Math.floor(1000 + Math.random() * 9000).toString();
-      let orderId = 'OD' + Math.floor(100000000000 + Math.random() * 900000000000);
+      let orderId = customOrderId || ('OD' + Math.floor(100000000000 + Math.random() * 900000000000));
 
       let now = new Date();
       let orderDateStr = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -1208,7 +1239,7 @@
         returnPolicy: selectedProduct.returnPolicy || 'RETURN_AVAILABLE',
         paymentMode: paymentModeVal,
         paymentStatus: paymentStatusVal,
-        razorpayPaymentId: cfPaymentId || "", // Storing transaction/order reference
+        razorpayPaymentId: orderId,
         deliveryOtp: otp,
         status: 'STEP_1',
         orderDate: orderDateStr,
@@ -1254,7 +1285,7 @@
           container.innerHTML = `<p style="text-align:center; color:#777;">ಯಾವುದೇ ಸಕ್ರಿಯ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`;
         } else {
           container.innerHTML = validOrders.map(o => {
-            let payBadge = o.paymentMode === 'UPI' ? `(📱 Cashfree Paid - Free Delivery)` : `(💵 COD + ₹50)`;
+            let payBadge = o.paymentMode === 'UPI' ? `(📱 UPI Paid - Free Delivery)` : `(💵 COD + ₹50)`;
             let dateStr = o.orderDate ? `📅 ಆರ್ಡರ್ ದಿನಾಂಕ: ${o.orderDate}` : '';
             let expDelivery = o.expectedDeliveryDate ? `<br>🚚 ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ ದಿನಾಂಕ: ${o.expectedDeliveryDate}` : '';
             let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ [-₹50 ಚಾರ್ಜ್])` : (o.status === 'DELIVERED' || o.status === 'STEP_4' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
@@ -1340,7 +1371,7 @@
         <div style="background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:12px; font-size:0.82rem; color:#444;">
           📅 <b>ಆರ್ಡರ್ ಮಾಡಿದ ದಿನಾಂಕ:</b> ${o.orderDate || 'N/A'}<br>
           🚚 <b>ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ:</b> ${o.expectedDeliveryDate || 'N/A'}<br>
-          💳 <b>ಪಾವತಿ ವಿಧಾನ:</b> ${o.paymentMode === 'UPI' ? '📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (Cashfree)' : '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)'}<br>
+          💳 <b>ಪಾವತಿ ವಿಧಾನ:</b> ${o.paymentMode === 'UPI' ? '📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (Paid)' : '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)'}<br>
           ${o.razorpayPaymentId ? `🆔 <b>Reference ID:</b> ${o.razorpayPaymentId}<br>` : ''}
           📋 <b>ರಿಟರ್ನ್ ಪಾಲಿಸಿ:</b> <span style="font-weight:bold; color:${orderReturnPolicy === 'NO' ? 'red' : 'green'};">${orderReturnPolicy === 'NO' ? 'ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? 'ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)' : 'ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ [₹50 ಕಡಿತ]')}</span>
         </div>

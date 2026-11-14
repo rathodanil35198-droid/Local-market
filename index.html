@@ -383,13 +383,13 @@
         </div>
       </div>
 
-      <!-- DIRECT PAYMENT OPTIONS (No Modals) -->
+      <!-- CASHFREE GATEWAY & COD PAYMENT OPTIONS -->
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 10px; margin-bottom: 10px;">
         <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom: 8px;">💳 ಪಾವತಿ ವಿಧಾನ ಆಯ್ಕೆಮಾಡಿ:</h4>
         
-        <!-- Direct UPI Button -->
-        <button onclick="payWithDirectUpi()" style="width:100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 6px; font-size: 0.95rem; font-weight: bold; cursor: pointer; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-          📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (PhonePe, GPay, Paytm - ಉಚಿತ ಡೆಲಿವರಿ)
+        <!-- Cashfree Gateway Redirect Button -->
+        <button onclick="payWithCashfreeGateway()" style="width:100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 6px; font-size: 0.95rem; font-weight: bold; cursor: pointer; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          📱 ಆನ್‌ಲೈನ್ UPI / ಗೇಟ್‌ವೇ ಪಾವತಿ (Cashfree Gateway)
         </button>
 
         <!-- COD Button -->
@@ -1080,23 +1080,22 @@
       return true;
     }
 
-    // DIRECT UPI PAYMENT (Opens UPI App directly, saves order as SUCCESS, goes to Orders page)
-    function payWithDirectUpi() {
+    // CASHFREE PAYMENT GATEWAY INTEGRATION
+    function payWithCashfreeGateway() {
       if (!validateAddressForm()) return;
 
       let basePriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
       let orderId = 'OD' + Math.floor(100000000000 + Math.random() * 900000000000);
-      let merchantUpiId = "8105010768anil@slc"; 
-      let upiIntentUrl = `upi://pay?pa=${merchantUpiId}&pn=NammaOoruShopping&am=${basePriceWith100}&cu=INR&tn=Order_${orderId}`;
+      let name = document.getElementById('custName').value.trim();
+      let phone = document.getElementById('custPhone').value.trim();
 
-      // Save order to Firebase as SUCCESS immediately when user clicks to pay via UPI
+      // Save order to Firebase as pending/success before redirecting to Cashfree Payment Link page
       saveOrderToDatabaseWithPayment('SUCCESS', "ಲೋಕಲ್ ಡೆಲಿವರಿ", 'UPI', 0, basePriceWith100, orderId, () => {
-        // Open UPI App directly
-        window.location.href = upiIntentUrl;
-        // Automatically navigate to My Orders screen
-        setTimeout(() => {
-          openMyOrdersScreen();
-        }, 1500);
+        // Cashfree Payment Link URL structure (or you can generate link dynamically via backend)
+        // Here we redirect user to Cashfree payment checkout page
+        let cashfreeUrl = `https://payments.cashfree.com/links?amount=${basePriceWith100}&phone=${phone}&name=${encodeURIComponent(name)}&order_id=${orderId}`;
+        
+        window.location.href = cashfreeUrl;
       });
     }
 
@@ -1204,7 +1203,7 @@
           container.innerHTML = `<p style="text-align:center; color:#777;">ಯಾವುದೇ ಸಕ್ರಿಯ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`;
         } else {
           container.innerHTML = validOrders.map(o => {
-            let payBadge = o.paymentMode === 'UPI' ? `(📱 UPI Paid - Free Delivery)` : `(💵 COD + ₹50)`;
+            let payBadge = o.paymentMode === 'UPI' ? `(📱 Cashfree Paid - Free Delivery)` : `(💵 COD + ₹50)`;
             let dateStr = o.orderDate ? `📅 ಆರ್ಡರ್ ದಿನಾಂಕ: ${o.orderDate}` : '';
             let expDelivery = o.expectedDeliveryDate ? `<br>🚚 ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ ದಿನಾಂಕ: ${o.expectedDeliveryDate}` : '';
             let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ [-₹50 ಚಾರ್ಜ್])` : (o.status === 'DELIVERED' || o.status === 'STEP_4' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
@@ -1290,7 +1289,7 @@
         <div style="background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:12px; font-size:0.82rem; color:#444;">
           📅 <b>ಆರ್ಡರ್ ಮಾಡಿದ ದಿನಾಂಕ:</b> ${o.orderDate || 'N/A'}<br>
           🚚 <b>ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ:</b> ${o.expectedDeliveryDate || 'N/A'}<br>
-          💳 <b>ಪಾವತಿ ವಿಧಾನ:</b> ${o.paymentMode === 'UPI' ? '📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (Paid)' : '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)'}<br>
+          💳 <b>ಪಾವತಿ ವಿಧಾನ:</b> ${o.paymentMode === 'UPI' ? '📱 Cashfree Online Gateway (Paid)' : '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)'}<br>
           ${o.razorpayPaymentId ? `🆔 <b>Reference ID:</b> ${o.razorpayPaymentId}<br>` : ''}
           📋 <b>ರಿಟರ್ನ್ ಪಾಲಿಸಿ:</b> <span style="font-weight:bold; color:${orderReturnPolicy === 'NO' ? 'red' : 'green'};">${orderReturnPolicy === 'NO' ? 'ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? 'ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)' : 'ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ [₹50 ಕಡಿತ]')}</span>
         </div>

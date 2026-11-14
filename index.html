@@ -140,10 +140,6 @@
     .t-item.active .t-dot { background: var(--primary); width: 16px; height: 16px; left: -22px; top: 0; }
     .t-title { font-size: 0.85rem; font-weight: bold; color: #333; }
 
-    .pay-opt-btn { width: 100%; padding: 12px 14px; margin: 6px 0; border: 2px solid #ccc; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #fff; color: #333; }
-    .pay-opt-btn.selected { border-color: #2874f0; background: #e8f0fe; color: #1a73e8; }
-    .pay-opt-btn.locked { background: #f5f5f5; color: #999; border-color: #ddd; cursor: not-allowed; opacity: 0.7; }
-
     .custom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 15px; }
     .custom-modal-content { background: #fff; border-radius: 12px; max-width: 420px; width: 100%; padding: 18px; max-height: 90vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
@@ -333,7 +329,7 @@
     </div>
   </div>
 
-  <!-- CHECKOUT SCREEN (Super Compact Address Layout) -->
+  <!-- CHECKOUT SCREEN (Clean Address & 2 Direct Payment Buttons) -->
   <div id="checkoutScreen" class="screen">
     <div class="screen-header">
       <span class="back-btn" onclick="goBackToHome()">←</span>
@@ -341,7 +337,7 @@
     </div>
 
     <div style="padding: 10px 10px 150px 10px;">
-      <!-- Ultra-Compact Address Box -->
+      <!-- Address Box -->
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 8px; margin-bottom: 10px;">
         <h4 style="font-size: 0.8rem; color: var(--primary); margin-bottom:4px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:</h4>
         
@@ -387,13 +383,13 @@
         </div>
       </div>
 
-      <!-- PAYMENT ACTION BUTTONS (Direct UPI & COD Buttons visible immediately after address) -->
+      <!-- DIRECT PAYMENT OPTIONS (No Modals) -->
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 10px; margin-bottom: 10px;">
-        <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom: 8px;">💳 ಪಾವತಿ ಮಾಡಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ:</h4>
+        <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom: 8px;">💳 ಪಾವತಿ ವಿಧಾನ ಆಯ್ಕೆಮಾಡಿ:</h4>
         
-        <!-- UPI Direct Payment Button (Opens PhonePe/GPay/Paytm directly) -->
-        <button onclick="payWithUpiIntent()" style="width:100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 6px; font-size: 0.95rem; font-weight: bold; cursor: pointer; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-          📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (PhonePe, GPay, Paytm) - ಉಚಿತ ಡೆಲಿವರಿ
+        <!-- Direct UPI Button -->
+        <button onclick="payWithDirectUpi()" style="width:100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 6px; font-size: 0.95rem; font-weight: bold; cursor: pointer; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (PhonePe, GPay, Paytm - ಉಚಿತ ಡೆಲಿವರಿ)
         </button>
 
         <!-- COD Button -->
@@ -401,28 +397,6 @@
           💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD + ₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)
         </button>
         <div id="codLockedMessage" style="font-size:0.75rem; color:#d32f2f; margin-top:4px; font-weight:bold; text-align:center;"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- UPI PAYMENT VERIFICATION MODAL -->
-  <div id="upiPaymentModal" class="custom-modal">
-    <div class="custom-modal-content" style="text-align:center;">
-      <h3 style="color:var(--primary); margin-bottom:8px;">📱 UPI ಆನ್‌ಲೈನ್ ಪಾವತಿ</h3>
-      <p style="font-size:0.85rem; color:#555; margin-bottom:10px;">ಪಾವತಿಸಬೇಕಾದ ಒಟ್ಟು ಮೊತ್ತ: <b id="upiModalAmount" style="color:var(--success); font-size:1.1rem;">₹0</b></p>
-      <p style="font-size:0.8rem; color:#666; margin-bottom:15px;">ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ಪಾವತಿ ಮುಗಿದ ಬಳಿಕ ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ ಪರಿಶೀಲಿಸಿ.</p>
-      
-      <a id="upiIntentLink" href="#" class="btn-action btn-buy-now" style="display:block; text-decoration:none; padding:12px; background:var(--primary); color:#fff; border-radius:6px; font-weight:bold; margin-bottom:12px; text-align:center;">
-        🚀 ಪುನಃ UPI ಆಪ್ ತೆರೆಯಿರಿ (Open UPI App)
-      </a>
-
-      <div style="background:#fff3e0; padding:10px; border-radius:6px; font-size:0.78rem; color:#e65100; margin-bottom:15px; text-align:left;">
-        ⚠️ <b>ಗಮನಿಸಿ:</b> ಪಿನ್ ಹಾಕಿ ಪಾವತಿ ಯಶಸ್ವಿಯಾದರೆ ಮಾತ್ರ <b>'ಪಾವತಿ ಪರಿಶೀಲಿಸಿ (Verify)'</b> ಒತ್ತಿ. ಹಣ ಪಾವತಿಸದೆ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿದ್ದರೆ <b>'ಕ್ಯಾನ್ಸಲ್'</b> ಒತ್ತಿ (ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಬಹುದು).
-      </div>
-
-      <div style="display:flex; gap:8px;">
-        <button onclick="cancelUpiPaymentModal()" style="flex:1; padding:10px; background:#d32f2f; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕ್ಯಾನ್ಸಲ್ (Cancel - Try Again)</button>
-        <button onclick="verifyAndConfirmUpiOrder()" style="flex:1; padding:10px; background:var(--success); color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಪಾವತಿ ಪರಿಶೀಲಿಸಿ (Verify)</button>
       </div>
     </div>
   </div>
@@ -530,8 +504,6 @@
     let deferredPrompt = null;
     let bannerSlideIndex = 0;
     let bannerIntervalId = null;
-
-    let pendingUpiOrderData = null;
 
     window.addEventListener('DOMContentLoaded', () => {
       checkCustomerLoginStatus();
@@ -1089,7 +1061,6 @@
       history.pushState({ page: 'checkout' }, '', '');
     }
 
-    // VALIDATE ADDRESS BEFORE PAYMENT
     function validateAddressForm() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
@@ -1109,8 +1080,8 @@
       return true;
     }
 
-    // DIRECT UPI INTENT CLICK
-    function payWithUpiIntent() {
+    // DIRECT UPI PAYMENT (Opens UPI App directly, saves order as SUCCESS, goes to Orders page)
+    function payWithDirectUpi() {
       if (!validateAddressForm()) return;
 
       let basePriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
@@ -1118,20 +1089,15 @@
       let merchantUpiId = "8105010768anil@slc"; 
       let upiIntentUrl = `upi://pay?pa=${merchantUpiId}&pn=NammaOoruShopping&am=${basePriceWith100}&cu=INR&tn=Order_${orderId}`;
 
-      pendingUpiOrderData = {
-        orderId: orderId,
-        grandTotal: basePriceWith100,
-        deliveryFee: 0,
-        paymentMode: 'UPI',
-        distance: "ಲೋಕಲ್ ಡೆಲಿವರಿ"
-      };
-
-      document.getElementById('upiModalAmount').innerText = "₹" + basePriceWith100;
-      document.getElementById('upiIntentLink').href = upiIntentUrl;
-      document.getElementById('upiPaymentModal').style.display = 'flex';
-
-      // Automatically try opening UPI app
-      window.location.href = upiIntentUrl;
+      // Save order to Firebase as SUCCESS immediately when user clicks to pay via UPI
+      saveOrderToDatabaseWithPayment('SUCCESS', "ಲೋಕಲ್ ಡೆಲಿವರಿ", 'UPI', 0, basePriceWith100, orderId, () => {
+        // Open UPI App directly
+        window.location.href = upiIntentUrl;
+        // Automatically navigate to My Orders screen
+        setTimeout(() => {
+          openMyOrdersScreen();
+        }, 1500);
+      });
     }
 
     // COD PAYMENT FLOW
@@ -1151,32 +1117,6 @@
         alert("🎉 ನಿಮ್ಮ COD ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
         openMyOrdersScreen();
       });
-    }
-
-    // VERIFY & CONFIRM UPI ORDER
-    async function verifyAndConfirmUpiOrder() {
-      if (!pendingUpiOrderData) return;
-
-      // Duplicate protection check
-      const existingOrder = await window.getDoc(window.doc(window.db, "orders", pendingUpiOrderData.orderId));
-      if (existingOrder.exists()) {
-        alert("⚠️ ಈ ಆರ್ಡರ್ ಈಗಾಗಲೇ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
-        document.getElementById('upiPaymentModal').style.display = 'none';
-        return;
-      }
-
-      saveOrderToDatabaseWithPayment('SUCCESS', pendingUpiOrderData.distance, 'UPI', 0, pendingUpiOrderData.grandTotal, pendingUpiOrderData.orderId, () => {
-        document.getElementById('upiPaymentModal').style.display = 'none';
-        alert("🎉 ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿ ಪರಿಶೀಲಿಸಲಾಗಿದೆ! ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ.");
-        pendingUpiOrderData = null;
-        openMyOrdersScreen();
-      });
-    }
-
-    function cancelUpiPaymentModal() {
-      document.getElementById('upiPaymentModal').style.display = 'none';
-      pendingUpiOrderData = null;
-      alert("❌ ಪಾವತಿ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ. ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.");
     }
 
     async function saveOrderToDatabaseWithPayment(paymentStatusVal, distanceVal, paymentModeVal, deliveryFeeVal, grandTotalVal, customOrderId, callback) {

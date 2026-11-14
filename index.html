@@ -387,27 +387,20 @@
         </div>
       </div>
 
-      <!-- PAYMENT OPTIONS -->
-      <div style="background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 8px; margin-bottom: 10px;">
-        <h4 style="font-size: 0.8rem; color: var(--primary); margin-bottom:4px;" id="lblPaymentMethodTitle">💳 ಪಾವತಿ ವಿಧಾನ:</h4>
-        <input type="hidden" id="selectedPaymentMode" value="UPI">
+      <!-- PAYMENT ACTION BUTTONS (Direct UPI & COD Buttons visible immediately after address) -->
+      <div style="background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 10px; margin-bottom: 10px;">
+        <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom: 8px;">💳 ಪಾವತಿ ಮಾಡಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ:</h4>
         
-        <!-- UPI Option -->
-        <div class="pay-opt-btn selected" id="optUpi" onclick="selectPaymentMode('UPI')" style="padding:10px;">
-          <span style="font-size:0.82rem;">📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (PhonePe, GPay, Paytm - ಉಚಿತ ಡೆಲಿವರಿ)</span>
-          <span>✔</span>
-        </div>
+        <!-- UPI Direct Payment Button (Opens PhonePe/GPay/Paytm directly) -->
+        <button onclick="payWithUpiIntent()" style="width:100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 6px; font-size: 0.95rem; font-weight: bold; cursor: pointer; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (PhonePe, GPay, Paytm) - ಉಚಿತ ಡೆಲಿವರಿ
+        </button>
 
-        <!-- COD Option -->
-        <div class="pay-opt-btn" id="optCod" style="margin-top:4px; padding:10px;" onclick="selectPaymentMode('COD')">
-          <span id="lblCodOptionText" style="font-size:0.82rem;">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)</span>
-          <span id="codStatusIcon">🔓</span>
-        </div>
-        <div id="codLockedMessage" style="font-size:0.72rem; color:#d32f2f; margin-top:2px; font-weight:bold;"></div>
-      </div>
-
-      <div style="margin-bottom: 10px;">
-        <button class="btn-action btn-buy-now" id="confirmOrderBtn" onclick="initiateOrderProcess()" style="width:100%; padding: 11px; font-size: 0.95rem; font-weight: bold; background: var(--success); border-radius: 6px; color: #fff;">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)</button>
+        <!-- COD Button -->
+        <button id="btnCodOrder" onclick="payWithCod()" style="width:100%; padding: 12px; background: #ff9f00; color: #fff; border: none; border-radius: 6px; font-size: 0.95rem; font-weight: bold; cursor: pointer;">
+          💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD + ₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)
+        </button>
+        <div id="codLockedMessage" style="font-size:0.75rem; color:#d32f2f; margin-top:4px; font-weight:bold; text-align:center;"></div>
       </div>
     </div>
   </div>
@@ -417,18 +410,18 @@
     <div class="custom-modal-content" style="text-align:center;">
       <h3 style="color:var(--primary); margin-bottom:8px;">📱 UPI ಆನ್‌ಲೈನ್ ಪಾವತಿ</h3>
       <p style="font-size:0.85rem; color:#555; margin-bottom:10px;">ಪಾವತಿಸಬೇಕಾದ ಒಟ್ಟು ಮೊತ್ತ: <b id="upiModalAmount" style="color:var(--success); font-size:1.1rem;">₹0</b></p>
-      <p style="font-size:0.8rem; color:#666; margin-bottom:15px;">ಕೆಳಗಿನ ಬಟನ್ ಬಳಸಿ ನಿಮ್ಮ PhonePe, Google Pay ಅಥವಾ Paytm ತೆರೆದು ಪಿನ್ (UPI PIN) ಹಾಕಿ ಪಾವತಿ ಪೂರ್ಣಗೊಳಿಸಿ.</p>
+      <p style="font-size:0.8rem; color:#666; margin-bottom:15px;">ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ಪಾವತಿ ಮುಗಿದ ಬಳಿಕ ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ ಪರಿಶೀಲಿಸಿ.</p>
       
       <a id="upiIntentLink" href="#" class="btn-action btn-buy-now" style="display:block; text-decoration:none; padding:12px; background:var(--primary); color:#fff; border-radius:6px; font-weight:bold; margin-bottom:12px; text-align:center;">
-        🚀 UPI ಆಪ್ ತೆರೆಯಿರಿ (Open UPI App)
+        🚀 ಪುನಃ UPI ಆಪ್ ತೆರೆಯಿರಿ (Open UPI App)
       </a>
 
       <div style="background:#fff3e0; padding:10px; border-radius:6px; font-size:0.78rem; color:#e65100; margin-bottom:15px; text-align:left;">
-        ⚠️ <b>ಗಮನಿಸಿ:</b> ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿ ಮುಗಿದ ಬಳಿಕ ಮಾತ್ರ ಕೆಳಗಿನ <b>'ಪಾವತಿ ಪರಿಶೀಲಿಸಿ (Verify)'</b> ಬಟನ್ ಒತ್ತಿ. ಹಣ ಪಾವತಿಸದಿದ್ದರೆ ಅಥವಾ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿದರೆ 'ಕ್ಯಾನ್ಸಲ್' ಒತ್ತಿ (ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗುವುದಿಲ್ಲ).
+        ⚠️ <b>ಗಮನಿಸಿ:</b> ಪಿನ್ ಹಾಕಿ ಪಾವತಿ ಯಶಸ್ವಿಯಾದರೆ ಮಾತ್ರ <b>'ಪಾವತಿ ಪರಿಶೀಲಿಸಿ (Verify)'</b> ಒತ್ತಿ. ಹಣ ಪಾವತಿಸದೆ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿದ್ದರೆ <b>'ಕ್ಯಾನ್ಸಲ್'</b> ಒತ್ತಿ (ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಬಹುದು).
       </div>
 
       <div style="display:flex; gap:8px;">
-        <button onclick="cancelUpiPaymentModal()" style="flex:1; padding:10px; background:#d32f2f; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕ್ಯಾನ್ಸಲ್ (Cancel)</button>
+        <button onclick="cancelUpiPaymentModal()" style="flex:1; padding:10px; background:#d32f2f; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕ್ಯಾನ್ಸಲ್ (Cancel - Try Again)</button>
         <button onclick="verifyAndConfirmUpiOrder()" style="flex:1; padding:10px; background:var(--success); color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಪಾವತಿ ಪರಿಶೀಲಿಸಿ (Verify)</button>
       </div>
     </div>
@@ -538,7 +531,6 @@
     let bannerSlideIndex = 0;
     let bannerIntervalId = null;
 
-    // Temporary storage for UPI order confirmation flow
     let pendingUpiOrderData = null;
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -609,58 +601,32 @@
             if (order.isReturned === true) hasReturnedOrder = true;
           });
 
-          const codBtn = document.getElementById('optCod');
+          const codBtn = document.getElementById('btnCodOrder');
           const codMsg = document.getElementById('codLockedMessage');
-          const codIcon = document.getElementById('codStatusIcon');
 
           if (hasReturnedOrder) {
-            codBtn.classList.add('locked');
+            codBtn.style.background = '#ccc';
+            codBtn.style.cursor = 'not-allowed';
             codBtn.onclick = function() {
-              alert("⚠️ ನಿಮ್ಮ ಹಿಂದಿನ ಆರ್ಡರ್ ರಿಟರ್ನ್ ಆಗಿರುವುದರಿಂದ ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD) ಲಾಕ್ ಮಾಡಲಾಗಿದೆ. ದಯವಿಟ್ಟು ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ ಬಳಸಿ.");
+              alert("⚠️ ನಿಮ್ಮ ಹಿಂದಿನ ಆರ್ಡರ್ ರಿಟರ್ನ್ ಆಗಿರುವುದರಿಂದ ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD) ಲಾಕ್ ಮಾಡಲಾಗಿದೆ. ದಯವಿಟ್ಟು UPI ಪಾವತಿ ಬಳಸಿ.");
             };
-            codIcon.innerText = '🔒';
-            codMsg.innerText = "❌ ಹಿಂದಿನ ರಿಟರ್ನ್ ಕಾರಣದಿಂದ COD ಲಾಕ್ ಆಗಿದೆ. ಆನ್‌ಲೈನ್ ಪಾವತಿ ಮಾತ್ರ ಲಭ್ಯ.";
-            selectPaymentMode('UPI');
+            codMsg.innerText = "❌ ಹಿಂದಿನ ರಿಟರ್ನ್ ಕಾರಣದಿಂದ COD ಲಾಕ್ ಆಗಿದೆ.";
           } else {
-            codBtn.classList.remove('locked');
-            codBtn.onclick = function() { selectPaymentMode('COD'); };
-            codIcon.innerText = '🔓';
+            codBtn.style.background = '#ff9f00';
+            codBtn.style.cursor = 'pointer';
+            codBtn.onclick = function() { payWithCod(); };
             codMsg.innerText = "";
           }
         });
       } catch(e) { console.log(e); }
     }
 
-    function selectPaymentMode(mode) {
-      const codBtn = document.getElementById('optCod');
-      if (mode === 'COD' && codBtn.classList.contains('locked')) {
-        alert("⚠️ ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ ಲಾಕ್ ಆಗಿದೆ. ದಯವಿಟ್ಟು UPI ಪಾವತಿ ಬಳಸಿ.");
-        return;
-      }
-
-      document.getElementById('selectedPaymentMode').value = mode;
-      const upiBtn = document.getElementById('optUpi');
-
-      if (mode === 'UPI') {
-        upiBtn.classList.add('selected');
-        codBtn.classList.remove('selected');
-      } else {
-        codBtn.classList.add('selected');
-        upiBtn.classList.remove('selected');
-      }
-      updateCheckoutTotals();
-    }
-
     function updateCheckoutTotals() {
       if (!selectedProduct) return;
       let basePriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
-      let paymentMode = document.getElementById('selectedPaymentMode').value;
-      let deliveryFee = paymentMode === 'COD' ? 50 : 0;
-      let grandTotal = basePriceWith100 + deliveryFee;
-
       document.getElementById('checkoutBasePriceText').innerText = "₹" + basePriceWith100;
-      document.getElementById('checkoutDeliveryFeeText').innerText = deliveryFee === 0 ? "ಉಚಿತ (Free)" : "₹50";
-      document.getElementById('checkoutGrandTotalText').innerText = "₹" + grandTotal;
+      document.getElementById('checkoutDeliveryFeeText').innerText = "ಉಚಿತ (Free)";
+      document.getElementById('checkoutGrandTotalText').innerText = "₹" + basePriceWith100;
     }
 
     async function handleCustomerLogin() {
@@ -747,9 +713,6 @@
         buyNow: "ಖರೀದಿಸಿ (Buy Now)",
         checkoutHeader: "ವಿವರ ಖಚಿತಪಡಿಸಿ & ಪಾವತಿ ಆಯ್ಕೆ",
         deliveryAddrTitle: "📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:",
-        paymentMethodTitle: "💳 ಪಾವತಿ ವಿಧಾನ:",
-        codOptionText: "💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (+₹50 ಡೆಲಿವರಿ ಚಾರ್ಜ್)",
-        proceedPaymentBtn: "ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)",
         myOrdersHeader: "ನನ್ನ ಆರ್ಡರ್‌ಗಳು (My Orders)",
         orderDetailsHeader: "ಆರ್ಡರ್ ವಿವರಗಳು & ಟ್ರ್ಯಾಕಿಂಗ್"
       },
@@ -769,9 +732,6 @@
         buyNow: "Buy Now",
         checkoutHeader: "Confirm Details & Payment",
         deliveryAddrTitle: "📍 Delivery Address:",
-        paymentMethodTitle: "💳 Payment Method:",
-        codOptionText: "💵 Cash on Delivery (+₹50 Delivery Charge)",
-        proceedPaymentBtn: "Confirm Order",
         myOrdersHeader: "My Orders",
         orderDetailsHeader: "Order Details & Tracking"
       }
@@ -1129,8 +1089,8 @@
       history.pushState({ page: 'checkout' }, '', '');
     }
 
-    // SECURE ORDER PROCESS WITH UPI INTENT & VERIFICATION
-    async function initiateOrderProcess() {
+    // VALIDATE ADDRESS BEFORE PAYMENT
+    function validateAddressForm() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const pincode = document.getElementById('custPincode').value.trim();
@@ -1138,54 +1098,73 @@
       const taluk = document.getElementById('custTaluk').value.trim();
       const village = document.getElementById('custVillage').value.trim();
       const landmark = document.getElementById('custLandmarkOption').value;
-      const paymentMode = document.getElementById('selectedPaymentMode').value;
 
       if (!name || !phone || !pincode || !district || !taluk || !village || !landmark) {
         alert("ದಯವಿಟ್ಟು ಹೆಸರು, ಮೊಬೈಲ್ ನಂಬರ್, ಪಿನ್ ಕೋಡ್, ಜಿಲ್ಲೆ, ತಾಲೂಕು, ಊರು ಮತ್ತು ಲ್ಯಾಂಡ್‌ಮಾರ್ಕ್ ಅನ್ನು ಕಡ್ಡಾಯವಾಗಿ ಭರ್ತಿ ಮಾಡಿ.");
-        return;
+        return false;
       }
 
       localStorage.setItem('customer_phone_key', phone);
       localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, district, taluk, pincode, landmark }));
-
-      let basePriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
-      let deliveryFee = paymentMode === 'COD' ? 50 : 0;
-      let grandTotal = basePriceWith100 + deliveryFee;
-
-      let orderId = 'OD' + Math.floor(100000000000 + Math.random() * 900000000000);
-
-      if (paymentMode === 'UPI') {
-        // Direct UPI Intent link to open PhonePe / GPay / Paytm automatically
-        let merchantUpiId = "8105010768anil@slc"; // ನಿಮ್ಮ UPI ID
-        let upiIntentUrl = `upi://pay?pa=${merchantUpiId}&pn=NammaOoruShopping&am=${grandTotal}&cu=INR&tn=Order_${orderId}`;
-
-        // Save temporary order data
-        pendingUpiOrderData = {
-          orderId: orderId,
-          grandTotal: grandTotal,
-          deliveryFee: 0,
-          paymentMode: 'UPI',
-          distance: "ಲೋಕಲ್ ಡೆಲಿವರಿ"
-        };
-
-        document.getElementById('upiModalAmount').innerText = "₹" + grandTotal;
-        document.getElementById('upiIntentLink').href = upiIntentUrl;
-        document.getElementById('upiPaymentModal').style.display = 'flex';
-
-      } else {
-        // COD Order Flow
-        saveOrderToDatabaseWithPayment('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, 50, grandTotal, "", () => {
-          alert("🎉 ನಿಮ್ಮ COD ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
-          openMyOrdersScreen();
-        });
-      }
+      return true;
     }
 
-    // When user clicks 'Verify' after completing UPI payment in their phone app
-    function verifyAndConfirmUpiOrder() {
-      if (!pendingUpiOrderData) return;
+    // DIRECT UPI INTENT CLICK
+    function payWithUpiIntent() {
+      if (!validateAddressForm()) return;
+
+      let basePriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
+      let orderId = 'OD' + Math.floor(100000000000 + Math.random() * 900000000000);
+      let merchantUpiId = "8105010768anil@slc"; 
+      let upiIntentUrl = `upi://pay?pa=${merchantUpiId}&pn=NammaOoruShopping&am=${basePriceWith100}&cu=INR&tn=Order_${orderId}`;
+
+      pendingUpiOrderData = {
+        orderId: orderId,
+        grandTotal: basePriceWith100,
+        deliveryFee: 0,
+        paymentMode: 'UPI',
+        distance: "ಲೋಕಲ್ ಡೆಲಿವರಿ"
+      };
+
+      document.getElementById('upiModalAmount').innerText = "₹" + basePriceWith100;
+      document.getElementById('upiIntentLink').href = upiIntentUrl;
+      document.getElementById('upiPaymentModal').style.display = 'flex';
+
+      // Automatically try opening UPI app
+      window.location.href = upiIntentUrl;
+    }
+
+    // COD PAYMENT FLOW
+    function payWithCod() {
+      if (!validateAddressForm()) return;
       
-      // Save order to Firebase as SUCCESS since user confirmed payment completion
+      const codBtn = document.getElementById('btnCodOrder');
+      if (codBtn.style.cursor === 'not-allowed') {
+        alert("⚠️ ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ ಲಾಕ್ ಆಗಿದೆ.");
+        return;
+      }
+
+      let basePriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
+      let grandTotal = basePriceWith100 + 50; // +50 COD charge
+
+      saveOrderToDatabaseWithPayment('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", 'COD', 50, grandTotal, "", () => {
+        alert("🎉 ನಿಮ್ಮ COD ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
+        openMyOrdersScreen();
+      });
+    }
+
+    // VERIFY & CONFIRM UPI ORDER
+    async function verifyAndConfirmUpiOrder() {
+      if (!pendingUpiOrderData) return;
+
+      // Duplicate protection check
+      const existingOrder = await window.getDoc(window.doc(window.db, "orders", pendingUpiOrderData.orderId));
+      if (existingOrder.exists()) {
+        alert("⚠️ ಈ ಆರ್ಡರ್ ಈಗಾಗಲೇ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
+        document.getElementById('upiPaymentModal').style.display = 'none';
+        return;
+      }
+
       saveOrderToDatabaseWithPayment('SUCCESS', pendingUpiOrderData.distance, 'UPI', 0, pendingUpiOrderData.grandTotal, pendingUpiOrderData.orderId, () => {
         document.getElementById('upiPaymentModal').style.display = 'none';
         alert("🎉 ಪಾವತಿ ಯಶಸ್ವಿಯಾಗಿ ಪರಿಶೀಲಿಸಲಾಗಿದೆ! ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ.");
@@ -1197,7 +1176,7 @@
     function cancelUpiPaymentModal() {
       document.getElementById('upiPaymentModal').style.display = 'none';
       pendingUpiOrderData = null;
-      alert("❌ ಪಾವತಿ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ. ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿಲ್ಲ.");
+      alert("❌ ಪಾವತಿ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ. ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.");
     }
 
     async function saveOrderToDatabaseWithPayment(paymentStatusVal, distanceVal, paymentModeVal, deliveryFeeVal, grandTotalVal, customOrderId, callback) {
@@ -1602,13 +1581,8 @@
       document.getElementById('lblVariantTitle').innerText = t.variantTitle;
       document.getElementById('lblQtyLabel').childNodes[0].nodeValue = t.qtyLabel;
       document.getElementById('lblDeliveryBadge').innerHTML = t.deliveryBadge;
-      document.getElementById('lblAddToCartBtn').innerText = t.addToCart;
-      document.getElementById('lblBuyNowBtn').innerText = t.buyNow;
       document.getElementById('lblCheckoutHeader').innerText = t.checkoutHeader;
       document.getElementById('lblDeliveryAddrTitle').innerText = t.deliveryAddrTitle;
-      document.getElementById('lblPaymentMethodTitle').innerText = t.paymentMethodTitle;
-      document.getElementById('lblCodOptionText').innerText = t.codOptionText;
-      document.getElementById('confirmOrderBtn').innerText = t.proceedPaymentBtn;
       document.getElementById('lblMyOrdersHeader').innerText = t.myOrdersHeader;
       document.getElementById('lblOrderDetailsHeader').innerText = t.orderDetailsHeader;
       document.getElementById('lblPocketMoneyHeader').innerText = t.pocketMoney;

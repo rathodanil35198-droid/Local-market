@@ -15,6 +15,9 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2874f0">
 
+  <!-- Cashfree JS SDK (For Future Backend Integration) -->
+  <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+
   <!-- Firebase SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -144,6 +147,10 @@
     .pay-opt-btn.selected { border-color: #2874f0; background: #e8f0fe; color: #1a73e8; }
     .pay-opt-btn.locked { background: #f5f5f5; color: #999; border-color: #ddd; cursor: not-allowed; opacity: 0.7; }
 
+    .direct-upi-pay-btn {
+      display: inline-block; width: 100%; padding: 12px; margin-top: 8px; background: linear-gradient(135deg, #5f259f, #2874f0); color: #fff; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 8px; text-align: center; box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+
     .custom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; padding: 15px; }
     .custom-modal-content { background: #fff; border-radius: 12px; max-width: 420px; width: 100%; padding: 18px; max-height: 90vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
@@ -167,10 +174,11 @@
     <div style="background:#fff; color:#333; padding:25px; border-radius:12px; max-width:350px; width:100%;">
       <div style="font-size:3rem; margin-bottom:10px;">⚠️</div>
       <h3 style="color:#d32f2f; margin-bottom:8px;">ಸರ್ವರ್ ತಾತ್ಕಾಲಿಕವಾಗಿ ಬಂದ್ ಆಗಿದೆ</h3>
-      <p style="font-size:0.85rem; color:#666; line-height:1.4;" id="serverDownMsg">ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಸಿಸ್ಟಮ್ ಆಫ್ ಮಾಡಲಾಗಿದೆ ಅಥವಾ ನಿಮ್ಮ ಖಾತೆಯನ್ನು ತೆಗೆದುಹಾಕಲಾಗಿದೆ. ದಯವಿಟ್ಟು ಮಾಸ್ಟರ್ ಅನ್ನು ಸಂಪರ್ಕಿಸಿ.</p>
+      <p style="font-size:0.85rem; color:#666; line-height:1.4;" id="serverDownMsg">ಮಾಸ್ಟರ್ ಪ್ಯಾನಲ್‌ನಿಂದ ಸಿಸ್ಟಮ್ ಆಫ್ ಮಾಡಲಾಗಿದೆ ಅಥವಾ ನಿಮ್ಮ ಖಾತೆಯನ್ನು ತೆಗೆದುಹಾಕಲಾಗಿದೆ. ದಯವಿಟ್ಟು ಮಾಸ್ಟರ್ ಅನ್ನು ಸಂಪೂರ್ಕಿಸಿ.</p>
     </div>
   </div>
 
+  <!-- Customer Login Overlay -->
   <div id="customerLoginOverlay">
     <div class="login-box">
       <div style="font-size: 2.5rem; margin-bottom: 5px;">🛍️</div>
@@ -387,40 +395,47 @@
         </div>
       </div>
 
-      <!-- PAYMENT OPTIONS WITH DIRECT CLICKABLE QR CODE -->
+      <!-- PAYMENT OPTIONS WITH AUTO DYNAMIC QR CODE & PAY BUTTON -->
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 12px;">
         <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom:6px;" id="lblPaymentMethodTitle">💳 ಪಾವತಿ ವಿಧಾನ:</h4>
         <input type="hidden" id="selectedPaymentMode" value="UPI">
         
         <!-- UPI Option -->
         <div class="pay-opt-btn selected" id="optUpi" onclick="selectPaymentMode('UPI')">
-          <span style="font-size:0.85rem;">📱 QR ಕೋಡ್ ಮೂಲಕ ಆನ್‌ಲೈನ್ ಪಾವತಿ (ಉಚಿತ ಡೆಲಿವರಿ)</span>
+          <span style="font-size:0.85rem;">📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ / QR ಸ್ಕ್ಯಾನ್ (ಉಚಿತ ಡೆಲಿವರಿ)</span>
           <span>✔</span>
         </div>
 
-        <!-- Direct QR Code Box -->
+        <!-- Auto Dynamic QR Code & Direct Pay Box -->
         <div id="qrDisplayBox" style="background:#f8f9fa; border:1px solid #ccc; border-radius:8px; padding:12px; margin-top:8px; text-align:center;">
-          <p style="font-size:0.8rem; font-weight:bold; color:#333; margin-bottom:6px;">👇 ಈ QR ಕೋಡ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ ಅಥವಾ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಪಾವತಿಸಿ:</p>
+          <p style="font-size:0.82rem; font-weight:bold; color:#1a73e8; margin-bottom:6px;">👇 ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ ನೇರವಾಗಿ PhonePe / GPay ಮೂಲಕ ಪಾವತಿಸಿ ಅಥವಾ QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ:</p>
           
-          <!-- Clickable UPI Intent Link with QR Image -->
-          <a id="qrIntentLink" href="#" target="_blank">
-            <img src="logo.png" alt="QR Code" style="width:150px; height:150px; object-fit:contain; border:1px solid #ddd; border-radius:8px; background:#fff; cursor:pointer;" onerror="this.src='https://via.placeholder.com/150?text=QR+Code'">
+          <!-- Dynamic Scannable QR Code Image -->
+          <div style="background:#fff; display:inline-block; padding:8px; border-radius:8px; border:1px solid #ddd;">
+            <img id="dynamicQrImg" src="" alt="Dynamic Payment QR Code" style="width:160px; height:160px; object-fit:contain;">
+          </div>
+          
+          <!-- Direct Pay Now Button for Mobile UPI Apps -->
+          <a id="qrIntentLink" href="#" class="direct-upi-pay-btn">
+            📲 ಈಗಲೇ ಪಾವತಿಸಿ (Pay <span id="btnPayAmountText">₹0</span> via UPI App)
           </a>
           
-          <p style="font-size:0.75rem; color:#555; margin-top:6px;">UPI ID: <b>8105010768anil@slc</b>[span_0](start_span)[span_0](end_span)</p>
-          <p style="font-size:0.75rem; color:var(--primary); font-weight:bold; margin-top:2px;">ಪಾವತಿಸಬೇಕಾದ ಮೊತ್ತ: <span id="qrDisplayAmountText">₹0</span></p>
+          <p style="font-size:0.75rem; color:#555; margin-top:8px;">Merchant UPI ID: <b>8105010768anil@slc</b></p>
+          <p style="font-size:0.78rem; color:var(--success); font-weight:bold; margin-top:2px;">ಪಾವತಿಸಬೇಕಾದ ನಿಖರ ಮೊತ್ತ: <span id="qrDisplayAmountText">₹0</span></p>
 
           <hr style="border:0; border-top:1px solid #ddd; margin:10px 0;">
 
           <!-- UTR & Screenshot Upload -->
-          <div style="text-align:left;">
-            <label style="font-size:0.75rem; font-weight:bold; color:#333;">UPI Transaction ID / UTR Number:</label>
-            <input type="text" id="upiTxnIdInput" placeholder="ಉದಾ: 432156789012" style="width:100%; padding:7px; margin-top:3px; border:1px solid #ccc; border-radius:4px; font-size:0.8rem;">
+          <div style="text-align:left; background:#fff; padding:8px; border-radius:6px; border:1px solid #e0e0e0;">
+            <p style="font-size:0.75rem; color:#d32f2f; font-weight:bold; margin-bottom:6px;">✅ ಪಾವತಿ ಮಾಡಿದ ನಂತರ ಕೆಳಗಿನ ಯಾವುದಾದರೂ ಒಂದು ವಿವರ ಹಾಕಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ:</p>
             
-            <label style="font-size:0.75rem; font-weight:bold; color:#333; display:block; margin-top:6px;">ಪಾವತಿ ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಫೋಟೋ (Payment Screenshot):</label>
-            <input type="file" id="paymentProofInput" accept="image/*" style="width:100%; margin-top:2px; font-size:0.75rem;" onchange="previewPaymentProof(event)">
-            <div id="paymentProofPreviewBox" style="margin-top:4px; display:none; text-align:center;">
-              <img id="previewPaymentImgTag" src="" style="width:60px; height:60px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">
+            <label style="font-size:0.75rem; font-weight:bold; color:#333;">1. 12-ಅಂಕಿಯ UPI Transaction ID / UTR Number:</label>
+            <input type="text" id="upiTxnIdInput" placeholder="ಉದಾ: 432156789012" maxlength="12" style="width:100%; padding:7px; margin-top:3px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem;">
+            
+            <label style="font-size:0.75rem; font-weight:bold; color:#333; display:block; margin-top:8px;">2. ಅಥವಾ ಪಾವತಿ ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಫೋಟೋ (Payment Screenshot):</label>
+            <input type="file" id="paymentProofInput" accept="image/*" style="width:100%; margin-top:3px; font-size:0.75rem;" onchange="previewPaymentProof(event)">
+            <div id="paymentProofPreviewBox" style="margin-top:6px; display:none; text-align:center;">
+              <img id="previewPaymentImgTag" src="" style="width:70px; height:70px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">
             </div>
           </div>
         </div>
@@ -434,7 +449,7 @@
       </div>
 
       <div style="margin-bottom: 15px;">
-        <button class="btn-action btn-buy-now" id="confirmOrderBtn" onclick="initiateOrderProcess()" style="width:100%; padding: 12px; font-size: 1rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff;">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)</button>
+        <button class="btn-action btn-buy-now" id="confirmOrderBtn" onclick="initiateOrderProcess()" style="width:100%; padding: 14px; font-size: 1rem; font-weight: bold; background: var(--success); border-radius: 8px; color: #fff;">ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (Confirm Order)</button>
       </div>
     </div>
   </div>
@@ -544,7 +559,10 @@
     let bannerSlideIndex = 0;
     let bannerIntervalId = null;
 
-    const STORE_UPI_ID = "8105010768anil@slc"; // ನಿಮ್ಮ ಯುಪಿಐ ಐಡಿ
+    // ⭐ PAYMENT CONFIGURATION (Cashfree Live App ID + Direct Merchant UPI)
+    const CASHFREE_LIVE_APP_ID = "152915783379u7dd522dcfbb09";
+    const STORE_UPI_ID = "8105010768anil@slc";
+    const STORE_MERCHANT_NAME = "Namma Ooru Shopping";
 
     window.addEventListener('DOMContentLoaded', () => {
       checkCustomerLoginStatus();
@@ -662,6 +680,7 @@
       updateCheckoutTotals();
     }
 
+    // ⭐ AUTOMATIC DYNAMIC AMOUNT & QR CODE GENERATOR
     function updateCheckoutTotals() {
       if (!selectedProduct) return;
       let basePriceWith100 = (Number(selectedProduct.price) + 100) * productQty;
@@ -673,12 +692,21 @@
       document.getElementById('checkoutDeliveryFeeText').innerText = deliveryFee === 0 ? "ಉಚಿತ (Free)" : "₹50";
       document.getElementById('checkoutGrandTotalText').innerText = "₹" + grandTotal;
       document.getElementById('qrDisplayAmountText').innerText = "₹" + grandTotal;
+      document.getElementById('btnPayAmountText').innerText = "₹" + grandTotal;
 
-      // Update UPI Intent link dynamically with correct grand total amount
-      let upiUrl = `upi://pay?pa=${STORE_UPI_ID}&pn=NammaOoruShopping&am=${grandTotal}&cu=INR&tn=OrderPayment`;
+      // Auto-Generate UPI Link with Exact Order Amount
+      let upiUrl = `upi://pay?pa=${STORE_UPI_ID}&pn=${encodeURIComponent(STORE_MERCHANT_NAME)}&am=${grandTotal}&cu=INR&tn=${encodeURIComponent('Order_' + selectedProduct.name.substring(0, 15))}`;
+      
+      // Set Direct Pay Button Href
       const qrIntentLink = document.getElementById('qrIntentLink');
       if (qrIntentLink) {
         qrIntentLink.href = upiUrl;
+      }
+
+      // Generate Dynamic Real Scannable QR Image for the exact amount
+      const dynamicQrImg = document.getElementById('dynamicQrImg');
+      if (dynamicQrImg) {
+        dynamicQrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
       }
     }
 
@@ -1152,7 +1180,7 @@
       history.pushState({ page: 'checkout' }, '', '');
     }
 
-    // ⭐ DIRECT QR CODE ORDER INITIATION
+    // ⭐ DIRECT QR CODE & UPI ORDER INITIATION
     function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
@@ -1178,12 +1206,12 @@
       if (paymentMode === 'UPI') {
         const txnId = document.getElementById('upiTxnIdInput').value.trim();
         if (!txnId && !paymentProofBase64) {
-          alert("⚠️ ದಯವಿಟ್ಟು QR ಕೋಡ್ ಮೇಲೆ ಪಾವತಿಸಿ, ನಂತರ ನಿಮ್ಮ UPI Transaction ID (UTR) ಬರೆಯಿರಿ ಅಥವಾ ಪಾವತಿ ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಅಪ್ಲೋಡ್ ಮಾಡಿ!");
+          alert("⚠️ ದಯವಿಟ್ಟು 'ಈಗಲೇ ಪಾವತಿಸಿ' ಬಟನ್ ಒತ್ತಿ ಅಥವಾ QR ಕೋಡ್ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಹಣ ಪಾವತಿಸಿ, ನಂತರ ನಿಮ್ಮ 12 ಅಂಕಿಯ UPI Transaction ID (UTR) ಬರೆಯಿರಿ ಅಥವಾ ಪಾವತಿ ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಅಪ್ಲೋಡ್ ಮಾಡಿ!");
           return;
         }
 
         saveOrderWithProof('SUCCESS', "ಲೋಕಲ್ ಡೆಲಿವರಿ", 'UPI', 0, grandTotal, txnId, paymentProofBase64, () => {
-          alert("🎉 ನಿಮ್ಮ ಪಾವತಿ ವಿವರಗಳು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿವೆ. ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
+          alert("🎉 ನಿಮ್ಮ ಆನ್‌ಲೈನ್ ಪಾವತಿ ವಿವರಗಳು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿವೆ. ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
           openMyOrdersScreen();
         });
 
@@ -1245,6 +1273,7 @@
         returnPolicy: selectedProduct.returnPolicy || 'RETURN_AVAILABLE',
         paymentMode: paymentModeVal,
         paymentStatus: paymentStatusVal,
+        cashfreeAppId: CASHFREE_LIVE_APP_ID,
         upiTransactionId: txnId || '',
         paymentProofPhoto: proofPhoto || '',
         deliveryOtp: otp,

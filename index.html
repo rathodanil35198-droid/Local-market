@@ -556,6 +556,7 @@
 
     const STORE_UPI_ID = "8105010768anil@slc";
     const STORE_MERCHANT_NAME = "Namma Ooru Shopping";
+    const ADMIN_WHATSAPP_NUMBER = "918105010768";
 
     window.addEventListener('DOMContentLoaded', () => {
       checkCustomerLoginStatus();
@@ -673,10 +674,16 @@
       updateCheckoutTotals();
     }
 
+    // ಇಲ್ಲಿ ಮಾಲೀಕರು ಹಾಕಿದ ಬೆಲೆಗೆ ₹100 ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಸೇರಿಸಲಾಗುತ್ತದೆ (Delivery Included)
+    function getAdjustedPrice(rawPrice) {
+      return Number(rawPrice || 0) + 100;
+    }
+
     function updateCheckoutTotals() {
       if (!selectedProduct) return;
-      let basePrice = Number(selectedProduct.price) * productQty;
-      let deliveryFee = 0; // ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಉಚಿತ (0)
+      let adjustedUnitPrice = getAdjustedPrice(selectedProduct.price);
+      let basePrice = adjustedUnitPrice * productQty;
+      let deliveryFee = 0; // ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಉಚಿತ ಎಂದು ತೋರಿಸುತ್ತದೆ (ಆದರೆ ಬೆಲೆಯಲ್ಲಿ ಸೇರಿರುತ್ತದೆ)
       let grandTotal = basePrice + deliveryFee;
 
       document.getElementById('checkoutBasePriceText').innerText = "₹" + basePrice;
@@ -981,8 +988,8 @@
         let img = p.photo || 'https://via.placeholder.com/150';
         if (p.colors?.[0]?.photos?.[0]) img = p.colors[0].photos[0];
         let shop = allShopsMap[p.shopId];
-        let customerDisplayPrice = Number(p.price);
-        let customerOldPrice = p.oldPrice ? Number(p.oldPrice) : "";
+        let customerDisplayPrice = getAdjustedPrice(p.price);
+        let customerOldPrice = p.oldPrice ? getAdjustedPrice(p.oldPrice) : "";
         return `
           <div class="product-card" onclick="openProductDetail('${p.id}')">
             <div class="img-box"><img src="${img}"></div>
@@ -1097,8 +1104,8 @@
         <button class="size-btn ${idx === 0 ? 'selected' : ''}" onclick="selectSize(this, '${s}')">${s}</button>
       `).join('');
 
-      let displayPrice = Number(selectedProduct.price) * productQty;
-      let displayOldPrice = selectedProduct.oldPrice ? Number(selectedProduct.oldPrice) * productQty : "";
+      let displayPrice = getAdjustedPrice(selectedProduct.price) * productQty;
+      let displayOldPrice = selectedProduct.oldPrice ? getAdjustedPrice(selectedProduct.oldPrice) * productQty : "";
 
       document.getElementById('detailPrice').innerText = "₹" + displayPrice;
       document.getElementById('detailOldPrice').innerText = displayOldPrice ? "₹" + displayOldPrice : "";
@@ -1128,8 +1135,8 @@
         let img = p.photo || 'https://via.placeholder.com/150';
         if (p.colors?.[0]?.photos?.[0]) img = p.colors[0].photos[0];
         let shop = allShopsMap[p.shopId];
-        let customerDisplayPrice = Number(p.price);
-        let customerOldPrice = p.oldPrice ? Number(p.oldPrice) : "";
+        let customerDisplayPrice = getAdjustedPrice(p.price);
+        let customerOldPrice = p.oldPrice ? getAdjustedPrice(p.oldPrice) : "";
         return `
           <div class="product-card" onclick="openProductDetail('${p.id}')">
             <div class="img-box"><img src="${img}"></div>
@@ -1173,7 +1180,7 @@
       productQty += val;
       if (productQty < 1) productQty = 1;
       document.getElementById('qtyDisplay').innerText = productQty;
-      let total = Number(selectedProduct.price) * productQty;
+      let total = getAdjustedPrice(selectedProduct.price) * productQty;
       document.getElementById('detailPrice').innerText = "₹" + total;
     }
 
@@ -1202,8 +1209,9 @@
       localStorage.setItem('customer_phone_key', phone);
       localStorage.setItem('customer_saved_address', JSON.stringify({ name, phone, village, district, taluk, pincode, landmark }));
 
-      let basePrice = Number(selectedProduct.price) * productQty;
-      let deliveryFee = 0; // ಜೀರೋ ಡೆಲಿವರಿ ಚಾರ್ಜ್
+      let adjustedUnitPrice = getAdjustedPrice(selectedProduct.price);
+      let basePrice = adjustedUnitPrice * productQty;
+      let deliveryFee = 0; 
       let grandTotal = basePrice + deliveryFee;
 
       if (paymentMode === 'UPI') {
@@ -1213,17 +1221,34 @@
           return;
         }
 
-        saveOrderWithProof('SUCCESS', "ಲೋಕಲ್ ಡೆಲಿವರಿ", 'UPI', 0, grandTotal, txnId, paymentProofBase64, () => {
+        saveOrderWithProof('SUCCESS', "ಲೋಕಲ್ ಡೆಲಿವರಿ", 'UPI', 0, grandTotal, txnId, paymentProofBase64, (createdOrder) => {
           alert("🎉 ನಿಮ್ಮ ಆನ್‌ಲೈನ್ ಪಾವತಿ ವಿವರಗಳು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿವೆ. ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
-          openMyOrdersScreen();
+          triggerWhatsAppOrderNotification(createdOrder);
+          openOrderDetails(createdOrder);
         });
 
       } else {
-        saveOrderWithProof('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, 0, grandTotal, '', '', () => {
+        saveOrderWithProof('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, 0, grandTotal, '', '', (createdOrder) => {
           alert("🎉 ನಿಮ್ಮ COD ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
-          openMyOrdersScreen();
+          triggerWhatsAppOrderNotification(createdOrder);
+          openOrderDetails(createdOrder);
         });
       }
+    }
+
+    function triggerWhatsAppOrderNotification(o) {
+      let cust = o.customer || {};
+      let waText = `🛍️ *ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ಹೊಸ ಆರ್ಡರ್!*\n\n` +
+                   `📦 *ಆರ್ಡರ್ ID:* ${o.orderId}\n` +
+                   `🏷️ *ವಸ್ತು:* ${o.productName}\n` +
+                   `💰 *ಮೊತ್ತ:* ₹${o.totalPrice} (${o.paymentMode})\n` +
+                   `👤 *ಗ್ರಾಹಕರು:* ${cust.name} (${cust.phone})\n` +
+                   `📍 *ವಿಳಾಸ:* ${cust.village}, ${cust.taluk}, ${cust.district} (${cust.landmark}) - ಪಿನ್: ${cust.pincode}\n` +
+                   `🔑 *ಒಟಿಪಿ:* ${o.deliveryOtp}\n\n` +
+                   `ದಯವಿಟ್ಟು ಆರ್ಡರ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ ಡೆಲಿವರಿಗೆ ಸಿದ್ಧಪಡಿಸಿ!`;
+
+      let waUrl = `https://api.whatsapp.com/send?phone=${ADMIN_WHATSAPP_NUMBER}&text=${encodeURIComponent(waText)}`;
+      window.open(waUrl, '_blank');
     }
 
     function previewPaymentProof(event) {
@@ -1256,6 +1281,7 @@
       let orderDateStr = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       let deliveryDateStr = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000).toLocaleDateString('en-GB');
 
+      let adjustedUnitPrice = getAdjustedPrice(selectedProduct.price);
       let productTitleStr = `${selectedProduct.name} [Size: ${selectedSize}, Qty: ${productQty}]`;
       if (selectedColorName) {
         productTitleStr = `${selectedProduct.name} [Color: ${selectedColorName}, Size: ${selectedSize}, Qty: ${productQty}]`;
@@ -1266,7 +1292,7 @@
         productName: productTitleStr,
         productPhoto: finalPhoto,
         selectedColor: selectedColorName || 'Standard',
-        basePrice: selectedProduct.price,
+        basePrice: adjustedUnitPrice,
         totalPrice: grandTotalVal,
         deliveryFee: deliveryFeeVal,
         distanceKm: distanceVal,
@@ -1289,7 +1315,8 @@
 
       try {
         await window.setDoc(window.doc(window.db, "orders", orderId), orderData);
-        if (callback) callback();
+        let createdOrder = { id: orderId, ...orderData };
+        if (callback) callback(createdOrder);
       } catch(e) { alert("Error: " + e.message); }
     }
 
@@ -1633,7 +1660,7 @@
       document.getElementById('lblLocationFilter').innerText = t.locationFilter;
       document.getElementById('lblAllCategories').innerText = t.allCategories;
       document.getElementById('navHomeText').innerText = t.navHome;
-      document.getElementById('navCatText').innerText = t.navCat;
+      document.getElementById('navCatText').innerText, t.navCat;
       document.getElementById('navAccText').innerText = t.navAcc;
       document.getElementById('navOrdersText').innerText = t.navOrders;
       document.getElementById('lblProdDetailTitle').innerText = t.prodDetailTitle;

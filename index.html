@@ -77,14 +77,13 @@
     .search-box { display: flex; background: #fff; border-radius: 6px; padding: 6px 10px; align-items: center; border: 1px solid #ddd; margin-top: 4px; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 0.85rem; margin-left: 6px; }
 
-    .hero-slider-container { width: 100%; height: 180px; position: relative; overflow: hidden; border-radius: 8px; margin-bottom: 10px; background: #fff; border: 1px solid #ddd; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer; }
-    .hero-slider-track { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
+    /* Full banner display without cutting */
+    .hero-slider-container { width: 100%; min-height: 170px; max-height: 260px; position: relative; overflow: hidden; border-radius: 8px; margin-bottom: 10px; background: #fff; border: 1px solid #ddd; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer; }
+    .hero-slider-track { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; align-items: center; }
     .hero-slide { min-width: 100%; height: 100%; flex-shrink: 0; background: #fff; display: flex; align-items: center; justify-content: center; }
-    .hero-slide img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+    .hero-slide img { width: 100%; height: auto; max-height: 250px; object-fit: contain; background: #fff; display: block; }
 
     .container { padding: 8px 8px 110px 8px; max-width: 500px; margin: 0 auto; }
-    .filter-box { background: #fff; border: 1px solid #ddd; padding: 8px 10px; border-radius: 8px; margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
-    .filter-box input { flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.8rem; background: #fff; }
 
     .categories-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 10px 0; scrollbar-width: none; }
     .categories-scroll::-webkit-scrollbar { display: none; }
@@ -140,9 +139,8 @@
     .t-item.active .t-dot { background: var(--primary); width: 16px; height: 16px; left: -22px; top: 0; }
     .t-title { font-size: 0.85rem; font-weight: bold; color: #333; }
 
-    .pay-opt-btn { width: 100%; padding: 12px 14px; margin: 6px 0; border: 2px solid #ccc; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #fff; color: #333; }
+    .pay-opt-btn { width: 100%; padding: 11px 12px; margin: 6px 0; border: 2px solid #ccc; border-radius: 8px; font-weight: bold; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: #fff; color: #333; }
     .pay-opt-btn.selected { border-color: #2874f0; background: #e8f0fe; color: #1a73e8; }
-    .pay-opt-btn.locked { background: #f5f5f5; color: #999; border-color: #ddd; cursor: not-allowed; opacity: 0.7; }
 
     .direct-upi-pay-btn {
       display: inline-block; width: 100%; padding: 12px; margin-top: 8px; background: linear-gradient(135deg, #5f259f, #2874f0); color: #fff; text-decoration: none; font-weight: bold; font-size: 0.95rem; border-radius: 8px; text-align: center; box-shadow: 0 3px 6px rgba(0,0,0,0.2);
@@ -162,6 +160,11 @@
     }
 
     #serverDownOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 99999; display: none; justify-content: center; align-items: center; padding: 20px; text-align: center; color: white; }
+
+    .exchange-banner-bar {
+      background: #fff3e0; border: 2px solid #ff9800; border-radius: 8px; padding: 10px;
+      margin-bottom: 10px; font-size: 0.82rem; color: #e65100; font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -180,7 +183,7 @@
     <div class="login-box">
       <div style="font-size: 2.5rem; margin-bottom: 5px;">🛍️</div>
       <h3 style="color: var(--primary); margin-bottom: 5px;">ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್</h3>
-      <p style="font-size: 0.78rem; color: #555; margin-bottom: 12px;">ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ</p>
+      <p style="font-size: 0.78rem; color: #555; margin-bottom: 12px;">ಎಲ್ಲಿಂದಲಾದರೂ ಸುಲಭವಾಗಿ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ</p>
       
       <div style="margin-bottom: 10px; text-align: left;">
         <label style="font-size: 0.75rem; font-weight: bold; color: #444;">ನಿಮ್ಮ ಹೆಸರು (Name):</label>
@@ -216,12 +219,17 @@
       </div>
     </div>
     <div class="search-box">
-      🔍 <input type="text" id="searchInput" placeholder="ಊರು, ತಾಲೂಕು, ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ..." oninput="handleSearchInput()">
+      🔍 <input type="text" id="searchInput" placeholder="ಪ್ರಾಡಕ್ಟ್, ಕ್ಯಾಟಗರಿ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ..." oninput="handleSearchInput()">
     </div>
   </header>
 
   <!-- HOME VIEW CONTAINER -->
   <div class="container" id="homeViewContainer">
+    <div id="exchangeModeBanner" class="exchange-banner-bar" style="display:none;">
+      🔄 ಎಕ್ಸ್ಚೇಂಜ್ ಮೋಡ್ ಚಾಲ್ತಿಯಲ್ಲಿದೆ: ಹಳೆಯ ವಸ್ತುವಿನ ಮೊತ್ತ ₹<span id="exchangeMaxAmountText">0</span> ಒಳಗಿನ ಅಥವಾ ಸಮನಾದ ವಸ್ತುವನ್ನು ಆಯ್ಕೆಮಾಡಿ!
+      <button onclick="clearExchangeMode()" style="margin-left:8px; padding:3px 8px; background:#d32f2f; color:#fff; border:none; border-radius:4px; font-size:0.72rem; cursor:pointer;">ರದ್ದುಮಾಡಿ</button>
+    </div>
+
     <div class="hero-slider-container" id="heroSliderContainer">
       <div class="hero-slider-track" id="heroSliderTrack">
         <div class="hero-slide" style="display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #2874f0, #1649a0); color:white; font-size:1.1rem; font-weight:bold;">
@@ -243,11 +251,6 @@
       <div class="cat-chip" onclick="filterByCategory('ಡ್ರೆಸ್')">👗 ಡ್ರೆಸ್</div>
       <div class="cat-chip" onclick="filterByCategory('ಮಕ್ಕಳ ಡ್ರೆಸ್')">👶 ಮಕ್ಕಳ ಡ್ರೆಸ್</div>
       <div class="cat-chip" onclick="filterByCategory('ಮೊಬೈಲ್')">📱 ಮೊಬೈಲ್</div>
-    </div>
-
-    <div class="filter-box">
-      <span style="font-size:0.75rem; font-weight:bold; color:var(--primary);" id="lblLocationFilter">📍 ಸ್ಥಳ/ತಾಲೂಕು ಸರ್ಚ್:</span>
-      <input type="text" id="filterTaluk" value="ಶಹಾಪುರ" placeholder="ತಾಲೂಕು/ಸ್ಥಳ ನಮೂದಿಸಿ" oninput="applyLocationFilter()">
     </div>
 
     <div id="productsGrid" class="grid-products"></div>
@@ -289,7 +292,7 @@
       <p id="detailShopName" style="color: #666; font-size: 0.75rem; margin-top: 2px;"></p>
       <p id="detailShopLocation" style="color: var(--primary); font-size: 0.75rem; font-weight: bold; margin-top: 2px;"></p>
       
-      <div id="detailStockLeftBox" style="margin-top:4px; font-size:0.78rem; font-weight:bold; color:#d84315;"></div>
+      <div id="detailStockLeftBox" style="margin-top:4px; font-size:0.8rem; font-weight:bold; color:#d84315;"></div>
       <div id="detailReturnPolicyContainer" style="margin-top:6px;"></div>
       <div id="detailRamStorageBox" style="margin-top:6px; font-size:0.8rem; font-weight:bold; color:#1976d2; background:#e3f2fd; padding:6px 8px; border-radius:4px; display:none;"></div>
 
@@ -321,7 +324,7 @@
       </div>
 
       <div class="delivery-badge" id="lblDeliveryBadge">
-        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! - 📱 ಉಚಿತ ಡೆಲಿವರಿ!</b>
+        🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! - ಉಚಿತ ಡೆಲಿವರಿ!</b>
       </div>
 
       <div style="margin-top: 20px; border-top: 2px solid #ddd; padding-top: 12px;">
@@ -381,7 +384,7 @@
         </div>
         <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:3px;">
           <span>ಡೆಲಿವರಿ ಚಾರ್ಜ್:</span>
-          <span id="checkoutDeliveryFeeText" style="font-weight:bold; color:var(--success);">ಉಚಿತ (Free)</span>
+          <span id="checkoutDeliveryFeeText" style="font-weight:bold; color:var(--success);">ಉಚಿತ ಡೆಲಿವರಿ (Free)</span>
         </div>
         <hr style="border:0; border-top:1px solid #eee; margin:4px 0;">
         <div style="display:flex; justify-content:space-between; font-size:0.9rem; font-weight:bold;">
@@ -390,27 +393,31 @@
         </div>
       </div>
 
-      <!-- PAYMENT OPTIONS (Direct Dynamic UPI Intent & QR Code) -->
+      <!-- PAYMENT OPTIONS (Only UPI & COD buttons shown initially; QR/UTR appears ONLY when UPI is clicked) -->
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 12px;">
         <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom:6px;" id="lblPaymentMethodTitle">💳 ಪಾವತಿ ವಿಧಾನ:</h4>
-        <input type="hidden" id="selectedPaymentMode" value="UPI">
+        <input type="hidden" id="selectedPaymentMode" value="COD">
+
+        <!-- COD Option (Always unlocked) -->
+        <div class="pay-opt-btn selected" id="optCod" onclick="selectPaymentMode('COD')">
+          <span id="lblCodOptionText" style="font-size:0.85rem;">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (ಉಚಿತ ಡೆಲಿವರಿ)</span>
+          <span id="codStatusIcon">✔</span>
+        </div>
         
         <!-- UPI Option -->
-        <div class="pay-opt-btn selected" id="optUpi" onclick="selectPaymentMode('UPI')">
-          <span style="font-size:0.85rem;">📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ / QR ಸ್ಕ್ಯಾನ್ (ಉಚಿತ ಡೆಲಿವರಿ)</span>
-          <span>✔</span>
+        <div class="pay-opt-btn" id="optUpi" onclick="selectPaymentMode('UPI')">
+          <span style="font-size:0.85rem;">📱 UPI ಪಾವತಿ (ಉಚಿತ ಡೆಲಿವರಿ)</span>
+          <span id="upiStatusIcon">›</span>
         </div>
 
-        <!-- Auto Dynamic QR Code & Direct Pay Box -->
-        <div id="qrDisplayBox" style="background:#f8f9fa; border:1px solid #ccc; border-radius:8px; padding:12px; margin-top:8px; text-align:center;">
+        <!-- Hidden until UPI button is clicked -->
+        <div id="qrDisplayBox" style="background:#f8f9fa; border:1px solid #ccc; border-radius:8px; padding:12px; margin-top:8px; text-align:center; display:none;">
           <p style="font-size:0.82rem; font-weight:bold; color:#1a73e8; margin-bottom:6px;">👇 ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ ನೇರವಾಗಿ PhonePe / GPay ಮೂಲಕ ಪಾವತಿಸಿ ಅಥವಾ QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ:</p>
           
-          <!-- Dynamic Scannable QR Code Image -->
           <div style="background:#fff; display:inline-block; padding:8px; border-radius:8px; border:1px solid #ddd;">
             <img id="dynamicQrImg" src="" alt="Dynamic Payment QR Code" style="width:160px; height:160px; object-fit:contain;">
           </div>
           
-          <!-- Direct Pay Now Button for Mobile UPI Apps -->
           <a id="qrIntentLink" href="#" class="direct-upi-pay-btn" onclick="return handleDirectUpiPayClick()">
             📲 ಈಗಲೇ ಪಾವತಿಸಿ (Pay <span id="btnPayAmountText">₹0</span> via UPI App)
           </a>
@@ -420,7 +427,6 @@
 
           <hr style="border:0; border-top:1px solid #ddd; margin:10px 0;">
 
-          <!-- UTR & Screenshot Upload -->
           <div style="text-align:left; background:#fff; padding:8px; border-radius:6px; border:1px solid #e0e0e0;">
             <p style="font-size:0.75rem; color:#d32f2f; font-weight:bold; margin-bottom:6px;">✅ ಪಾವತಿ ಮಾಡಿದ ನಂತರ ಕೆಳಗಿನ ಯಾವುದಾದರೂ ಒಂದು ವಿವರ ಹಾಕಿ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ:</p>
             
@@ -434,13 +440,6 @@
             </div>
           </div>
         </div>
-
-        <!-- COD Option -->
-        <div class="pay-opt-btn" id="optCod" style="margin-top:8px;" onclick="selectPaymentMode('COD')">
-          <span id="lblCodOptionText" style="font-size:0.85rem;">💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (ಉಚಿತ ಡೆಲಿವರಿ)</span>
-          <span id="codStatusIcon">🔓</span>
-        </div>
-        <div id="codLockedMessage" style="font-size:0.75rem; color:#d32f2f; margin-top:4px; font-weight:bold;"></div>
       </div>
 
       <div style="margin-bottom: 15px;">
@@ -476,17 +475,17 @@
     <div style="padding: 15px; max-width: 500px; margin: 0 auto;" id="pocketMoneyContent"></div>
   </div>
 
-  <!-- RETURN MODAL -->
+  <!-- RETURN / EXCHANGE MODAL -->
   <div id="returnModal" class="custom-modal">
     <div class="custom-modal-content">
-      <h3 style="color:var(--danger); margin-bottom:10px; font-size:1.05rem;" id="lblReturnTitle">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಅರ್ಜಿ (ಉಚಿತ ರಿಟರ್ನ್)</h3>
+      <h3 id="lblReturnTitle" style="color:var(--danger); margin-bottom:10px; font-size:1.05rem;">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಅರ್ಜಿ (ಉಚಿತ ರಿಟರ್ನ್)</h3>
       
       <div style="background:#fff3e0; border:1px solid #ffe0b2; padding:8px; border-radius:6px; margin-bottom:10px; font-size:0.78rem; color:#e65100;">
-        ℹ️ ನಿಯಮದಂತೆ ರಿಟರ್ನ್ ಮಾಡುವಾಗ ಯಾವುದೇ ಹೆಚ್ಚುವರಿ ಚಾರ್ಜ್ ಇರುವುದಿಲ್ಲ.
+        ℹ️ ನಿಯಮದಂತೆ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡುವಾಗ ಯಾವುದೇ ಹೆಚ್ಚುವರಿ ಚಾರ್ಜ್ ಇರುವುದಿಲ್ಲ.
       </div>
 
       <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold;">1. ರಿಟರ್ನ್‌ ಮಾಡಲು ಪ್ರಮುಖ ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಬರೆಯಿರಿ:</label>
+        <label style="font-size:0.8rem; font-weight:bold;">1. ಕಾರಣ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಬರೆಯಿರಿ:</label>
         <select id="returnReasonSelect" style="width:100%; padding:8px; margin-top:4px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem;" onchange="checkCustomReturnReason(this)">
           <option value="📦 ವಸ್ತು ಹಾನಿಯಾಗಿದೆ (Item Damaged)">📦 ವಸ್ತು ಹಾನಿಯಾಗಿದೆ (Item Damaged)</option>
           <option value="📏 ಸೈಜ್ ವ್ಯತ್ಯಾಸವಿದೆ (Size Issue)">📏 ಸೈಜ್ ವ್ಯತ್ಯಾಸವಿದೆ (Size Issue)</option>
@@ -496,16 +495,18 @@
         <input type="text" id="customReturnReasonInput" placeholder="ಇಲ್ಲಿ ಕಾರಣ ಟೈಪ್ ಮಾಡಿ..." style="width:100%; padding:8px; margin-top:6px; border:1px solid #ccc; border-radius:6px; font-size:0.85rem; display:none;">
       </div>
 
-      <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold; color:var(--primary);">2. ಹಣ ಪಡೆಯಲು ನಿಮ್ಮ UPI ID / PhonePe / GPay ಸಂಖ್ಯೆ ನಮೂದಿಸಿ:</label>
-        <input type="text" id="customerUpiIdInput" placeholder="ಉದಾ: 8105010768anil@slc" style="width:100%; padding:8px; margin-top:4px; border:1px solid var(--primary); border-radius:6px; font-size:0.85rem; background:#f0f4ff;">
-      </div>
+      <div id="exchangeRefundFields">
+        <div style="margin-bottom:10px;">
+          <label style="font-size:0.8rem; font-weight:bold; color:var(--primary);">2. ಹಣ ಪಡೆಯಲು ನಿಮ್ಮ UPI ID / PhonePe / GPay ಸಂಖ್ಯೆ ನಮೂದಿಸಿ:</label>
+          <input type="text" id="customerUpiIdInput" placeholder="ಉದಾ: 8105010768anil@slc" style="width:100%; padding:8px; margin-top:4px; border:1px solid var(--primary); border-radius:6px; font-size:0.85rem; background:#f0f4ff;">
+        </div>
 
-      <div style="margin-bottom:10px;">
-        <label style="font-size:0.8rem; font-weight:bold; color:var(--primary);">3. QR ಕೋಡ್ ಅಪ್ಲೋಡ್ ಮಾಡಿ ಅಥವಾ ಕ್ಯೂಆರ್ ಫೋಟೋ ಹಾಕಿ:</label>
-        <input type="file" id="returnQrInput" accept="image/*" style="width:100%; margin-top:2px; font-size:0.8rem;" onchange="previewReturnQr(event)">
-        <div id="returnQrPreview" style="margin-top:4px; display:none;">
-          <img id="previewQrImgTag" src="" style="width:60px; height:60px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">
+        <div style="margin-bottom:10px;">
+          <label style="font-size:0.8rem; font-weight:bold; color:var(--primary);">3. QR ಕೋಡ್ ಅಪ್ಲೋಡ್ ಮಾಡಿ ಅಥವಾ ಕ್ಯೂಆರ್ ಫೋಟೋ ಹಾಕಿ:</label>
+          <input type="file" id="returnQrInput" accept="image/*" style="width:100%; margin-top:2px; font-size:0.8rem;" onchange="previewReturnQr(event)">
+          <div id="returnQrPreview" style="margin-top:4px; display:none;">
+            <img id="previewQrImgTag" src="" style="width:60px; height:60px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">
+          </div>
         </div>
       </div>
 
@@ -527,7 +528,7 @@
 
       <div style="display:flex; gap:8px;">
         <button onclick="closeReturnModal()" style="flex:1; padding:10px; background:#666; color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕ್ಯಾನ್ಸಲ್ (Cancel)</button>
-        <button onclick="submitOrderReturnForm()" style="flex:1; padding:10px; background:var(--danger); color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕನ್ಫರ್ಮ್ ರಿಟರ್ನ್</button>
+        <button id="submitReturnConfirmBtn" onclick="submitOrderReturnForm()" style="flex:1; padding:10px; background:var(--danger); color:#fff; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">ಕನ್ಫರ್ಮ್ ರಿಟರ್ನ್</button>
       </div>
     </div>
   </div>
@@ -538,7 +539,10 @@
     let validShopIds = new Set();
     let bannerList = [];
     let currentCategoryFilter = '';
+    let activeReturnOrder = null;
     let activeReturnOrderId = null;
+    let isExchangeActionMode = false;
+    let exchangeBudgetPrice = 0; // ಹಳೆಯ ವಸ್ತುವಿನ ಮೊತ್ತ
     let returnBase64Photo1 = '';
     let returnBase64Photo2 = '';
     let returnBase64Qr = '';
@@ -609,72 +613,35 @@
       } else {
         document.getElementById('customerLoginOverlay').style.display = 'none';
         loadSavedAddress();
-        evaluateCustomerCodEligibility();
       }
       checkInstallStatusAndButton();
     }
 
-    async function evaluateCustomerCodEligibility() {
-      const phone = localStorage.getItem('customer_phone_key');
-      if (!phone) return;
-      try {
-        const q = window.query(window.collection(window.db, "orders"), window.where("customer.phone", "==", phone));
-        window.onSnapshot(q, (snapshot) => {
-          let hasReturnedOrder = false;
-
-          snapshot.forEach(docSnap => {
-            let order = docSnap.data();
-            if (order.isReturned === true) {
-              hasReturnedOrder = true;
-            }
-          });
-
-          const codBtn = document.getElementById('optCod');
-          const codMsg = document.getElementById('codLockedMessage');
-          const codIcon = document.getElementById('codStatusIcon');
-
-          if (hasReturnedOrder) {
-            codBtn.classList.add('locked');
-            codBtn.onclick = function() {
-              alert("⚠️ ನಿಮ್ಮ ಹಿಂದಿನ ಆರ್ಡರ್ ರಿಟರ್ನ್ ಆಗಿರುವುದರಿಂದ ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (COD) ಲಾಕ್ ಮಾಡಲಾಗಿದೆ. ದಯವಿಟ್ಟು ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ ಬಳಸಿ.");
-            };
-            codIcon.innerText = '🔒';
-            codMsg.innerText = "❌ ಹಿಂದಿನ ರಿಟರ್ನ್ ಕಾರಣದಿಂದ COD ಲಾಕ್ ಆಗಿದೆ. ಆನ್‌ಲೈನ್ ಪಾವತಿ ಮಾತ್ರ ಲಭ್ಯ.";
-            selectPaymentMode('UPI');
-          } else {
-            codBtn.classList.remove('locked');
-            codBtn.onclick = function() { selectPaymentMode('COD'); };
-            codIcon.innerText = '🔓';
-            codMsg.innerText = "";
-          }
-        });
-      } catch(e) { console.log(e); }
-    }
-
     function selectPaymentMode(mode) {
-      const codBtn = document.getElementById('optCod');
-      if (mode === 'COD' && codBtn.classList.contains('locked')) {
-        alert("⚠️ ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ ಲಾಕ್ ಆಗಿದೆ. ದಯವಿಟ್ಟು UPI ಪಾವತಿ ಬಳಸಿ.");
-        return;
-      }
-
       document.getElementById('selectedPaymentMode').value = mode;
       const upiBtn = document.getElementById('optUpi');
+      const codBtn = document.getElementById('optCod');
       const qrBox = document.getElementById('qrDisplayBox');
+      const upiIcon = document.getElementById('upiStatusIcon');
+      const codIcon = document.getElementById('codStatusIcon');
 
       if (mode === 'UPI') {
         upiBtn.classList.add('selected');
         codBtn.classList.remove('selected');
         qrBox.style.display = 'block';
+        upiIcon.innerText = '✔';
+        codIcon.innerText = '›';
       } else {
         codBtn.classList.add('selected');
         upiBtn.classList.remove('selected');
         qrBox.style.display = 'none';
+        codIcon.innerText = '✔';
+        upiIcon.innerText = '›';
       }
       updateCheckoutTotals();
     }
 
-    // ಇಲ್ಲಿ ಮಾಲೀಕರು ಹಾಕಿದ ಬೆಲೆಗೆ ₹100 ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಸೇರಿಸಲಾಗುತ್ತದೆ (Delivery Included)
+    // ಮಾಲೀಕರು ಹಾಕಿದ ಬೆಲೆಗೆ ₹100 ಸೇರಿ ಗ್ರಾಹಕರಿಗೆ ತೋರಿಸಲಾಗುತ್ತದೆ ಮತ್ತು "ಉಚಿತ ಡೆಲಿವರಿ" ಎಂದು ತೋರಿಸುತ್ತದೆ
     function getAdjustedPrice(rawPrice) {
       return Number(rawPrice || 0) + 100;
     }
@@ -683,12 +650,12 @@
       if (!selectedProduct) return;
       let adjustedUnitPrice = getAdjustedPrice(selectedProduct.price);
       let basePrice = adjustedUnitPrice * productQty;
-      let deliveryFee = 0; // ಡೆಲಿವರಿ ಚಾರ್ಜ್ ಉಚಿತ ಎಂದು ತೋರಿಸುತ್ತದೆ (ಆದರೆ ಬೆಲೆಯಲ್ಲಿ ಸೇರಿರುತ್ತದೆ)
-      let grandTotal = basePrice + deliveryFee;
+      let deliveryFee = 0;
+      let grandTotal = isExchangeActionMode ? 0 : (basePrice + deliveryFee);
 
       document.getElementById('checkoutBasePriceText').innerText = "₹" + basePrice;
-      document.getElementById('checkoutDeliveryFeeText').innerText = "ಉಚಿತ (Free)";
-      document.getElementById('checkoutGrandTotalText').innerText = "₹" + grandTotal;
+      document.getElementById('checkoutDeliveryFeeText').innerText = "ಉಚಿತ ಡೆಲಿವರಿ (Free)";
+      document.getElementById('checkoutGrandTotalText').innerText = isExchangeActionMode ? "₹0 (ಎಕ್ಸ್ಚೇಂಜ್)" : ("₹" + grandTotal);
       document.getElementById('qrDisplayAmountText').innerText = "₹" + grandTotal;
       document.getElementById('btnPayAmountText').innerText = "₹" + grandTotal;
 
@@ -748,7 +715,6 @@
       alert(`🎉 ಲಾಗಿನ್ ಯಶಸ್ವಿಯಾಗಿದೆ!\nನಿಮ್ಮ 4-ಡಿಜಿಟ್ ಐಡಿ: ${customerId}`);
       document.getElementById('customerLoginOverlay').style.display = 'none';
       loadSavedAddress();
-      evaluateCustomerCodEligibility();
     }
 
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -784,7 +750,7 @@
 
     function shareAppOnWhatsApp() {
       const appUrl = window.location.href;
-      let shareText = `🛍️ ಬನ್ನಿ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ ಮೂಲಕ ನಿಮ್ಮ ಹತ್ತಿರದ ಅಂಗಡಿಗಳಿಂದ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ! 1-2 ದಿನಗಳಲ್ಲಿ ಮನೆಗೆ ಡೆಲಿವರಿ ಪಡೆಯಿರಿ.\n\nಲಿಂಕ್ ಇಲ್ಲಿದೆ ನೋಡಿ:\n${appUrl}`;
+      let shareText = `🛍️ ಬನ್ನಿ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್‌ ಮೂಲಕ ಯಾವುದೇ ಊರು/ತಾಲೂಕಿನಿಂದ ಸುಲಭವಾಗಿ ವಸ್ತುಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ! 1-2 ದಿನಗಳಲ್ಲಿ ಮನೆಗೆ ಉಚಿತ ಡೆಲಿವರಿ ಪಡೆಯಿರಿ.\n\nಲಿಂಕ್ ಇಲ್ಲಿದೆ ನೋಡಿ:\n${appUrl}`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
     }
 
@@ -793,8 +759,7 @@
         appTitle: "ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ನಮ್ಮ ಶಾಪಿಂಗ್ ಆಪ್ | ಊರು ಶಾಪಿಂಗ್ ಆಪ್ | ಫಾಸ್ಟ್ ಶಾಪಿಂಗ್ ಆಪ್",
         brandTitle: "🛍️ ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್",
         pocketMoney: "💰 ಪಾಕೆಟ್",
-        searchPlaceholder: "ಊರು, ತಾಲೂಕು, ಪ್ರಾಡಕ್ಟ್ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ...",
-        locationFilter: "📍 ಸ್ಥಳ/ತಾಲೂಕು ಸರ್ಚ್:",
+        searchPlaceholder: "ಪ್ರಾಡಕ್ಟ್, ಕ್ಯಾಟಗರಿ ಅಥವಾ ಅಂಗಡಿ ಹುಡುಕಿ...",
         allCategories: "ಎಲ್ಲಾ ವರ್ಗಗಳು (All Categories)",
         navHome: "ಹೋಮ್", navCat: "ಕ್ಯಾಟಗರಿಗಳು", navAcc: "ಅಕೌಂಟ್", navOrders: "ಆರ್ಡರ್ಸ್",
         prodDetailTitle: "ಪ್ರಾಡಕ್ಟ್ ವಿವರಣೆ",
@@ -815,8 +780,7 @@
         appTitle: "Namma Ooru Shopping App",
         brandTitle: "🛍️ Namma Ooru Shopping App",
         pocketMoney: "💰 Pocket",
-        searchPlaceholder: "Search village, taluk, product or shop...",
-        locationFilter: "📍 Location / Taluk Search:",
+        searchPlaceholder: "Search product, category or shop...",
         allCategories: "All Categories",
         navHome: "Home", navCat: "Categories", navAcc: "Account", navOrders: "Orders",
         prodDetailTitle: "Product Description",
@@ -885,7 +849,7 @@
       if (bannerList.length > 0) {
         track.innerHTML = bannerList.map((b, index) => `
           <div class="hero-slide" onclick="handleBannerClick(${index})">
-            <img src="${b.imageUrl}" style="width:100%; height:100%; object-fit:contain; background:#fff;">
+            <img src="${b.imageUrl}" style="width:100%; height:auto; max-height:250px; object-fit:contain; background:#fff;">
           </div>
         `).join('');
         startBannerAutoSlide();
@@ -910,8 +874,6 @@
         filterByCategory(b.targetCategory);
       } else if (b.targetProductId) {
         openProductDetail(b.targetProductId);
-      } else {
-        alert("ಈ ಜಾಹೀರಾತಿನಲ್ಲಿ ಯಾವುದೇ ನಿರ್ದಿಷ್ಟ ಲಿಂಕ್ ಇಲ್ಲ.");
       }
     }
 
@@ -956,31 +918,27 @@
 
     function applyLocationFilter() {
       const searchQ = document.getElementById('searchInput').value.toLowerCase().trim();
-      const talukQ = document.getElementById('filterTaluk').value.toLowerCase().trim();
 
       let filtered = allProducts.filter(p => {
         let shop = allShopsMap[p.shopId];
         let shopName = shop ? shop.shopName.toLowerCase() : "";
         let shopTaluk = shop ? (shop.taluk || "").toLowerCase() : "";
-        let prodName = p.name.toLowerCase();
+        let prodName = (p.name || "").toLowerCase();
         let prodCat = (p.category || "").toLowerCase();
 
         let matchSearch = searchQ === "" || prodName.includes(searchQ) || shopName.includes(searchQ) || shopTaluk.includes(searchQ) || prodCat.includes(searchQ);
-        let matchLoc = talukQ === "" || shopTaluk.includes(talukQ) || shopName.includes(talukQ);
         let matchCat = currentCategoryFilter === "" || prodCat.includes(currentCategoryFilter.toLowerCase()) || prodName.includes(currentCategoryFilter.toLowerCase());
 
-        return matchSearch && matchLoc && matchCat;
+        return matchSearch && matchCat;
       });
       renderProducts(filtered);
     }
 
     function renderProducts(list) {
       const grid = document.getElementById('productsGrid');
-      const talukVal = document.getElementById('filterTaluk').value.trim() || "ಶಹಾಪುರ";
       if (!list || list.length === 0) {
-        grid.innerHTML = `<div style="grid-column: span 2; text-align:center; color:#d32f2f; padding:25px; background:#fff; border-radius:8px; font-weight:bold; font-size:0.9rem;">
-          ❌ ಈ ತಾಲೂಕಿನಲ್ಲಿ (${talukVal}) ಈ ವಸ್ತು ಇಲ್ಲ!<br><br>
-          ಈ ತಾಲೂಕಿನ ಅಂಗಡಿಗಳು ನಮ್ಮ ಪ್ಯಾನಲ್‌ನಲ್ಲಿ ಇನ್ನೂ ಲಭ್ಯವಿಲ್ಲ ಇದ್ದರೆ ನಾವು ನಿಮಗೆ ತಿಳಿಸುತ್ತೇವೆ.
+        grid.innerHTML = `<div style="grid-column: span 2; text-align:center; color:#555; padding:25px; background:#fff; border-radius:8px; font-weight:bold; font-size:0.9rem;">
+          ಈ ವಿಭಾಗದಲ್ಲಿ ಸದ್ಯ ಯಾವುದೇ ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ. ಬೇರೆ ಕ್ಯಾಟಗರಿ ನೋಡಿ!
         </div>`;
         return;
       }
@@ -990,12 +948,14 @@
         let shop = allShopsMap[p.shopId];
         let customerDisplayPrice = getAdjustedPrice(p.price);
         let customerOldPrice = p.oldPrice ? getAdjustedPrice(p.oldPrice) : "";
+        let qtyText = p.quantity ? `${p.quantity} ಪೀಸ್ ಲಭ್ಯ` : '';
         return `
           <div class="product-card" onclick="openProductDetail('${p.id}')">
             <div class="img-box"><img src="${img}"></div>
             <div>
               <div class="prod-title">${p.name}</div>
-              <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shop ? shop.shopName : 'Store'} (${shop ? shop.taluk : ''})</div>
+              <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shop ? shop.shopName : 'Store'} ${shop && shop.taluk ? `(${shop.taluk})` : ''}</div>
+              ${qtyText ? `<div style="font-size:0.7rem; color:#1565c0; font-weight:bold; margin-top:2px;">📦 ${qtyText}</div>` : ''}
               <div class="price-row" style="margin-top:4px;">
                 <span class="curr-price">₹${customerDisplayPrice}</span>
                 ${customerOldPrice ? `<span class="old-price">₹${customerOldPrice}</span>` : ''}
@@ -1017,12 +977,13 @@
       let shop = allShopsMap[selectedProduct.shopId];
       document.getElementById('detailTitle').innerText = selectedProduct.name;
       document.getElementById('detailShopName').innerText = "ಅಂಗಡಿ: " + (shop ? shop.shopName : "Store");
-      document.getElementById('detailShopLocation').innerText = "📍 ತಾಲೂಕು/ಸ್ಥಳ: " + (shop ? shop.taluk : 'ಶಹಾಪುರ (Shahapur)');
+      document.getElementById('detailShopLocation').innerText = "📍 ಸ್ಥಳ: " + (shop ? `${shop.taluk || ''}${shop.district ? ', ' + shop.district : ''}` : 'ಎಲ್ಲಾ ಕಡೆ ಲಭ್ಯ');
 
       const stockBox = document.getElementById('detailStockLeftBox');
-      if (selectedProduct.stockLeft || selectedProduct.qtyLeft || selectedProduct.stock) {
+      let qtyAvailable = selectedProduct.quantity || selectedProduct.stockLeft || selectedProduct.qtyLeft || selectedProduct.stock;
+      if (qtyAvailable) {
         stockBox.style.display = 'block';
-        stockBox.innerText = `🔥 ${selectedProduct.stockLeft || selectedProduct.qtyLeft || selectedProduct.stock} left`;
+        stockBox.innerText = `📦 ಒಟ್ಟು ಲಭ್ಯವಿರುವ ಪ್ರಮಾಣ: ${qtyAvailable} ಪೀಸ್ (Pieces Available)`;
       } else {
         stockBox.style.display = 'none';
       }
@@ -1035,10 +996,7 @@
       } else if (returnPolicyVal === 'EXCHANGE_ONLY') {
         returnContainer.innerHTML = `
           <div style="margin-top:4px;">
-            <span style="color:#ff9800; font-weight:bold; font-size:0.78rem;">🩱 ಈ ವಸ್ತುವಿಗೆ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ ಇದೆ (Exchange Only)</span>
-            <button onclick="openExchangeCategoryView()" style="display:block; margin-top:4px; padding:6px 12px; background:#ff9800; color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:0.75rem; cursor:pointer;">
-              🔄 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಲು ಬೇರೆ ವಸ್ತುಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ
-            </button>
+            <span style="color:#ff9800; font-weight:bold; font-size:0.78rem;">🔄 ಈ ವಸ್ತುವಿಗೆ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ ಇದೆ (Exchange Only)</span>
           </div>
         `;
       } else {
@@ -1110,15 +1068,21 @@
       document.getElementById('detailPrice').innerText = "₹" + displayPrice;
       document.getElementById('detailOldPrice').innerText = displayOldPrice ? "₹" + displayOldPrice : "";
 
+      const buyNowBtn = document.getElementById('lblBuyNowBtn');
+      const addCartBtn = document.getElementById('lblAddToCartBtn');
+      if (isExchangeActionMode) {
+        addCartBtn.style.display = 'none';
+        buyNowBtn.innerText = `🔄 ಎಕ್ಸ್ಚೇಂಜ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (₹${displayPrice})`;
+      } else {
+        addCartBtn.style.display = 'block';
+        addCartBtn.innerText = translations[currentLang].addToCart;
+        buyNowBtn.innerText = translations[currentLang].buyNow;
+      }
+
       updateDetailSliderPhotos();
       renderRelatedProducts(selectedProduct);
       showScreen('productDetailScreen');
       history.pushState({ page: 'detail' }, '', '');
-    }
-
-    function openExchangeCategoryView() {
-      showScreen('homeViewContainer');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function renderRelatedProducts(currentProd) {
@@ -1177,21 +1141,36 @@
     }
 
     function changeQty(val) {
-      productQty += val;
-      if (productQty < 1) productQty = 1;
+      let maxStock = Number(selectedProduct?.quantity || selectedProduct?.stockLeft || selectedProduct?.stock || 10);
+      let nextQty = productQty + val;
+      if (nextQty < 1) nextQty = 1;
+      if (nextQty > maxStock) {
+        alert(`ಈ ವಸ್ತುವಿನ ಗರಿಷ್ಠ ಲಭ್ಯವಿರುವ ಪ್ರಮಾಣ ${maxStock} ಪೀಸ್ ಮಾತ್ರ.`);
+        nextQty = maxStock;
+      }
+      productQty = nextQty;
       document.getElementById('qtyDisplay').innerText = productQty;
       let total = getAdjustedPrice(selectedProduct.price) * productQty;
       document.getElementById('detailPrice').innerText = "₹" + total;
+      if (isExchangeActionMode) {
+        document.getElementById('lblBuyNowBtn').innerText = `🔄 ಎಕ್ಸ್ಚೇಂಜ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (₹${total})`;
+      }
     }
 
     function openCheckoutScreen() {
-      evaluateCustomerCodEligibility();
+      if (isExchangeActionMode && selectedProduct) {
+        let newItemTotal = getAdjustedPrice(selectedProduct.price) * productQty;
+        if (newItemTotal > exchangeBudgetPrice) {
+          alert(`⚠️ ಈ ರೇಟು ಜಾಸ್ತಿ ಇದೆ! ನಿಮ್ಮ ಹಳೆಯ ವಸ್ತುವಿನ ಮೊತ್ತ ₹${exchangeBudgetPrice} ಇದೆ, ಆದರೆ ಈ ವಸ್ತುವಿನ ಮೊತ್ತ ₹${newItemTotal} ಆಗಿದೆ. ದಯವಿಟ್ಟು ₹${exchangeBudgetPrice} ಅಥವಾ ಅದಕ್ಕಿಂತ ಕಡಿಮೆ ರೇಟಿನ ವಸ್ತುವನ್ನು ಆಯ್ಕೆಮಾಡಿ.`);
+          return;
+        }
+      }
       updateCheckoutTotals();
       showScreen('checkoutScreen');
       history.pushState({ page: 'checkout' }, '', '');
     }
 
-    function initiateOrderProcess() {
+    async function initiateOrderProcess() {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const pincode = document.getElementById('custPincode').value.trim();
@@ -1212,7 +1191,34 @@
       let adjustedUnitPrice = getAdjustedPrice(selectedProduct.price);
       let basePrice = adjustedUnitPrice * productQty;
       let deliveryFee = 0; 
-      let grandTotal = basePrice + deliveryFee;
+      let grandTotal = isExchangeActionMode ? 0 : (basePrice + deliveryFee);
+
+      if (isExchangeActionMode && activeReturnOrderId) {
+        try {
+          await window.updateDoc(window.doc(window.db, "orders", activeReturnOrderId), {
+            isReturned: true,
+            isExchangeOrder: true,
+            status: 'EXCHANGE_REQUESTED',
+            isReturnRequested: true,
+            returnReason: `🔄 ಎಕ್ಸ್ಚೇಂಜ್ ವಸ್ತು ಆಯ್ಕೆ: ${selectedProduct.name} (₹${basePrice})`,
+            exchangeNewProduct: {
+              productId: selectedProduct.id,
+              productName: selectedProduct.name,
+              price: basePrice,
+              size: selectedSize,
+              qty: productQty
+            },
+            returnTimestamp: Date.now()
+          });
+        } catch(e) { console.log(e); }
+
+        saveOrderWithProof('EXCHANGE_SUCCESS', "ಲೋಕಲ್ / ಕೊರಿಯರ್ ಡೆಲಿವರಿ", 'EXCHANGE', 0, grandTotal, '', '', (createdOrder) => {
+          clearExchangeMode();
+          alert("🎉 ನಿಮ್ಮ ಎಕ್ಸ್ಚೇಂಜ್ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿ ಅಂಗಡಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ!");
+          openOrderDetails(createdOrder);
+        });
+        return;
+      }
 
       if (paymentMode === 'UPI') {
         const txnId = document.getElementById('upiTxnIdInput').value.trim();
@@ -1221,14 +1227,14 @@
           return;
         }
 
-        saveOrderWithProof('SUCCESS', "ಲೋಕಲ್ ಡೆಲಿವರಿ", 'UPI', 0, grandTotal, txnId, paymentProofBase64, (createdOrder) => {
+        saveOrderWithProof('SUCCESS', "ಉಚಿತ ಡೆಲಿವರಿ", 'UPI', 0, grandTotal, txnId, paymentProofBase64, (createdOrder) => {
           alert("🎉 ನಿಮ್ಮ ಆನ್‌ಲೈನ್ ಪಾವತಿ ವಿವರಗಳು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿವೆ. ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
           triggerWhatsAppOrderNotification(createdOrder);
           openOrderDetails(createdOrder);
         });
 
       } else {
-        saveOrderWithProof('COD_PENDING', "ಲೋಕಲ್ ಡೆಲಿವರಿ", paymentMode, 0, grandTotal, '', '', (createdOrder) => {
+        saveOrderWithProof('COD_PENDING', "ಉಚಿತ ಡೆಲಿವರಿ", paymentMode, 0, grandTotal, '', '', (createdOrder) => {
           alert("🎉 ನಿಮ್ಮ COD ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ!");
           triggerWhatsAppOrderNotification(createdOrder);
           openOrderDetails(createdOrder);
@@ -1240,12 +1246,12 @@
       let cust = o.customer || {};
       let waText = `🛍️ *ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ - ಹೊಸ ಆರ್ಡರ್!*\n\n` +
                    `📦 *ಆರ್ಡರ್ ID:* ${o.orderId}\n` +
+                   `🏪 *ಅಂಗಡಿ:* ${o.shopName}\n` +
                    `🏷️ *ವಸ್ತು:* ${o.productName}\n` +
                    `💰 *ಮೊತ್ತ:* ₹${o.totalPrice} (${o.paymentMode})\n` +
                    `👤 *ಗ್ರಾಹಕರು:* ${cust.name} (${cust.phone})\n` +
                    `📍 *ವಿಳಾಸ:* ${cust.village}, ${cust.taluk}, ${cust.district} (${cust.landmark}) - ಪಿನ್: ${cust.pincode}\n` +
-                   `🔑 *ಒಟಿಪಿ:* ${o.deliveryOtp}\n\n` +
-                   `ದಯವಿಟ್ಟು ಆರ್ಡರ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ ಡೆಲಿವರಿಗೆ ಸಿದ್ಧಪಡಿಸಿ!`;
+                   `🔑 *ಒಟಿಪಿ:* ${o.deliveryOtp}`;
 
       let waUrl = `https://api.whatsapp.com/send?phone=${ADMIN_WHATSAPP_NUMBER}&text=${encodeURIComponent(waText)}`;
       window.open(waUrl, '_blank');
@@ -1350,10 +1356,10 @@
           container.innerHTML = `<p style="text-align:center; color:#777;">ಯಾವುದೇ ಸಕ್ರಿಯ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>`;
         } else {
           container.innerHTML = validOrders.map(o => {
-            let payBadge = `(📱 Free Delivery)`;
+            let payBadge = `(ಉಚಿತ ಡೆಲಿವರಿ)`;
             let dateStr = o.orderDate ? `📅 ಆರ್ಡರ್ ದಿನಾಂಕ: ${o.orderDate}` : '';
             let expDelivery = o.expectedDeliveryDate ? `<br>🚚 ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ ದಿನಾಂಕ: ${o.expectedDeliveryDate}` : '';
-            let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ)` : (o.status === 'DELIVERED' || o.status === 'STEP_4' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
+            let statusText = o.isReturned ? `(↩ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಸಲ್ಲಿಕೆಯಾಗಿದೆ)` : (o.status === 'DELIVERED' || o.status === 'STEP_4' ? `(✔ ಡೆಲಿವರಿ ಕಂಪ್ಲೀಟ್ ಆಗಿದೆ)` : `(ಸ್ಥಿತಿ: ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)`);
             return `
               <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
                 <div style="display:flex; gap:10px; align-items:center;">
@@ -1384,7 +1390,7 @@
       if (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED') { s1 = 'completed'; s2 = 'completed'; s3 = 'completed'; s4 = 'completed'; }
 
       let cust = o.customer || {};
-      let distanceText = `(ದೂರ: ${o.distanceKm || 'ಲೋಕಲ್ ಡೆಲಿವರಿ'})`;
+      let distanceText = `(ಉಚಿತ ಡೆಲಿವರಿ)`;
       
       let showCancelBtn = (status === 'STEP_1' || status === 'PENDING') && !o.isReturned;
       let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED');
@@ -1413,23 +1419,26 @@
         }
       }
 
+      // 12:00 ಗಂಟೆಯ ಒಳಗೆ (12 hours from delivery) ಮಾತ್ರ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಬಟನ್ ಕಾಣಬೇಕು
       let deliveryTime = o.deliveredTimestamp || o.timestamp || Date.now();
       let hoursSinceDelivery = (Date.now() - deliveryTime) / (1000 * 60 * 60);
       let orderReturnPolicy = o.returnPolicy || 'RETURN_AVAILABLE';
       
-      let showReturnBtn = isDelivered && (hoursSinceDelivery <= 12) && !o.isReturned && (orderReturnPolicy !== 'NO');
+      let within12Hours = hoursSinceDelivery <= 12;
+      let showReturnOrExchangeButtons = isDelivered && within12Hours && !o.isReturned && (orderReturnPolicy !== 'NO');
 
-      let returnButtonHtml = '';
-      if (showReturnBtn) {
+      let actionButtonsHtml = '';
+      if (showReturnOrExchangeButtons) {
+        let btns = [];
         if (orderReturnPolicy === 'EXCHANGE_ONLY') {
-          returnButtonHtml = `<button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:#ff9800; color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">🩱 ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)</button>`;
+          btns.push(`<button onclick='openExchangeFlow(${JSON.stringify(o)})' style="width:100%; padding:12px; background:#ff9800; color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer; margin-top:8px;">🔄 ಎಕ್ಸ್ಚೇಂಜ್ (Exchange)</button>`);
         } else {
-          returnButtonHtml = `<button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer;">🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಮಾಡಿ</button>`;
+          btns.push(`<button onclick='openReturnModal(${JSON.stringify(o)})' style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer; margin-top:8px;">↩️ ರಿಟರ್ನ್ (Return)</button>`);
+          btns.push(`<button onclick='openExchangeFlow(${JSON.stringify(o)})' style="width:100%; padding:12px; background:#ff9800; color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer; margin-top:8px;">🔄 ಎಕ್ಸ್ಚೇಂಜ್ (Exchange)</button>`);
         }
+        actionButtonsHtml = btns.join('');
       } else if (isDelivered && orderReturnPolicy === 'NO') {
-        returnButtonHtml = `<div style="color:#d32f2f; font-weight:bold; font-size:0.85rem; text-align:center; padding:10px; background:#ffebee; border-radius:6px; border:1px solid #ffcdd2;">❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ ಇಲ್ಲ (No Return Policy)</div>`;
-      } else if (isDelivered && hoursSinceDelivery > 12 && !o.isReturned) {
-        returnButtonHtml = `<div style="color:#777; font-weight:bold; font-size:0.8rem; text-align:center; padding:8px; background:#eee; border-radius:6px;">⏰ 12 ಗಂಟೆಗಳಾವಧಿ ಮುಕ್ತಾಯಗೊಂಡಿದೆ (Return Window Closed)</div>`;
+        actionButtonsHtml = `<div style="color:#d32f2f; font-weight:bold; font-size:0.85rem; text-align:center; padding:10px; background:#ffebee; border-radius:6px; border:1px solid #ffcdd2; margin-top:8px;">❌ ಈ ವಸ್ತುವಿಗೆ ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಇಲ್ಲ</div>`;
       }
 
       let dateDetailsBox = `
@@ -1474,18 +1483,43 @@
         ${roadmapHtml}
 
         ${showCancelBtn ? `<button onclick="cancelCustomerOrder('${o.id}')" style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer; margin-bottom:10px;">❌ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ</button>` : ''}
-        ${returnButtonHtml}
+        ${actionButtonsHtml}
       `;
       showScreen('orderDetailsScreen');
       history.pushState({ page: 'order_details' }, '', '');
     }
 
+    // ಎಕ್ಸ್ಚೇಂಜ್ ಬಟನ್ ಒತ್ತಿದಾಗ ಮುಖಪುಟಕ್ಕೆ (Home) ಕರೆದುಕೊಂಡು ಹೋಗಿ ಹೊಸ ವಸ್ತು ಆಯ್ಕೆ ಮಾಡಲು ಅನುವು ಮಾಡಿಕೊಡುತ್ತದೆ
+    function openExchangeFlow(order) {
+      activeReturnOrder = order;
+      activeReturnOrderId = order.id;
+      isExchangeActionMode = true;
+      exchangeBudgetPrice = Number(order.totalPrice || order.basePrice || 0);
+
+      document.getElementById('exchangeMaxAmountText').innerText = exchangeBudgetPrice;
+      document.getElementById('exchangeModeBanner').style.display = 'block';
+      goBackToHome();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function clearExchangeMode() {
+      isExchangeActionMode = false;
+      exchangeBudgetPrice = 0;
+      activeReturnOrder = null;
+      activeReturnOrderId = null;
+      document.getElementById('exchangeModeBanner').style.display = 'none';
+    }
+
     function openReturnModal(order) {
+      activeReturnOrder = order;
       activeReturnOrderId = order.id;
       returnBase64Photo1 = '';
       returnBase64Photo2 = '';
       returnBase64Qr = '';
       document.getElementById('customerUpiIdInput').value = '';
+      document.getElementById('lblReturnTitle').innerText = "🔄 ಆರ್ಡರ್ ರಿಟರ್ನ್ ಅರ್ಜಿ (ಉಚಿತ ರಿಟರ್ನ್)";
+      document.getElementById('exchangeRefundFields').style.display = 'block';
+      document.getElementById('submitReturnConfirmBtn').innerText = "ಕನ್ಫರ್ಮ್ ರಿಟರ್ನ್";
       document.getElementById('returnModal').style.display = 'flex';
     }
 
@@ -1657,18 +1691,19 @@
       document.getElementById('lblBrand').innerText = t.brandTitle;
       document.getElementById('lblPocketMoney').innerText = t.pocketMoney;
       document.getElementById('searchInput').placeholder = t.searchPlaceholder;
-      document.getElementById('lblLocationFilter').innerText = t.locationFilter;
       document.getElementById('lblAllCategories').innerText = t.allCategories;
       document.getElementById('navHomeText').innerText = t.navHome;
-      document.getElementById('navCatText').innerText, t.navCat;
+      document.getElementById('navCatText').innerText = t.navCat;
       document.getElementById('navAccText').innerText = t.navAcc;
       document.getElementById('navOrdersText').innerText = t.navOrders;
       document.getElementById('lblProdDetailTitle').innerText = t.prodDetailTitle;
       document.getElementById('lblVariantTitle').innerText = t.variantTitle;
       document.getElementById('lblQtyLabel').childNodes[0].nodeValue = t.qtyLabel;
       document.getElementById('lblDeliveryBadge').innerHTML = t.deliveryBadge;
-      document.getElementById('lblAddToCartBtn').innerText = t.addToCart;
-      document.getElementById('lblBuyNowBtn').innerText = t.buyNow;
+      if (!isExchangeActionMode) {
+        document.getElementById('lblAddToCartBtn').innerText = t.addToCart;
+        document.getElementById('lblBuyNowBtn').innerText = t.buyNow;
+      }
       document.getElementById('lblCheckoutHeader').innerText = t.checkoutHeader;
       document.getElementById('lblDeliveryAddrTitle').innerText = t.deliveryAddrTitle;
       document.getElementById('lblPaymentMethodTitle').innerText = t.paymentMethodTitle;

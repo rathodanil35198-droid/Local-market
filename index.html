@@ -52,6 +52,14 @@
     html, body { width: 100%; min-height: 100vh; background-color: var(--bg); color: var(--text); overflow-x: hidden; }
     body { padding-bottom: 120px; }
 
+    /* HD Photo Clarity Rules */
+    img {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
     header { background-color: var(--primary); color: white; padding: 8px 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
     
@@ -98,7 +106,7 @@
     .grid-products { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
     .product-card { background: #fff; border-radius: 8px; padding: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid #eee; }
     
-    .img-box { width: 100%; height: 175px; background: #f8f9fa; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid #eee; }
+    .img-box { width: 100%; height: 185px; background: #fff; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid #eee; }
     .product-card img { width: 100%; height: 100%; object-fit: cover; background: #fff; }
     
     .prod-title { font-size: 0.8rem; font-weight: 600; margin-top: 6px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.5em; color: #333; }
@@ -110,7 +118,7 @@
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .back-btn { font-size: 1.3rem; cursor: pointer; }
 
-    /* Flipkart ತರಹ Edge-to-Edge Full Screen ಫೋಟೋ ಸ್ಲೈಡರ್ */
+    /* Flipkart ತರಹ Edge-to-Edge HD ಫೋಟೋ ಸ್ಲೈಡರ್ */
     .slider-container {
       width: 100vw;
       margin-left: -12px;
@@ -119,7 +127,7 @@
       position: relative;
       overflow: hidden;
       border-radius: 0;
-      background: #f8f9fa;
+      background: #fff;
       border-bottom: 1px solid #eee;
     }
     .slider-track {
@@ -132,7 +140,7 @@
     .slider-track img {
       width: 100vw;
       flex-shrink: 0;
-      height: 390px;
+      height: 410px;
       object-fit: cover;
       scroll-snap-align: start;
       background: #fff;
@@ -978,7 +986,7 @@
         let qtyText = p.quantity ? `${p.quantity} ಪೀಸ್ ಲಭ್ಯ` : '';
         return `
           <div class="product-card" onclick="openProductDetail('${p.id}')">
-            <div class="img-box"><img src="${img}"></div>
+            <div class="img-box"><img src="${img}" alt="${p.name}"></div>
             <div>
               <div class="prod-title">${p.name}</div>
               <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shop ? shop.shopName : 'Store'} ${shop && shop.taluk ? `(${shop.taluk})` : ''}</div>
@@ -1109,6 +1117,15 @@
       updateDetailSliderPhotos();
       renderRelatedProducts(selectedProduct);
       showScreen('productDetailScreen');
+
+      // ತಕ್ಷಣ ಮೇಲೆ ಸ್ಕ್ರೋಲ್ ಮಾಡಲು
+      const detailScreenEl = document.getElementById('productDetailScreen');
+      if (detailScreenEl) {
+        detailScreenEl.scrollTop = 0;
+        detailScreenEl.scrollTo({ top: 0, behavior: 'instant' });
+      }
+      window.scrollTo({ top: 0, behavior: 'instant' });
+
       history.pushState({ page: 'detail' }, '', '');
     }
 
@@ -1130,7 +1147,7 @@
         let customerOldPrice = p.oldPrice ? getAdjustedPrice(p.oldPrice) : "";
         return `
           <div class="product-card" onclick="openProductDetail('${p.id}')">
-            <div class="img-box"><img src="${img}"></div>
+            <div class="img-box"><img src="${img}" alt="${p.name}"></div>
             <div>
               <div class="prod-title">${p.name}</div>
               <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shop ? shop.shopName : 'Store'}</div>
@@ -1158,9 +1175,11 @@
 
     function updateDetailSliderPhotos(customPhotos) {
       let photos = customPhotos || selectedProduct.colors?.[0]?.photos || [selectedProduct.photo];
-      document.getElementById('sliderTrack').innerHTML = photos.map(img => 
-        `<img src="${img}" onclick="openZoomImage('${img}')" style="width:100vw; height:390px; object-fit:cover; background:#fff;">`
+      const track = document.getElementById('sliderTrack');
+      track.innerHTML = photos.map(img => 
+        `<img src="${img}" onclick="openZoomImage('${img}')" style="width:100vw; height:410px; object-fit:cover; background:#fff;">`
       ).join('');
+      track.scrollLeft = 0;
     }
 
     function openZoomImage(imgUrl) {
@@ -1228,27 +1247,57 @@
       let grandTotal = isExchangeActionMode ? 0 : (basePrice + deliveryFee);
 
       if (isExchangeActionMode && activeReturnOrderId) {
+        let oldOrderObj = activeReturnOrder || {};
+        let oldPhoto = oldOrderObj.productPhoto || '';
+        let newPhoto = selectedColorPhoto || selectedProduct.photo || '';
+        let pickupOtp = oldOrderObj.returnOtp || oldOrderObj.deliveryOtp || Math.floor(1000 + Math.random() * 9000).toString();
+        let prevPaymentInfo = (oldOrderObj.paymentMode === 'UPI' || oldOrderObj.paymentStatus === 'SUCCESS')
+          ? `ಮೊದಲೇ ಆನ್‌ಲೈನ್ ಪೇಮೆಂಟ್ (UPI) ಪಾವತಿಯಾಗಿದೆ (₹${oldOrderObj.totalPrice || oldOrderObj.basePrice || basePrice}) — ಈಗ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (ಹೆಚ್ಚುವರಿ ಹಣ ಇಲ್ಲ ₹0)`
+          : `ಹಿಂದಿನ ಆರ್ಡರ್ COD ಆಗಿತ್ತು — ಈಗ ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only - ₹0)`;
+
+        let newProdSummary = `${selectedProduct.name} [Color: ${selectedColorName || 'Standard'}, Size: ${selectedSize}, Qty: ${productQty}] - ₹${basePrice}`;
+
         try {
           await window.updateDoc(window.doc(window.db, "orders", activeReturnOrderId), {
             isReturned: true,
             isExchangeOrder: true,
             status: 'EXCHANGE_REQUESTED',
             isReturnRequested: true,
-            returnReason: `🔄 ಎಕ್ಸ್ಚೇಂಜ್ ವಸ್ತು ಆಯ್ಕೆ: ${selectedProduct.name} (₹${basePrice})`,
+            returnOtp: pickupOtp,
+            pickupOtp: pickupOtp,
+            returnReason: `🔄 ಎಕ್ಸ್ಚೇಂಜ್ ವಸ್ತು: ${newProdSummary} | ${prevPaymentInfo}`,
+            oldProductPhoto: oldPhoto,
+            exchangeNewProductPhoto: newPhoto,
+            returnPhotos: [oldPhoto, newPhoto].filter(Boolean),
+            exchangePaymentStatusText: prevPaymentInfo,
             exchangeNewProduct: {
               productId: selectedProduct.id,
               productName: selectedProduct.name,
+              color: selectedColorName || 'Standard',
               price: basePrice,
               size: selectedSize,
-              qty: productQty
+              qty: productQty,
+              photo: newPhoto
             },
             returnTimestamp: Date.now()
           });
         } catch(e) { console.log(e); }
 
         saveOrderWithProof('EXCHANGE_SUCCESS', "ಲೋಕಲ್ / ಕೊರಿಯರ್ ಡೆಲಿವರಿ", 'EXCHANGE', 0, grandTotal, '', '', (createdOrder) => {
+          let exchMsg = `🔄 *ಎಕ್ಸ್ಚೇಂಜ್ ಆರ್ಡರ್ ವಿವರ (ಅಂಗಡಿಯವರಿಗೆ)*\n\n` +
+                        `📦 *ಹಳೆಯ ಆರ್ಡರ್ ID:* ${activeReturnOrderId}\n` +
+                        `🔑 *ಪಿಕಪ್ OTP:* ${pickupOtp}\n` +
+                        `🏷️ *ಹಳೆಯ ವಸ್ತು:* ${oldOrderObj.productName || 'N/A'}\n` +
+                        `🆕 *ಎಕ್ಸ್ಚೇಂಜ್ ವಸ್ತು (ಬದಲಿಗೆ ಕಳುಹಿಸಬೇಕಾದದ್ದು):* ${newProdSummary}\n` +
+                        `💳 *ಪೇಮೆಂಟ್ ಸ್ಥಿತಿ:* ${prevPaymentInfo}\n` +
+                        `📷 *ಹಳೆಯ ವಸ್ತು ಫೋಟೋ:* ${oldPhoto}\n` +
+                        `📷 *ಎಕ್ಸ್ಚೇಂಜ್ ವಸ್ತು ಫೋಟೋ:* ${newPhoto}\n` +
+                        `👤 *ಗ್ರಾಹಕರು:* ${name} (${phone})\n` +
+                        `📍 *ವಿಳಾಸ:* ${village}, ${taluk}, ${district} - ${pincode}`;
+
           clearExchangeMode();
           alert("🎉 ನಿಮ್ಮ ಎಕ್ಸ್ಚೇಂಜ್ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿ ಅಂಗಡಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ!");
+          window.open(`https://api.whatsapp.com/send?phone=${ADMIN_WHATSAPP_NUMBER}&text=${encodeURIComponent(exchMsg)}`, '_blank');
           openOrderDetails(createdOrder);
         });
         return;
@@ -1283,6 +1332,7 @@
                    `🏪 *ಅಂಗಡಿ:* ${o.shopName}\n` +
                    `🏷️ *ವಸ್ತು:* ${o.productName}\n` +
                    `💰 *ಮೊತ್ತ:* ₹${o.totalPrice} (${o.paymentMode})\n` +
+                   `📷 *ವಸ್ತು ಫೋಟೋ:* ${o.productPhoto || ''}\n` +
                    `👤 *ಗ್ರಾಹಕರು:* ${cust.name} (${cust.phone})\n` +
                    `📍 *ವಿಳಾಸ:* ${cust.village}, ${cust.taluk}, ${cust.district} (${cust.landmark}) - ಪಿನ್: ${cust.pincode}\n` +
                    `🔑 *ಒಟಿಪಿ:* ${o.deliveryOtp}`;
@@ -1345,6 +1395,8 @@
         upiTransactionId: txnId || '',
         paymentProofPhoto: proofPhoto || '',
         deliveryOtp: otp,
+        returnOtp: otp,
+        pickupOtp: otp,
         status: 'STEP_1',
         orderDate: orderDateStr,
         expectedDeliveryDate: deliveryDateStr,
@@ -1397,7 +1449,7 @@
             return `
               <div style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;" onclick='openOrderDetails(${JSON.stringify(o)})'>
                 <div style="display:flex; gap:10px; align-items:center;">
-                  <img src="${o.productPhoto}" style="width:60px; height:60px; object-fit:contain; border-radius:6px; background:#fff;">
+                  <img src="${o.productPhoto}" style="width:65px; height:65px; object-fit:cover; border-radius:6px; background:#fff;">
                   <div style="flex:1;">
                     <h4 style="font-size:0.85rem;">${o.productName}</h4>
                     <p style="font-size:0.85rem; font-weight:bold; color:var(--success); margin-top:2px;">₹${o.totalPrice} ${payBadge}</p>
@@ -1428,6 +1480,7 @@
       
       let showCancelBtn = (status === 'STEP_1' || status === 'PENDING') && !o.isReturned;
       let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED');
+      let pickupOtpVal = o.returnOtp || o.pickupOtp || o.deliveryOtp || '6521';
       
       let otpBoxHtml = '';
       if (!isDelivered && !o.isReturned) {
@@ -1441,13 +1494,32 @@
 
       let returnStatusHtml = '';
       if (o.isReturned) {
+        let exchPhotosHtml = '';
+        if (o.isExchangeOrder || o.exchangeNewProduct) {
+          let exNew = o.exchangeNewProduct || {};
+          let newImg = o.exchangeNewProductPhoto || exNew.photo || '';
+          exchPhotosHtml = `
+            <div style="margin-top:8px; background:#fff; padding:8px; border-radius:6px; border:1px solid #ffcc80;">
+              <div style="font-size:0.78rem; font-weight:bold; color:#e65100; margin-bottom:6px;">
+                🆕 ಎಕ್ಸ್ಚೇಂಜ್ ವಸ್ತು: ${exNew.productName || ''} (₹${exNew.price || o.totalPrice || ''})
+              </div>
+              <div style="display:flex; gap:10px; align-items:center;">
+                ${o.productPhoto ? `<div style="text-align:center;"><img src="${o.productPhoto}" style="width:65px; height:65px; object-fit:cover; border-radius:4px; border:1px solid #ccc;"><br><span style="font-size:0.65rem;">ಹಳೆಯ ವಸ್ತು</span></div>` : ''}
+                ${newImg ? `<div style="text-align:center;"><img src="${newImg}" style="width:65px; height:65px; object-fit:cover; border-radius:4px; border:1px solid #2874f0;"><br><span style="font-size:0.65rem;">ಬದಲಿಗೆ ಬರುವ ವಸ್ತು</span></div>` : ''}
+              </div>
+              ${o.exchangePaymentStatusText ? `<div style="font-size:0.75rem; color:#2e7d32; font-weight:bold; margin-top:6px;">💳 ${o.exchangePaymentStatusText}</div>` : ''}
+            </div>
+          `;
+        }
+
         if (o.returnPaymentStatus === 'SUCCESS') {
           returnStatusHtml = `<div style="color:green; font-weight:bold; margin-top:8px; font-size:0.85rem; background:#e8f5e9; padding:8px; border-radius:6px;">✔ ರಿಟರ್ನ್ ಯಶಸ್ವಿಯಾಗಿದೆ: ಹಣ ನಿಮ್ಮ ಯುಪಿಐಗೆ ಕಳುಹಿಸಲಾಗಿದೆ!</div>`;
         } else {
           returnStatusHtml = `
             <div style="background:#fff3e0; border:2px solid #ffb74d; border-radius:8px; padding:12px; margin-bottom:12px; font-size:0.82rem; color:#d84315; line-height:1.5;">
-              🔑 <b>ರಿಟರ್ನ್ / ಪಿಕಪ್ ಒಟಿಪಿ:</b> <span style="font-size:1.2rem; font-weight:bold; color:#d32f2f;">${o.returnOtp || '9234'}</span><br>
-              • ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕಪ್ ಮಾಡುವಾಗ ಈ ಒಟಿಪಿ ನೀಡಿ.
+              🔑 <b>ರಿಟರ್ನ್ / ಪಿಕಪ್ ಒಟಿಪಿ:</b> <span style="font-size:1.2rem; font-weight:bold; color:#d32f2f;">${pickupOtpVal}</span><br>
+              • ಡೆಲಿವರಿ ಬಾಯ್ ಪಿಕಪ್ ಮಾಡುವಾಗ ಈ ಒಟಿಪಿ ನೀಡಿ (OTP ಮ್ಯಾಚ್ ಆಗುತ್ತದೆ).
+              ${exchPhotosHtml}
             </div>
           `;
         }
@@ -1478,7 +1550,7 @@
         <div style="background:#f8f9fa; border:1px solid #ddd; border-radius:8px; padding:10px; margin-bottom:12px; font-size:0.82rem; color:#444;">
           📅 <b>ಆರ್ಡರ್ ಮಾಡಿದ ದಿನಾಂಕ:</b> ${o.orderDate || 'N/A'}<br>
           🚚 <b>ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ:</b> ${o.expectedDeliveryDate || 'N/A'}<br>
-          💳 <b>ಪಾವತಿ ವಿಧಾನ:</b> ${o.paymentMode === 'UPI' ? '📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (ಉಚಿತ ಡೆಲಿವರಿ)' : '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (ಉಚಿತ ಡೆಲಿವರಿ)'}<br>
+          💳 <b>ಪಾವತಿ ವಿಧಾನ:</b> ${o.paymentMode === 'UPI' ? '📱 ಆನ್‌ಲೈನ್ UPI ಪಾವತಿ (ಉಚಿತ ಡೆಲಿವರಿ)' : (o.paymentMode === 'EXCHANGE' ? '🔄 ಎಕ್ಸ್ಚೇಂಜ್ (Exchange Only)' : '💵 ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (ಉಚಿತ ಡೆಲಿವರಿ)')}<br>
           ${o.upiTransactionId ? `🆔 <b>UPI UTR/Txn ID:</b> ${o.upiTransactionId}<br>` : ''}
           📋 <b>ರಿಟರ್ನ್ ಪಾಲಿಸಿ:</b> <span style="font-weight:bold; color:${orderReturnPolicy === 'NO' ? 'red' : 'green'};">${orderReturnPolicy === 'NO' ? 'ರಿಟರ್ನ್ ಇಲ್ಲ (No Return)' : (orderReturnPolicy === 'EXCHANGE_ONLY' ? 'ಎಕ್ಸ್ಚೇಂಜ್ ಮಾತ್ರ (Exchange Only)' : 'ರಿಟರ್ನ್ ಲಭ್ಯವಿದೆ')}</span>
         </div>
@@ -1501,7 +1573,7 @@
 
       content.innerHTML = `
         <div style="display:flex; gap:10px; align-items:center; background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom:12px;">
-          <img src="${o.productPhoto}" style="width:70px; height:70px; object-fit:contain; border-radius:6px; background:#fff;">
+          <img src="${o.productPhoto}" style="width:75px; height:75px; object-fit:cover; border-radius:6px; background:#fff;">
           <div>
             <h4 style="font-size:0.9rem;">${o.productName}</h4>
             <p style="font-size:0.95rem; font-weight:bold; color:var(--success); margin-top:4px;">₹${o.totalPrice} ${distanceText}</p>
@@ -1578,7 +1650,7 @@
           const canvas = document.createElement('canvas');
           let width = img.width;
           let height = img.height;
-          const maxDim = 800;
+          const maxDim = 1200;
           if (width > height) {
             if (width > maxDim) { height *= maxDim / width; width = maxDim; }
           } else {
@@ -1588,7 +1660,7 @@
           canvas.height = height;
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
-          callback(canvas.toDataURL('image/jpeg', 0.75));
+          callback(canvas.toDataURL('image/jpeg', 0.9));
         };
         img.src = e.target.result;
       };
@@ -1638,7 +1710,9 @@
       }
 
       const customerUpi = document.getElementById('customerUpiIdInput').value.trim();
-      let returnOtp = Math.floor(1000 + Math.random() * 9000).toString();
+      let returnOtp = (activeReturnOrder && (activeReturnOrder.returnOtp || activeReturnOrder.deliveryOtp))
+        ? String(activeReturnOrder.returnOtp || activeReturnOrder.deliveryOtp)
+        : Math.floor(1000 + Math.random() * 9000).toString();
 
       try {
         await window.updateDoc(window.doc(window.db, "orders", activeReturnOrderId), {
@@ -1650,12 +1724,13 @@
           customerQrPhoto: returnBase64Qr,
           returnPhotos: [returnBase64Photo1, returnBase64Photo2].filter(Boolean),
           returnOtp: returnOtp,
+          pickupOtp: returnOtp,
           returnCharge: 0,
           returnPaymentStatus: 'PENDING',
           returnTimestamp: Date.now()
         });
 
-        alert("✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ.");
+        alert(`✅ ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ.\nಪಿಕಪ್ OTP: ${returnOtp}`);
         closeReturnModal();
         openMyOrdersScreen();
       } catch(e) { alert("Error: " + e.message); }

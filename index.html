@@ -85,11 +85,42 @@
     .search-box { display: flex; background: #fff; border-radius: 6px; padding: 6px 10px; align-items: center; border: 1px solid #ddd; margin-top: 4px; }
     .search-box input { border: none; outline: none; width: 100%; font-size: 0.85rem; margin-left: 6px; }
 
-    /* Full banner display without cutting */
-    .hero-slider-container { width: 100%; min-height: 170px; max-height: 260px; position: relative; overflow: hidden; border-radius: 8px; margin-bottom: 10px; background: #fff; border: 1px solid #ddd; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer; }
-    .hero-slider-track { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; align-items: center; }
-    .hero-slide { min-width: 100%; height: 100%; flex-shrink: 0; background: #fff; display: flex; align-items: center; justify-content: center; }
-    .hero-slide img { width: 100%; height: auto; max-height: 250px; object-fit: contain; background: #fff; display: block; }
+    /* ಸರಿಯಾದ ಸೈಜ್‌ನಲ್ಲಿ ಜಾಹೀರಾತು ಬ್ಯಾನರ್ (Ad Banner) */
+    .hero-slider-container {
+      width: 100%;
+      height: 175px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      background: #fff;
+      border: 1px solid #ddd;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+    .hero-slider-track {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s ease-in-out;
+    }
+    .hero-slide {
+      min-width: 100%;
+      width: 100%;
+      height: 100%;
+      flex-shrink: 0;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
 
     .container { padding: 8px 8px 110px 8px; max-width: 500px; margin: 0 auto; }
 
@@ -114,11 +145,20 @@
     .curr-price { color: #000; font-weight: bold; font-size: 0.95rem; }
     .old-price { font-size: 0.75rem; color: #888; text-decoration: line-through; }
 
+    /* Flipkart ಮಾದರಿ ಸ್ಟಾರ್ ಬ್ಯಾಡ್ಜ್ & ಬ್ರೇಕ್‌ಡೌನ್ */
+    .rating-pill { display: inline-flex; align-items: center; gap: 4px; background: #388e3c; color: #fff; font-size: 0.72rem; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-top: 4px; }
+    .rating-count-text { font-size: 0.75rem; color: #666; font-weight: 600; margin-left: 4px; }
+    .stats-info-box { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 8px 10px; margin-top: 8px; font-size: 0.78rem; color: #333; line-height: 1.5; }
+    .star-select-btn { font-size: 1.7rem; cursor: pointer; background: none; border: none; color: #ccc; transition: transform 0.15s; }
+    .star-select-btn.active { color: #ffb300; transform: scale(1.1); }
+    .bar-row { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; margin: 3px 0; }
+    .bar-bg { flex: 1; height: 6px; background: #eee; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; background: #388e3c; }
+
     .screen { display: none; background: var(--bg); min-height: 100vh; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 200; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     .screen-header { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: bold; position: sticky; top: 0; z-index: 210; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .back-btn { font-size: 1.3rem; cursor: pointer; }
 
-    /* Flipkart ತರಹ Edge-to-Edge HD ಫೋಟೋ ಸ್ಲೈಡರ್ */
     .slider-container {
       width: 100vw;
       margin-left: -12px;
@@ -264,7 +304,7 @@
 
     <div class="hero-slider-container" id="heroSliderContainer">
       <div class="hero-slider-track" id="heroSliderTrack">
-        <div class="hero-slide" style="display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #2874f0, #1649a0); color:white; font-size:1.1rem; font-weight:bold;">
+        <div class="hero-slide" style="display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #2874f0, #1649a0); color:white; font-size:1rem; font-weight:bold;">
           🎉 ನಮ್ಮ ಊರು ಶಾಪಿಂಗ್ ಆಪ್ - ವಿಶೇಷ ಆಫರ್‌ಗಳು
         </div>
       </div>
@@ -321,10 +361,19 @@
       <div class="thumbnail-bar" id="thumbnailBar"></div>
 
       <h3 id="detailTitle" style="font-size: 1rem; margin-top: 8px;"></h3>
-      <p id="detailShopName" style="color: #666; font-size: 0.75rem; margin-top: 2px;"></p>
+      <div style="display:flex; align-items:center; margin-top:4px;">
+        <span id="detailRatingBadge" class="rating-pill">0.0 ★</span>
+        <span id="detailRatingCountText" class="rating-count-text">| 0 ರೇಟಿಂಗ್‌ಗಳು</span>
+      </div>
+
+      <p id="detailShopName" style="color: #666; font-size: 0.75rem; margin-top: 4px;"></p>
       <p id="detailShopLocation" style="color: var(--primary); font-size: 0.75rem; font-weight: bold; margin-top: 2px;"></p>
+
+      <div id="detailOrderStatsBox" class="stats-info-box">
+        📊 <b>ಖರೀದಿ & ರಿಟರ್ನ್ ಲೆಕ್ಕ:</b> ಲೋಡ್ ಆಗುತ್ತಿದೆ...
+      </div>
       
-      <div id="detailStockLeftBox" style="margin-top:4px; font-size:0.8rem; font-weight:bold; color:#d84315;"></div>
+      <div id="detailStockLeftBox" style="margin-top:6px; font-size:0.8rem; font-weight:bold; color:#d84315;"></div>
       <div id="detailReturnPolicyContainer" style="margin-top:6px;"></div>
       <div id="detailRamStorageBox" style="margin-top:6px; font-size:0.8rem; font-weight:bold; color:#1976d2; background:#e3f2fd; padding:6px 8px; border-radius:4px; display:none;"></div>
 
@@ -359,6 +408,14 @@
         🚚 <b>1 ರಿಂದ 2 ದಿನಗಳ ಒಳಗೆ ನಿಮ್ಮ ಡೆಲಿವರಿ ನಿಮ್ಮ ಹತ್ತಿರ ತಲುಪುತ್ತದೆ! - ಉಚಿತ ಡೆಲಿವರಿ!</b>
       </div>
 
+      <!-- Flipkart ತರಹ Rating Breakdown & Customer Quality Comments -->
+      <div id="detailReviewsListBox" style="margin-top:12px; background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px;">
+        <h4 style="font-size:0.9rem; color:#212121; margin-bottom:8px;">⭐ ಗ್ರಾಹಕರ ಸ್ಟಾರ್ ರೇಟಿಂಗ್ & ಕ್ವಾಲಿಟಿ ಅಭಿಪ್ರಾಯಗಳು</h4>
+        <div id="ratingBreakdownBars" style="margin-bottom:10px;"></div>
+        <hr style="border:0; border-top:1px solid #eee; margin:8px 0;">
+        <div id="detailReviewsContent" style="font-size:0.78rem; color:#555;">ಇನ್ನೂ ಯಾವುದೇ ರೇಟಿಂಗ್ ಬಂದಿಲ್ಲ.</div>
+      </div>
+
       <div style="margin-top: 20px; border-top: 2px solid #ddd; padding-top: 12px;">
         <h4 style="font-size: 0.9rem; color: #333; margin-bottom: 8px;">🔥 ಇತರ ಪ್ರಮುಖ ವಸ್ತುಗಳು (More Products)</h4>
         <div id="relatedProductsGrid" class="grid-products"></div>
@@ -386,7 +443,6 @@
     </div>
 
     <div style="padding: 12px 12px 160px 12px;">
-      <!-- Delivery Address Box -->
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 12px;">
         <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom:6px;" id="lblDeliveryAddrTitle">📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ವಿಳಾಸ:</h4>
         
@@ -414,7 +470,6 @@
         </select>
       </div>
 
-      <!-- PRICE SUMMARY BOX -->
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 12px;">
         <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom:6px;">💰 ಬೆಲೆ ವಿವರಗಳು:</h4>
         <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:3px;">
@@ -432,7 +487,6 @@
         </div>
       </div>
 
-      <!-- PAYMENT OPTIONS -->
       <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 12px;">
         <h4 style="font-size: 0.85rem; color: var(--primary); margin-bottom:6px;" id="lblPaymentMethodTitle">💳 ಪಾವತಿ ವಿಧಾನ:</h4>
         <input type="hidden" id="selectedPaymentMode" value="COD">
@@ -572,6 +626,8 @@
   <script>
     let allProducts = [];
     let allShopsMap = {};
+    let allOrdersList = [];
+    let allRatingsList = [];
     let validShopIds = new Set();
     let bannerList = [];
     let currentCategoryFilter = '';
@@ -583,6 +639,7 @@
     let returnBase64Photo2 = '';
     let returnBase64Qr = '';
     let paymentProofBase64 = '';
+    let chosenStarRating = 5;
 
     let selectedProduct = null;
     let selectedSize = '';
@@ -864,7 +921,113 @@
     window.initFirebaseAppData = function() {
       startRealtimeShopOwners();
       startRealtimeBanners();
+      startRealtimeAllOrdersAndRatings();
     };
+
+    function startRealtimeAllOrdersAndRatings() {
+      try {
+        window.onSnapshot(window.collection(window.db, "orders"), (snap) => {
+          allOrdersList = [];
+          snap.forEach(d => allOrdersList.push({ id: d.id, ...d.data() }));
+          if (selectedProduct) refreshProductRatingAndStats(selectedProduct);
+        });
+      } catch(e) {}
+
+      try {
+        window.onSnapshot(window.collection(window.db, "product_ratings"), (snap) => {
+          allRatingsList = [];
+          snap.forEach(d => allRatingsList.push({ id: d.id, ...d.data() }));
+          if (selectedProduct) refreshProductRatingAndStats(selectedProduct);
+          applyLocationFilter();
+        });
+      } catch(e) {}
+    }
+
+    function getProductRatingSummary(prod) {
+      let prodRatings = allRatingsList.filter(r => r.productId === prod.id);
+      let count = prodRatings.length;
+      let sum = prodRatings.reduce((acc, r) => acc + Number(r.stars || 0), 0);
+
+      let starCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+      prodRatings.forEach(r => {
+        let s = Number(r.stars || 0);
+        if (starCounts[s] !== undefined) starCounts[s]++;
+      });
+
+      if (count === 0 && Number(prod.ratingCount || 0) > 0) {
+        count = Number(prod.ratingCount);
+        sum = Number(prod.ratingSum || (count * 4.5));
+      }
+
+      let avg = count > 0 ? (sum / count).toFixed(1) : "0.0";
+      return { avg, count, reviews: prodRatings, starCounts };
+    }
+
+    function getProductPurchaseAndReturnStats(prod) {
+      let matchingOrders = allOrdersList.filter(o =>
+        (o.productName || "").toLowerCase().includes((prod.name || "").toLowerCase()) &&
+        o.paymentStatus !== 'FAILED' &&
+        !o.isCancelled
+      );
+      let totalBought = matchingOrders.length;
+      let totalReturned = matchingOrders.filter(o => o.isReturned === true).length;
+      let keptWithoutReturn = Math.max(0, totalBought - totalReturned);
+      return { totalBought, totalReturned, keptWithoutReturn };
+    }
+
+    function refreshProductRatingAndStats(prod) {
+      if (!prod) return;
+      const rSummary = getProductRatingSummary(prod);
+      const stats = getProductPurchaseAndReturnStats(prod);
+
+      const badgeEl = document.getElementById('detailRatingBadge');
+      const countEl = document.getElementById('detailRatingCountText');
+      if (badgeEl) {
+        badgeEl.innerText = rSummary.count > 0 ? `${rSummary.avg} ★` : `ಹೊಸದು ★`;
+      }
+      if (countEl) {
+        countEl.innerText = rSummary.count > 0 ? `| ${rSummary.count} ರೇಟಿಂಗ್‌ಗಳು` : `| ಇನ್ನೂ ರೇಟಿಂಗ್ ಇಲ್ಲ`;
+      }
+
+      const barsEl = document.getElementById('ratingBreakdownBars');
+      if (barsEl) {
+        barsEl.innerHTML = [5,4,3,2,1].map(st => {
+          let c = rSummary.starCounts[st] || 0;
+          let pct = rSummary.count > 0 ? Math.round((c / rSummary.count) * 100) : 0;
+          return `
+            <div class="bar-row">
+              <span style="width:28px; font-weight:bold;">${st} ★</span>
+              <div class="bar-bg"><div class="bar-fill" style="width:${pct}%;"></div></div>
+              <span style="width:24px; text-align:right; color:#555;">${c}</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      const statsBox = document.getElementById('detailOrderStatsBox');
+      if (statsBox) {
+        statsBox.innerHTML = `
+          📊 <b>ಖರೀದಿ & ರಿಟರ್ನ್ ಲೆಕ್ಕ:</b><br>
+          • ಒಟ್ಟು ಖರೀದಿ ಆರ್ಡರ್‌ಗಳು: <b>${stats.totalBought}</b> | ರಿಟರ್ನ್ ಮಾಡದವು: <b>${stats.keptWithoutReturn}</b><br>
+          • ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಆದವು: <b style="color:#d32f2f;">${stats.totalReturned}</b>
+        `;
+      }
+
+      const revContent = document.getElementById('detailReviewsContent');
+      if (revContent) {
+        if (rSummary.reviews.length === 0) {
+          revContent.innerHTML = `ಈ ವಸ್ತುವಿಗೆ ಇನ್ನೂ ಯಾವುದೇ ಗ್ರಾಹಕರ ಕಮೆಂಟ್ / ರೇಟಿಂಗ್ ಬಂದಿಲ್ಲ.`;
+        } else {
+          revContent.innerHTML = rSummary.reviews.map(rv => `
+            <div style="border-bottom:1px solid #f0f0f0; padding:7px 0;">
+              <span style="background:#388e3c; color:#fff; padding:2px 6px; border-radius:4px; font-weight:bold; font-size:0.72rem;">${rv.stars} ★</span>
+              <b style="margin-left:6px; color:#222;">${rv.customerName || 'ಗ್ರಾಹಕರು'}</b>
+              <div style="margin-top:4px; color:#333; font-size:0.8rem;">${rv.comment ? `<b>ಕ್ವಾಲಿಟಿ / ಅಭಿಪ್ರಾಯ:</b> "${rv.comment}"` : '<span style="color:#777;">(ಸ್ಟಾರ್ ರೇಟಿಂಗ್ ಮಾತ್ರ ನೀಡಿದ್ದಾರೆ)</span>'}</div>
+            </div>
+          `).join('');
+        }
+      }
+    }
 
     function startRealtimeBanners() {
       try {
@@ -884,7 +1047,7 @@
       if (bannerList.length > 0) {
         track.innerHTML = bannerList.map((b, index) => `
           <div class="hero-slide" onclick="handleBannerClick(${index})">
-            <img src="${b.imageUrl}" style="width:100%; height:auto; max-height:250px; object-fit:contain; background:#fff;">
+            <img src="${b.imageUrl}" alt="Ad Banner">
           </div>
         `).join('');
         startBannerAutoSlide();
@@ -984,11 +1147,16 @@
         let customerDisplayPrice = getAdjustedPrice(p.price);
         let customerOldPrice = p.oldPrice ? getAdjustedPrice(p.oldPrice) : "";
         let qtyText = p.quantity ? `${p.quantity} ಪೀಸ್ ಲಭ್ಯ` : '';
+        let rSum = getProductRatingSummary(p);
+        let ratingBadgeStr = rSum.count > 0
+          ? `<div style="display:flex; align-items:center;"><span class="rating-pill">${rSum.avg} ★</span><span class="rating-count-text">(${rSum.count})</span></div>`
+          : '';
         return `
           <div class="product-card" onclick="openProductDetail('${p.id}')">
             <div class="img-box"><img src="${img}" alt="${p.name}"></div>
             <div>
               <div class="prod-title">${p.name}</div>
+              ${ratingBadgeStr}
               <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shop ? shop.shopName : 'Store'} ${shop && shop.taluk ? `(${shop.taluk})` : ''}</div>
               ${qtyText ? `<div style="font-size:0.7rem; color:#1565c0; font-weight:bold; margin-top:2px;">📦 ${qtyText}</div>` : ''}
               <div class="price-row" style="margin-top:4px;">
@@ -1013,6 +1181,8 @@
       document.getElementById('detailTitle').innerText = selectedProduct.name;
       document.getElementById('detailShopName').innerText = "ಅಂಗಡಿ: " + (shop ? shop.shopName : "Store");
       document.getElementById('detailShopLocation').innerText = "📍 ಸ್ಥಳ: " + (shop ? `${shop.taluk || ''}${shop.district ? ', ' + shop.district : ''}` : 'ಎಲ್ಲಾ ಕಡೆ ಲಭ್ಯ');
+
+      refreshProductRatingAndStats(selectedProduct);
 
       const stockBox = document.getElementById('detailStockLeftBox');
       let qtyAvailable = selectedProduct.quantity || selectedProduct.stockLeft || selectedProduct.qtyLeft || selectedProduct.stock;
@@ -1118,7 +1288,6 @@
       renderRelatedProducts(selectedProduct);
       showScreen('productDetailScreen');
 
-      // ತಕ್ಷಣ ಮೇಲೆ ಸ್ಕ್ರೋಲ್ ಮಾಡಲು
       const detailScreenEl = document.getElementById('productDetailScreen');
       if (detailScreenEl) {
         detailScreenEl.scrollTop = 0;
@@ -1145,11 +1314,16 @@
         let shop = allShopsMap[p.shopId];
         let customerDisplayPrice = getAdjustedPrice(p.price);
         let customerOldPrice = p.oldPrice ? getAdjustedPrice(p.oldPrice) : "";
+        let rSum = getProductRatingSummary(p);
+        let ratingBadgeStr = rSum.count > 0
+          ? `<div style="display:flex; align-items:center;"><span class="rating-pill">${rSum.avg} ★</span><span class="rating-count-text">(${rSum.count})</span></div>`
+          : '';
         return `
           <div class="product-card" onclick="openProductDetail('${p.id}')">
             <div class="img-box"><img src="${img}" alt="${p.name}"></div>
             <div>
               <div class="prod-title">${p.name}</div>
+              ${ratingBadgeStr}
               <div style="font-size:0.7rem; color:#666; margin-top:2px;">🏪 ${shop ? shop.shopName : 'Store'}</div>
               <div class="price-row" style="margin-top:4px;">
                 <span class="curr-price">₹${customerDisplayPrice}</span>
@@ -1379,6 +1553,7 @@
 
       const orderData = {
         orderId: orderId,
+        productId: selectedProduct.id,
         productName: productTitleStr,
         productPhoto: finalPhoto,
         selectedColor: selectedColorName || 'Standard',
@@ -1466,6 +1641,65 @@
       history.pushState({ page: 'orders' }, '', '');
     }
 
+    function setCustomerStarSelection(starNum) {
+      chosenStarRating = starNum;
+      for (let i = 1; i <= 5; i++) {
+        const btn = document.getElementById('starBtn_' + i);
+        if (btn) {
+          if (i <= starNum) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      }
+    }
+
+    async function submitCustomerStarRating(orderObj) {
+      const comment = (document.getElementById('ratingCommentInput')?.value || '').trim();
+      const custName = orderObj.customer?.name || localStorage.getItem('customer_name_key') || 'ಗ್ರಾಹಕರು';
+
+      let matchedProd = allProducts.find(p =>
+        (orderObj.productId && p.id === orderObj.productId) ||
+        (orderObj.productName || "").toLowerCase().includes((p.name || "").toLowerCase())
+      );
+      let prodId = matchedProd ? matchedProd.id : (orderObj.productId || orderObj.orderId);
+
+      try {
+        const ratingDocId = `${orderObj.orderId || orderObj.id}_rating`;
+        await window.setDoc(window.doc(window.db, "product_ratings", ratingDocId), {
+          orderId: orderObj.orderId || orderObj.id,
+          productId: prodId,
+          productName: orderObj.productName || '',
+          stars: chosenStarRating,
+          comment: comment,
+          customerName: custName,
+          timestamp: Date.now()
+        }, { merge: true });
+
+        await window.updateDoc(window.doc(window.db, "orders", orderObj.id || orderObj.orderId), {
+          customerRatingStars: chosenStarRating,
+          customerRatingComment: comment
+        });
+
+        if (matchedProd) {
+          let existingRatings = allRatingsList.filter(r => r.productId === prodId && (r.orderId !== (orderObj.orderId || orderObj.id)));
+          let newCount = existingRatings.length + 1;
+          let newSum = existingRatings.reduce((acc, r) => acc + Number(r.stars || 0), 0) + chosenStarRating;
+          let newAvg = Number((newSum / newCount).toFixed(1));
+          await window.updateDoc(window.doc(window.db, "products", prodId), {
+            ratingCount: newCount,
+            ratingSum: newSum,
+            avgRating: newAvg
+          });
+        }
+
+        alert(`⭐ ಧನ್ಯವಾದಗಳು! ನೀವು ${chosenStarRating} ಸ್ಟಾರ್ ರೇಟಿಂಗ್ ನೀಡಿದ್ದೀರಿ.`);
+        orderObj.customerRatingStars = chosenStarRating;
+        orderObj.customerRatingComment = comment;
+        openOrderDetails(orderObj);
+      } catch(e) {
+        alert("Error: " + e.message);
+      }
+    }
+
     function openOrderDetails(o) {
       const content = document.getElementById('orderDetailsContent');
       let status = o.status || 'STEP_1';
@@ -1481,6 +1715,31 @@
       let showCancelBtn = (status === 'STEP_1' || status === 'PENDING') && !o.isReturned;
       let isDelivered = (status === 'DELIVERED' || status === 'STEP_4' || status === 'COMPLETED');
       let pickupOtpVal = o.returnOtp || o.pickupOtp || o.deliveryOtp || '6521';
+
+      let ratingBoxHtml = '';
+      if (isDelivered) {
+        let savedStars = Number(o.customerRatingStars || 0);
+        if (savedStars > 0) {
+          ratingBoxHtml = `
+            <div style="background:#fffde7; border:1px solid #ffe082; border-radius:8px; padding:12px; margin-bottom:12px;">
+              <div style="font-size:0.85rem; font-weight:bold; color:#f57f17;">⭐ ನಿಮ್ಮ ಸ್ಟಾರ್ ರೇಟಿಂಗ್: ${savedStars} ★</div>
+              ${o.customerRatingComment ? `<div style="font-size:0.8rem; color:#444; margin-top:4px;"><b>ಕ್ವಾಲಿಟಿ ಕಮೆಂಟ್:</b> "${o.customerRatingComment}"</div>` : ''}
+            </div>
+          `;
+        } else {
+          chosenStarRating = 5;
+          ratingBoxHtml = `
+            <div id="customerRatingCard" style="background:#fff; border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px;">
+              <h4 style="font-size:0.88rem; color:var(--primary); margin-bottom:6px;">⭐ ಈ ವಸ್ತುವಿಗೆ ಸ್ಟಾರ್ ರೇಟಿಂಗ್ & ಕ್ವಾಲಿಟಿ ಕಮೆಂಟ್ ನೀಡಿ</h4>
+              <div style="display:flex; gap:6px; margin-bottom:8px;">
+                ${[1,2,3,4,5].map(n => `<button type="button" id="starBtn_${n}" class="star-select-btn active" onclick="setCustomerStarSelection(${n})">★</button>`).join('')}
+              </div>
+              <input type="text" id="ratingCommentInput" placeholder="ಕ್ವಾಲಿಟಿ ಹೇಗಿದೆ? ಸೈಜ್/ಬಟ್ಟೆ/ಕೆಲಸ ಹೇಗಿದೆ ಎಂದು ಬರೆಯಿರಿ..." style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; font-size:0.82rem; margin-bottom:8px;">
+              <button onclick='submitCustomerStarRating(${JSON.stringify(o)})' style="width:100%; padding:10px; background:#2874f0; color:#fff; border:none; border-radius:6px; font-weight:bold; font-size:0.88rem; cursor:pointer;">⭐ ಸ್ಟಾರ್ ರೇಟಿಂಗ್ & ಕಮೆಂಟ್ ಸಲ್ಲಿಸಿ</button>
+            </div>
+          `;
+        }
+      }
       
       let otpBoxHtml = '';
       if (!isDelivered && !o.isReturned) {
@@ -1585,6 +1844,7 @@
         ${dateDetailsBox}
         ${otpBoxHtml}
         ${returnStatusHtml}
+        ${ratingBoxHtml}
         ${roadmapHtml}
 
         ${showCancelBtn ? `<button onclick="cancelCustomerOrder('${o.id}')" style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:8px; font-weight:bold; font-size:0.95rem; cursor:pointer; margin-bottom:10px;">❌ ಆರ್ಡರ್ ಕ್ಯಾನ್ಸಲ್ ಮಾಡಿ</button>` : ''}
